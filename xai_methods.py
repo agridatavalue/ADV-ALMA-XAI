@@ -148,5 +148,3 @@ explainer_mapping = {"ALE":{'Tabular':ALE},
                         "CounterfactualswithReinforcementLearning": {},
                         "Similarity explanations": {'Text':GradientSimilarity, 'Tabular':GradientSimilarity, 'Image': GradientSimilarity}
                         }
-
-explainer_func = 
