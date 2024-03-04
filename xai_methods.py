@@ -1,4 +1,4 @@
-from alibi.explainers import ALE, PartialDependence, PartialDependenceVariance, PermutationImportance, AnchorText, AnchorTabular, AnchorImage, CEM, CounterfactualRL, CounterfactualRLTabular, IntegratedGradients, KernelShap, TreeShap, GradientSimilarity
+from alibi.explainers import ALE, PartialDependence, PartialDependenceVariance, PermutationImportance,  AnchorText, AnchorTabular, AnchorImage, CEM, CounterfactualRL, Counterfactual, IntegratedGradients, KernelShap, TreeShap, GradientSimilarity
 from explainerdashboard import ClassifierExplainer, ExplainerDashboard,  RegressionExplainer
 
 xai_methods_dict = {
@@ -134,7 +134,7 @@ xai_methods_dict = {
 explainer_mapping = {"ALE":{'Tabular':ALE},
                      "RegressionExplainer": {'Tabular':RegressionExplainer},
                         "PartialDependence":{'Tabular':PartialDependence},
-                        "PDVariance":{'Tabular':PartialDependenceVariance},
+                        "PartialDependenceVariance":{'Tabular':PartialDependenceVariance},
                         "PermutationImportance":{'Tabular': PermutationImportance},
                         "Anchors":{'Text':AnchorText, 'Tabular':AnchorTabular, 'Image': AnchorImage},
                         "PertinentPositive": {'Tabular': PermutationImportance, 'Image': PermutationImportance},
@@ -142,9 +142,11 @@ explainer_mapping = {"ALE":{'Tabular':ALE},
                         "KernelSHAP": {'Tabular':KernelShap},
                         "TreeSHAPpathdependent": {'Tabular':TreeShap},
                         "TreeSHAPinterventional": {'Tabular':TreeShap},
-                        "CounterfactualInstances": {},
+                        "CounterfactualInstances": {'Tabular': Counterfactual, 'Image': Counterfactual},
                         "ContrastiveExplanationMethod":{'Tabular':CEM, 'Image':CEM},
-                        "CounterfactualsPrototypes":{'Image':CounterfactualRL, 'Tabular':CounterfactualRLTabular},
-                        "CounterfactualswithReinforcementLearning": {},
+                        "CounterfactualsPrototypes":{'Tabular':CounterfactualRL, 'Image':CounterfactualRL},
+                        "CounterfactualswithReinforcementLearning": {'Tabular':CounterfactualRL, 'Image':CounterfactualRL},
                         "Similarity explanations": {'Text':GradientSimilarity, 'Tabular':GradientSimilarity, 'Image': GradientSimilarity}
                         }
+
+
