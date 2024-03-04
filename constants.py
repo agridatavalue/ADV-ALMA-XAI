@@ -1,6 +1,10 @@
 import os
-minio_endpoint = os.environ["minio"]
-access_key = os.environ["access_key"]
-secret_key = os.environ["secret_key"]
+
+minio_address = os.environ["MINIO_ENDPOINT"]
+minio_port = os.environ["MINIO_PORT"]
+minio_endpoint = f"{minio_address}:{minio_port}"
+
+access_key = os.environ["MINIO_PUBLIC_KEY"]
+secret_key = os.environ["MINIO_PRIVATE_KEY"]
 minio_models = "models"
 minio_explainers = "explanators"

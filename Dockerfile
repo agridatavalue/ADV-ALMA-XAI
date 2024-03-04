@@ -5,7 +5,7 @@ WORKDIR $ENV_HOME
  
 COPY constants.py $ENV_HOME/constants.py
 COPY xai_functions.py $ENV_HOME/xai_functions.py
-COPY xaibuilder.py $ENV_HOME/xaibuilder.py
+COPY xai_builder.py $ENV_HOME/xai_builder.py
 COPY environment.yml $ENV_HOME/environment.yml
 RUN apt-get update && apt-get upgrade -y && apt-get install -y curl
 
@@ -24,4 +24,4 @@ RUN apt-get install libjpeg-dev zlib1g-dev -y
 RUN pip install --upgrade pip setuptools wheel
 RUN conda env create -f environment.yml
 RUN conda init
-ENTRYPOINT ["bash", "-c", "conda run -n XAI_AgriDataValue uvicorn xaibuilder:app --reload --host=0.0.0.0 --port=8000"]
+ENTRYPOINT ["bash", "-c", "conda run -n XAI_AgriDataValue uvicorn xai_builder:app --reload --host=0.0.0.0 --port=8000"]

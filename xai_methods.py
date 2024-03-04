@@ -1,7 +1,19 @@
+from alibi.explainers import ALE, PartialDependence, PartialDependenceVariance, PermutationImportance, AnchorText, AnchorTabular, AnchorImage, CEM, CounterfactualRL, CounterfactualRLTabular, IntegratedGradients, KernelShap, TreeShap, GradientSimilarity
+from explainerdashboard import ClassifierExplainer, ExplainerDashboard,  RegressionExplainer
+
 xai_methods_dict = {
     "ALE": {
-        "modeltype": "BlackBox",
-        "modelcategory": "Classification",
+        "modeltype": ["BlackBox"],
+        "modelcategory": ["Classification", "Regression"],
+        "datatype": ["Tabular"],
+        "explanations": "global",
+        "categorical_features": "No",
+        "train_set_required": "No",
+        "distributed": "No"
+    },
+    "RegressionExplainer":{
+        "modeltype": ["BlackBox"], #TODO: change it! 
+        "modelcategory": ["Regression"],
         "datatype": ["Tabular"],
         "explanations": "global",
         "categorical_features": "No",
@@ -9,8 +21,8 @@ xai_methods_dict = {
         "distributed": "No"
     },
     "PartialDependence": {
-        "modeltype": "BlackBoxWhiteBox",
-        "modelcategory": "Classification",
+        "modeltype": ["BlackBox", "WhiteBox"],
+        "modelcategory": ["Classification"],
         "datatype": ["Tabular"],
         "explanations": "global",
         "categorical_features": "Yes",
@@ -18,8 +30,8 @@ xai_methods_dict = {
         "distributed": "No"
     },
     "PDVariance": {
-        "modeltype": "BlackBoxWhiteBox",
-        "modelcategory": "Classification",
+        "modeltype": ["BlackBox", "WhiteBox"],
+        "modelcategory": ["Classification"],
         "datatype": ["Tabular"],
         "explanations": "global",
         "categorical_features": "Yes",
@@ -27,17 +39,17 @@ xai_methods_dict = {
         "distributed": "No"
     },
     "PermutationImportance": {
-        "modeltype": "BlackBox",
-        "modelcategory": "Classification",
-        "datatype": "Tabular",
+        "modeltype": ["BlackBox"],
+        "modelcategory": ["Classification"],
+        "datatype": ["Tabular"],
         "explanations": "global",
         "categorical_features": "Yes",
         "train_set_required": "No",
         "distributed": "No"
     },
     "Anchors": {
-        "modeltype": "BlackBox",
-        "modelcategory": "Classification",
+        "modeltype": ["BlackBox"],
+        "modelcategory": ["Classification"],
         "datatype": ["Tabular","Text", "Images"],
         "explanations": "local",
         "categorical_features": "Yes",
@@ -45,8 +57,8 @@ xai_methods_dict = {
         "distributed": "No"
     },
     "CEM": {
-        "modeltype": "BlackBoxWhiteBox",
-        "modelcategory": "Classification",
+        "modeltype": ["BlackBox", "WhiteBox"],
+        "modelcategory": ["Classification"],
         "datatype": ["Tabular","Images"],
         "explanations": "local",
         "categorical_features": "Yes",
@@ -54,8 +66,8 @@ xai_methods_dict = {
         "distributed": "No"
     },
     "Counterfactuals": {
-        "modeltype": "BlackBoxWhiteBox",
-        "modelcategory": "Classification",
+        "modeltype": ["BlackBox", "WhiteBox"],
+        "modelcategory": ["Classification"],
         "datatype": ["Tabular", "Images"],
         "explanations": "local",
         "categorical_features": "Yes",
@@ -63,8 +75,8 @@ xai_methods_dict = {
         "distributed": "No"
     },
     "PrototypeCounterfactuals": {
-        "modeltype": "BlackBoxWhiteBox",
-        "modelcategory": "Classification",
+        "modeltype": ["BlackBox", "WhiteBox"],
+        "modelcategory": ["Classification"],
         "datatype": ["Tabular", "Images"],
         "explanations": "local",
         "categorical_features": "Yes",
@@ -72,8 +84,8 @@ xai_methods_dict = {
         "distributed": "No"
     },
     "CounterfactualsWithRL": {
-        "modeltype": "BlackBox",
-        "modelcategory": "Classification",
+        "modeltype": ["BlackBox", "WhiteBox"],
+        "modelcategory": ["Classification"],
         "datatype": ["Tabular", "Images"],
         "explanations": "local",
         "categorical_features": "Yes",
@@ -81,8 +93,8 @@ xai_methods_dict = {
         "distributed": "No"
     },
     "IntegratedGradients": {
-        "modeltype": "BlackBox",
-        "modelcategory": "Classification",
+        "modeltype": ["BlackBox"],
+        "modelcategory": ["Classification"],
         "datatype": ["Tabular", "Text", "Images"],
         "explanations": "local",
         "categorical_features": "Yes",
@@ -90,26 +102,26 @@ xai_methods_dict = {
         "distributed": "No"
     },
     "KernelSHAP": {
-        "modeltype": "BlackBox",
-        "modelcategory": "Classification",
-        "datatype": "Tabular",
+        "modeltype": ["BlackBox"],
+        "modelcategory": ["Classification"],
+        "datatype": ["Tabular"],
         "explanations": "both",
         "categorical_features": "Yes",
         "train_set_required": "Yes",
         "distributed": "Yes"
     },
     "TreeSHAP": {
-        "modeltype": "WhiteBox",
-        "modelcategory": "Classification",
-        "datatype": "Tabular",
+        "modeltype": ["WhiteBox"],
+        "modelcategory": ["Classification"],
+        "datatype": ["Tabular"],
         "explanations": "both",
         "categorical_features": "Yes",
         "train_set_required": "Optional",
         "distributed": "No"
     },
     "SimilarityExplanations": {
-        "modeltype": "WhiteBox",
-        "modelcategory": "Classification",
+        "modeltype": ["WhiteBox"],
+        "modelcategory": ["Classification"],
         "datatype": ["Tabular", "Text", "Images"],
         "explanations": "local",
         "categorical_features": "Yes",
@@ -117,3 +129,24 @@ xai_methods_dict = {
         "distributed": "No"
     }
 }
+
+
+explainer_mapping = {"ALE":{'Tabular':ALE},
+                     "RegressionExplainer": {'Tabular':RegressionExplainer},
+                        "PartialDependence":{'Tabular':PartialDependence},
+                        "PDVariance":{'Tabular':PartialDependenceVariance},
+                        "PermutationImportance":{'Tabular': PermutationImportance},
+                        "Anchors":{'Text':AnchorText, 'Tabular':AnchorTabular, 'Image': AnchorImage},
+                        "PertinentPositive": {'Tabular': PermutationImportance, 'Image': PermutationImportance},
+                        "Integrated Gradients": {'Text':IntegratedGradients, 'Tabular':IntegratedGradients, 'Image': IntegratedGradients},
+                        "KernelSHAP": {'Tabular':KernelShap},
+                        "TreeSHAPpathdependent": {'Tabular':TreeShap},
+                        "TreeSHAPinterventional": {'Tabular':TreeShap},
+                        "CounterfactualInstances": {},
+                        "ContrastiveExplanationMethod":{'Tabular':CEM, 'Image':CEM},
+                        "CounterfactualsPrototypes":{'Image':CounterfactualRL, 'Tabular':CounterfactualRLTabular},
+                        "CounterfactualswithReinforcementLearning": {},
+                        "Similarity explanations": {'Text':GradientSimilarity, 'Tabular':GradientSimilarity, 'Image': GradientSimilarity}
+                        }
+
+explainer_func = 
