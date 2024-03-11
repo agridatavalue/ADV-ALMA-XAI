@@ -1,0 +1,23 @@
+FROM python:3.11
+RUN mkdir -p /home/adv_xai
+ENV ENV_HOME /home/adv_xai
+WORKDIR $ENV_HOME
+
+COPY constants.py $ENV_HOME/constants.py
+COPY xai_functions.py $ENV_HOME/xai_functions.py
+COPY xai_builder.py $ENV_HOME/xai_builder.py
+COPY xai_methods.py $ENV_HOME/xai_methods.py
+COPY environment.yml $ENV_HOME/environment.yml
+COPY requirements.txt $ENV_HOME/requirements.txt
+
+RUN apt-get update && apt-get upgrade -y && apt-get install -y curl
+
+RUN apt-get update && apt-get upgrade -y && apt-get install -y curl
+RUN pip install --upgrade -r requirements.txt
+
+#Create environment
+RUN apt-get update
+RUN apt install build-essential -y
+RUN apt-get install libjpeg-dev zlib1g-dev -y
+
+ENTRYPOINT ["uvicorn", "xai_builder:app", "--reload", "--host=0.0.0.0", "--port=8000"]
