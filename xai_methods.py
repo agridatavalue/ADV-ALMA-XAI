@@ -12,7 +12,7 @@ xai_methods_dict = {
         "distributed": "No"
     },
     "RegressionExplainer":{
-        "modeltype": ["BlackBox"], #TODO: change it! 
+        "modeltype": ["BlackBox"],
         "modelcategory": ["Regression"],
         "datatype": ["Tabular"],
         "explanations": "global",

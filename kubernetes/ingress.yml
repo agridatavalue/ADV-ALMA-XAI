@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: agridatavalue
+  name: xai-fulfillment-ingress
+  labels:
+    app: xai-fulfillment
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+      - xai-fulfillment.platform.agridatavalue.eu
+    secretName: xai-fulfillment-cert-prod
+  rules:
+    - host: xai-fulfillment.platform.agridatavalue.eu
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: xai-fulfillment-service
+                port:
+                  name: http

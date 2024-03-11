@@ -71,13 +71,14 @@ def create_explainer(func, model, metadata, data):
                 target_names=metadata["targetnames"])
     elif metadata['name'] == "RegressionExplainer":
         print("Name is RegressionExplainer and data shapes are {} and {}".format(data['x'].shape, data['y'].shape))
-        explainer = func(model, data['x'], data['y']),
-    elif metadata['name'] == "PartialDependence":
-        explainer = func(predictor=model.predict,
-                       feature_names=metadata["featurenames"],
-                       categorical_names=categorical_names,
-                       target_names=metadata["targetnames"]), 
-    elif metadata['name'] == "PDVariance":
+        explainer = func(model, data['x'], data['y'])
+    #elif metadata['name'] == "PartialDependence":
+        #explainer = func(predictor=model.predict,
+                       #feature_names=metadata["featurenames"],
+                       #categorical_names=categorical_names,
+                       #target_names=metadata["targetnames"]), 
+    # ... TODO: add more elifs for other explainers
+    #elif metadata['name'] == "PDVariance":
     
     return explainer
 
@@ -121,7 +122,6 @@ def train_explanator(model, metadata, data):
         # Construct the filename with the unique identifier
         filename = f'explainers/{explainer_name}.pkl'
         explainer = create_explainer(explainer_mapping[explainer_name][metadata['datatype']], model, exp_metadata, data)
-         #TODO: check if this works for all explainers
         # Save the model to the pickle file
         with open(filename, 'wb') as file:
             pickle.dump(explainer, file)

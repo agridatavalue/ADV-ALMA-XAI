@@ -1,0 +1,9 @@
+alibi[ray]==0.9.4
+setuptools==68.2.2
+wheel==0.41.2
+fastapi==0.105.0
+uvicorn==0.25.0
+minio==7.2.0
+numba==0.58.1
+scikit-learn==1.3.2
+explainerdashboard==0.4.5
