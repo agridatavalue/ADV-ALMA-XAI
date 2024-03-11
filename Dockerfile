@@ -7,7 +7,6 @@ COPY constants.py $ENV_HOME/constants.py
 COPY xai_functions.py $ENV_HOME/xai_functions.py
 COPY xai_builder.py $ENV_HOME/xai_builder.py
 COPY xai_methods.py $ENV_HOME/xai_methods.py
-COPY environment.yml $ENV_HOME/environment.yml
 COPY requirements.txt $ENV_HOME/requirements.txt
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y curl
