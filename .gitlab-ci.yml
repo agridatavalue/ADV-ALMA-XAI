@@ -1,0 +1,69 @@
+# You can override the included template(s) by including variable overrides
+# SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
+# Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/#customizing-settings
+# Dependency Scanning customization: https://docs.gitlab.com/ee/user/application_security/dependency_scanning/#customizing-the-dependency-scanning-settings
+# Container Scanning customization: https://docs.gitlab.com/ee/user/application_security/container_scanning/#customizing-the-container-scanning-settings
+# Note that environment variables can be set in several places
+# See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
+
+image: docker:24.0.5
+
+include:
+  - template: Security/SAST.gitlab-ci.yml
+
+services:
+  - docker:24.0.5-dind
+
+stages:
+- BUILD
+- TEST
+- SAST
+- DEPLOY
+
+build-master:
+  stage: BUILD
+  before_script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin  $CI_REGISTRY
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE:latest .
+    - docker image push $CI_REGISTRY_IMAGE:latest
+  only:
+    - main
+
+build-tags:
+  stage: BUILD
+  before_script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin  $CI_REGISTRY
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG -t $CI_REGISTRY_IMAGE:latest .
+    - docker image push $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
+    - docker image push $CI_REGISTRY_IMAGE:latest
+  only:
+    - tags
+
+unit-test:
+  stage: TEST
+  script:
+    - echo "Running unit tests... This will take about 10 seconds."
+    # - docker run $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA /script/to/run/tests
+    - sleep 10
+    - echo "Tests passed succesfully!"
+
+sast:
+  stage: SAST
+
+deploy:
+  stage: DEPLOY
+  image:
+    name: bitnami/kubectl:1.26.10
+    entrypoint: ['']
+  before_script:
+    - sed -i "s+REGISTRY_IMAGE_TAG+$CI_COMMIT_TAG+" kubernetes/deployment.yaml
+  script:
+    - kubectl config get-contexts
+    - kubectl config use-context agridatavalue/gitlab-agent:gitlab-agent
+    - kubectl -n agridatavalue apply -f kubernetes/service.yml
+    - kubectl -n agridatavalue apply -f kubernetes/secret.yml
+    - kubectl -n agridatavalue apply -f kubernetes/deployment.yml
+  only:
+    - tags

@@ -1,4 +1,4 @@
-FROM python:3.11
+FROM registry.git.agridatavalue.eu/agridatavalue/platform-integration/xai-fulfilment:base
 RUN mkdir -p /home/adv_xai
 ENV ENV_HOME /home/adv_xai
 WORKDIR $ENV_HOME
@@ -9,14 +9,6 @@ COPY xai_builder.py $ENV_HOME/xai_builder.py
 COPY xai_methods.py $ENV_HOME/xai_methods.py
 COPY requirements.txt $ENV_HOME/requirements.txt
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y curl
-
-RUN apt-get update && apt-get upgrade -y && apt-get install -y curl
-RUN pip install --upgrade -r requirements.txt
-
-#Create environment
-RUN apt-get update
-RUN apt install build-essential -y
-RUN apt-get install libjpeg-dev zlib1g-dev -y
+RUN pip install -r requirements.txt
 
 ENTRYPOINT ["uvicorn", "xai_builder:app", "--reload", "--host=0.0.0.0", "--port=8000"]

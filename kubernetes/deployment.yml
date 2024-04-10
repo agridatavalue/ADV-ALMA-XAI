@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: xai-fulfillment-deployment
+  name: xai-fulfillment
   namespace: agridatavalue
 spec:
   replicas: 1
@@ -13,9 +13,12 @@ spec:
       labels:
         app: xai-fulfillment
     spec:
+      imagePullSecrets:
+      - name: agridatavalue-regcred
       containers:
       - name: xai-fulfillment
-        image: registry.git.agridatavalue.eu/agridatavalue/platform-integration/xai-fulfilment:<version>
+        image: registry.git.agridatavalue.eu/agridatavalue/platform-integration/xai-fulfilment:REGISTRY_IMAGE_TAG
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8000
           protocol: TCP
@@ -24,18 +27,15 @@ spec:
         - name: MINIO_ENDPOINT
           valueFrom:
             secretKeyRef:
-              name: minio-keys-secret
+              name: xai-fulfillment
               key: MINIO_ENDPOINT
         - name: MINIO_PUBLIC_KEY
           valueFrom:
             secretKeyRef:
-              name: minio-keys-secret
+              name: xai-fulfillment
               key: MINIO_PUBLIC_KEY
         - name: MINIO_PRIVATE_KEY
           valueFrom:
             secretKeyRef:
-              name: minio-keys-secret
+              name: xai-fulfillment
               key: MINIO_PRIVATE_KEY
-
-
-
