@@ -58,7 +58,7 @@ deploy:
     name: bitnami/kubectl:1.26.10
     entrypoint: ['']
   before_script:
-    - sed -i "s+REGISTRY_IMAGE_TAG+$CI_COMMIT_TAG+" kubernetes/deployment.yaml
+    - sed -i "s+REGISTRY_IMAGE_TAG+$CI_COMMIT_TAG+" kubernetes/deployment.yml
   script:
     - kubectl config get-contexts
     - kubectl config use-context agridatavalue/gitlab-agent:gitlab-agent
