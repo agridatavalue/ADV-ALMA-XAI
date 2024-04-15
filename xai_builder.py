@@ -21,42 +21,44 @@ class uploadedmodel(BaseModel):
 import pandas as pd
 @app.post("/build/")
 def mapper(item:uploadedmodel):
-    client = Minio(minio_endpoint, 
-                        access_key=access_key, 
-                        secret_key=secret_key, 
-                        secure=True)
-    print(item.model)
-    client.fget_object(minio_models, item.model, item.model)
-    
-    model = load_model(item.model)
-    # Load metadata
-    client.fget_object(minio_models, item.metadata, item.metadata)
-    metadata = load_metadata(item.metadata)
-    #delete the files
-    os.remove(item.model)
-    os.remove(item.metadata)
-    # train explainer
-    if item.data:
-        client.fget_object(minio_datasets, f'{item.data}/x.csv', 'x.csv')
-        client.fget_object(minio_datasets, f'{item.data}/y.csv', 'y.csv')
-        data = {'x':pd.read_csv('x.csv'), 'y':pd.read_csv('y.csv')}
-    else: data = None
-    explainers = train_explanator(model, metadata, data)
-    #delete data
-    if item.data:
-        os.remove('x.csv')
-        os.remove('y.csv')
-    print(explainers)
-    for filename, json_filename in explainers:
-        model_path = item.pilot + "/" + "".join(filename.split('/')[1:])
-        metadata_path = item.pilot + "/" + "".join(json_filename.split('/')[1:])
-        client.fput_object(minio_explainers, model_path, filename)
-        client.fput_object(minio_explainers, metadata_path, json_filename)
-        #delete the files
-        os.remove(filename)
-        os.remove(json_filename)
-    return {"status": f"success - stored {len(explainers)} explainers and metadata in SECURESTOR"} 
+    try:
+        client = Minio(minio_endpoint, 
+                            access_key=access_key, 
+                            secret_key=secret_key, 
+                            secure=True)
+        print(item.model)
+        client.fget_object(minio_models, item.model, item.model)
 
+        model = load_model(item.model)
+        # Load metadata
+        client.fget_object(minio_models, item.metadata, item.metadata)
+        metadata = load_metadata(item.metadata)
+        #delete the files
+        os.remove(item.model)
+        os.remove(item.metadata)
+        # train explainer
+        if item.data:
+            client.fget_object(minio_datasets, f'{item.data}/x.csv', 'x.csv')
+            client.fget_object(minio_datasets, f'{item.data}/y.csv', 'y.csv')
+            data = {'x':pd.read_csv('x.csv'), 'y':pd.read_csv('y.csv')}
+        else: data = None
+        explainers = train_explanator(model, metadata, data)
+        #delete data
+        if item.data:
+            os.remove('x.csv')
+            os.remove('y.csv')
+        print(explainers)
+        for filename, json_filename in explainers:
+            model_path = item.pilot + "/" + "".join(filename.split('/')[1:])
+            metadata_path = item.pilot + "/" + "".join(json_filename.split('/')[1:])
+            client.fput_object(minio_explainers, model_path, filename)
+            client.fput_object(minio_explainers, metadata_path, json_filename)
+            #delete the files
+            os.remove(filename)
+            os.remove(json_filename)
+        return {"status": f"success - stored {len(explainers)} explainers and metadata in SECURESTOR"} 
+    except Exception as e:
+        return {"status": f"failed - {e}"}
 
 if __name__ == '__main__':
     multiprocessing.freeze_support()
