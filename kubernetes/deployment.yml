@@ -24,11 +24,6 @@ spec:
           protocol: TCP
           name: http
         env:
-        - name: MINIO_ENDPOINT
-          valueFrom:
-            secretKeyRef:
-              name: xai-fulfillment
-              key: MINIO_ENDPOINT
         - name: MINIO_PUBLIC_KEY
           valueFrom:
             secretKeyRef:
@@ -39,3 +34,9 @@ spec:
             secretKeyRef:
               name: xai-fulfillment
               key: MINIO_PRIVATE_KEY
+        - name: MINIO_MODELS
+          value: "models"
+        - name: MINIO_EXPLAINERS
+          value: "explanators"
+        - name: MINIO_DATASETS
+          value: "datagen"
