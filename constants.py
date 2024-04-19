@@ -1,4 +1,7 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 minio_endpoint = os.environ["MINIO_ENDPOINT"]
 access_key = os.environ["MINIO_PUBLIC_KEY"]

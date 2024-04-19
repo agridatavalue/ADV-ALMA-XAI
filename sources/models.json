@@ -1,0 +1,144 @@
+{
+    "models": [
+        {
+            "name": "ALE",
+            "modeltype": ["BlackBox"],
+            "modelcategory": ["Classification", "Regression"],
+            "datatype": ["Tabular"],
+            "explanations": "global",
+            "categorical_features": "No",
+            "train_set_required": "No",
+            "distributed": "No"
+        },
+        {
+            "name": "RegressionExplainer",
+            "modeltype": ["BlackBox"],
+            "modelcategory": ["Regression"],
+            "datatype": ["Tabular"],
+            "explanations": "global",
+            "categorical_features": "No",
+            "train_set_required": "No",
+            "distributed": "No"
+        },
+        {
+            "name": "PartialDependence",
+            "modeltype": ["BlackBox", "WhiteBox"],
+            "modelcategory": ["Classification"],
+            "datatype": ["Tabular"],
+            "explanations": "global",
+            "categorical_features": "Yes",
+            "train_set_required": "No",
+            "distributed": "No"
+        },
+        {
+            "name": "PDVariance",
+            "modeltype": ["BlackBox", "WhiteBox"],
+            "modelcategory": ["Classification"],
+            "datatype": ["Tabular"],
+            "explanations": "global",
+            "categorical_features": "Yes",
+            "train_set_required": "No",
+            "distributed": "No"
+        },
+        {
+            "name": "PermutationImportance",
+            "modeltype": ["BlackBox"],
+            "modelcategory": ["Classification"],
+            "datatype": ["Tabular"],
+            "explanations": "global",
+            "categorical_features": "Yes",
+            "train_set_required": "No",
+            "distributed": "No"
+        },
+        {
+            "name": "Anchors",
+            "modeltype": ["BlackBox"],
+            "modelcategory": ["Classification"],
+            "datatype": ["Tabular", "Text", "Images"],
+            "explanations": "local",
+            "categorical_features": "Yes",
+            "train_set_required": "For Tabular",
+            "distributed": "No"
+        },
+        {
+            "name": "CEM",
+            "modeltype": ["BlackBox", "WhiteBox"],
+            "modelcategory": ["Classification"],
+            "datatype": ["Tabular", "Images"],
+            "explanations": "local",
+            "categorical_features": "Yes",
+            "train_set_required": "No",
+            "distributed": "No"
+        },
+        {
+            "name": "Counterfactuals",
+            "modeltype": ["BlackBox", "WhiteBox"],
+            "modelcategory": ["Classification"],
+            "datatype": ["Tabular", "Images"],
+            "explanations": "local",
+            "categorical_features": "Yes",
+            "train_set_required": "No",
+            "distributed": "No"
+        },
+        {
+            "name": "PrototypeCounterfactuals",
+            "modeltype": ["BlackBox", "WhiteBox"],
+            "modelcategory": ["Classification"],
+            "datatype": ["Tabular", "Images"],
+            "explanations": "local",
+            "categorical_features": "Yes",
+            "train_set_required": "Optional",
+            "distributed": "No"
+        },
+        {
+            "name": "CounterfactualsWithRL",
+            "modeltype": ["BlackBox", "WhiteBox"],
+            "modelcategory": ["Classification"],
+            "datatype": ["Tabular", "Images"],
+            "explanations": "local",
+            "categorical_features": "Yes",
+            "train_set_required": "Yes",
+            "distributed": "No"
+        },
+        {
+            "name": "IntegratedGradients",
+            "modeltype": ["BlackBox"],
+            "modelcategory": ["Classification"],
+            "datatype": ["Tabular", "Text", "Images"],
+            "explanations": "local",
+            "categorical_features": "Yes",
+            "train_set_required": "Optional",
+            "distributed": "No"
+        },
+        {
+            "name": "KernelSHAP",
+            "modeltype": ["BlackBox"],
+            "modelcategory": ["Classification"],
+            "datatype": ["Tabular"],
+            "explanations": "both",
+            "categorical_features": "Yes",
+            "train_set_required": "Yes",
+            "distributed": "Yes"
+        },
+        {
+            "name": "TreeSHAP",
+            "modeltype": ["WhiteBox"],
+            "modelcategory": ["Classification"],
+            "datatype": ["Tabular"],
+            "explanations": "both",
+            "categorical_features": "Yes",
+            "train_set_required": "Optional",
+            "distributed": "No"
+        },
+        {
+            "name": "SimilarityExplanations",
+            "modeltype": ["WhiteBox"],
+            "modelcategory": ["Classification"],
+            "datatype": ["Tabular", "Text", "Images"],
+            "explanations": "local",
+            "categorical_features": "Yes",
+            "train_set_required": "Yes",
+            "distributed": "No"
+        }
+    ]
+}
