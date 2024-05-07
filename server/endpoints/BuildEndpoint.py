@@ -5,7 +5,7 @@ buildBp = Blueprint("build", __name__)
 from src.adv_xai_fulfilment.presentation.TrainerPresentation import TrainerPresentation
 
 
-@buildBp.route("/", methods=["POST"])
+@buildBp.route("/build", methods=["POST"])
 def build():
     try:
         response = TrainerPresentation().train(
