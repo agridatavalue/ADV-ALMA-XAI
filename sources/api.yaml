@@ -10,38 +10,15 @@ info:
 paths:
     /build:
         post:
-            summary: Initialize a LLM-AI session
+            summary: Build the explainer
             description: Returns a sessionId string
             operationId: connect
-            parameters:
-                - name: model
-                  in: query
-                  description: path for the ML model file
-                  example: "model.pkl"
-                  required: true
-                  schema:
-                      type: string
-                - name: metadata
-                  in: query
-                  description: path for the metadata file
-                  example: "metadata.json"
-                  required: true
-                  schema:
-                      type: string
-                - name: pilot
-                  in: query
-                  description: the identifier of the pilot
-                  example: "pilot8"
-                  required: true
-                  schema:
-                      type: string
-                - name: data
-                  in: query
-                  description: TODO
-                  required: False
-                  schema:
-                      type: string
-
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/BuildRequest"
             responses:
                 "200":
                     description: successful operation
@@ -57,7 +34,7 @@ paths:
                 "404":
                     description: UserID / OrganizationID not found
             tags:
-                - Prompt
+                - Build
 
 tags: []
 servers: []
@@ -69,6 +46,28 @@ components:
             description: "Please enter token in following format: Bearer <JWT>"
             type: http
     schemas:
+        BuildRequest:
+            type: object
+            properties:
+                model:
+                    description: path for the ML model file
+                    example: "model.pkl"
+                    type: string
+                metadata:
+                    description: path for the metadata file
+                    example: "metadata.json"
+                    type: string
+                pilot:
+                    description: the identifier of the pilot
+                    example: "pilot8"
+                    type: string
+                data:
+                    description: TODO
+                    type: string
+            required:
+                - model
+                - metadata
+                - pilot
         BuildResponse:
             type: object
             properties:
