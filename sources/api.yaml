@@ -9,26 +9,29 @@ info:
 
 paths:
     /build:
-        get:
+        post:
             summary: Initialize a LLM-AI session
             description: Returns a sessionId string
             operationId: connect
             parameters:
                 - name: model
                   in: query
-                  description: TODO
+                  description: path for the ML model file
+                  example: "model.pkl"
                   required: true
                   schema:
                       type: string
                 - name: metadata
                   in: query
-                  description: TODO
+                  description: path for the metadata file
+                  example: "metadata.json"
                   required: true
                   schema:
                       type: string
                 - name: pilot
                   in: query
-                  description: TODO
+                  description: the identifier of the pilot
+                  example: "pilot8"
                   required: true
                   schema:
                       type: string
