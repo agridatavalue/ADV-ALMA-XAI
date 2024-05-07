@@ -1,0 +1,73 @@
+openapi: 3.0.3
+info:
+    title: ADV
+    description: "TEST"
+    version: 0.0.1
+    contact:
+        name: "Mirko Colageo"
+        email: m.colageo@almaviva.it
+
+paths:
+    /build:
+        get:
+            summary: Initialize a LLM-AI session
+            description: Returns a sessionId string
+            operationId: connect
+            parameters:
+                - name: model
+                  in: query
+                  description: TODO
+                  required: true
+                  schema:
+                      type: string
+                - name: metadata
+                  in: query
+                  description: TODO
+                  required: true
+                  schema:
+                      type: string
+                - name: pilot
+                  in: query
+                  description: TODO
+                  required: true
+                  schema:
+                      type: string
+                - name: data
+                  in: query
+                  description: TODO
+                  required: False
+                  schema:
+                      type: string
+
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/BuildResponse"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/BuildResponse"
+                "400":
+                    description: Invalid IDs combination supplied
+                "404":
+                    description: UserID / OrganizationID not found
+            tags:
+                - Prompt
+
+tags: []
+servers: []
+components:
+    securitySchemes:
+        bearer:
+            scheme: bearer
+            bearerFormat: Bearer
+            description: "Please enter token in following format: Bearer <JWT>"
+            type: http
+    schemas:
+        BuildResponse:
+            type: object
+            properties:
+                status:
+                    type: string

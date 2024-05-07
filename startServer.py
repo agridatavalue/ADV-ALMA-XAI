@@ -1,34 +1,45 @@
-import uvicorn
-import multiprocessing
-from typing import Optional
-from fastapi import FastAPI
-from pydantic import BaseModel
+import os
+import logging
+import argparse
+from dotenv import load_dotenv
+from os.path import dirname
 
-from src.adv_xai_fulfilment.presentation.TrainerPresentation import TrainerPresentation
+from server.Server import ServiceServer
 
-app = FastAPI()
-
-
-class uploadedmodel(BaseModel):
-    model: str
-    metadata: str
-    pilot: str
-    data: Optional[str] = None
+load_dotenv()
 
 
-@app.post("/build/")
-def mapper(request: uploadedmodel):
-    try:
-        response = TrainerPresentation().train(
-            request.model, request.pilot, request.metadata
-        )
-        return {
-            "status": f"success - stored {len(response)} explainers and metadata in SECURESTOR"
-        }
-    except Exception as e:
-        return {"status": e}
+def main(args):
+    logging.info(f"starting with environment {args.ENV} and log level {args.LEVEL}")
+
+    app = ServiceServer(__name__, dirname(__file__))
+    app.setConfiguration(dict(os.environ))
+    app.run(
+        os.getenv("SERVER_IP") or "localhost",
+        os.getenv("SERVER_PORT") or 8000,
+        args.LEVEL == "DEBUG",
+    )
 
 
 if __name__ == "__main__":
-    multiprocessing.freeze_support()
-    uvicorn.run("xai_builder:app", host="0.0.0.0", port=8005, reload=True)
+    parser = argparse.ArgumentParser(description="ADV-XAI Fulfilment")
+
+    parser.add_argument(
+        "-LEVEL",
+        "-l",
+        choices=["INFO", "DEBUG", "INFO"],
+        default="INFO",
+        required=False,
+    )
+    parser.add_argument(
+        "-ENV", "-e", choices=["DEV", "PROD"], default="DEV", required=False
+    )
+    args = parser.parse_args()
+
+    logging.basicConfig(
+        level=getattr(logging, args.LEVEL.upper(), None),
+        format="%(levelname)s %(asctime)s - %(message)s",
+        encoding="utf-8",
+    )
+
+    main(args)

@@ -74,4 +74,4 @@ def mapper(item: uploadedmodel):
 
 if __name__ == "__main__":
     multiprocessing.freeze_support()
-    uvicorn.run("xai_builder:app", host="0.0.0.0", port=8005, reload=True)
+    uvicorn.run("xai_builder:app", host="0.0.0.0", port=8505, reload=True)
