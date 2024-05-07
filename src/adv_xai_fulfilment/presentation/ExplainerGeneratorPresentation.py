@@ -1,0 +1,14 @@
+from ..application.ExplainerGeneratorService import ExplainerGeneratorService
+
+
+class ExplainerGeneratorPresentation:
+    _service: ExplainerGeneratorService
+
+    def __init__(self) -> None:
+        self._service = ExplainerGeneratorService()
+
+    def build(self, modelName: str, pilot: str, data: str, metadata: str):
+        if not modelName and pilot and metadata:
+            raise Exception("Missing required params")
+
+        return self._service.generate_explainer(modelName, pilot, data, metadata)

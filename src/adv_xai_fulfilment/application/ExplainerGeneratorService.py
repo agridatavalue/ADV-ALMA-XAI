@@ -1,19 +1,15 @@
 import os
 from dotenv import load_dotenv
 
-from src.adv_xai_fulfilment.domain.model.Model import Model
-from src.adv_xai_fulfilment.domain.model.Explainer import Explainer
-from src.adv_xai_fulfilment.infrastructure.service.DataLoaderService import (
-    DataLoaderService,
-)
-from src.adv_xai_fulfilment.infrastructure.service.ModelLoaderService import (
-    ModelLoaderService,
-)
+from ..domain.model.Model import Model
+from ..domain.model.Explainer import Explainer
+from ..infrastructure.service.DataLoaderService import DataLoaderService
+from ..infrastructure.service.ModelLoaderService import ModelLoaderService
 
 load_dotenv()
 
 
-class TrainerService:
+class ExplainerGeneratorService:
     _dataLoaderService: DataLoaderService
     _modelLoaderService: ModelLoaderService
 
@@ -21,7 +17,7 @@ class TrainerService:
         self._dataLoaderService = DataLoaderService()
         self._modelLoaderService = ModelLoaderService()
 
-    def train(
+    def generate_explainer(
         self, modelName: str, pilot: str, data: str, metadata: str
     ) -> list[Explainer]:
         # load data from server

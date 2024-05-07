@@ -1,7 +1,9 @@
 import logging
 from flask import Blueprint, request, jsonify, make_response
 
-from src.adv_xai_fulfilment.presentation.TrainerPresentation import TrainerPresentation
+from src.adv_xai_fulfilment.presentation.ExplainerGeneratorPresentation import (
+    ExplainerGeneratorPresentation,
+)
 
 buildBp = Blueprint("build", __name__)
 
@@ -13,7 +15,7 @@ def build():
 
     logging.info(f"called /build api with params {request.get_json()}")
     try:
-        response = TrainerPresentation().train(
+        response = ExplainerGeneratorPresentation().build(
             request.get_json().get("model"),
             request.get_json().get("pilot"),
             request.get_json().get("metadata"),
