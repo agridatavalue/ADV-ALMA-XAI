@@ -3,8 +3,8 @@ import json
 import pickle
 import pandas as pd
 
+from ...domain.model.models.Model import Model
 from ..repository.BucketRepository import BucketRepository
-from src.adv_xai_fulfilment.domain.model.Model import Model
 
 
 class DataLoaderService:
