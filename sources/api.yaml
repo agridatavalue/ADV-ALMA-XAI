@@ -62,7 +62,7 @@ components:
                     example: "pilot8"
                     type: string
                 data:
-                    description: TODO
+                    description: optional
                     type: string
             required:
                 - model
