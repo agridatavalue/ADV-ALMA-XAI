@@ -25,7 +25,7 @@ class ExplainerGeneratorService:
 
         # load models
         all_models: list[Model] = self._modelLoaderService.loadFrom(
-            os.get("MODELS_FILE_PATH")
+            os.getenv("MODELS_FILE_PATH")
         )
 
         # select the matching models
@@ -37,7 +37,9 @@ class ExplainerGeneratorService:
 
         # create the explainers
         for explainer in possible_explainers:
-            explainer.build_and_save_on_persistence()
+            explainer.build_and_save_on_persistence(
+                os.path.join(os.getenv("EXPLAINER_FOLDER_PATH"), pilot)
+            )
 
         return explainer
 

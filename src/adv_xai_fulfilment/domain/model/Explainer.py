@@ -69,7 +69,7 @@ class Explainer:
         self.model = model
         self.meta_data = meta_data
 
-    def build_and_save_on_persistence(self):
+    def build_and_save_on_persistence(self, destination_path: str):
         print(
             ">>>",
             explainer_mapping.get(self.model.name).get(self.meta_data.get("datatype")),
