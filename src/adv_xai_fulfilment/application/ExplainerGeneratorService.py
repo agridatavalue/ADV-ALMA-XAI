@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 
-from ..domain.model.Model import Model
+from ..domain.model.models.Model import Model
 from ..domain.model.Explainer import Explainer
 from ..infrastructure.service.DataLoaderService import DataLoaderService
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService

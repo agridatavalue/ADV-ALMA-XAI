@@ -20,7 +20,7 @@ from explainerdashboard import (
     RegressionExplainer,
 )
 
-from .Model import Model
+from .models.Model import Model
 
 explainer_mapping = {
     "ALE": {"Tabular": ALE},

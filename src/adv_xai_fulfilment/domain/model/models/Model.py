@@ -1,31 +1,34 @@
+from .DataTypeModelExplainer import DataTypeModelExplainer
+
+
 class Model:
     name: str
     type: list[str]
     category: list[str]
-    data_type: list[str]
     explanations: str
     is_distributed: bool
     train_set_required: bool
     has_categorical_features: bool
+    data_type_explainers: list[DataTypeModelExplainer]
 
     def __init__(
         self,
         name: str,
         type: list[str],
         category: list[str],
-        data_type: list[str],
         explanations: str,
         is_distributed: bool,
         train_set_required: bool,
         has_categorical_features: bool,
+        data_type_explainers: list[DataTypeModelExplainer],
     ):
         self.name = name
         self.type = type
         self.category = category
-        self.data_type = data_type
         self.explanations = explanations
         self.is_distributed = is_distributed
         self.train_set_required = train_set_required
+        self.data_type_explainers = data_type_explainers
         self.has_categorical_features = has_categorical_features
 
     def canMatchWith(self, model) -> bool:
