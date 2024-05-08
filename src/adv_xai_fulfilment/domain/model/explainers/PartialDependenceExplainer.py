@@ -1,11 +1,11 @@
 from alibi.explainers import PartialDependence
 
-from .Model import Model
+from .Explainer import Explainer
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
 
 
-class PartialDependenceModel(Model):
+class PartialDependenceExplainer(Explainer):
 
     def __init__(self):
         super().__init__(

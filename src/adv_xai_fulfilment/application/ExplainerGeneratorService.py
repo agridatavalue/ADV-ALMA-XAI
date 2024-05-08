@@ -1,8 +1,9 @@
 import os
 from dotenv import load_dotenv
 
-from ..domain.model.models.Model import Model
-from ..domain.model.Explainer import Explainer
+from ..domain.model.Model import Model
+from ..domain.model.explainers import all as all_class_explainers
+from ..domain.model.explainers.Explainer import Explainer
 from ..infrastructure.service.DataLoaderService import DataLoaderService
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService
 
@@ -18,21 +19,28 @@ class ExplainerGeneratorService:
         self._modelLoaderService = ModelLoaderService()
 
     def generate_explainer(
-        self, modelName: str, pilot: str, data: str, metadata: str
+        self,
+        pilot: str,
+        data_filename: str,
+        model_filename: str,
+        metadata_filename: str,
     ) -> list[Explainer]:
         # load data from server
-        selected_model: Model = self._dataLoaderService.loadModelFrom(modelName)
-
-        # load models
-        all_models: list[Model] = self._modelLoaderService.loadFrom(
-            os.getenv("MODELS_FILE_PATH")
+        selected_model: Model = self._modelLoaderService.loadFrom(
+            os.path.join(os.getenv("MODEL_FOLDER_PATH"), model_filename)
         )
 
-        # select the matching models
+        meta_data = self._dataLoaderService.loadMetaData(
+            os.path.join(os.getenv("MODEL_FOLDER_PATH"), metadata_filename)
+        )
+
+        all_explainers_available: list[Explainer] = [c() for c in all_class_explainers]
+
+        # select the matching Explainers
         possible_explainers: list[Explainer] = [
-            Explainer(model)
-            for model in all_models
-            if selected_model.canMatchWith(model)
+            expl
+            for expl in all_explainers_available
+            if expl.canMatchWith(selected_model, meta_data)
         ]
 
         # create the explainers

@@ -1,11 +1,11 @@
 from alibi.explainers import TreeShap
 
-from .Model import Model
+from .Explainer import Explainer
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
 
 
-class TreeShapPathDependentModel(Model):
+class TreeShapPathDependentExplainer(Explainer):
 
     def __init__(self):
         super().__init__(

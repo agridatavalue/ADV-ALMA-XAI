@@ -1,11 +1,11 @@
 from alibi.explainers import AnchorText, AnchorImage, AnchorTabular
 
-from .Model import Model
+from .Explainer import Explainer
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
 
 
-class AnchorsModel(Model):
+class AnchorsExplainer(Explainer):
 
     def __init__(self):
         super().__init__(

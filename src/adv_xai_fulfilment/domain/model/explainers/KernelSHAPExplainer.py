@@ -1,11 +1,13 @@
 from alibi.explainers import KernelShap
 
-from .Model import Model
+from src.adv_xai_fulfilment.domain.model.Model import Model
+
+from .Explainer import Explainer
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
 
 
-class KernelSHAPModel(Model):
+class KernelSHAPExplainer(Explainer):
 
     def __init__(self):
         super().__init__(
@@ -19,4 +21,9 @@ class KernelSHAPModel(Model):
             data_type_explainers=[
                 DataTypeModelExplainer(DataTypeModel.TABULAR, KernelShap),
             ],
+        )
+
+    def canMatchWith(self, model: Model, meta_data: dict) -> bool:
+        return super().canMatchWith(model, meta_data) and model.name == meta_data.get(
+            "model"
         )

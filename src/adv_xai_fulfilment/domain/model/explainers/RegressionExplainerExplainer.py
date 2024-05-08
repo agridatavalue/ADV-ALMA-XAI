@@ -1,20 +1,22 @@
-from alibi.explainers import ALE
+from alibi.explainers import RegressionExplainer
 
-from .Model import Model
+from .Explainer import Explainer
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
 
 
-class AleModel(Model):
+class RegressionExplainerExplainer(Explainer):
 
     def __init__(self):
         super().__init__(
-            name="ALE",
+            name="RegressionExplainerModel",
             type=["BlackBox"],
-            category=["Classification", "Regression"],
+            category=["Regression"],
             explanations="global",
             is_distributed=False,
             train_set_required=False,
             has_categorical_features=False,
-            data_type_explainers=[DataTypeModelExplainer(DataTypeModel.TABULAR, ALE)],
+            data_type_explainers=[
+                DataTypeModelExplainer(DataTypeModel.TABULAR, RegressionExplainer)
+            ],
         )

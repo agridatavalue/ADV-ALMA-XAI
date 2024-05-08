@@ -1,11 +1,11 @@
 from alibi.explainers import IntegratedGradients
 
-from .Model import Model
+from .Explainer import Explainer
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
 
 
-class IntegratedGradientsModel(Model):
+class IntegratedGradientsExplainer(Explainer):
 
     def __init__(self):
         super().__init__(

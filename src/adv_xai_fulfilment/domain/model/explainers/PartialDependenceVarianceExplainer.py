@@ -1,22 +1,22 @@
-from alibi.explainers import PermutationImportance
+from alibi.explainers import PartialDependenceVariance
 
-from .Model import Model
+from .Explainer import Explainer
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
 
 
-class PermutationImportanceModel(Model):
+class PartialDependenceVarianceExplainer(Explainer):
 
     def __init__(self):
         super().__init__(
-            name="PermutationImportance",
-            type=["BlackBox"],
+            name="PartialDependenceVariance",
+            type=["BlackBox", "WhiteBox"],
             category=["Classification"],
             explanations="global",
             is_distributed=False,
             train_set_required=False,
             has_categorical_features=True,
             data_type_explainers=[
-                DataTypeModelExplainer(DataTypeModel.TABULAR, PermutationImportance)
+                DataTypeModelExplainer(DataTypeModel.TABULAR, PartialDependenceVariance)
             ],
         )
