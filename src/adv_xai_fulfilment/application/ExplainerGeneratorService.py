@@ -26,11 +26,11 @@ class ExplainerGeneratorService:
         metadata_filename: str,
     ) -> list[Explainer]:
         # load data from server
-        selected_model: Model = self._modelLoaderService.loadFrom(
+        selected_model: Model = self._modelLoaderService.load_from(
             os.path.join(os.getenv("MODEL_FOLDER_PATH"), model_filename)
         )
 
-        meta_data = self._dataLoaderService.loadMetaData(
+        meta_data: dict = self._dataLoaderService.load_meta_data(
             os.path.join(os.getenv("MODEL_FOLDER_PATH"), metadata_filename)
         )
 
@@ -40,19 +40,20 @@ class ExplainerGeneratorService:
         possible_explainers: list[Explainer] = [
             expl
             for expl in all_explainers_available
-            if expl.canMatchWith(selected_model, meta_data)
+            if expl.can_match_with(selected_model, meta_data)
         ]
 
         # create the explainers
         for explainer in possible_explainers:
-            explainer.build_and_save_on_persistence(
-                os.path.join(os.getenv("EXPLAINER_FOLDER_PATH"), pilot)
+            explainer.build(
+                meta_data=meta_data,
+                destination_path=os.path.join(
+                    os.getenv("EXPLAINER_FOLDER_PATH"), pilot
+                ),
+            )
+            self._modelLoaderService.upload_to(
+                os.path.join(os.getenv("EXPLAINER_FOLDER_PATH"), pilot),
+                explainer,
             )
 
         return explainer
-
-
-"""
-data = self._dataLoaderService.loadData(data)
-metaData = self._dataLoaderService.loadMetaData(metadata)
-"""

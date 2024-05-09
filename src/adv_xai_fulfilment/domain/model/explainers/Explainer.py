@@ -36,7 +36,7 @@ class Explainer:
 
         self.meta_data = None
 
-    def canMatchWith(self, model: Model, meta_data: dict) -> bool:
+    def can_match_with(self, model: Model, meta_data: dict) -> bool:
         return (
             self.type in meta_data.get("modeltype")
             and self.category in meta_data.get("modelcategory")
@@ -44,11 +44,19 @@ class Explainer:
             in [dt.data_type for dt in self.data_type_explainers]
         )
 
-    def build_and_save_on_persistence(self, destination_path: str):
-        print(
-            ">>>",
-            # explainer_mapping.get(self.model.name).get(self.meta_data.get("datatype")),
-        )
+    def build(self, destination_path: str, meta_data: dict):
+        exp_metadata = {
+            **meta_data,
+            "id": 1,  # TODO: Change for a unique id
+            "name": self.name,
+            "xplanationscope": "global",
+            "xplainerparameters": "n/a",  # TODO: Change it
+            "xplanationtype": "feature_importance",  # TODO: Change it
+            "xplanationmetrics": "n/a",  # TODO: Change it
+            "modelparameters": "n/a",  # TODO: Change it
+            "modelspecifictype": "n/a",  # TODO: Change it
+            "xaidependencies": ["numpy", "Scikit-learn", "alibi[ray]"],
+        }
 
     def __repr__(self) -> str:
         return f'<Explainer name="{self.name}">'

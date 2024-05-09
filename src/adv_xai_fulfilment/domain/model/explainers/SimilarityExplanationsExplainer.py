@@ -9,7 +9,7 @@ class SimilarityExplanationsExplainer(Explainer):
 
     def __init__(self):
         super().__init__(
-            name="SimilarityExplanationsModel",
+            name="SimilarityExplanations",
             type=["WhiteBox"],
             category=["Classification"],
             explanations="local",

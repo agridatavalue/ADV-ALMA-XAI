@@ -5,11 +5,11 @@ from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
 
 
-class RegressionExplainerExplainer(Explainer):
+class RegressionExplainer(Explainer):
 
     def __init__(self):
         super().__init__(
-            name="RegressionExplainerModel",
+            name="RegressionExplainer",
             type=["BlackBox"],
             category=["Regression"],
             explanations="global",

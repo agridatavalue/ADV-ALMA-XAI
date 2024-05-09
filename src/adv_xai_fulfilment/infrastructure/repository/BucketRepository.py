@@ -2,10 +2,10 @@ from minio import Minio
 
 
 class BucketRepository:
-    _client: any
-    bucketName: str
+    _client: Minio
+    _bucket_name: str
 
-    def __init__(self, conf: dict) -> None:
+    def __init__(self, conf: dict):
         """
         conf param be like:
             - endpoint   [string] (Required)
@@ -22,12 +22,15 @@ class BucketRepository:
             secure=conf.get("secure", False),
             region=conf.get("region"),
         )
-        self.bucketName = conf.get("bucketName")
+        self._bucket_name = conf.get("bucketName")
 
-    def downloadFrom(self, object_name: str, destination_file_path: str) -> str:
+    def download_from(self, object_name: str, destination_file_path: str) -> str:
         if not destination_file_path:
             destination_file_path = object_name
 
-        self.client.fget_object(self.bucket_name, object_name, destination_file_path)
+        self._client.fget_object(self._bucket_name, object_name, destination_file_path)
 
         return destination_file_path
+
+    def upload_to(self, object_name: str, file_path: str):
+        self._client.fput_object(self._bucket_name, object_name, file_path)
