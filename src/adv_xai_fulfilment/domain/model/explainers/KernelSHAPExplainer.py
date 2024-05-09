@@ -1,7 +1,6 @@
 from alibi.explainers import KernelShap
 
-from src.adv_xai_fulfilment.domain.model.Model import Model
-
+from ..Model import Model
 from .Explainer import Explainer
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
@@ -23,7 +22,7 @@ class KernelSHAPExplainer(Explainer):
             ],
         )
 
-    def canMatchWith(self, model: Model, meta_data: dict) -> bool:
-        return super().canMatchWith(model, meta_data) and model.name == meta_data.get(
-            "model"
-        )
+    # def canMatchWith(self, model: Model, meta_data: dict) -> bool:
+    #     return super().can_match_with(model, meta_data) and model.name == meta_data.get(
+    #         "model"
+    #     )
