@@ -1,4 +1,4 @@
-from alibi.explainers import RegressionExplainer
+from explainerdashboard import RegressionExplainer
 
 from .Explainer import Explainer
 from .DataTypeModel import DataTypeModel
