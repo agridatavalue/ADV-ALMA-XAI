@@ -13,6 +13,7 @@ class Explainer:
     data_type_explainers: list[DataTypeModelExplainer]
 
     meta_data: dict
+    build_result: any
 
     def __init__(
         self,
@@ -35,6 +36,7 @@ class Explainer:
         self.has_categorical_features = has_categorical_features
 
         self.meta_data = None
+        self.build_result = None
 
     def can_match_with(self, model: Model, meta_data: dict) -> bool:
         return (
@@ -44,8 +46,8 @@ class Explainer:
             in [dt.data_type for dt in self.data_type_explainers]
         )
 
-    def build(self, destination_path: str, meta_data: dict):
-        exp_metadata = {
+    def set_meta_data(self, meta_data: dict):
+        self.meta_data = {
             **meta_data,
             "id": 1,  # TODO: Change for a unique id
             "name": self.name,
@@ -57,6 +59,9 @@ class Explainer:
             "modelspecifictype": "n/a",  # TODO: Change it
             "xaidependencies": ["numpy", "Scikit-learn", "alibi[ray]"],
         }
+        return self
+
+    def build(self, model, data: dict): ...
 
     def __repr__(self) -> str:
         return f'<Explainer name="{self.name}">'

@@ -1,4 +1,5 @@
 import os
+import logging
 from dotenv import load_dotenv
 
 from ..domain.model.Model import Model
@@ -14,7 +15,7 @@ class ExplainerGeneratorService:
     _dataLoaderService: DataLoaderService
     _modelLoaderService: ModelLoaderService
 
-    def __init__(self) -> None:
+    def __init__(self):
         self._dataLoaderService = DataLoaderService()
         self._modelLoaderService = ModelLoaderService()
 
@@ -25,7 +26,7 @@ class ExplainerGeneratorService:
         model_filename: str,
         metadata_filename: str,
     ) -> list[Explainer]:
-        # load data from server
+        logging.info("downloading model and metadata")
         selected_model: Model = self._modelLoaderService.load_from(
             os.path.join(os.getenv("MODEL_FOLDER_PATH"), model_filename)
         )
@@ -34,23 +35,21 @@ class ExplainerGeneratorService:
             os.path.join(os.getenv("MODEL_FOLDER_PATH"), metadata_filename)
         )
 
-        all_explainers_available: list[Explainer] = [c() for c in all_class_explainers]
+        data = self._dataLoaderService.load_data(
+            os.path.join(os.getenv("DATA_FOLDER_PATH"), data_filename)
+        )
 
-        # select the matching Explainers
+        logging.info("selecting the matching Explainers")
+        all_explainers_available: list[Explainer] = [c() for c in all_class_explainers]
         possible_explainers: list[Explainer] = [
-            expl
+            expl.set_meta_data(meta_data)
             for expl in all_explainers_available
             if expl.can_match_with(selected_model, meta_data)
         ]
 
-        # create the explainers
+        logging.info("creating the Explainer builds")
         for explainer in possible_explainers:
-            explainer.build(
-                meta_data=meta_data,
-                destination_path=os.path.join(
-                    os.getenv("EXPLAINER_FOLDER_PATH"), pilot
-                ),
-            )
+            explainer.build(model=selected_model, data=data)
             self._modelLoaderService.upload_to(
                 os.path.join(os.getenv("EXPLAINER_FOLDER_PATH"), pilot),
                 explainer,

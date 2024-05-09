@@ -20,3 +20,6 @@ class RegressionExplainer(Explainer):
                 DataTypeModelExplainer(DataTypeModel.TABULAR, RegressionExplainer)
             ],
         )
+
+    def build(self, model, data: dict):
+        self.build_result = RegressionExplainer(model, data.get("x"), data.get("y"))

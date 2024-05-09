@@ -3,7 +3,6 @@ from minio import Minio
 
 class BucketRepository:
     _client: Minio
-    _bucket_name: str
 
     def __init__(self, conf: dict):
         """
@@ -16,21 +15,21 @@ class BucketRepository:
             - region     [string] (Optional)
         """
         self._client = Minio(
-            conf.get("endpoint"),
+            endpoint=conf.get("endpoint"),
             access_key=conf.get("access_key"),
             secret_key=conf.get("secret_key"),
             secure=conf.get("secure", False),
             region=conf.get("region"),
         )
-        self._bucket_name = conf.get("bucketName")
 
-    def download_from(self, object_name: str, destination_file_path: str) -> str:
+    def download_from(
+        self, bucket_name: str, object_name: str, destination_file_path: str = None
+    ) -> str:
         if not destination_file_path:
             destination_file_path = object_name
 
-        self._client.fget_object(self._bucket_name, object_name, destination_file_path)
-
+        self._client.fget_object(bucket_name, object_name, destination_file_path)
         return destination_file_path
 
-    def upload_to(self, object_name: str, file_path: str):
-        self._client.fput_object(self._bucket_name, object_name, file_path)
+    def upload_to(self, bucket_name: str, object_name: str, file_path: str):
+        self._client.fput_object(bucket_name, object_name, file_path)

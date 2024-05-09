@@ -13,13 +13,14 @@ def build():
     if request.method != "POST":
         return "Not a valid request"
 
-    logging.info(f"called /build api with params {request.get_json()}")
+    data: dict = request.get_json()
+    logging.info(f"called /build api with params {data}")
     try:
         response = ExplainerGeneratorPresentation().build(
-            data=request.get_json().get("data"),
-            pilot=request.get_json().get("pilot"),
-            modelName=request.get_json().get("model"),
-            metadata=request.get_json().get("metadata"),
+            data=data.get("data"),
+            pilot=data.get("pilot"),
+            modelName=data.get("model"),
+            metadata=data.get("metadata"),
         )
         return make_response(
             jsonify(
@@ -30,4 +31,4 @@ def build():
             200,
         )
     except Exception as e:
-        return {"status": e}
+        return make_response(jsonify({"status": e}))

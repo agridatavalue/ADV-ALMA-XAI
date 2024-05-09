@@ -1,4 +1,4 @@
-from src.adv_xai_fulfilment.domain.model.models.DataTypeModel import DataTypeModel
+from .DataTypeModel import DataTypeModel
 
 
 class DataTypeModelExplainer:
