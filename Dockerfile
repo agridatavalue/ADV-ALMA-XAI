@@ -1,23 +1,29 @@
-FROM python:3.11
-RUN mkdir -p /home/adv_xai
-ENV ENV_HOME /home/adv_xai
-WORKDIR $ENV_HOME
+FROM continuumio/miniconda3
 
-COPY constants.py $ENV_HOME/constants.py
-COPY xai_functions.py $ENV_HOME/xai_functions.py
-COPY xai_builder.py $ENV_HOME/xai_builder.py
-COPY xai_methods.py $ENV_HOME/xai_methods.py
-COPY environment.yml $ENV_HOME/environment.yml
-COPY requirements.txt $ENV_HOME/requirements.txt
+ENV HOME=/home/app
+RUN mkdir $HOME
+WORKDIR $HOME
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y curl
+RUN addgroup --system app && adduser --system --no-create-home --group app
+RUN chown -R app:app /home/app && chmod -R 755 /home/app
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y curl
-RUN pip install --upgrade -r requirements.txt
+COPY . $HOME
 
-#Create environment
-RUN apt-get update
-RUN apt install build-essential -y
-RUN apt-get install libjpeg-dev zlib1g-dev -y
+#Chown all the files to the app user
+RUN chown -R app:app $HOME
 
-ENTRYPOINT ["uvicorn", "xai_builder:app", "--reload", "--host=0.0.0.0", "--port=8000"]
+# Create conda env from environment.yml
+ADD ./environment.yml ./environment.yml
+RUN chmod 777 ./environment.yml
+RUN conda env create -f ./environment.yml
+
+# ENV VAR LISTS
+
+RUN pip3 install waitress
+
+
+#Change to the app user
+USER app
+
+RUN chmod +x "./entrypoint.sh"
+ENTRYPOINT ["./entrypoint.sh"]
