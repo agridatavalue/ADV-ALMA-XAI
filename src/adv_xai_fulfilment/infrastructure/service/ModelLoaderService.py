@@ -23,19 +23,23 @@ class ModelLoaderService:
         )
         self._persistenceRepository = PersistenceRepository()
 
-    def load_from(self, model_path: str) -> Model:
-        if not Helper.is_local_path(model_path):
-            model_path = self._bucketRepository.download_from(
-                bucket_name=os.getenv("MODEL_FOLDER_PATH"), object_name=model_path
+    def load_from(self, model_file_path: str) -> Model:
+        logging.debug(f"loading model from {model_file_path}")
+
+        if not Helper.is_local_path(model_file_path):
+            logging.debug(
+                f"is not a local path, downloading {model_file_path} from {os.getenv('MODEL_FOLDER_PATH')}"
+            )
+            model_file_path: str = self._bucketRepository.download_from(
+                bucket_name=os.getenv("MODEL_FOLDER_PATH"), object_name=model_file_path
             )
 
-        with open(model_path, "rb") as file:
+        with open(model_file_path, "rb") as file:
             # ciò che ritorna è un'istanza di una classe
             model_data = pickle.load(file)
-            logging.info("model_data", model_data)
 
-        os.remove(file)
-        return Model(model_data.name, model_data)
+        os.remove(model_file_path)
+        return Model(handler=model_data)
 
     def upload_to(self, model_path: str, explainer: Explainer):
         assert isinstance(explainer, Explainer)

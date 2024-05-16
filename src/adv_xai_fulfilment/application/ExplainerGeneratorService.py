@@ -1,5 +1,6 @@
 import os
 import logging
+import pandas as pd
 from dotenv import load_dotenv
 
 from ..domain.model.Model import Model
@@ -30,21 +31,16 @@ class ExplainerGeneratorService:
         assert isinstance(model_filename, str)
         assert isinstance(metadata_filename, str)
 
-        logging.info("downloading model and metadata")
-        selected_model: Model = self._modelLoaderService.load_from(
-            os.path.join(os.getenv("MODEL_FOLDER_PATH"), model_filename)
-        )
+        logging.info("downloading model")
+        selected_model: Model = self._modelLoaderService.load_from(model_filename)
+        logging.info("downloading meta data")
+        meta_data: dict = self._dataLoaderService.load_meta_data(metadata_filename)
+        logging.info("downloading data if present")
+        data: dict[str, pd.DataFrame] = self._dataLoaderService.load_data(data_filename)
 
-        meta_data: dict = self._dataLoaderService.load_meta_data(
-            os.path.join(os.getenv("MODEL_FOLDER_PATH"), metadata_filename)
-        )
-
-        data = self._dataLoaderService.load_data(
-            os.path.join(os.getenv("DATA_FOLDER_PATH"), data_filename)
-        )
-
-        logging.info("selecting the matching Explainers")
+        logging.debug("creating the matching Explainers")
         all_explainers_available: list[Explainer] = [c() for c in all_class_explainers]
+        logging.info("selecting the matching Explainers")
         possible_explainers: list[Explainer] = [
             expl.set_meta_data(meta_data)
             for expl in all_explainers_available
