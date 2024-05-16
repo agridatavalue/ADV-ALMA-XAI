@@ -38,6 +38,8 @@ class ModelLoaderService:
         return Model(model_data.name, model_data)
 
     def upload_to(self, model_path: str, explainer: Explainer):
+        assert isinstance(explainer, Explainer)
+
         with open(
             os.path.join(
                 model_path,

@@ -22,10 +22,14 @@ class ExplainerGeneratorService:
     def generate_explainer(
         self,
         pilot: str,
-        data_filename: str,
         model_filename: str,
         metadata_filename: str,
+        data_filename: str = None,
     ) -> list[Explainer]:
+        assert isinstance(pilot, str)
+        assert isinstance(model_filename, str)
+        assert isinstance(metadata_filename, str)
+
         logging.info("downloading model and metadata")
         selected_model: Model = self._modelLoaderService.load_from(
             os.path.join(os.getenv("MODEL_FOLDER_PATH"), model_filename)
@@ -55,4 +59,4 @@ class ExplainerGeneratorService:
                 explainer,
             )
 
-        return explainer
+        return possible_explainers

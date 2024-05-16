@@ -16,4 +16,9 @@ class ExplainerGeneratorPresentation:
         logging.info(
             f"Building Explainer with modelName: {modelName}, pilot: {pilot}",
         )
-        return self._service.generate_explainer(modelName, pilot, data, metadata)
+        return self._service.generate_explainer(
+            pilot=pilot,
+            data_filename=data,
+            model_filename=modelName,
+            metadata_filename=metadata,
+        )
