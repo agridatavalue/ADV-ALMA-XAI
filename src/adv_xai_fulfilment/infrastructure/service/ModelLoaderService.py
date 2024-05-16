@@ -49,4 +49,3 @@ class ModelLoaderService:
 
         self._bucketRepository.upload_to(model_path)
         os.remove(file)
-        return model
