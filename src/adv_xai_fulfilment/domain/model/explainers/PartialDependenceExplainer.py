@@ -1,5 +1,7 @@
 from alibi.explainers import PartialDependence
 
+from src.adv_xai_fulfilment.domain.model.Model import Model
+
 from .Explainer import Explainer
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
@@ -11,7 +13,7 @@ class PartialDependenceExplainer(Explainer):
         super().__init__(
             name="PartialDependence",
             type=["BlackBox", "WhiteBox"],
-            category=["Classification"],
+            category=["Classification", "Regression"],
             explanations="global",
             is_distributed=False,
             train_set_required=False,
@@ -20,3 +22,6 @@ class PartialDependenceExplainer(Explainer):
                 DataTypeModelExplainer(DataTypeModel.TABULAR, PartialDependence)
             ],
         )
+
+    def can_match_with(self, model: Model, meta_data: dict) -> bool:
+        return False

@@ -40,19 +40,21 @@ class ExplainerGeneratorService:
 
         logging.debug("creating the matching Explainers")
         all_explainers_available: list[Explainer] = [c() for c in all_class_explainers]
-        logging.info("selecting the matching Explainers")
+        logging.debug("selecting the matching Explainers")
         possible_explainers: list[Explainer] = [
             expl.set_meta_data(meta_data)
             for expl in all_explainers_available
             if expl.can_match_with(selected_model, meta_data)
         ]
+        logging.info(f"found {len(possible_explainers)} explainers")
 
-        logging.info("creating the Explainer builds")
         for explainer in possible_explainers:
+            logging.debug(f"creating the explainer {explainer.name} builds")
             explainer.build(model=selected_model, data=data)
             self._modelLoaderService.upload_to(
-                os.path.join(os.getenv("EXPLAINER_FOLDER_PATH"), pilot),
-                explainer,
+                model_path=os.getenv("EXPLAINER_FOLDER_PATH"),
+                pilot=pilot,
+                explainer=explainer,
             )
 
         return possible_explainers

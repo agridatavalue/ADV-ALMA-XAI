@@ -22,4 +22,5 @@ class RegressionExplainer(Explainer):
         )
 
     def build(self, model, data: dict):
-        self.build_result = RegressionExplainer(model, data.get("x"), data.get("y"))
+        if isinstance(data, dict):
+            self.build_result = RegressionExplainer(model, data.get("x"), data.get("y"))

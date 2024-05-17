@@ -11,8 +11,8 @@ class TestExplainer(unittest.TestCase):
     def setUp(self):
         self.testObj = Explainer(
             name="name",
-            type=["type"],
-            category=["category"],
+            type=["BlackBox"],
+            category=["Regression"],
             explanations="explanations",
             is_distributed=True,
             train_set_required=True,
@@ -27,9 +27,9 @@ class TestExplainer(unittest.TestCase):
             self.testObj.can_match_with(
                 None,
                 {
-                    "modeltype": "type",
-                    "modelcategory": "category",
-                    "datatype": DataTypeModel.TEXT,
+                    "modeltype": "BlackBox",
+                    "modelcategory": "Regression",
+                    "datatype": "Text",
                 },
             )
         )
@@ -41,7 +41,7 @@ class TestExplainer(unittest.TestCase):
                 {
                     "modeltype": "type",
                     "modelcategory": "category",
-                    "datatype": DataTypeModel.TABULAR,
+                    "datatype": "tabular",
                 },
             )
         )

@@ -1,3 +1,4 @@
+import os
 from minio import Minio
 
 
@@ -31,5 +32,7 @@ class BucketRepository:
         self._client.fget_object(bucket_name, object_name, destination_file_path)
         return destination_file_path
 
-    def upload_to(self, bucket_name: str, object_name: str, file_path: str):
-        self._client.fput_object(bucket_name, object_name, file_path)
+    def upload_to(self, bucket_name: str, target_filepath: str, local_filepath: str):
+        self._client.fput_object(
+            bucket_name, target_filepath.replace(os.sep, "/"), local_filepath
+        )

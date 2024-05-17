@@ -41,17 +41,16 @@ class ModelLoaderService:
         os.remove(model_file_path)
         return Model(handler=model_data)
 
-    def upload_to(self, model_path: str, explainer: Explainer):
+    def upload_to(self, explainer: Explainer, pilot: str, model_path: str):
         assert isinstance(explainer, Explainer)
 
-        with open(
-            os.path.join(
-                model_path,
-                explainer.name + ".pkl",
-            ),
-            "wb",
-        ) as file:
+        explainer_filename: str = explainer.name + ".pkl"
+        with open(explainer_filename, "wb") as file:
             pickle.dump(explainer.build_result, file)
 
-        self._bucketRepository.upload_to(model_path)
-        os.remove(file)
+        self._bucketRepository.upload_to(
+            bucket_name=model_path,
+            local_filepath=explainer_filename,
+            target_filepath=os.path.join(pilot, explainer_filename),
+        )
+        os.remove(explainer_filename)

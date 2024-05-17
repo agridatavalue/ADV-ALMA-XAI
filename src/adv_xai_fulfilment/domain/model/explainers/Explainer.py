@@ -1,4 +1,5 @@
 from ..Model import Model
+from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
 
 
@@ -43,7 +44,7 @@ class Explainer:
             meta_data.get("modeltype") in self.type
             and meta_data.get("modelcategory") in self.category
             and (
-                meta_data.get("datatype")
+                DataTypeModel.from_string(meta_data.get("datatype"))
                 in [dt.data_type for dt in self.data_type_explainers]
             )
         )
