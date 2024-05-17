@@ -40,10 +40,12 @@ class Explainer:
 
     def can_match_with(self, model: Model, meta_data: dict) -> bool:
         return (
-            self.type in meta_data.get("modeltype")
-            and self.category in meta_data.get("modelcategory")
-            and meta_data.get("datatype")
-            in [dt.data_type for dt in self.data_type_explainers]
+            meta_data.get("modeltype") in self.type
+            and meta_data.get("modelcategory") in self.category
+            and (
+                meta_data.get("datatype")
+                in [dt.data_type for dt in self.data_type_explainers]
+            )
         )
 
     def set_meta_data(self, meta_data: dict):

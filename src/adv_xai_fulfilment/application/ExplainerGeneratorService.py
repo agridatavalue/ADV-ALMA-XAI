@@ -31,11 +31,11 @@ class ExplainerGeneratorService:
         assert isinstance(model_filename, str)
         assert isinstance(metadata_filename, str)
 
-        logging.info("downloading model")
+        logging.debug("downloading model")
         selected_model: Model = self._modelLoaderService.load_from(model_filename)
-        logging.info("downloading meta data")
+        logging.debug("downloading meta data")
         meta_data: dict = self._dataLoaderService.load_meta_data(metadata_filename)
-        logging.info("downloading data if present")
+        logging.debug("downloading data if present")
         data: dict[str, pd.DataFrame] = self._dataLoaderService.load_data(data_filename)
 
         logging.debug("creating the matching Explainers")
