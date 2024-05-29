@@ -5,7 +5,7 @@ RUN mkdir $HOME
 WORKDIR $HOME
 
 RUN addgroup --system app && adduser --system --no-create-home --group app
-RUN chown -R app:app /home/app && chmod -R 755 /home/app
+RUN chown -R app:app $HOME && chmod -R 755 $HOME
 
 COPY . $HOME
 
