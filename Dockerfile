@@ -12,14 +12,11 @@ COPY . $HOME
 #Chown all the files to the app user
 RUN chown -R app:app $HOME
 
-# Create conda env from environment.yml
-ADD ./environment.yml ./environment.yml
-RUN chmod 777 ./environment.yml
-RUN conda env create -f ./environment.yml
+# Create environment
+RUN pip3 install -r requirements.txt
+RUN pip3 install waitress
 
 # ENV VAR LISTS
-
-RUN pip3 install waitress
 
 
 #Change to the app user
