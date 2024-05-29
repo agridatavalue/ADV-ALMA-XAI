@@ -1,6 +1,6 @@
 FROM continuumio/miniconda3
 
-ENV HOME=/home/app
+ENV HOME=/home/adv_xai
 RUN mkdir $HOME
 WORKDIR $HOME
 
