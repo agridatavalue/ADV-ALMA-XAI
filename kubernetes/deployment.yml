@@ -1,42 +1,38 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: xai-fulfillment
-  namespace: agridatavalue
+    name: xai-fulfillment-deployment
+    namespace: agridatavalue
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: xai-fulfillment
-  template:
-    metadata:
-      labels:
-        app: xai-fulfillment
-    spec:
-      imagePullSecrets:
-      - name: agridatavalue-regcred
-      containers:
-      - name: xai-fulfillment
-        image: registry.git.agridatavalue.eu/agridatavalue/platform-integration/xai-fulfilment:REGISTRY_IMAGE_TAG
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 8000
-          protocol: TCP
-          name: http
-        env:
-        - name: MINIO_PUBLIC_KEY
-          valueFrom:
-            secretKeyRef:
-              name: xai-fulfillment
-              key: MINIO_PUBLIC_KEY
-        - name: MINIO_PRIVATE_KEY
-          valueFrom:
-            secretKeyRef:
-              name: xai-fulfillment
-              key: MINIO_PRIVATE_KEY
-        - name: MINIO_MODELS
-          value: "models"
-        - name: MINIO_EXPLAINERS
-          value: "explanators"
-        - name: MINIO_DATASETS
-          value: "datagen"
+    replicas: 1
+    selector:
+        matchLabels:
+            app: xai-fulfillment
+    template:
+        metadata:
+            labels:
+                app: xai-fulfillment
+        spec:
+            containers:
+                - name: xai-fulfillment
+                  image: registry.git.agridatavalue.eu/agridatavalue/platform-integration/xai-fulfillment:<version>
+                  ports:
+                      - containerPort: 8000
+                        protocol: TCP
+                        name: http
+                  env:
+                      - name: MINIO_ENDPOINT
+                        valueFrom:
+                            secretKeyRef:
+                                name: minio-keys-secret
+                                key: MINIO_ENDPOINT
+                      - name: MINIO_ACCESS_KEY
+                        valueFrom:
+                            secretKeyRef:
+                                name: minio-keys-secret
+                                key: MINIO_ACCESS_KEY
+                      - name: MINIO_SECRET_KEY
+                        valueFrom:
+                            secretKeyRef:
+                                name: minio-keys-secret
+                                key: MINIO_SECRET_KEY
