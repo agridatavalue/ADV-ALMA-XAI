@@ -130,7 +130,6 @@ xai_methods_dict = {
     }
 }
 
-
 explainer_mapping = {"ALE":{'Tabular':ALE},
                      "RegressionExplainer": {'Tabular':RegressionExplainer},
                         "PartialDependence":{'Tabular':PartialDependence},
