@@ -11,7 +11,7 @@ class PermutationImportanceExplainer(Explainer):
         super().__init__(
             name="PermutationImportance",
             type=["BlackBox"],
-            category=["Classification"],
+            category=["Classification", "Regression"],
             explanations="global",
             is_distributed=False,
             train_set_required=False,
@@ -20,3 +20,6 @@ class PermutationImportanceExplainer(Explainer):
                 DataTypeModelExplainer(DataTypeModel.TABULAR, PermutationImportance)
             ],
         )
+
+    def can_match_with(self, model: Model, meta_data: dict) -> bool:
+        return False
