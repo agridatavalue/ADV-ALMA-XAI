@@ -21,3 +21,5 @@ class CounterFactualsPrototypesExplainer(Explainer):
                 DataTypeModelExplainer(DataTypeModel.TABULAR, CounterfactualRL),
             ],
         )
+    def can_match_with(self, model: Model, meta_data: dict) -> bool:
+        return False

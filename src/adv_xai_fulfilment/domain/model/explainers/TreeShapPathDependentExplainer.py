@@ -11,7 +11,7 @@ class TreeShapPathDependentExplainer(Explainer):
         super().__init__(
             name="TreeSHAPpathdependent",
             type=["WhiteBox"],
-            category=["Classification"],
+            category=["Classification", "Regression"],
             explanations="both",
             is_distributed=False,
             train_set_required=None,
@@ -20,3 +20,6 @@ class TreeShapPathDependentExplainer(Explainer):
                 DataTypeModelExplainer(DataTypeModel.TABULAR, TreeShap)
             ],
         )
+
+    def can_match_with(self, model: Model, meta_data: dict) -> bool:
+        return False

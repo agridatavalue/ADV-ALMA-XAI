@@ -12,7 +12,7 @@ class KernelSHAPExplainer(Explainer):
         super().__init__(
             name="KernelSHAP",
             type=["BlackBox"],
-            category=["Classification"],
+            category=["Classification", "Regression"],
             explanations="both",
             is_distributed=True,
             train_set_required=True,
@@ -26,3 +26,5 @@ class KernelSHAPExplainer(Explainer):
     #     return super().can_match_with(model, meta_data) and model.name == meta_data.get(
     #         "model"
     #     )
+    def can_match_with(self, model: Model, meta_data: dict) -> bool:
+        return False

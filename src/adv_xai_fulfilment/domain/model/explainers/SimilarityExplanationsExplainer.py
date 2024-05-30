@@ -11,7 +11,7 @@ class SimilarityExplanationsExplainer(Explainer):
         super().__init__(
             name="SimilarityExplanations",
             type=["WhiteBox"],
-            category=["Classification"],
+            category=["Classification", "Regression"],
             explanations="local",
             is_distributed=False,
             train_set_required=True,
@@ -22,3 +22,6 @@ class SimilarityExplanationsExplainer(Explainer):
                 DataTypeModelExplainer(DataTypeModel.TABULAR, GradientSimilarity),
             ],
         )
+
+    def can_match_with(self, model: Model, meta_data: dict) -> bool:
+        return False

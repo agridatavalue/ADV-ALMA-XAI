@@ -22,3 +22,5 @@ class AnchorsExplainer(Explainer):
                 DataTypeModelExplainer(DataTypeModel.TABULAR, AnchorTabular),
             ],
         )
+    def can_match_with(self, model: Model, meta_data: dict) -> bool:
+        return False

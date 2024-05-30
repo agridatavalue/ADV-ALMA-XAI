@@ -11,7 +11,7 @@ class IntegratedGradientsExplainer(Explainer):
         super().__init__(
             name="IntegratedGradients",
             type=["BlackBox"],
-            category=["Classification"],
+            category=["Classification", "Regression"],
             explanations="local",
             is_distributed=False,
             train_set_required=False,
@@ -22,3 +22,5 @@ class IntegratedGradientsExplainer(Explainer):
                 DataTypeModelExplainer(DataTypeModel.TABULAR, IntegratedGradients),
             ],
         )
+    def can_match_with(self, model: Model, meta_data: dict) -> bool:
+        return False
