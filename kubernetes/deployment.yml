@@ -15,7 +15,7 @@ spec:
         spec:
             containers:
                 - name: xai-fulfillment
-                  image: registry.git.agridatavalue.eu/agridatavalue/platform-integration/xai-fulfillment:<version>
+                  image: registry.git.agridatavalue.eu/agridatavalue/platform-integration/xai-fulfillment:REGISTRY_IMAGE_TAG
                   ports:
                       - containerPort: 8000
                         protocol: TCP
