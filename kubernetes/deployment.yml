@@ -13,6 +13,8 @@ spec:
             labels:
                 app: xai-fulfillment
         spec:
+            imagePullSecrets:
+                - name: agridatavalue-regcred
             containers:
                 - name: xai-fulfillment
                   image: registry.git.agridatavalue.eu/agridatavalue/platform-integration/xai-fulfillment:REGISTRY_IMAGE_TAG
