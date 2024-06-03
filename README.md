@@ -33,3 +33,8 @@ Per avere un report di _coverage_:
 ```bash
 python -m coverage run -m unittest | python -m coverage report
 ```
+
+## DEPLOY
+
+push on agridatavalue gitlab
+create the tag
