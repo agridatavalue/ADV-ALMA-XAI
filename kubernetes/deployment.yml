@@ -32,9 +32,9 @@ spec:
                         valueFrom:
                             secretKeyRef:
                                 name: minio-keys-secret
-                                key: MINIO_ACCESS_KEY
+                                key: MINIO_PUBLIC_KEY
                       - name: MINIO_SECRET_KEY
                         valueFrom:
                             secretKeyRef:
                                 name: minio-keys-secret
-                                key: MINIO_SECRET_KEY
+                                key: MINIO_PRIVATE_KEY
