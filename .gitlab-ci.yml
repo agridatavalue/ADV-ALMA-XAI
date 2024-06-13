@@ -55,15 +55,11 @@ sast:
 deploy:
   stage: DEPLOY
   image:
-    name: bitnami/kubectl:1.26.10
+    name: dtzar/helm-kubectl:3.11.1
     entrypoint: ['']
-  before_script:
-    - sed -i "s+REGISTRY_IMAGE_TAG+$CI_COMMIT_TAG+" kubernetes/deployment.yml
   script:
     - kubectl config get-contexts
     - kubectl config use-context agridatavalue/gitlab-agent:agridatavalue-agent
-    - kubectl -n agridatavalue apply -f kubernetes/service.yml
-    - kubectl -n agridatavalue apply -f kubernetes/secret.yml
-    - kubectl -n agridatavalue apply -f kubernetes/deployment.yml
+    - helm -n agridatavalue upgrade --install store deployments/helm/xai-fulfillment/ -f deployments/helm/xai-fulfillment/values.yaml --set image.tag=$CI_COMMIT_TAG
   only:
     - tags

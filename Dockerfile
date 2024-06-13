@@ -11,4 +11,6 @@ COPY requirements.txt $ENV_HOME/requirements.txt
 
 RUN pip install -r requirements.txt
 
+EXPOSE 8000
+
 ENTRYPOINT ["uvicorn", "xai_builder:app", "--reload", "--host=0.0.0.0", "--port=8000"]

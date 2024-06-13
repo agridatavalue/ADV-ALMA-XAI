@@ -23,19 +23,8 @@ spec:
         - containerPort: 8000
           protocol: TCP
           name: http
-        env:
-        - name: MINIO_ENDPOINT
-          valueFrom:
-            secretKeyRef:
+        envFrom:
+          - configMapRef:
               name: xai-fulfillment
-              key: MINIO_ENDPOINT
-        - name: MINIO_PUBLIC_KEY
-          valueFrom:
-            secretKeyRef:
+          - secretRef:
               name: xai-fulfillment
-              key: MINIO_PUBLIC_KEY
-        - name: MINIO_PRIVATE_KEY
-          valueFrom:
-            secretKeyRef:
-              name: xai-fulfillment
-              key: MINIO_PRIVATE_KEY
