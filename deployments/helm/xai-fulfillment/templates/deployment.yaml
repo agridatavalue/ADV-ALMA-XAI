@@ -41,9 +41,9 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           envFrom:
             - configMapRef:
-                name: { { include "xai-fulfillment.fullname" . } }
+                name: {{ include "xai-fulfillment.fullname" . }}
             - secretRef:
-                name: { { include "xai-fulfillment.fullname" . } }
+                name: {{ include "xai-fulfillment.fullname" . }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
