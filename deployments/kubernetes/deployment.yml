@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: xai-fulfillment
-  namespace: agridatavalue
+    name: xai-fulfillment
+    namespace: agridatavalue
 spec:
   replicas: 1
   selector:

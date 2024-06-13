@@ -1,0 +1,75 @@
+openapi: 3.0.3
+info:
+    title: ADV
+    description: "TEST"
+    version: 0.0.1
+    contact:
+        name: "Mirko Colageo"
+        email: m.colageo@almaviva.it
+
+paths:
+    /build:
+        post:
+            summary: Build the explainer
+            description: Returns a sessionId string
+            operationId: connect
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/BuildRequest"
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/BuildResponse"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/BuildResponse"
+                "400":
+                    description: Invalid IDs combination supplied
+                "404":
+                    description: UserID / OrganizationID not found
+            tags:
+                - Build
+
+tags: []
+servers: []
+components:
+    securitySchemes:
+        bearer:
+            scheme: bearer
+            bearerFormat: Bearer
+            description: "Please enter token in following format: Bearer <JWT>"
+            type: http
+    schemas:
+        BuildRequest:
+            type: object
+            properties:
+                model:
+                    description: path for the ML model file
+                    example: "model.pkl"
+                    type: string
+                metadata:
+                    description: path for the metadata file
+                    example: "metadata.json"
+                    type: string
+                pilot:
+                    description: the identifier of the pilot
+                    example: "pilot8"
+                    type: string
+                data:
+                    description: optional
+                    type: string
+            required:
+                - model
+                - metadata
+                - pilot
+        BuildResponse:
+            type: object
+            properties:
+                status:
+                    type: string
