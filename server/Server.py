@@ -1,6 +1,7 @@
 import os
 from flask import Flask
 from os.path import join
+from waitress import serve
 from flask_cors import CORS
 from dotenv import load_dotenv
 from swagger_ui import flask_api_doc
@@ -13,7 +14,7 @@ from .endpoints import routes
 
 
 class ServiceServer:
-    _app: Flask
+    _app: object
     _name: str
     _conf: dict = {}
     _level: str = DEFAULT_LOG_LEVEL
@@ -46,11 +47,14 @@ class ServiceServer:
         self._conf = {**conf, **(self._conf or {})}
 
     def run(self, host: str, port: int, isDebugMode: bool = False):
-        self.app.run(
-            host=host,
-            port=port,
-            debug=isDebugMode,
-        )
+        if isDebugMode:
+            self.app.run(
+                host=host,
+                port=port,
+                debug=isDebugMode,
+            )
+        else:
+            serve(self.app, host=host, port=port, threads=1)
 
     def _prepareSwaggerContent(self, folderPath: str) -> str:
         swaggerContent = ""
