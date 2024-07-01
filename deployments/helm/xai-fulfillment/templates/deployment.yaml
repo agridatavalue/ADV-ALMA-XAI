@@ -34,9 +34,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http
-              containerPort: 8505
-              protocol: TCP
+            - name: xai-http
+              containerPort: 8000
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           envFrom:

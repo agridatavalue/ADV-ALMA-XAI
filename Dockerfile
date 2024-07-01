@@ -20,5 +20,5 @@ RUN chmod +x "./entrypoint.sh"
 
 USER app
 
-EXPOSE 8505
+EXPOSE 8000 8505
 ENTRYPOINT ["./entrypoint.sh"]
