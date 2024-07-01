@@ -10,6 +10,6 @@ spec:
     - port: {{ .Values.service.port }}
       targetPort: xai-http
       protocol: TCP
-      name: http
+      name: xai-http
   selector:
     {{- include "xai-fulfillment.selectorLabels" . | nindent 4 }}
