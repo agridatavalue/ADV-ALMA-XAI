@@ -35,7 +35,31 @@ paths:
                     description: UserID / OrganizationID not found
             tags:
                 - Build
-
+    /ask:
+        post:
+            summary: Ask something to the explainer
+            description: Returns an explaination string
+            operationId: ask
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/AskRequest"
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/AskResponse"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/AskResponse"
+                "404":
+                    description: Pilot / Explainer not found
+            tags:
+                - Ask
 tags: []
 servers: []
 components:
@@ -72,4 +96,29 @@ components:
             type: object
             properties:
                 status:
+                    type: string
+
+        AskRequest:
+            type: object
+            properties:
+                request:
+                    description: request to ask to the explainer
+                    example: ""
+                    type: string
+                explainer:
+                    description: explainer name
+                    example: "ALE"
+                    type: string
+                pilot:
+                    description: the identifier of the pilot
+                    example: "pilot8"
+                    type: string
+            required:
+                - pilot
+                - request
+                - explainer
+        AskResponse:
+            type: object
+            properties:
+                response:
                     type: string
