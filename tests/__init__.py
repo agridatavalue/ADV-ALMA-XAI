@@ -1,5 +1,9 @@
-from .src.infrastructure.Helper_unittest import TestHelper
+# DOMAIN ----------------------------------------------------------------------
 from .src.domain.model.Explainer_unittest import TestExplainer
+from .src.domain.service.ExplainerRetriever_unittest import TestExplainerRetriever
+
+# INFRASTRUCTURE --------------------------------------------------------------
+from .src.infrastructure.Helper_unittest import TestHelper
 from .src.infrastructure.service.ModelLoaderService_unittest import (
     ModelLoaderServiceTest,
 )
