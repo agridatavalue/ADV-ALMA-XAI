@@ -1,9 +1,11 @@
+from abc import ABC, abstractmethod
+
 from ..Model import Model
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
 
 
-class Explainer:
+class Explainer(ABC):
     name: str
     type: list[str]
     category: list[str]
@@ -27,6 +29,7 @@ class Explainer:
         has_categorical_features: bool,
         data_type_explainers: list[DataTypeModelExplainer],
     ):
+        super().__init__()
         self.name = name
         self.type = type
         self.category = category
@@ -65,6 +68,12 @@ class Explainer:
         return self
 
     def build(self, model, data: dict): ...
+
+    def train_with_pilot_data(self, pilot_data: dict) -> bool:
+        return False
+
+    def ask_to_llm(self, request: str) -> str:
+        return ""
 
     def __repr__(self) -> str:
         return f'<Explainer name="{self.name}">'
