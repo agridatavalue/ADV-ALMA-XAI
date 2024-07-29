@@ -4,8 +4,8 @@ import pandas as pd
 from dotenv import load_dotenv
 
 from ..domain.model.Model import Model
-from ..domain.model.explainers import all as all_class_explainers
 from ..domain.model.explainers.Explainer import Explainer
+from ..domain.service.ExplainerRetriever import ExplainerRetriever
 from ..infrastructure.service.DataLoaderService import DataLoaderService
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService
 
@@ -15,10 +15,12 @@ load_dotenv()
 class ExplainerGeneratorService:
     _dataLoaderService: DataLoaderService
     _modelLoaderService: ModelLoaderService
+    _explainer_retriever: ExplainerRetriever
 
     def __init__(self):
         self._dataLoaderService = DataLoaderService()
         self._modelLoaderService = ModelLoaderService()
+        self._explainer_retriever = ExplainerRetriever()
 
     def generate_explainer(
         self,
@@ -38,14 +40,10 @@ class ExplainerGeneratorService:
         logging.debug("downloading data if present")
         data: dict[str, pd.DataFrame] = self._dataLoaderService.load_data(data_filename)
 
-        logging.debug("creating the matching Explainers")
-        all_explainers_available: list[Explainer] = [c() for c in all_class_explainers]
         logging.debug("selecting the matching Explainers")
-        possible_explainers: list[Explainer] = [
-            expl.set_meta_data(meta_data)
-            for expl in all_explainers_available
-            if expl.can_match_with(selected_model, meta_data)
-        ]
+        possible_explainers: list[Explainer] = self._explainer_retriever.get_by_data(
+            selected_model, meta_data
+        )
         logging.info(f"found {len(possible_explainers)} explainers")
 
         for explainer in possible_explainers:
@@ -58,3 +56,13 @@ class ExplainerGeneratorService:
             )
 
         return possible_explainers
+
+    def ask_to_explainer(self, pilot: str, request: str, explainer_name: str):
+        assert isinstance(pilot, str)
+        assert isinstance(request, str)
+        assert isinstance(explainer_name, str)
+
+        explainer: Explainer = self._explainer_retriever.get_by_name(explainer_name)
+        pilot_data = self._modelLoaderService.download_for(pilot=pilot)
+        explainer.train_with_pilot_data(pilot_data)
+        return explainer.ask_to_llm(request)
