@@ -23,6 +23,7 @@ pip install -r requirements.txt
 ## Avvio del server in modalità debug
 
 ```bash
+.\venv\Scripts\activate
 python .\startServer.py -LEVEL DEBUG
 ```
 
