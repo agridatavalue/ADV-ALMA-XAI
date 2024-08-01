@@ -20,6 +20,14 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
+## Avvio del server in modalità debug
+
+```bash
+python .\startServer.py -LEVEL DEBUG
+```
+
+il server di debug sarà consultabile con swagger sull'end point `http://localhost:8505/api/doc`
+
 ## Test
 
 Per eseguire i test:
