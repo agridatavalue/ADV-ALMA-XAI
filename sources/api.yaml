@@ -11,8 +11,8 @@ paths:
     /build:
         post:
             summary: Build the explainer
-            description: Returns a sessionId string
-            operationId: connect
+            description: Build explainer for a given pilot
+            operationId: build
             requestBody:
                 required: true
                 content:
@@ -32,9 +32,36 @@ paths:
                 "400":
                     description: Invalid IDs combination supplied
                 "404":
-                    description: UserID / OrganizationID not found
+                    description: Pilot / Model not found
             tags:
                 - Build
+    /featureimportance:
+        post:
+            summary: Return the feature importance data
+            description: Return the feature importance data for a given pilot
+            operationId: featureImportance
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/FeatureImportanceRequest"
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/FeatureImportanceResponse"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/FeatureImportanceResponse"
+                "400":
+                    description: Invalid IDs combination supplied
+                "404":
+                    description: Pilot / Model not found
+            tags:
+                - featureImportance
     /ask:
         post:
             summary: Ask something to the explainer
@@ -70,6 +97,21 @@ components:
             description: "Please enter token in following format: Bearer <JWT>"
             type: http
     schemas:
+        FeatureImportanceRequest:
+            type: object
+            properties:
+                model:
+                    description: the identifier of the model file name
+                    example: "model.pkl"
+                    type: string
+            required:
+                - model
+        FeatureImportanceResponse:
+            type: object
+            properties:
+                featureImportance:
+                    type: string
+
         BuildRequest:
             type: object
             properties:

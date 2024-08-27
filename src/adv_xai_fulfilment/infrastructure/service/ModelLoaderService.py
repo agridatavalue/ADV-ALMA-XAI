@@ -54,3 +54,10 @@ class ModelLoaderService:
             target_filepath=os.path.join(pilot, explainer_filename),
         )
         os.remove(explainer_filename)
+
+    def download_for(self, pilot: str):
+        destination_file_path = os.path.join(os.getenv("temp"), f"pilot_{pilot}.pkl")
+        self._bucketRepository.download_from(
+            bucket_name="", object_name="", destination_file_path=destination_file_path
+        )
+        return []

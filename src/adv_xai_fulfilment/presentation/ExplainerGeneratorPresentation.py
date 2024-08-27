@@ -22,3 +22,16 @@ class ExplainerGeneratorPresentation:
             model_filename=modelName,
             metadata_filename=metadata,
         )
+
+    def ask_to_explainer(self, pilot: str, request: str, explainer: str):
+        if not pilot and request and explainer:
+            raise Exception("Missing required params")
+
+        logging.info(
+            f"Ask to Explainer with pilot: {pilot}, request: {request}, explainer: {explainer}",
+        )
+        return self._service.ask_to_explainer(
+            pilot=pilot,
+            request=request,
+            explainer_name=explainer,
+        )
