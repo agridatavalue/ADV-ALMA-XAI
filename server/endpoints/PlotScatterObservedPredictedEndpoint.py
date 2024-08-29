@@ -1,9 +1,7 @@
 import logging
 from flask import Blueprint, request, jsonify, make_response
 
-from src.adv_xai_fulfilment.presentation.PlotScatterObservedPredictedPresentation import (
-    PlotScatterObservedPredictedPresentation,
-)
+from src.adv_xai_fulfilment.presentation.DataPresentations import DataPresentations
 
 scatterObservedPredictedEndpointBp = Blueprint("plot_scatter", __name__)
 
@@ -16,9 +14,7 @@ def PlotScatterObservedPredictedEndpoint():
     data: dict = request.get_json()
     logging.info(f"called /plot_scatter api with params {data}")
     try:
-        response: (
-            dict
-        ) = PlotScatterObservedPredictedPresentation().genarate_data_for_pilot(
+        response: dict = DataPresentations().genarate_performance_scatter_plot(
             model_file_name=data.get("model")
         )
         return make_response(jsonify(response), 200)

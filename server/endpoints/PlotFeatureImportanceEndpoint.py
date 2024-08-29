@@ -1,9 +1,7 @@
 import logging
 from flask import Blueprint, request, jsonify, make_response
 
-from src.adv_xai_fulfilment.presentation.FeatureImportancePresentation import (
-    FeatureImportancePresentation,
-)
+from src.adv_xai_fulfilment.presentation.DataPresentations import DataPresentations
 
 featureImportanceBp = Blueprint("feature-importance", __name__)
 
@@ -16,7 +14,7 @@ def featureimportance():
     data: dict = request.get_json()
     logging.info(f"called /featureimportance api with params {data}")
     try:
-        response: dict = FeatureImportancePresentation().genarate_data_for_pilot(
+        response: dict = DataPresentations().genarate_feature_importance(
             model_file_name=data.get("model")
         )
         return make_response(jsonify(response), 200)
