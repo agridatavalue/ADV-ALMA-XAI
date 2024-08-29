@@ -35,7 +35,7 @@ paths:
                     description: Pilot / Model not found
             tags:
                 - Build
-    /featureimportance:
+    /feature-importance:
         post:
             summary: Return the feature importance data
             description: Return the feature importance data for a given pilot

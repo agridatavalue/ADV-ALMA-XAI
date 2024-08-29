@@ -1,5 +1,5 @@
 from .BuildEndpoint import buildBp
-from .FeatureImportanceEndpoint import featureImportanceBp
 from .AskToExplainerEndpoint import askToExplainerEndpointBp
+from .PlotFeatureImportanceEndpoint import featureImportanceBp
 
 routes = [buildBp, featureImportanceBp, askToExplainerEndpointBp]
