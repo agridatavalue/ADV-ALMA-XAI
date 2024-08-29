@@ -29,7 +29,6 @@ class BucketRepository:
         if not destination_file_path:
             destination_file_path = object_name
 
-        print(">>> 1", bucket_name, object_name, destination_file_path)
         self._client.fget_object(bucket_name, object_name, destination_file_path)
         return destination_file_path
 
