@@ -1,30 +1,31 @@
 import logging
-from flask import Blueprint, request, jsonify, make_response
+from flask import Blueprint, jsonify, make_response, request
 
-from src.adv_xai_fulfilment.presentation.ExplainerGeneratorPresentation import (
-    ExplainerGeneratorPresentation,
-)
+from src.adv_xai_fulfilment.presentation.DataPresentations import DataPresentations
 
-featureDescriptionEndpointBp = Blueprint("ask", __name__)
+featureDescriptionEndpointBp = Blueprint("feature_description", __name__)
 
 
-@featureDescriptionEndpointBp.route("/ask", methods=["POST"])
-def TabulateFeatureDescriptionEndpoint():
+@featureDescriptionEndpointBp.route("/feature-descriptions", methods=["POST"])
+def FeatureDescriptionsEndpoint():
     if request.method != "POST":
         return "Not a valid request"
 
     data: dict = request.get_json()
-    logging.info(f"called /ask api with params {data}")
+    logging.info(f"called /feature-descriptions api with params {data}")
     try:
-        response = ExplainerGeneratorPresentation().ask_to_explainer(
-            pilot=data.get("pilot"),
-            request=data.get("request"),
-            explainer=data.get("explainer"),
+        response: dict = DataPresentations().genarate_feature_description(
+            meta_data_filename=data.get("meta_data")
         )
         return make_response(
-            jsonify({"response": response}),
+            jsonify(
+                [
+                    {"feature": key, "description": response.get(key)}
+                    for key in response.keys()
+                ]
+            ),
             200,
         )
     except Exception as e:
-        logging.error(f"error while asking to the explainers: {e}")
+        logging.error(f"error while featureimportance: {e}")
         return make_response(jsonify({"status": e}))

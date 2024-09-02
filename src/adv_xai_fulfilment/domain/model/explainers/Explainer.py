@@ -54,7 +54,7 @@ class Explainer(ABC):
 
     def set_meta_data(self, meta_data: dict):
         self.meta_data = {
-            **meta_data,
+            **(meta_data or {}),
             "id": 1,  # TODO: Change for a unique id
             "name": self.name,
             "xplanationscope": "global",

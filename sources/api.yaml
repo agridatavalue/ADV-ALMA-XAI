@@ -62,6 +62,31 @@ paths:
                     description: Pilot / Model not found
             tags:
                 - featureImportance
+    /feature-descriptions:
+        post:
+            summary: Return the feature descriptions
+            description: Return the feature descriptions for a given pilot
+            operationId: featureDescriptions
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/FeatureDescriptionRequest"
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/FeatureDescriptionResponse"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/FeatureDescriptionResponse"
+                "404":
+                    description: Pilot / Model not found
+            tags:
+                - featureDescriptions
     /ask:
         post:
             summary: Ask something to the explainer
@@ -104,12 +129,36 @@ components:
                     description: the identifier of the model file name
                     example: "model.pkl"
                     type: string
+                meta_data:
+                    description: the identifier of the metadata file name
+                    example: "metadata.json"
+                    type: string
             required:
                 - model
         FeatureImportanceResponse:
             type: object
             properties:
-                featureImportance:
+                data:
+                    type: string
+
+        FeatureDescriptionRequest:
+            type: object
+            properties:
+                model:
+                    description: the identifier of the model file name
+                    example: "model.pkl"
+                    type: string
+                meta_data:
+                    description: the identifier of the metadata file name
+                    example: "metadata.json"
+                    type: string
+            required:
+                - model
+
+        FeatureDescriptionResponse:
+            type: object
+            properties:
+                featureDescriptions:
                     type: string
 
         BuildRequest:

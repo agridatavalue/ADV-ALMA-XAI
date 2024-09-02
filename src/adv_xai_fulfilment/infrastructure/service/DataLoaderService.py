@@ -19,29 +19,29 @@ class DataLoaderService:
             }
         )
 
-    def load_data(self, file_path: str) -> dict[str, pd.DataFrame]:
+    def load_data(self, file_path: str, bucket_name: str) -> dict[str, pd.DataFrame]:
         if not file_path:
             return None
 
-        x_file_path: str = os.path.join(file_path, "x.csv")
-        y_file_path: str = os.path.join(file_path, "y.csv")
+        x_file_path: str = file_path + "/x.csv"
+        y_file_path: str = file_path + "/y.csv"
 
         if not Helper.is_local_path(x_file_path):
             logging.debug(
-                f"is not a local path, downloading {x_file_path} from {os.getenv('MODEL_FOLDER_PATH')}"
+                f"is not a local path, downloading {x_file_path} from {bucket_name}"
             )
             file_x: str = self._bucketRepository.download_from(
-                bucket_name=os.getenv("DATA_FOLDER_PATH"),
+                bucket_name=bucket_name,
                 object_name=x_file_path,
                 destination_file_path="x.csv",
             )
 
         if not Helper.is_local_path(y_file_path):
             logging.debug(
-                f"is not a local path, downloading {y_file_path} from {os.getenv('MODEL_FOLDER_PATH')}"
+                f"is not a local path, downloading {y_file_path} from {bucket_name}"
             )
             file_y: str = self._bucketRepository.download_from(
-                bucket_name=os.getenv("DATA_FOLDER_PATH"),
+                bucket_name=bucket_name,
                 object_name=y_file_path,
                 destination_file_path="y.csv",
             )
@@ -52,14 +52,24 @@ class DataLoaderService:
 
         return data
 
-    def load_meta_data(self, metadata_filepath: str) -> dict:
+    def load_file(self, file_path: str, bucket_name: str) -> pd.DataFrame:
+        file: str = self._bucketRepository.download_from(
+            object_name=file_path,
+            bucket_name=bucket_name,
+        )
+        return pd.read_csv(file)
+
+    def load_meta_data(self, metadata_filepath: str, bucket_name: str = None) -> dict:
+        if not bucket_name:
+            bucket_name = os.getenv("MODEL_FOLDER_PATH")
+
         if not Helper.is_local_path(metadata_filepath):
             logging.debug(
-                f"is not a local path, downloading {metadata_filepath} from {os.getenv('MODEL_FOLDER_PATH')}"
+                f"is not a local path, downloading {metadata_filepath} from {bucket_name}"
             )
             file: str = self._bucketRepository.download_from(
                 object_name=metadata_filepath,
-                bucket_name=os.getenv("MODEL_FOLDER_PATH"),
+                bucket_name=bucket_name,
             )
 
         with open(file, "r") as json_file:

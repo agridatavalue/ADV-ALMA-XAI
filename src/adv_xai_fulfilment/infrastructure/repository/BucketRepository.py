@@ -19,7 +19,7 @@ class BucketRepository:
             endpoint=conf.get("endpoint"),
             access_key=conf.get("access_key"),
             secret_key=conf.get("secret_key"),
-            secure=conf.get("secure", False),
+            secure=conf.get("secure", True),
             region=conf.get("region"),
         )
 

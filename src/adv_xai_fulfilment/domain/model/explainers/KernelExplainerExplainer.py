@@ -1,5 +1,5 @@
 import numpy as np
-from alibi.explainers import KernelShap
+from shap import KernelExplainer
 
 from ..Model import Model
 from .Explainer import Explainer
@@ -7,11 +7,11 @@ from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
 
 
-class KernelSHAPExplainer(Explainer):
+class KernelExplainerExplainer(Explainer):
 
     def __init__(self):
         super().__init__(
-            name="KernelSHAP",
+            name="KernelExplainer",
             type=["BlackBox"],
             category=["Classification", "Regression"],
             explanations="both",
@@ -19,11 +19,10 @@ class KernelSHAPExplainer(Explainer):
             train_set_required=True,
             has_categorical_features=True,
             data_type_explainers=[
-                DataTypeModelExplainer(DataTypeModel.TABULAR, KernelShap),
+                DataTypeModelExplainer(DataTypeModel.TABULAR, KernelExplainer),
             ],
         )
 
     def get_shap_values(self, model: Model, x_train: np.array, x_test: np.array):
-        explainer = KernelShap(model.handler.predict, x_train)
-        explanation = explainer.explain(x_test)
-        return explanation.shap_values
+        explainer = KernelExplainer(model.handler.predict, x_train)
+        return explainer.shap_values(x_test)

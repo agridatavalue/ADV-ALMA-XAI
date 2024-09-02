@@ -2,6 +2,8 @@ from .AleExplainer import AleExplainer
 from .AnchorsExplainer import AnchorsExplainer
 from .RegressionExplainer import RegressionExplainer
 from .KernelSHAPExplainer import KernelSHAPExplainer
+from .DeepExplainerExplainer import DeepExplainerExplainer
+from .KernelExplainerExplainer import KernelExplainerExplainer
 from .PartialDependenceExplainer import PartialDependenceExplainer
 from .IntegratedGradientsExplainer import IntegratedGradientsExplainer
 from .CounterFactualsWithRlExplainer import CounterFactualsWithRlExplainer
@@ -17,6 +19,8 @@ all = [
     AnchorsExplainer,
     RegressionExplainer,
     KernelSHAPExplainer,
+    DeepExplainerExplainer,
+    KernelExplainerExplainer,
     PartialDependenceExplainer,
     IntegratedGradientsExplainer,
     CounterFactualsWithRlExplainer,
