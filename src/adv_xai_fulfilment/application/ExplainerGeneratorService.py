@@ -38,7 +38,9 @@ class ExplainerGeneratorService:
         logging.debug("downloading meta data")
         meta_data: dict = self._dataLoaderService.load_meta_data(metadata_filename)
         logging.debug("downloading data if present")
-        data: dict[str, pd.DataFrame] = self._dataLoaderService.load_data(data_filename)
+        data: dict[str, pd.DataFrame] = self._dataLoaderService.load_data(
+            file_path=data_filename, bucket_name=os.getenv("DATA_FOLDER_PATH")
+        )
 
         logging.debug("selecting the matching Explainers")
         possible_explainers: list[Explainer] = self._explainer_retriever.get_by_data(

@@ -1,5 +1,5 @@
+import os
 import numpy as np
-import pandas as pd
 
 from ..domain.model.Model import Model
 from ..infrastructure.service.DataLoaderService import DataLoaderService
@@ -17,7 +17,9 @@ class PlotScatterObservedPredictedService:
     def genarate_data_for_pilot(self, model_file_name: str) -> dict:
         model: Model = self.model_loader_service.load_from(model_file_name)
 
-        data = self.data_loader_service.load_data("datagen/crop")
+        data = self.data_loader_service.load_data(
+            file_path="crop", bucket_name=os.getenv("DATA_FOLDER_PATH")
+        )
 
         X_test = np.array(data.get("x"))
         y_test = np.array(data.get("y"))

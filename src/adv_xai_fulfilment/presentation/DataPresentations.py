@@ -1,4 +1,4 @@
-import numpy as np
+import pandas as pd
 from ..application.PlotScatterObservedPredictedService import (
     PlotScatterObservedPredictedService,
 )
@@ -19,12 +19,9 @@ class DataPresentations:
 
     def genarate_feature_importance(
         self, model_file_name: str, meta_data_filename: str
-    ) -> dict:
+    ) -> pd.DataFrame:
         assert isinstance(model_file_name, str)
-        data: np.array = self.fi_service.genarate_data(
-            model_file_name, meta_data_filename
-        )
-        return {"data": data.tolist()}
+        return self.fi_service.get_data(model_file_name, meta_data_filename)
 
     def genarate_performance_scatter_plot(self, model_file_name: str) -> dict:
         assert isinstance(model_file_name, str)

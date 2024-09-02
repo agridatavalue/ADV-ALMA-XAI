@@ -23,6 +23,8 @@ class KernelExplainerExplainer(Explainer):
             ],
         )
 
-    def get_shap_values(self, model: Model, x_train: np.array, x_test: np.array):
+    def get_shap_values(
+        self, model: Model, x_train: np.array, x_test: np.array
+    ) -> np.array:
         explainer = KernelExplainer(model.handler.predict, x_train)
         return explainer.shap_values(x_test)

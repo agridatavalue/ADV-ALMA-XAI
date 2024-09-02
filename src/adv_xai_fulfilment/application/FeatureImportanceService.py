@@ -20,7 +20,7 @@ class FeatureImportanceService:
         self._explainer_retriever = ExplainerRetriever()
         self._model_loader_service = ModelLoaderService()
 
-    def genarate_data(self, model_filename: str, meta_data_filename: str) -> np.array:
+    def get_data(self, model_filename: str, meta_data_filename: str) -> pd.DataFrame:
         selected_model: Model = self._model_loader_service.load_from(model_filename)
         meta_data: dict = self._data_loader_service.load_meta_data(meta_data_filename)
 
@@ -45,12 +45,25 @@ class FeatureImportanceService:
             f"found {len(possible_explainers)} possible explainers: {possible_explainers}"
         )
 
+        feature_names = list(
+            self.genarate_feature_description(meta_data_filename).keys()
+        )
+
         for explainer in possible_explainers:
             try:
                 logging.debug("using explainer: %s" % explainer)
                 if hasattr(explainer, "get_shap_values"):
-                    return explainer.get_shap_values(
+                    shap_values: np.array = explainer.get_shap_values(
                         model=selected_model, x_test=X_test, x_train=x_train
+                    )
+                    mean_abs_shap_values = np.mean(np.abs(shap_values), axis=0)
+                    return pd.DataFrame(
+                        [
+                            {
+                                "Feature": feature_names,
+                                "Importance": mean_abs_shap_values.tolist(),
+                            }
+                        ]
                     )
 
                 raise Exception("Explainer does not have a get_shap_values method")
