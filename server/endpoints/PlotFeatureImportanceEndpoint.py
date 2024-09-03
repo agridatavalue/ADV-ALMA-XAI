@@ -17,7 +17,7 @@ def featureimportance():
         response = DataPresentations().genarate_feature_importance(
             model_file_name=data.get("model"), meta_data_filename=data.get("meta_data")
         )
-        return make_response(jsonify(response.to_json()), 200)
+        return make_response(jsonify({"data": response.to_json()}), 200)
     except Exception as e:
         logging.error(f"error while featureimportance: {e}")
-        return make_response(jsonify({"status": e}))
+        return make_response(jsonify({"status": str(e)}), 500)

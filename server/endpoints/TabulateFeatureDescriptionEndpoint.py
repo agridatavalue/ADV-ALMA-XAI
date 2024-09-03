@@ -1,5 +1,5 @@
 import logging
-from flask import Blueprint, jsonify, make_response, request
+from flask import Blueprint, jsonify, make_response, request, abort
 
 from src.adv_xai_fulfilment.presentation.DataPresentations import DataPresentations
 
@@ -28,4 +28,4 @@ def FeatureDescriptionsEndpoint():
         )
     except Exception as e:
         logging.error(f"error while featureimportance: {e}")
-        return make_response(jsonify({"status": e}))
+        return make_response(jsonify({"status": str(e)}), 500)

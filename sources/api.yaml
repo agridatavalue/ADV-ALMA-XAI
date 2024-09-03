@@ -60,6 +60,8 @@ paths:
                     description: Invalid IDs combination supplied
                 "404":
                     description: Pilot / Model not found
+                "500":
+                    description: Internal server error
             tags:
                 - featureImportance
     /feature-descriptions:
@@ -85,8 +87,40 @@ paths:
                                 $ref: "#/components/schemas/FeatureDescriptionResponse"
                 "404":
                     description: Pilot / Model not found
+                "500":
+                    description: Internal server error
             tags:
                 - featureDescriptions
+
+    /model-performance-metric:
+        post:
+            summary: Return the model performance metric
+            description: Return the model performance metric for a given pilot
+            operationId: modelPerformanceMetric
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/ModelPerformanceMetricRequest"
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ModelPerformanceMetricResponse"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/ModelPerformanceMetricResponse"
+                "400":
+                    description: Invalid IDs combination supplied
+                "404":
+                    description: Pilot / Model not found
+                "500":
+                    description: Internal server error
+            tags:
+                - modelPerformanceMetric
     /ask:
         post:
             summary: Ask something to the explainer
@@ -156,9 +190,29 @@ components:
                 - model
 
         FeatureDescriptionResponse:
+            type: array
+            items:
+                type: object
+                properties:
+                    feature:
+                        type: string
+                    description:
+                        type: string
+
+        ModelPerformanceMetricRequest:
             type: object
             properties:
-                featureDescriptions:
+                model:
+                    description: the identifier of the model file name
+                    example: "model.pkl"
+                    type: string
+            required:
+                - model
+
+        ModelPerformanceMetricResponse:
+            type: object
+            properties:
+                data:
                     type: string
 
         BuildRequest:

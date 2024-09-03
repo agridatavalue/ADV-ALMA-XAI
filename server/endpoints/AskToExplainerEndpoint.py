@@ -27,4 +27,4 @@ def AskToExplainerEndpoint():
         )
     except Exception as e:
         logging.error(f"error while asking to the explainers: {e}")
-        return make_response(jsonify({"status": e}))
+        return make_response(jsonify({"status": str(e)}), 500)

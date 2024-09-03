@@ -20,4 +20,4 @@ def PlotScatterObservedPredictedEndpoint():
         return make_response(jsonify(response), 200)
     except Exception as e:
         logging.error(f"error while featureimportance: {e}")
-        return make_response(jsonify({"status": e}))
+        return make_response(jsonify({"status": str(e)}), 500)

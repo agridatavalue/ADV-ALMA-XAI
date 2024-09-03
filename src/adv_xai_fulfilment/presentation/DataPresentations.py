@@ -3,26 +3,37 @@ from ..application.PlotScatterObservedPredictedService import (
     PlotScatterObservedPredictedService,
 )
 from ..application.FeatureImportanceService import FeatureImportanceService
+from ..application.ModelPerformanceMetricService import ModelPerformanceMetricService
 
 
 class DataPresentations:
-    fi_service: FeatureImportanceService
-    ps_service: PlotScatterObservedPredictedService
+    feature_importance_service: FeatureImportanceService
+    model_performance_service: ModelPerformanceMetricService
+    plot_scatter_service: PlotScatterObservedPredictedService
 
     def __init__(self):
-        self.ps_service = PlotScatterObservedPredictedService()
-        self.fi_service = FeatureImportanceService()
+        self.plot_scatter_service = PlotScatterObservedPredictedService()
+        self.model_performance_service = ModelPerformanceMetricService()
+        self.feature_importance_service = FeatureImportanceService()
 
     def genarate_feature_description(self, meta_data_filename: str) -> dict:
         assert isinstance(meta_data_filename, str)
-        return self.fi_service.genarate_feature_description(meta_data_filename)
+        return self.feature_importance_service.genarate_feature_description(
+            meta_data_filename
+        )
 
     def genarate_feature_importance(
         self, model_file_name: str, meta_data_filename: str
     ) -> pd.DataFrame:
         assert isinstance(model_file_name, str)
-        return self.fi_service.get_data(model_file_name, meta_data_filename)
+        return self.feature_importance_service.get_data(
+            model_file_name, meta_data_filename
+        )
 
     def genarate_performance_scatter_plot(self, model_file_name: str) -> dict:
         assert isinstance(model_file_name, str)
-        return self.ps_service.genarate_data_for_pilot(model_file_name)
+        return self.plot_scatter_service.genarate_data_for_pilot(model_file_name)
+
+    def get_model_performance_metric(self, model_filename: str) -> dict:
+        assert isinstance(model_filename, str)
+        return self.model_performance_service.get_data(model_filename=model_filename)
