@@ -14,11 +14,11 @@ def TabulateModelPerformanceMetricEndpoint():
     data: dict = request.get_json()
     logging.info(f"called /model-performance-metric api with params {data}")
     try:
-        response = DataPresentations().get_model_performance_metric(
+        response: dict = DataPresentations().get_model_performance_metric(
             model_filename=data.get("model")
         )
         return make_response(
-            jsonify({"response": response}),
+            jsonify([{"key": k, "value": response[k]} for k in response.keys()]),
             200,
         )
     except Exception as e:

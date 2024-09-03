@@ -210,10 +210,14 @@ components:
                 - model
 
         ModelPerformanceMetricResponse:
-            type: object
-            properties:
-                data:
-                    type: string
+            type: array
+            items:
+                type: object
+                properties:
+                    key:
+                        type: string
+                    value:
+                        type: string
 
         BuildRequest:
             type: object
