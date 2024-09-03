@@ -23,6 +23,16 @@ class ModelPerformanceMetricService:
         )
 
         y_pred = [y[0] for y in selected_model.handler.predict(data.get("x"))]
+        return {"y_pred": y_pred, "y_true": data.get("y")}
+
+    def get_metrics(self, model_filename: str) -> dict:
+        selected_model: Model = self._model_loader_service.load_from(model_filename)
+
+        data: dict = self._data_loader_service.load_data(
+            bucket_name=os.getenv("DATA_FOLDER_PATH"), file_path="crop"
+        )
+
+        y_pred = [y[0] for y in selected_model.handler.predict(data.get("x"))]
 
         mse = mean_squared_error(data.get("y"), y_pred)
         mae = mean_absolute_error(data.get("y"), y_pred)

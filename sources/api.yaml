@@ -64,6 +64,7 @@ paths:
                     description: Internal server error
             tags:
                 - featureImportance
+
     /feature-descriptions:
         post:
             summary: Return the feature descriptions
@@ -121,6 +122,37 @@ paths:
                     description: Internal server error
             tags:
                 - modelPerformanceMetric
+
+    /model-performance:
+        post:
+            summary: Return the model performance data
+            description: Return the model performance data for a given pilot
+            operationId: modelPerformance
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/ModelPerformanceRequest"
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ModelPerformanceResponse"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/ModelPerformanceResponse"
+                "400":
+                    description: Invalid IDs combination supplied
+                "404":
+                    description: Pilot / Model not found
+                "500":
+                    description: Internal server error
+            tags:
+                - modelPerformance
+
     /ask:
         post:
             summary: Ask something to the explainer
@@ -188,7 +220,6 @@ components:
                     type: string
             required:
                 - model
-
         FeatureDescriptionResponse:
             type: array
             items:
@@ -208,7 +239,6 @@ components:
                     type: string
             required:
                 - model
-
         ModelPerformanceMetricResponse:
             type: array
             items:
@@ -218,6 +248,21 @@ components:
                         type: string
                     value:
                         type: string
+
+        ModelPerformanceRequest:
+            type: object
+            properties:
+                model:
+                    description: the identifier of the model file name
+                    example: "model.pkl"
+                    type: string
+            required:
+                - model
+        ModelPerformanceResponse:
+            type: object
+            properties:
+                data:
+                    type: string
 
         BuildRequest:
             type: object

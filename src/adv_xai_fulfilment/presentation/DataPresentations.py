@@ -36,4 +36,8 @@ class DataPresentations:
 
     def get_model_performance_metric(self, model_filename: str) -> dict:
         assert isinstance(model_filename, str)
-        return self.model_performance_service.get_data(model_filename=model_filename)
+        return self.model_performance_service.get_metrics(model_filename=model_filename)
+
+    def genarate_model_performance(self, model_file_name: str) -> dict:
+        assert isinstance(model_file_name, str)
+        return self.model_performance_service.get_data(model_filename=model_file_name)
