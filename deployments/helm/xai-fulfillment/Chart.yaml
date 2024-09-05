@@ -1,0 +1,11 @@
+apiVersion: v2
+appVersion: "0.0.5"
+description: A Helm chart for XAI Fulfillment component
+maintainers:
+  - name: Konstantinos Railis
+    email: railis@synelixis.com
+name: xai-fulfillment
+sources:
+  - https://agridatavalue.eu
+type: application
+version: 0.1.0
