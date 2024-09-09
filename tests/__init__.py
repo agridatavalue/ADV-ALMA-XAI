@@ -4,6 +4,7 @@ from .src.domain.service.ExplainerRetriever_unittest import TestExplainerRetriev
 
 # INFRASTRUCTURE --------------------------------------------------------------
 from .src.infrastructure.Helper_unittest import TestHelper
+from .src.infrastructure.service.DataLoaderService_unittest import TestDataLoaderService
 from .src.infrastructure.service.ModelLoaderService_unittest import (
     ModelLoaderServiceTest,
 )

@@ -32,7 +32,10 @@ class BucketRepository:
         self._client.fget_object(bucket_name, object_name, destination_file_path)
         return destination_file_path
 
-    def upload_to(self, bucket_name: str, target_filepath: str, local_filepath: str):
-        self._client.fput_object(
+    def upload_to(
+        self, bucket_name: str, target_filepath: str, local_filepath: str
+    ) -> str:
+        result = self._client.fput_object(
             bucket_name, target_filepath.replace(os.sep, "/"), local_filepath
         )
+        return result.object_name

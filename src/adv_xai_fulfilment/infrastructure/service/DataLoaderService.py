@@ -5,12 +5,13 @@ import pandas as pd
 
 from ..Helper import Helper
 from ..repository.BucketRepository import BucketRepository
+from ...domain.model.ExplainerMetaData import ExplainerMetaData
 
 
 class DataLoaderService:
     _bucketRepository: BucketRepository
 
-    def __init__(self) -> None:
+    def __init__(self):
         self._bucketRepository = BucketRepository(
             {
                 "endpoint": os.getenv("MINIO_ENDPOINT"),
@@ -77,3 +78,22 @@ class DataLoaderService:
 
         os.remove(file)
         return metadata
+
+    def upload(self, explainer_data: ExplainerMetaData, pilot: str) -> str:
+        assert isinstance(explainer_data, ExplainerMetaData)
+
+        if isinstance(explainer_data, ExplainerMetaData):
+            filename: str = "metadata.json"
+            model_path: str = os.getenv("EXPLAINER_FOLDER_PATH")
+
+        temp_path: str = os.path.join(os.getenv("TEMP"), filename)
+        with open(temp_path, "w") as file:
+            file.write(json.dumps(explainer_data.generate()))
+
+        res: str = self._bucketRepository.upload_to(
+            bucket_name=model_path,
+            local_filepath=filename,
+            target_filepath=f"{pilot}/{filename}",
+        )
+        os.remove(temp_path)
+        return res
