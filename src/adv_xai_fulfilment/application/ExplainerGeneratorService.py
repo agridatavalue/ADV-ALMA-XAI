@@ -5,9 +5,13 @@ from dotenv import load_dotenv
 
 from ..domain.model.Model import Model
 from ..domain.model.explainers.Explainer import Explainer
+from ..domain.model.ExplainerMetaData import ExplainerMetaData
 from ..domain.service.ExplainerRetriever import ExplainerRetriever
 from ..infrastructure.service.DataLoaderService import DataLoaderService
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService
+from ..domain.service.ModelPerformanceMetricServiceComponent import (
+    ModelPerformanceMetricServiceComponent,
+)
 
 load_dotenv()
 
@@ -17,17 +21,20 @@ class ExplainerGeneratorService:
     _modelLoaderService: ModelLoaderService
     _explainer_retriever: ExplainerRetriever
 
+    _mpm_service: ModelPerformanceMetricServiceComponent
+
     def __init__(self):
         self._dataLoaderService = DataLoaderService()
         self._modelLoaderService = ModelLoaderService()
         self._explainer_retriever = ExplainerRetriever()
+        self._mpm_service = ModelPerformanceMetricServiceComponent()
 
     def generate_explainer(
         self,
         pilot: str,
         model_filename: str,
         metadata_filename: str,
-        data_filename: str = None,
+        data_folder: str = None,
     ) -> list[Explainer]:
         assert isinstance(pilot, str)
         assert isinstance(model_filename, str)
@@ -39,23 +46,42 @@ class ExplainerGeneratorService:
         meta_data: dict = self._dataLoaderService.load_meta_data(metadata_filename)
         logging.debug("downloading data if present")
         data: dict[str, pd.DataFrame] = self._dataLoaderService.load_data(
-            file_path=data_filename, bucket_name=os.getenv("DATA_FOLDER_PATH")
+            file_path=data_folder, bucket_name=os.getenv("DATA_FOLDER_PATH")
         )
 
         logging.debug("selecting the matching Explainers")
         possible_explainers: list[Explainer] = self._explainer_retriever.get_by_data(
             selected_model, meta_data
         )
-        logging.info(f"found {len(possible_explainers)} explainers")
+        logging.info(
+            f"found {len(possible_explainers)} explainers: {possible_explainers}"
+        )
 
+        created_explainers: list[Explainer] = []
         for explainer in possible_explainers:
             logging.debug(f"creating the explainer {explainer.name} builds")
-            explainer.build(model=selected_model, data=data)
-            self._modelLoaderService.upload_to(
-                model_path=os.getenv("EXPLAINER_FOLDER_PATH"),
-                pilot=pilot,
-                explainer=explainer,
-            )
+            try:
+                explainer.build(model=selected_model, data=data)
+                self._modelLoaderService.upload_to(
+                    model_path=os.getenv("EXPLAINER_FOLDER_PATH"),
+                    pilot=pilot,
+                    explainer=explainer,
+                )
+                created_explainers.append(explainer)
+            except Exception as e:
+                logging.error(f"error building the explainer {explainer.name}")
+                logging.error(e)
+
+        expl_metadata = ExplainerMetaData(
+            possible_explainers=created_explainers,
+            metrics=self._mpm_service.get_metrics(
+                model_filename=model_filename, data=data
+            ),
+        )
+        self._dataLoaderService.upload(
+            explainer_data=expl_metadata,
+            pilot=pilot,
+        )
 
         return possible_explainers
 
