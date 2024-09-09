@@ -1,26 +1,24 @@
-FROM continuumio/miniconda3
+FROM continuumio/miniconda3:23.10.0-1
 
+# Workdir.
 ENV HOME=/home/adv_xai
-RUN mkdir $HOME
 WORKDIR $HOME
 
-RUN addgroup --system app && adduser --system --no-create-home --group app
-RUN chown -R app:app $HOME && chmod -R 755 $HOME
-
-COPY . $HOME
-
-#Chown all the files to the app user
-RUN chown -R app:app $HOME
+# Copy requirements.
+COPY requirements.txt $HOME
 
 # Create environment
-RUN pip3 install -r requirements.txt
-RUN pip3 install waitress
+RUN pip3 install -r requirements.txt \
+ && pip3 install waitress \
+ && addgroup --system app \
+ && adduser --system --no-create-home --group app \
+ && chown -R app:app $HOME && chmod -R 755 $HOME \
+ && chown -R app:app $HOME
 
-# ENV VAR LISTS
+COPY . $HOME
+RUN chmod +x "./entrypoint.sh"
 
-
-#Change to the app user
 USER app
 
-RUN chmod +x "./entrypoint.sh"
+EXPOSE 8000 8505
 ENTRYPOINT ["./entrypoint.sh"]
