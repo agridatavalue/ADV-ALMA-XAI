@@ -92,7 +92,7 @@ class DataLoaderService:
 
         res: str = self._bucketRepository.upload_to(
             bucket_name=model_path,
-            local_filepath=filename,
+            local_filepath=temp_path,
             target_filepath=f"{pilot}/{filename}",
         )
         os.remove(temp_path)

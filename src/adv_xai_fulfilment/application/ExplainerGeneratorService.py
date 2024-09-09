@@ -74,16 +74,12 @@ class ExplainerGeneratorService:
 
         expl_metadata = ExplainerMetaData(
             possible_explainers=created_explainers,
-            metrics=self._mpm_service.get_metrics(
-                model_filename=model_filename, data=data
-            ),
+            metrics=self._mpm_service.get_metrics(model=selected_model, data=data),
         )
-        self._dataLoaderService.upload(
-            explainer_data=expl_metadata,
-            pilot=pilot,
-        )
+        logging.debug("uploading the explainer metadata")
+        self._dataLoaderService.upload(explainer_data=expl_metadata, pilot=pilot)
 
-        return possible_explainers
+        return created_explainers
 
     def ask_to_explainer(self, pilot: str, request: str, explainer_name: str):
         assert isinstance(pilot, str)
