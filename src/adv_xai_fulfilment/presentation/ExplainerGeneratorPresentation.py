@@ -18,7 +18,7 @@ class ExplainerGeneratorPresentation:
         )
         return self._service.generate_explainer(
             pilot=pilot,
-            data_filename=data,
+            data_folder=data,
             model_filename=modelName,
             metadata_filename=metadata,
         )
