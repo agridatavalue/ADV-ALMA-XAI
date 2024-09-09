@@ -20,7 +20,7 @@ class ServiceServer:
     _level: str = DEFAULT_LOG_LEVEL
     _prefix: str = ""
 
-    def __init__(self, name: str, FOLDER_PATH: str) -> None:
+    def __init__(self, name: str, FOLDER_PATH: str):
         self._name = name
 
         self.app = Flask(self._name)
