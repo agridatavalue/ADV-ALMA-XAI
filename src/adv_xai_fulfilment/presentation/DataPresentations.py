@@ -1,4 +1,6 @@
 import pandas as pd
+
+from ..infrastructure.Constants import Errors
 from ..application.PlotScatterObservedPredictedService import (
     PlotScatterObservedPredictedService,
 )
@@ -17,7 +19,7 @@ class DataPresentations:
         self.feature_importance_service = FeatureImportanceService()
 
     def genarate_feature_description(self, meta_data_filename: str) -> dict:
-        assert isinstance(meta_data_filename, str)
+        assert isinstance(meta_data_filename, str), Errors.METADATA_FILENAME_NOT_STRING
         return self.feature_importance_service.genarate_feature_description(
             meta_data_filename
         )
@@ -25,19 +27,19 @@ class DataPresentations:
     def genarate_feature_importance(
         self, model_file_name: str, meta_data_filename: str
     ) -> pd.DataFrame:
-        assert isinstance(model_file_name, str)
+        assert isinstance(model_file_name, str), Errors.MODEL_FILENAME_NOT_STRING
         return self.feature_importance_service.get_data(
             model_file_name, meta_data_filename
         )
 
     def genarate_performance_scatter_plot(self, model_file_name: str) -> dict:
-        assert isinstance(model_file_name, str)
+        assert isinstance(model_file_name, str), Errors.MODEL_FILENAME_NOT_STRING
         return self.plot_scatter_service.genarate_data_for_pilot(model_file_name)
 
     def get_model_performance_metric(self, model_filename: str) -> dict:
-        assert isinstance(model_filename, str)
+        assert isinstance(model_filename, str), Errors.MODEL_FILENAME_NOT_STRING
         return self.model_performance_service.get_metrics(model_filename=model_filename)
 
     def genarate_model_performance(self, model_file_name: str) -> dict:
-        assert isinstance(model_file_name, str)
+        assert isinstance(model_file_name, str), Errors.MODEL_FILENAME_NOT_STRING
         return self.model_performance_service.get_data(model_filename=model_file_name)

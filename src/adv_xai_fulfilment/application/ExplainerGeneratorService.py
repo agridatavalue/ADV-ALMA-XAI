@@ -4,6 +4,7 @@ import pandas as pd
 from dotenv import load_dotenv
 
 from ..domain.model.Model import Model
+from ..infrastructure.Constants import Errors
 from ..domain.model.explainers.Explainer import Explainer
 from ..domain.model.ExplainerMetaData import ExplainerMetaData
 from ..domain.service.ExplainerRetriever import ExplainerRetriever
@@ -36,9 +37,9 @@ class ExplainerGeneratorService:
         metadata_filename: str,
         data_folder: str = None,
     ) -> list[Explainer]:
-        assert isinstance(pilot, str)
-        assert isinstance(model_filename, str)
-        assert isinstance(metadata_filename, str)
+        assert isinstance(pilot, str), Errors.PILOT_NOT_STRING
+        assert isinstance(model_filename, str), Errors.PILOT_NOT_STRING
+        assert isinstance(metadata_filename, str), Errors.METADATA_FILENAME_NOT_STRING
 
         logging.debug("downloading model")
         selected_model: Model = self._modelLoaderService.load_from(model_filename)
@@ -69,8 +70,9 @@ class ExplainerGeneratorService:
                 )
                 created_explainers.append(explainer)
             except Exception as e:
-                logging.error(f"error building the explainer {explainer.name}")
-                logging.error(e)
+                logging.error(
+                    f"error building the explainer {explainer.name}: {str(e)}"
+                )
 
         expl_metadata = ExplainerMetaData(
             possible_explainers=created_explainers,
@@ -82,9 +84,9 @@ class ExplainerGeneratorService:
         return created_explainers
 
     def ask_to_explainer(self, pilot: str, request: str, explainer_name: str):
-        assert isinstance(pilot, str)
-        assert isinstance(request, str)
-        assert isinstance(explainer_name, str)
+        assert isinstance(pilot, str), Errors.PILOT_NOT_STRING
+        assert isinstance(request, str), Errors.REQUEST_NOT_STRING
+        assert isinstance(explainer_name, str), Errors.EXPLAINER_NAME_NOT_STRING
 
         explainer: Explainer = self._explainer_retriever.get_by_name(explainer_name)
         pilot_data = self._modelLoaderService.download_for(pilot=pilot)

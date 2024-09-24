@@ -6,6 +6,7 @@ from ..Helper import Helper
 from ...domain.model.Model import Model
 from ...domain.model.explainers.Explainer import Explainer
 from ..repository.BucketRepository import BucketRepository
+from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 from ..repository.PersistenceRepository import PersistenceRepository
 
 
@@ -42,7 +43,7 @@ class ModelLoaderService:
         return Model(handler=model_data)
 
     def upload_to(self, explainer: Explainer, pilot: str, model_path: str):
-        assert isinstance(explainer, Explainer)
+        assert isinstance(explainer, Explainer), Errors.EXPLAINER_NOT_EXPLAINER
 
         explainer_filename: str = explainer.name + ".pkl"
         with open(explainer_filename, "wb") as file:

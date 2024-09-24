@@ -1,3 +1,4 @@
+from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
 
 
@@ -6,13 +7,17 @@ class ExplainerMetaData:
     _possible_explainers: list[Explainer]
 
     def __init__(self, possible_explainers: list[Explainer], metrics: dict):
-        assert isinstance(possible_explainers, list)
-        assert len(possible_explainers) > 0
-        assert all(isinstance(expl, Explainer) for expl in possible_explainers)
+        assert isinstance(
+            possible_explainers, list
+        ), Errors.POSSIBLE_EXPLAINERS_NOT_LIST
+        assert len(possible_explainers) > 0, Errors.POSSIBLE_EXPLAINERS_NOT_EMPTY
+        assert all(
+            isinstance(expl, Explainer) for expl in possible_explainers
+        ), Errors.POSSIBLE_EXPLAINERS_ELEMENT_NOT_EXPLAINER
         self._possible_explainers = possible_explainers
 
-        assert isinstance(metrics, dict)
-        assert len(metrics) > 0
+        assert isinstance(metrics, dict), Errors.METRICS_NOT_DICT
+        assert len(metrics) > 0, Errors.METRICS_NOT_EMPTY
         self._metrics = metrics
 
     def generate(self) -> dict:

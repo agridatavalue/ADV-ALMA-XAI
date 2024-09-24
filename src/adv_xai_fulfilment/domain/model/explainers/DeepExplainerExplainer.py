@@ -24,8 +24,5 @@ class DeepExplainerExplainer(Explainer):
         )
 
     def get_shap_values(self, model: Model, x_train, x_test):
-        explainer = DeepExplainer(
-            model.handler.predict,
-            x_train,
-        )
+        explainer = DeepExplainer(model.handler.predict, x_train)
         return explainer.shap_values(x_test)

@@ -3,6 +3,7 @@ from explainerdashboard import RegressionExplainer
 from .Explainer import Explainer
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
+from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 
 
 class RegressionExplainer(Explainer):
@@ -22,5 +23,5 @@ class RegressionExplainer(Explainer):
         )
 
     def build(self, model, data: dict):
-        if isinstance(data, dict):
-            self.build_result = RegressionExplainer(model, data.get("x"), data.get("y"))
+        assert isinstance(data, dict), Errors.DATA_NOT_DICT
+        self.build_result = RegressionExplainer(model, data.get("x"), data.get("y"))

@@ -6,6 +6,7 @@ import pandas as pd
 from ..Helper import Helper
 from ..repository.BucketRepository import BucketRepository
 from ...domain.model.ExplainerMetaData import ExplainerMetaData
+from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 
 
 class DataLoaderService:
@@ -80,7 +81,9 @@ class DataLoaderService:
         return metadata
 
     def upload(self, explainer_data: ExplainerMetaData, pilot: str) -> str:
-        assert isinstance(explainer_data, ExplainerMetaData)
+        assert isinstance(
+            explainer_data, ExplainerMetaData
+        ), Errors.EXPLAINER_DATA_NOT_EXPLAINER_METADATA
 
         if isinstance(explainer_data, ExplainerMetaData):
             filename: str = "metadata.json"

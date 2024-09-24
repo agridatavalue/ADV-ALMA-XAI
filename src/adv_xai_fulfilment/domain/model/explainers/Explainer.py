@@ -67,7 +67,8 @@ class Explainer(ABC):
         }
         return self
 
-    def build(self, model, data: dict): ...
+    def build(self, model, data: dict):
+        raise NotImplementedError("Not implemented yet.")
 
     def train_with_pilot_data(self, pilot_data: dict) -> bool:
         return False

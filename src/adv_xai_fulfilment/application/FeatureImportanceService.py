@@ -74,4 +74,4 @@ class FeatureImportanceService:
 
     def genarate_feature_description(self, meta_data_filename: str) -> dict:
         meta_data: dict = self._data_loader_service.load_meta_data(meta_data_filename)
-        return meta_data.get("feature_descriptions", {})
+        return meta_data.get("feature_descriptions", {}) if meta_data else {}
