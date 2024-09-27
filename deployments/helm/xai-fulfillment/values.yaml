@@ -39,7 +39,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 8505
+  port: 8000
 
 ingress:
   enabled: false

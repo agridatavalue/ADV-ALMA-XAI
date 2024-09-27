@@ -34,7 +34,7 @@ def main():
     app = ServiceServer(__name__, dirname(__file__))
     app.setConfiguration(dict(os.environ))
     app.run(
-        os.getenv("SERVER_IP") or "localhost",
+        os.getenv("SERVER_IP") or "0.0.0.0",
         os.getenv("SERVER_PORT") or 8000,
         args.LEVEL == "DEBUG",
     )
