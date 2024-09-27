@@ -18,11 +18,13 @@ def plotModelPerformanceEndpoint():
         response: dict = DataPresentations().genarate_model_performance(
             model_file_name=data.get("model")
         )
+        target = list(response["y_true"].keys())[0]
         return make_response(
             jsonify(
                 {
-                    "y_true": json.loads(response.get("y_true").to_json()),
-                    "y_pred": response.get("y_pred"),
+                    "target": target,
+                    "actual": response["y_true"][target].to_list(),
+                    "prediction": response["y_pred"],
                 }
             ),
             200,

@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
     title: ADV
     description: "TEST"
-    version: 0.0.1
+    version: 0.0.2
     contact:
         name: "Mirko Colageo"
         email: m.colageo@almaviva.it
@@ -24,9 +24,6 @@ paths:
                     description: successful operation
                     content:
                         application/json:
-                            schema:
-                                $ref: "#/components/schemas/BuildResponse"
-                        application/xml:
                             schema:
                                 $ref: "#/components/schemas/BuildResponse"
                 "400":
@@ -51,9 +48,6 @@ paths:
                     description: successful operation
                     content:
                         application/json:
-                            schema:
-                                $ref: "#/components/schemas/FeatureImportanceResponse"
-                        application/xml:
                             schema:
                                 $ref: "#/components/schemas/FeatureImportanceResponse"
                 "400":
@@ -83,9 +77,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/FeatureDescriptionResponse"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/FeatureDescriptionResponse"
                 "404":
                     description: Pilot / Model not found
                 "500":
@@ -109,9 +100,6 @@ paths:
                     description: successful operation
                     content:
                         application/json:
-                            schema:
-                                $ref: "#/components/schemas/ModelPerformanceMetricResponse"
-                        application/xml:
                             schema:
                                 $ref: "#/components/schemas/ModelPerformanceMetricResponse"
                 "400":
@@ -141,9 +129,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/ModelPerformanceResponse"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/ModelPerformanceResponse"
                 "400":
                     description: Invalid IDs combination supplied
                 "404":
@@ -171,13 +156,11 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/AskResponse"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/AskResponse"
                 "404":
                     description: Pilot / Explainer not found
             tags:
                 - Ask
+
 tags: []
 servers: []
 components:
@@ -204,8 +187,17 @@ components:
         FeatureImportanceResponse:
             type: object
             properties:
-                data:
+                features:
+                    type: array
+                    items:
+                        type: string
+                importance:
                     type: string
+                values:
+                    type: array
+                    items:
+                        type: number
+                        format: float
 
         FeatureDescriptionRequest:
             type: object
@@ -245,14 +237,9 @@ components:
             required:
                 - model
         ModelPerformanceMetricResponse:
-            type: array
-            items:
-                type: object
-                properties:
-                    key:
-                        type: string
-                    value:
-                        type: string
+            oneOf:
+                - $ref: "#/components/schemas/ImageModelPerformanceMetric"
+                - $ref: "#/components/schemas/TabularModelPerformanceMetric"
 
         ModelPerformanceRequest:
             type: object
@@ -266,8 +253,18 @@ components:
         ModelPerformanceResponse:
             type: object
             properties:
-                data:
+                target:
                     type: string
+                actual:
+                    type: array
+                    items:
+                        type: number
+                        format: float
+                predictions:
+                    type: array
+                    items:
+                        type: number
+                        format: float
 
         BuildRequest:
             type: object
@@ -321,3 +318,25 @@ components:
             properties:
                 response:
                     type: string
+
+        ImageModelPerformanceMetric:
+            type: object
+
+        TabularModelPerformanceMetric:
+            type: object
+            properties:
+                mse:
+                    type: number
+                    format: float
+                R2:
+                    type: number
+                    format: float
+                MAE:
+                    type: number
+                    format: float
+                RMSE:
+                    type: number
+                    format: float
+                MAPE:
+                    type: number
+                    format: float

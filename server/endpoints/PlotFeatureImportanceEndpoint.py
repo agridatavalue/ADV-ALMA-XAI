@@ -19,7 +19,20 @@ def featureimportance():
         response: pd.DataFrame = DataPresentations().genarate_feature_importance(
             model_file_name=data.get("model"), meta_data_filename=data.get("meta_data")
         )
-        return make_response(jsonify({"data": json.loads(response.to_json())}), 200)
+        response_as_json: dict = json.loads(response.to_json())
+        return make_response(
+            jsonify(
+                {
+                    "features": response_as_json.get("Feature", {}).get("0"),
+                    "importance": "",
+                    "values": [
+                        sublist[0]
+                        for sublist in response_as_json.get("Importance", {}).get("0")
+                    ],
+                }
+            ),
+            200,
+        )
     except Exception as e:
         logging.error(f"error while featureimportance: {e}")
         return make_response(jsonify({"status": str(e)}), 500)
