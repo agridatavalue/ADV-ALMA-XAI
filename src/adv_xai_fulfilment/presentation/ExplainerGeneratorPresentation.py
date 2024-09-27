@@ -13,9 +13,7 @@ class ExplainerGeneratorPresentation:
         if not modelName and pilot and metadata:
             raise Exception("Missing required params")
 
-        logging.info(
-            f"Building Explainer with modelName: {modelName}, pilot: {pilot}",
-        )
+        logging.info(f"Building Explainer with modelName: {modelName}, pilot: {pilot}")
         return self._service.generate_explainer(
             pilot=pilot,
             data_folder=data,
@@ -28,7 +26,7 @@ class ExplainerGeneratorPresentation:
             raise Exception("Missing required params")
 
         logging.info(
-            f"Ask to Explainer with pilot: {pilot}, request: {request}, explainer: {explainer}",
+            f"Ask to Explainer with pilot: {pilot}, request: {request}, explainer: {explainer}"
         )
         return self._service.ask_to_explainer(
             pilot=pilot,

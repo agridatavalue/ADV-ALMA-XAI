@@ -229,6 +229,11 @@ components:
                         type: string
                     description:
                         type: string
+                example:
+                    - feature: "Row distance (cm)"
+                      description: "Distance between plantation rows in cm"
+                    - feature: "NO3-N 0-30 cm start (kg/ha)"
+                      description: "Nitrate content in the soil at 0-30 cm depth at the start of the season"
 
         ModelPerformanceMetricRequest:
             type: object
