@@ -79,7 +79,8 @@ class ExplainerGeneratorService:
             metrics=self._mpm_service.get_metrics(model=selected_model, data=data),
         )
         logging.debug("uploading the explainer metadata")
-        self._dataLoaderService.upload(explainer_data=expl_metadata, pilot=pilot)
+        if expl_metadata.data_are_ok:
+            self._dataLoaderService.upload(explainer_data=expl_metadata, pilot=pilot)
 
         return created_explainers
 

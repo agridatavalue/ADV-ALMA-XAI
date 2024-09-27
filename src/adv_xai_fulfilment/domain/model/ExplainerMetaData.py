@@ -7,18 +7,18 @@ class ExplainerMetaData:
     _possible_explainers: list[Explainer]
 
     def __init__(self, possible_explainers: list[Explainer], metrics: dict):
-        assert isinstance(
-            possible_explainers, list
-        ), Errors.POSSIBLE_EXPLAINERS_NOT_LIST
-        assert len(possible_explainers) > 0, Errors.POSSIBLE_EXPLAINERS_NOT_EMPTY
-        assert all(
-            isinstance(expl, Explainer) for expl in possible_explainers
-        ), Errors.POSSIBLE_EXPLAINERS_ELEMENT_NOT_EXPLAINER
         self._possible_explainers = possible_explainers
-
-        assert isinstance(metrics, dict), Errors.METRICS_NOT_DICT
-        assert len(metrics) > 0, Errors.METRICS_NOT_EMPTY
         self._metrics = metrics
+
+    @property
+    def data_are_ok(self) -> bool:
+        return (
+            isinstance(self._possible_explainers, list)
+            and len(self._possible_explainers) > 0
+            and all(isinstance(expl, Explainer) for expl in self._possible_explainers)
+            and isinstance(self._metrics, dict)
+            and len(self._metrics) > 0
+        )
 
     def generate(self) -> dict:
         return {
