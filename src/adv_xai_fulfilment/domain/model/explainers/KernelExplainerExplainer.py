@@ -1,7 +1,6 @@
 import numpy as np
 from shap import KernelExplainer
 
-from ..Model import Model
 from .Explainer import Explainer
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
@@ -24,11 +23,8 @@ class KernelExplainerExplainer(Explainer):
             ],
         )
 
-    def get_shap_values(
-        self, model: Model, x_train: np.array, x_test: np.array
-    ) -> np.array:
-        explainer = KernelExplainer(model.handler.predict, x_train)
-        return explainer.shap_values(x_test)
+    def get_shap_values(self, x_test: np.array) -> np.array:
+        return self.build_result.shap_values(x_test)
 
     def build(self, model, data: dict):
         assert isinstance(data, dict), Errors.DATA_NOT_DICT

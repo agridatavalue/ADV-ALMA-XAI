@@ -182,8 +182,13 @@ components:
                     description: the identifier of the metadata file name
                     example: "metadata.json"
                     type: string
+                pilot:
+                    description: the identifier of the pilot
+                    example: "pilot8"
+                    type: string
             required:
                 - model
+                - pilot
         FeatureImportanceResponse:
             type: object
             properties:

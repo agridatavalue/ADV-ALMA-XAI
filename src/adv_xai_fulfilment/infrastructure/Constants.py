@@ -22,3 +22,4 @@ class Errors:
     POSSIBLE_EXPLAINERS_ELEMENT_NOT_EXPLAINER = TypeError(
         "All elements in possible_explainers should be of type Explainer"
     )
+    PATH_NOT_PICKLE = TypeError("Path must be a pickle file.")

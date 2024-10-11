@@ -1,8 +1,10 @@
+import pickle
 from abc import ABC
 
 from ..Model import Model
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
+from ....infrastructure.Constants import Errors
 
 
 class Explainer(ABC):
@@ -41,6 +43,11 @@ class Explainer(ABC):
 
         self.meta_data = None
         self.build_result = None
+
+    def load(self, path: str):
+        assert (path or "").endswith(".pkl"), Errors.PATH_NOT_PICKLE
+        with open(path, "rb") as file:
+            self.build_result = pickle.load(file)
 
     def can_match_with(self, model: Model, meta_data: dict) -> bool:
         if not isinstance(meta_data, dict):

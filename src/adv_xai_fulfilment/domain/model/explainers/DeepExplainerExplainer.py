@@ -1,6 +1,5 @@
-from shap import DeepExplainer, sample
+from shap import DeepExplainer
 
-from ..Model import Model
 from .Explainer import Explainer
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
@@ -23,6 +22,5 @@ class DeepExplainerExplainer(Explainer):
             ],
         )
 
-    def get_shap_values(self, model: Model, x_train, x_test):
-        explainer = DeepExplainer(model.handler.predict, x_train)
-        return explainer.shap_values(x_test)
+    def get_shap_values(self, x_test):
+        return self.build_result.shap_values(x_test)

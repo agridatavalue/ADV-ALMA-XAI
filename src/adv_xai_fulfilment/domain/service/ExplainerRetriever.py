@@ -5,6 +5,12 @@ from ..model.explainers.Explainer import Explainer
 from ..model.explainers import all as all_class_explainers
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 
+POSSIBLE_FEATURE_IMPORTANCE_EXPLAINER_NAMES = [
+    "KernelExplainer",
+    "DeepExplainer",
+    "KernelSHAP",
+]
+
 
 class ExplainerRetriever:
     _all_explainers_available: list[Explainer]
@@ -28,3 +34,10 @@ class ExplainerRetriever:
         return next(
             expl for expl in self._all_explainers_available if expl.name == name
         )
+
+    def get_for_feature_importance(self) -> list[Explainer]:
+        return [
+            e
+            for e in self._all_explainers_available
+            if e.name in POSSIBLE_FEATURE_IMPORTANCE_EXPLAINER_NAMES
+        ]

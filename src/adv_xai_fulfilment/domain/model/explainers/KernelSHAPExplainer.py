@@ -1,7 +1,6 @@
 import numpy as np
 from alibi.explainers import KernelShap
 
-from ..Model import Model
 from .Explainer import Explainer
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
@@ -23,7 +22,6 @@ class KernelSHAPExplainer(Explainer):
             ],
         )
 
-    def get_shap_values(self, model: Model, x_train: np.array, x_test: np.array):
-        explainer = KernelShap(model.handler.predict, x_train)
-        explanation = explainer.explain(x_test)
+    def get_shap_values(self, x_test: np.array):
+        explanation = self.build_result.explain(x_test)
         return explanation.shap_values

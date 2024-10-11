@@ -25,12 +25,9 @@ class DataPresentations:
         )
 
     def genarate_feature_importance(
-        self, model_file_name: str, meta_data_filename: str
+        self, meta_data_filename: str, pilot: str
     ) -> pd.DataFrame:
-        assert isinstance(model_file_name, str), Errors.MODEL_FILENAME_NOT_STRING
-        return self.feature_importance_service.get_data(
-            model_file_name, meta_data_filename
-        )
+        return self.feature_importance_service.get_data(meta_data_filename, pilot=pilot)
 
     def genarate_performance_scatter_plot(self, model_file_name: str) -> dict:
         assert isinstance(model_file_name, str), Errors.MODEL_FILENAME_NOT_STRING

@@ -17,7 +17,7 @@ def featureimportance():
     logging.info(f"called /featureimportance api with params {data}")
     try:
         response: pd.DataFrame = DataPresentations().genarate_feature_importance(
-            model_file_name=data.get("model"), meta_data_filename=data.get("meta_data")
+            pilot=data.get("pilot"), meta_data_filename=data.get("meta_data")
         )
         response_as_json: dict = json.loads(response.to_json())
         return make_response(
