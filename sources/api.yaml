@@ -282,7 +282,7 @@ components:
                     example: "pilot8"
                     type: string
                 data:
-                    description: optional
+                    description: optional, the folder path where the data is stored
                     type: string
             required:
                 - model
