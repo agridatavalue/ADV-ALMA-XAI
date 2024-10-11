@@ -18,7 +18,7 @@ class PlotScatterObservedPredictedService:
         model: Model = self.model_loader_service.load_from(model_file_name)
 
         data = self.data_loader_service.load_data(
-            file_path="crop", bucket_name=os.getenv("DATA_FOLDER_PATH")
+            folder_path="crop", bucket_name=os.getenv("DATA_FOLDER_PATH")
         )
 
         X_test = np.array(data.get("x"))

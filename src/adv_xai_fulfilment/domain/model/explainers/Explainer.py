@@ -43,6 +43,9 @@ class Explainer(ABC):
         self.build_result = None
 
     def can_match_with(self, model: Model, meta_data: dict) -> bool:
+        if not isinstance(meta_data, dict):
+            return False
+
         return (
             meta_data.get("modeltype") in self.type
             and meta_data.get("modelcategory") in self.category

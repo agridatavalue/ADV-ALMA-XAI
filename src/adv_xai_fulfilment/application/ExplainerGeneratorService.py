@@ -47,7 +47,7 @@ class ExplainerGeneratorService:
         meta_data: dict = self._dataLoaderService.load_meta_data(metadata_filename)
         logging.debug("downloading data if present")
         data: dict[str, pd.DataFrame] = self._dataLoaderService.load_data(
-            file_path=data_folder, bucket_name=os.getenv("DATA_FOLDER_PATH")
+            folder_path=data_folder, bucket_name=os.getenv("DATA_FOLDER_PATH")
         )
 
         logging.debug("selecting the matching Explainers")
@@ -60,7 +60,7 @@ class ExplainerGeneratorService:
 
         created_explainers: list[Explainer] = []
         for explainer in possible_explainers:
-            logging.debug(f"creating the explainer {explainer.name} builds")
+            logging.debug(f"creating the explainer {explainer.name}")
             try:
                 explainer.build(model=selected_model, data=data)
                 self._modelLoaderService.upload_to(

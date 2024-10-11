@@ -21,12 +21,12 @@ class DataLoaderService:
             }
         )
 
-    def load_data(self, file_path: str, bucket_name: str) -> dict[str, pd.DataFrame]:
-        if not file_path:
+    def load_data(self, folder_path: str, bucket_name: str) -> dict[str, pd.DataFrame]:
+        if not folder_path:
             return None
 
-        x_file_path: str = file_path + "/x.csv"
-        y_file_path: str = file_path + "/y.csv"
+        x_file_path: str = folder_path + "/x.csv"
+        y_file_path: str = folder_path + "/y.csv"
 
         if not Helper.is_local_path(x_file_path):
             logging.debug(

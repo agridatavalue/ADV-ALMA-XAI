@@ -5,6 +5,7 @@ from ..Model import Model
 from .Explainer import Explainer
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
+from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 
 
 class KernelExplainerExplainer(Explainer):
@@ -28,3 +29,7 @@ class KernelExplainerExplainer(Explainer):
     ) -> np.array:
         explainer = KernelExplainer(model.handler.predict, x_train)
         return explainer.shap_values(x_test)
+
+    def build(self, model, data: dict):
+        assert isinstance(data, dict), Errors.DATA_NOT_DICT
+        self.build_result = KernelExplainer(model.handler.predict, data.get("x"))
