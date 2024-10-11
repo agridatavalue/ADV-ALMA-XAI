@@ -26,7 +26,7 @@ class FeatureImportanceService:
 
         X_test = np.array(
             self._data_loader_service.load_data(
-                bucket_name=os.getenv("DATA_FOLDER_PATH"), file_path="crop"
+                bucket_name=os.getenv("DATA_FOLDER_PATH"), folder_path="crop"
             )["x"]
         )
 
