@@ -165,6 +165,32 @@ paths:
             tags:
                 - modelPerformance
 
+    /data-features-average-scores:
+        post:
+            summary: Return the average scores of the features
+            description: Return the average scores of the features for a given pilot
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/DataFeatureAverageScoresRequest"
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DataFeatureAverageScoresResponse"
+                "400":
+                    description: Invalid IDs combination supplied
+                "404":
+                    description: Pilot / Model not found
+                "500":
+                    description: Internal server error
+            tags:
+                - dataFeaturesAverageScores
+
     /ask:
         post:
             summary: Ask something to the explainer
@@ -198,6 +224,40 @@ components:
             description: "Please enter token in following format: Bearer <JWT>"
             type: http
     schemas:
+        DataFeatureAverageScoresRequest:
+            type: object
+            properties:
+                model:
+                    description: the identifier of the model file name
+                    example: "model.pkl"
+                    type: string
+                meta_data:
+                    description: the identifier of the metadata file name
+                    example: "metadata.json"
+                    type: string
+                pilot:
+                    description: the identifier of the pilot
+                    example: "pilot8"
+                    type: string
+            required:
+                - model
+        DataFeatureAverageScoresResponse:
+            type: array
+            items:
+                type: object
+                properties:
+                    feature:
+                        type: string
+                    min-score:
+                        type: number
+                        format: float
+                    max-score:
+                        type: number
+                        format: float
+                    avarage-score:
+                        type: number
+                        format: float
+
         DataSourceRequest:
             type: object
             properties:
