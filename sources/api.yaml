@@ -189,7 +189,31 @@ paths:
                 "500":
                     description: Internal server error
             tags:
-                - dataFeaturesAverageScores
+                - data-card
+
+    /data-distribution:
+        post:
+            summary: Return the distribution of the data
+            description: Return the distribution of the data for a given pilot
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/DataDistributionRequest"
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DataDistributionResponse"
+                "400":
+                    description: Invalid IDs combination supplied
+                "404":
+                    description: Pilot / Model not found
+                "500":
+                    description: Internal server error
 
     /ask:
         post:
@@ -224,6 +248,38 @@ components:
             description: "Please enter token in following format: Bearer <JWT>"
             type: http
     schemas:
+        DataDistributionRequest:
+            type: object
+            properties:
+                model:
+                    description: the identifier of the model file name
+                    example: "model.pkl"
+                    type: string
+                meta_data:
+                    description: the identifier of the metadata file name
+                    example: "metadata.json"
+                    type: string
+                pilot:
+                    description: the identifier of the pilot
+                    example: "pilot8"
+                    type: string
+                feature:
+                    description: the feature name of the distribution data
+                    type: string
+            required:
+                - model
+                - feature
+        DataDistributionResponse:
+            type: object
+            properties:
+                name:
+                    type: string
+                data:
+                    type: array
+                    items:
+                        type: number
+                        format: float
+
         DataFeatureAverageScoresRequest:
             type: object
             properties:
