@@ -32,6 +32,7 @@ paths:
                     description: Pilot / Model not found
             tags:
                 - Build
+
     /feature-importance:
         post:
             summary: Return the feature importance data
@@ -138,6 +139,32 @@ paths:
             tags:
                 - modelPerformance
 
+    /data-source:
+        post:
+            summary: Return the source of the data
+            description: Return the summary of source data
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/DataSourceRequest"
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DataSourceResponse"
+                "400":
+                    description: Invalid IDs combination supplied
+                "404":
+                    description: Pilot / Model not found
+                "500":
+                    description: Internal server error
+            tags:
+                - modelPerformance
+
     /ask:
         post:
             summary: Ask something to the explainer
@@ -171,6 +198,41 @@ components:
             description: "Please enter token in following format: Bearer <JWT>"
             type: http
     schemas:
+        DataSourceRequest:
+            type: object
+            properties:
+                model:
+                    description: the identifier of the model file name
+                    example: "model.pkl"
+                    type: string
+                meta_data:
+                    description: the identifier of the metadata file name
+                    example: "metadata.json"
+                    type: string
+                pilot:
+                    description: the identifier of the pilot
+                    example: "pilot8"
+                    type: string
+            required:
+                - model
+        DataSourceResponse:
+            type: array
+            items:
+                type: object
+                properties:
+                    name:
+                        type: string
+                    value:
+                        type: number
+                        format: float
+            example:
+                - name: "Soil"
+                  value: 0.7
+                - name: "Drone"
+                  value: 0.2
+                - name: "Satellite"
+                  value: 0.1
+
         FeatureImportanceRequest:
             type: object
             properties:
