@@ -15,7 +15,8 @@ python 3.11.5
 Script di installazione:
 
 ```bash
-python -m venv venv
+pyenv local 3.9.0
+pyenv exec python -m venv venv
 .\venv\Scripts\activate
 pip install -r requirements.txt
 ```

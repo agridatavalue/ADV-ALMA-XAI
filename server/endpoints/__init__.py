@@ -14,7 +14,6 @@ routes = [
     targetsBp,
     dataSourceBp,
     dataDistributionBp,
-    dataDistributionBp,
     featureImportanceBp,
     plotModelPerformanceBp,
     featureAverageScoresBp,

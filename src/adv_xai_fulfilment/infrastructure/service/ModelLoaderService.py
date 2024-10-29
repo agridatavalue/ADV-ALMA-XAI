@@ -1,6 +1,7 @@
 import os
 import pickle
 import logging
+from keras.models import load_model
 
 from ..Helper import Helper
 from ...domain.model.Model import Model
@@ -35,9 +36,8 @@ class ModelLoaderService:
                 bucket_name=os.getenv("MODEL_FOLDER_PATH"), object_name=model_file_path
             )
 
-        with open(model_file_path, "rb") as file:
-            # ciò che ritorna è un'istanza di una classe
-            model_data = pickle.load(file)
+        # ciò che ritorna è un'istanza di una classe
+        model_data = load_model(model_file_path)
 
         os.remove(model_file_path)
         return Model(handler=model_data)
