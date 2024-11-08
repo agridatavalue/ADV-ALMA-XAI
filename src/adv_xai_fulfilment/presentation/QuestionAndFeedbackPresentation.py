@@ -9,8 +9,6 @@ class QuestionAndFeedbackPresentation:
         self._question_service = QuestionService()
 
     def get_questions_from_metadata(self, metadata_filename: str) -> list[dict]:
-        data = self._question_service.generate_from_dict(metadata_filename)
-        print(">>> data:", data)
         return [
             q.to_dict()
             for q in self._question_service.generate_from_dict(metadata_filename)
