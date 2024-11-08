@@ -1,13 +1,16 @@
-from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
 
 
 class ExplainerMetaData:
     _metrics: dict
+    _meta_data: dict
     _possible_explainers: list[Explainer]
 
-    def __init__(self, possible_explainers: list[Explainer], metrics: dict):
+    def __init__(
+        self, meta_data: dict, possible_explainers: list[Explainer], metrics: dict
+    ):
         self._possible_explainers = possible_explainers
+        self._meta_data = meta_data
         self._metrics = metrics
 
     @property
@@ -23,6 +26,9 @@ class ExplainerMetaData:
     def generate(self) -> dict:
         return {
             "model_metadata": {
+                "subjectname": self._meta_data.get("Subjectname", ""),
+                "targetnames": self._meta_data.get("targetnames", []),
+                "modelcategory": self._meta_data.get("modelcategory", ""),
                 "explaineed_model_name": "neuralnetwork",
                 "framework": ["Tensorflow", "pytorch", "scikit"],
                 "training_data_summary": "set with 100,000 instances and 20 features and 3 targets",
@@ -48,4 +54,5 @@ class ExplainerMetaData:
                 "Data_security": "",
                 "regulatory_compliance": "Compliant with GDPR and local regulations",
             },
+            "feedback_and_improvements": {},
         }

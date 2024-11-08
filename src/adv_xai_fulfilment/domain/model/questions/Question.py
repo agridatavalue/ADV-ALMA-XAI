@@ -58,7 +58,7 @@ class Question:
                 ),
                 "action": (
                     "predicts"
-                    if data.get("modelcategory") == "Regression"
+                    if data.get("modelcategory", "").lower() == "regression"
                     else "classifies"
                 ),
             }

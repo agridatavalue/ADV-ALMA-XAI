@@ -15,7 +15,8 @@ class TestDataLoaderService(unittest.TestCase):
             lambda bucket_name, target_filepath, local_filepath: "test/metadata.json"
         )
         dest = testObj.upload(
-            explainer_data=ExplainerMetaData([AleExplainer()], {"a": "b"}), pilot="test"
+            explainer_data=ExplainerMetaData({}, [AleExplainer()], {"a": "b"}),
+            pilot="test",
         )
 
         self.assertEqual(dest, "test/metadata.json")

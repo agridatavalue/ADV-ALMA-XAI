@@ -1,3 +1,4 @@
+import os
 import logging
 
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
@@ -19,9 +20,14 @@ class QuestionService:
         if metadata_filename:
             assert metadata_filename, Errors.METADATA_FILENAME_NOT_STRING
             logging.debug(f"loading metadata from {metadata_filename}")
-            data: dict = self._data_loader_service.load_meta_data(metadata_filename)
+            data: dict = self._data_loader_service.load_meta_data(
+                metadata_filename,
+                bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
+            )
 
-        return [q.verticalize_for(data) for q in Question.get_all()]
+        return [
+            q.verticalize_for(data.get("model_metadata")) for q in Question.get_all()
+        ]
 
     def save_user_feedback(self, answers: list[dict]) -> list[Question]:
         user_answers: list[Question] = []
