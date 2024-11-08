@@ -167,7 +167,7 @@ paths:
             description: Return the list of questions based on the metadata provided
             parameters:
                 - name: metadata
-                  in: path
+                  in: query
                   required: true
                   description: "the identifier of the metadata file name"
                   example: "metadata.json"
