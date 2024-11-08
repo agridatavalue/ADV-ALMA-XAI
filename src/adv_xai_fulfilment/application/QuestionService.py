@@ -16,3 +16,13 @@ class QuestionService:
             data: dict = self._data_loader_service.load_meta_data(metadata_filename)
 
         return [q.verticalize_for(data) for q in Question.get_all()]
+
+    def save_user_feedback(self, answers: list[dict]) -> list[Question]:
+        user_answers: list[Question] = []
+        for answer in answers:
+            for question in Question.get_all():
+                if question.id == answer.get("id"):
+                    question.user_has_answered = answer.get("answer")
+                    user_answers.append(question)
+                    break
+        return user_answers

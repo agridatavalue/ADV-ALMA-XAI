@@ -1,4 +1,7 @@
 from __future__ import annotations
+import json
+from os import path
+
 from .Answer import Answer
 
 
@@ -7,6 +10,7 @@ class Question:
     _text: str
     _template_text: str
     _answers: list[Answer]
+    _user_answer: Answer
 
     def __init__(
         self, id: str, text: str, answers: list[Answer], template_text: str = ""
@@ -14,11 +18,24 @@ class Question:
         self._id = id
         self._text = text
         self._answers = answers
+        self._user_answer = None
         self._template_text = template_text
+
+    @property
+    def id(self) -> str:
+        return self._id
 
     @property
     def text(self) -> str:
         return self._text
+
+    @property
+    def user_has_answered(self) -> str:
+        return self._user_answer.value if self._user_answer else ""
+
+    @user_has_answered.setter
+    def user_has_answered(self, value: str) -> bool:
+        self._user_answer = next((a for a in self._answers if a.value == value), None)
 
     def to_dict(self) -> dict:
         return {
@@ -48,54 +65,33 @@ class Question:
         )
         return self
 
+    def __repr__(self) -> str:
+        return 'Question(id="{}", text="{}" {})'.format(
+            self._id,
+            self._text,
+            f"feedback={self._user_answer.value}" if self._user_answer else "",
+        )
+
     @staticmethod
-    def get_all():
-        return [
-            Question(
-                id="1",
-                text="From the explanation, I know how the software tool/algorithm works.",
-                template_text="From the explanation, I know how the software algorithm {action} {subjectname} {targetnames}.",
-                answers=__radio_answers__,
-            ),
-            Question(
-                id="2",
-                text="This explanation of how the software tool/algorithm works is satisfying.",
-                template_text="This explanation of how the software {action} {subjectname} {targetnames} is satisfying.",
-                answers=__radio_answers__,
-            ),
-            Question(
-                id="3",
-                text="This explanation of how the software tool/algorithm works has sufficient detail.",
-                template_text="This explanation of how the algorithm {action} {subjectname} {targetnames} has sufficient detail.",
-                answers=__radio_answers__,
-            ),
-            Question(
-                id="4",
-                text="This explanation of how the software tool/algorithm works seems complete.",
-                template_text="This explanation of how the algorithm {action} {subjectname} {targetnames} seems complete.",
-                answers=__radio_answers__,
-            ),
-            Question(
-                id="5",
-                text="This explanation of how the software tool/algorithm works tells me how to use it.",
-                template_text="This explanation of how the algorithm {action} {subjectname} {targetnames} helps me to trust the process.",
-                answers=__radio_answers__,
-            ),
-            Question(
-                id="6",
-                text="This explanation of how the software tool/algorithm works is useful to my goals.",
-                answers=__radio_answers__,
-            ),
-            Question(
-                id="7",
-                text="This explanation of the software tool/algorithm shows me how accurate and trustable the tool is.",
-                answers=__radio_answers__,
-            ),
-        ]
-
-
-__radio_answers__ = [
-    Answer.create_radio_answer("Agree", "2"),
-    Answer.create_radio_answer("Neutral", "1"),
-    Answer.create_radio_answer("Disagree", "0"),
-]
+    def get_all() -> list[Question]:
+        file_path = path.abspath(
+            path.join(
+                path.dirname(__file__),
+                "../../../../../",
+                "sources",
+                "radio_questions.json",
+            )
+        )
+        with open(file_path) as file:
+            data: dict = json.load(file) or {}
+            return [
+                Question(
+                    **d,
+                    answers=[
+                        Answer.create_radio_answer("Agree", "agree"),
+                        Answer.create_radio_answer("Neutral", "neutral"),
+                        Answer.create_radio_answer("Disagree", "disagree"),
+                    ],
+                )
+                for d in data.get("data", [])
+            ]

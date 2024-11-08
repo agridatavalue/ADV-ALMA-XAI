@@ -14,5 +14,6 @@ class QuestionAndFeedbackPresentation:
             for q in self._question_service.generate_from_dict(metadata_filename)
         ]
 
-    def get_feedback_from(self, data: list) -> bool:
-        return True
+    def get_user_feedback_from(self, data: list[dict]) -> bool:
+        feedback: list[Question] = self._question_service.save_user_feedback(data)
+        return len(feedback) > 0

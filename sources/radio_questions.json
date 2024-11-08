@@ -1,0 +1,37 @@
+{
+    "data": [
+        {
+            "id": "1",
+            "text": "From the explanation, I know how the software tool/algorithm works.",
+            "template_text": "From the explanation, I know how the software algorithm {action} {subjectname} {targetnames}."
+        },
+        {
+            "id": "2",
+            "text": "This explanation of how the software tool/algorithm works is satisfying.",
+            "template_text": "This explanation of how the software {action} {subjectname} {targetnames} is satisfying."
+        },
+        {
+            "id": "3",
+            "text": "This explanation of how the software tool/algorithm works has sufficient detail.",
+            "template_text": "This explanation of how the algorithm {action} {subjectname} {targetnames} has sufficient detail."
+        },
+        {
+            "id": "4",
+            "text": "This explanation of how the software tool/algorithm works seems complete.",
+            "template_text": "This explanation of how the algorithm {action} {subjectname} {targetnames} seems complete."
+        },
+        {
+            "id": "5",
+            "text": "This explanation of how the software tool/algorithm works tells me how to use it.",
+            "template_text": "This explanation of how the algorithm {action} {subjectname} {targetnames} helps me to trust the process."
+        },
+        {
+            "id": "6",
+            "text": "This explanation of how the software tool/algorithm works is useful to my goals."
+        },
+        {
+            "id": "7",
+            "text": "This explanation of the software tool/algorithm shows me how accurate and trustable the tool is."
+        }
+    ]
+}

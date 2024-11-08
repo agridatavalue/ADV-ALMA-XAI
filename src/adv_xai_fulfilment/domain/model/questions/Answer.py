@@ -8,6 +8,10 @@ class Answer:
         self._text = text
         self._value = value
 
+    @property
+    def value(self) -> str:
+        return self._value
+
     def to_dict(self) -> dict:
         return {"type": self._type, "label": self._text, "value": self._value}
 
