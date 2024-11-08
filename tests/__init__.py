@@ -1,4 +1,5 @@
 # DOMAIN ----------------------------------------------------------------------
+from .src.domain.model.Question_unittest import TestQuestion
 from .src.domain.model.Explainer_unittest import TestExplainer
 from .src.domain.service.ExplainerRetriever_unittest import TestExplainerRetriever
 

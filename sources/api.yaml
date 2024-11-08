@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
     title: ADV
     description: "TEST"
-    version: 0.0.3
+    version: 0.0.2
     contact:
         name: "Mirko Colageo"
         email: m.colageo@almaviva.it
@@ -32,7 +32,6 @@ paths:
                     description: Pilot / Model not found
             tags:
                 - Build
-
     /feature-importance:
         post:
             summary: Return the feature importance data
@@ -139,109 +138,6 @@ paths:
             tags:
                 - modelPerformance
 
-    /data-source:
-        post:
-            summary: Return the source of the data
-            description: Return the summary of source data
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/DataSourceRequest"
-            responses:
-                "200":
-                    description: successful operation
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/DataSourceResponse"
-                "400":
-                    description: Invalid IDs combination supplied
-                "404":
-                    description: Pilot / Model not found
-                "500":
-                    description: Internal server error
-            tags:
-                - modelPerformance
-
-    /data-features-average-scores:
-        post:
-            summary: Return the average scores of the features
-            description: Return the average scores of the features for a given pilot
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/DataFeatureAverageScoresRequest"
-            responses:
-                "200":
-                    description: successful operation
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/DataFeatureAverageScoresResponse"
-                "400":
-                    description: Invalid IDs combination supplied
-                "404":
-                    description: Pilot / Model not found
-                "500":
-                    description: Internal server error
-            tags:
-                - data-card
-
-    /data-distribution:
-        post:
-            summary: Return the distribution of the data
-            description: Return the distribution of the data for a given pilot
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/DataDistributionRequest"
-            responses:
-                "200":
-                    description: successful operation
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/DataDistributionResponse"
-                "400":
-                    description: Invalid IDs combination supplied
-                "404":
-                    description: Pilot / Model not found
-                "500":
-                    description: Internal server error
-
-    /targets:
-        post:
-            summary: Return the target of the model
-            description: Return the target of the model for a given pilot
-            operationId: targets
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/TargetsRequest"
-            responses:
-                "200":
-                    description: successful operation
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/TargetsResponse"
-                "400":
-                    description: Invalid IDs combination supplied
-                "404":
-                    description: Pilot / Model not found
-                "500":
-                    description: Internal server error
-            tags:
-                - data-card
-
     /ask:
         post:
             summary: Ask something to the explainer
@@ -265,6 +161,41 @@ paths:
             tags:
                 - Ask
 
+    /feedback:
+        get:
+            summary: Return the list of questions based on the metadata provided
+            description: Return the list of questions based on the metadata provided
+            parameters:
+                - name: metadata
+                  in: path
+                  required: true
+                  description: "the identifier of the metadata file name"
+                  example: "metadata.json"
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/QuestionsResponse"
+        post:
+            summary: Receive the feedback from the user
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/FeedbackRequest"
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/FeedbackResponse"
+
 tags: []
 servers: []
 components:
@@ -275,139 +206,51 @@ components:
             description: "Please enter token in following format: Bearer <JWT>"
             type: http
     schemas:
-        TargetsRequest:
+        QuestionsResponse:
             type: object
             properties:
-                model:
-                    description: the identifier of the model file name
-                    example: "model.pkl"
-                    type: string
-                meta_data:
-                    description: the identifier of the metadata file name
-                    example: "metadata.json"
-                    type: string
-                pilot:
-                    description: the identifier of the pilot
-                    example: "pilot8"
-                    type: string
-            required:
-                - model
-        TargetsResponse:
-            type: object
-            properties:
-                target:
-                    type: string
-                actual:
+                questions:
                     type: array
                     items:
-                        type: number
-                        format: float
-                predictions:
-                    type: array
-                    items:
-                        type: number
-                        format: float
+                        type: object
+                        properties:
+                            id:
+                                type: string
+                            question:
+                                type: string
+                            answers:
+                                type: object
+                                properties:
+                                    type:
+                                        type: string
+                                        enum:
+                                            - radio
+                                            - string
+                                    values:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                label:
+                                                    type: string
+                                                value:
+                                                    type: string
 
-        DataDistributionRequest:
-            type: object
-            properties:
-                model:
-                    description: the identifier of the model file name
-                    example: "model.pkl"
-                    type: string
-                meta_data:
-                    description: the identifier of the metadata file name
-                    example: "metadata.json"
-                    type: string
-                pilot:
-                    description: the identifier of the pilot
-                    example: "pilot8"
-                    type: string
-                feature:
-                    description: the feature name of the distribution data
-                    type: string
-            required:
-                - model
-                - feature
-        DataDistributionResponse:
-            type: object
-            properties:
-                name:
-                    type: string
-                data:
-                    type: array
-                    items:
-                        type: number
-                        format: float
-
-        DataFeatureAverageScoresRequest:
-            type: object
-            properties:
-                model:
-                    description: the identifier of the model file name
-                    example: "model.pkl"
-                    type: string
-                meta_data:
-                    description: the identifier of the metadata file name
-                    example: "metadata.json"
-                    type: string
-                pilot:
-                    description: the identifier of the pilot
-                    example: "pilot8"
-                    type: string
-            required:
-                - model
-        DataFeatureAverageScoresResponse:
+        FeedbackRequest:
             type: array
             items:
                 type: object
                 properties:
-                    feature:
+                    id:
                         type: string
-                    min-score:
-                        type: number
-                        format: float
-                    max-score:
-                        type: number
-                        format: float
-                    avarage-score:
-                        type: number
-                        format: float
+                    answer:
+                        type: string
 
-        DataSourceRequest:
+        FeedbackResponse:
             type: object
             properties:
-                model:
-                    description: the identifier of the model file name
-                    example: "model.pkl"
+                status:
                     type: string
-                meta_data:
-                    description: the identifier of the metadata file name
-                    example: "metadata.json"
-                    type: string
-                pilot:
-                    description: the identifier of the pilot
-                    example: "pilot8"
-                    type: string
-            required:
-                - model
-        DataSourceResponse:
-            type: array
-            items:
-                type: object
-                properties:
-                    name:
-                        type: string
-                    value:
-                        type: number
-                        format: float
-            example:
-                - name: "Soil"
-                  value: 0.7
-                - name: "Drone"
-                  value: 0.2
-                - name: "Satellite"
-                  value: 0.1
 
         FeatureImportanceRequest:
             type: object
@@ -420,27 +263,13 @@ components:
                     description: the identifier of the metadata file name
                     example: "metadata.json"
                     type: string
-                pilot:
-                    description: the identifier of the pilot
-                    example: "pilot8"
-                    type: string
             required:
                 - model
-                - pilot
         FeatureImportanceResponse:
             type: object
             properties:
-                features:
-                    type: array
-                    items:
-                        type: string
-                importance:
+                data:
                     type: string
-                values:
-                    type: array
-                    items:
-                        type: number
-                        format: float
 
         FeatureDescriptionRequest:
             type: object
@@ -464,11 +293,6 @@ components:
                         type: string
                     description:
                         type: string
-                example:
-                    - feature: "Row distance (cm)"
-                      description: "Distance between plantation rows in cm"
-                    - feature: "NO3-N 0-30 cm start (kg/ha)"
-                      description: "Nitrate content in the soil at 0-30 cm depth at the start of the season"
 
         ModelPerformanceMetricRequest:
             type: object
@@ -480,9 +304,14 @@ components:
             required:
                 - model
         ModelPerformanceMetricResponse:
-            oneOf:
-                - $ref: "#/components/schemas/ImageModelPerformanceMetric"
-                - $ref: "#/components/schemas/TabularModelPerformanceMetric"
+            type: array
+            items:
+                type: object
+                properties:
+                    key:
+                        type: string
+                    value:
+                        type: string
 
         ModelPerformanceRequest:
             type: object
@@ -496,18 +325,8 @@ components:
         ModelPerformanceResponse:
             type: object
             properties:
-                target:
+                data:
                     type: string
-                actual:
-                    type: array
-                    items:
-                        type: number
-                        format: float
-                predictions:
-                    type: array
-                    items:
-                        type: number
-                        format: float
 
         BuildRequest:
             type: object
@@ -525,7 +344,7 @@ components:
                     example: "pilot8"
                     type: string
                 data:
-                    description: optional, the folder path where the data is stored
+                    description: optional
                     type: string
             required:
                 - model
@@ -561,25 +380,3 @@ components:
             properties:
                 response:
                     type: string
-
-        ImageModelPerformanceMetric:
-            type: object
-
-        TabularModelPerformanceMetric:
-            type: object
-            properties:
-                mse:
-                    type: number
-                    format: float
-                R2:
-                    type: number
-                    format: float
-                MAE:
-                    type: number
-                    format: float
-                RMSE:
-                    type: number
-                    format: float
-                MAPE:
-                    type: number
-                    format: float

@@ -1,8 +1,10 @@
 from .BuildEndpoint import buildBp
 from .TargetsEndpoint import targetsBp
 from .DataSourceEndpoint import dataSourceBp
-from .AskToExplainerEndpoint import askToExplainerEndpointBp
+from .GetAllQuestionsEndpoint import questionsBp
+from .GetFeedbackQuestionsEndpoint import feedbackBp
 from .DataDistributionEndpoint import dataDistributionBp
+from .AskToExplainerEndpoint import askToExplainerEndpointBp
 from .PlotFeatureImportanceEndpoint import featureImportanceBp
 from .PlotModelPerformanceEndpoint import plotModelPerformanceBp
 from .DataFeatureAverageScoresEndpoint import featureAverageScoresBp
@@ -12,6 +14,8 @@ from .TabulateModelPerformanceMetricEndpoint import modelPerformanceMetricBp
 routes = [
     buildBp,
     targetsBp,
+    feedbackBp,
+    questionsBp,
     dataSourceBp,
     dataDistributionBp,
     featureImportanceBp,
