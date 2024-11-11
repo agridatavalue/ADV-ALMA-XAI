@@ -21,7 +21,7 @@ class ModelLoaderService:
                 "endpoint": os.getenv("MINIO_ENDPOINT"),
                 "access_key": os.getenv("MINIO_ACCESS_KEY"),
                 "secret_key": os.getenv("MINIO_SECRET_KEY"),
-                "secure": os.getenv("MINIO_SECURE", "true").lower() == "true"
+                "secure": os.getenv("MINIO_SECURE", "true").lower() == "true",
             }
         )
         self._persistenceRepository = PersistenceRepository()
@@ -43,7 +43,9 @@ class ModelLoaderService:
         os.remove(model_file_path)
         return Model(handler=model_data)
 
-    def upload_to(self, explainer: Explainer, pilot: str, model_path: str):
+    def upload_to(
+        self, explainer: Explainer, target: str, model_category: str, model_path: str
+    ):
         assert isinstance(explainer, Explainer), Errors.EXPLAINER_NOT_EXPLAINER
 
         explainer_filename: str = explainer.name + ".pkl"
@@ -53,7 +55,9 @@ class ModelLoaderService:
         self._bucketRepository.upload_to(
             bucket_name=model_path,
             local_filepath=explainer_filename,
-            target_filepath=os.path.join(pilot, explainer_filename),
+            target_filepath=self.__calculate_explainer_path(
+                target, model_category, explainer
+            ),
         )
         os.remove(explainer_filename)
 
@@ -63,3 +67,9 @@ class ModelLoaderService:
             bucket_name="", object_name="", destination_file_path=destination_file_path
         )
         return []
+
+    def __calculate_explainer_path(
+        self, target: str, model_category: str, explainer: Explainer
+    ):
+        path: str = os.path.join(f"{target}_{model_category}", explainer.name + ".pkl")
+        return path.lower().replace(" ", "_")

@@ -4,12 +4,18 @@ from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
 class ExplainerMetaData:
     _metrics: dict
     _meta_data: dict
+    _target_name: str
     _possible_explainers: list[Explainer]
 
     def __init__(
-        self, meta_data: dict, possible_explainers: list[Explainer], metrics: dict
+        self,
+        meta_data: dict,
+        target_name: str,
+        possible_explainers: list[Explainer],
+        metrics: dict,
     ):
         self._possible_explainers = possible_explainers
+        self._target_name = target_name
         self._meta_data = meta_data
         self._metrics = metrics
 
@@ -27,7 +33,7 @@ class ExplainerMetaData:
         return {
             "model_metadata": {
                 "subjectname": self._meta_data.get("Subjectname", ""),
-                "targetnames": self._meta_data.get("targetnames", []),
+                "targetname": self._target_name,
                 "modelcategory": self._meta_data.get("modelcategory", ""),
                 "explaineed_model_name": "neuralnetwork",
                 "framework": ["Tensorflow", "pytorch", "scikit"],

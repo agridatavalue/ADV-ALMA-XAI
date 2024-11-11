@@ -21,6 +21,7 @@ def build():
             pilot=data.get("pilot"),
             modelName=data.get("model"),
             metadata=data.get("metadata"),
+            prediction_target=data.get("prediction_target", []),
         )
         return make_response(
             jsonify(
