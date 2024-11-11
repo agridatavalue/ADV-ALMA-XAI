@@ -18,7 +18,7 @@ class DataLoaderService:
                 "endpoint": os.getenv("MINIO_ENDPOINT"),
                 "access_key": os.getenv("MINIO_ACCESS_KEY"),
                 "secret_key": os.getenv("MINIO_SECRET_KEY"),
-                "secure": os.getenv("MINIO_SECURE", "true").lower() == "true"
+                "secure": os.getenv("MINIO_SECURE", "true").lower() == "true",
             }
         )
 
@@ -81,7 +81,9 @@ class DataLoaderService:
         os.remove(file)
         return metadata
 
-    def upload(self, explainer_data: ExplainerMetaData, pilot: str) -> str:
+    def upload(
+        self, explainer_data: ExplainerMetaData, target: str, model_category: str
+    ) -> str:
         assert isinstance(
             explainer_data, ExplainerMetaData
         ), Errors.EXPLAINER_DATA_NOT_EXPLAINER_METADATA
@@ -97,7 +99,15 @@ class DataLoaderService:
         res: str = self._bucketRepository.upload_to(
             bucket_name=model_path,
             local_filepath=temp_path,
-            target_filepath=f"{pilot}/{filename}",
+            target_filepath=self.__calculate_explainer_path(
+                target, model_category, filename
+            ),
         )
         os.remove(temp_path)
         return res
+
+    def __calculate_explainer_path(
+        self, target: str, model_category: str, filename: str
+    ):
+        path: str = os.path.join(f"{target}_{model_category}", filename)
+        return path.lower().replace(" ", "_")

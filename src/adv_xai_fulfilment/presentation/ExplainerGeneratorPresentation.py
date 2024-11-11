@@ -9,7 +9,14 @@ class ExplainerGeneratorPresentation:
     def __init__(self):
         self._service = ExplainerGeneratorService()
 
-    def build(self, modelName: str, pilot: str, metadata: str, data: str = None):
+    def build(
+        self,
+        modelName: str,
+        pilot: str,
+        metadata: str,
+        data: str = "",
+        prediction_target: list[str] = [],
+    ):
         if not modelName and pilot and metadata:
             raise Exception("Missing required params")
 
@@ -19,6 +26,7 @@ class ExplainerGeneratorPresentation:
             data_folder=data,
             model_filename=modelName,
             metadata_filename=metadata,
+            prediction_target=prediction_target,
         )
 
     def ask_to_explainer(self, pilot: str, request: str, explainer: str):

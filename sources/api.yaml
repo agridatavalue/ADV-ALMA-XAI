@@ -32,6 +32,7 @@ paths:
                     description: Pilot / Model not found
             tags:
                 - Build
+
     /feature-importance:
         post:
             summary: Return the feature importance data
@@ -346,6 +347,12 @@ components:
                 data:
                     description: optional
                     type: string
+                prediction_target:
+                    description: the field names target to explain the model (Optional)
+                    example: ["Biomass"]
+                    type: array
+                    items:
+                        type: string
             required:
                 - model
                 - metadata

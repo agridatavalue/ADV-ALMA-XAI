@@ -35,7 +35,8 @@ class ExplainerGeneratorService:
         pilot: str,
         model_filename: str,
         metadata_filename: str,
-        data_folder: str = None,
+        data_folder: str = "",
+        prediction_target: list[str] = [],
     ) -> list[Explainer]:
         assert isinstance(pilot, str), Errors.PILOT_NOT_STRING
         assert isinstance(model_filename, str), Errors.PILOT_NOT_STRING
@@ -50,6 +51,9 @@ class ExplainerGeneratorService:
             folder_path=data_folder, bucket_name=os.getenv("DATA_FOLDER_PATH")
         )
 
+        if not prediction_target:
+            prediction_target = meta_data.get("targetnames", [])
+
         logging.debug("selecting the matching Explainers")
         possible_explainers: list[Explainer] = self._explainer_retriever.get_by_data(
             selected_model, meta_data
@@ -58,32 +62,39 @@ class ExplainerGeneratorService:
             f"found {len(possible_explainers)} explainers: {possible_explainers}"
         )
 
-        created_explainers: list[Explainer] = []
-        for explainer in possible_explainers:
-            logging.debug(f"creating the explainer {explainer.name}")
-            try:
-                explainer.build(model=selected_model, data=data)
-                self._modelLoaderService.upload_to(
-                    model_path=os.getenv("EXPLAINER_FOLDER_PATH"),
-                    pilot=pilot,
-                    explainer=explainer,
-                )
-                created_explainers.append(explainer)
-            except Exception as e:
-                logging.error(
-                    f"error building the explainer {explainer.name}: {str(e)}"
-                )
+        for target in prediction_target:
+            created_explainers: list[Explainer] = []
+            for explainer in possible_explainers:
+                logging.debug(f"{target} - creating the explainer {explainer.name}")
+                try:
+                    explainer.build(model=selected_model, data=data)
+                    self._modelLoaderService.upload_to(
+                        model_path=os.getenv("EXPLAINER_FOLDER_PATH"),
+                        target=target,
+                        explainer=explainer,
+                        model_category=meta_data.get("modelcategory", ""),
+                    )
+                    created_explainers.append(explainer)
+                except Exception as e:
+                    logging.error(
+                        f"error building the explainer {explainer.name}: {str(e)}"
+                    )
 
-        expl_metadata = ExplainerMetaData(
-            meta_data=meta_data,
-            possible_explainers=created_explainers,
-            metrics=self._mpm_service.get_metrics(model=selected_model, data=data),
-        )
-        if expl_metadata.data_are_ok:
-            logging.debug("uploading the explainer metadata")
-            self._dataLoaderService.upload(explainer_data=expl_metadata, pilot=pilot)
-        else:
-            logging.error("explainer metadata not ok, not uploading")
+            expl_metadata = ExplainerMetaData(
+                meta_data=meta_data,
+                target_name=target,
+                possible_explainers=created_explainers,
+                metrics=self._mpm_service.get_metrics(model=selected_model, data=data),
+            )
+            if expl_metadata.data_are_ok:
+                logging.debug("uploading the explainer metadata")
+                self._dataLoaderService.upload(
+                    model_category=meta_data.get("modelcategory", ""),
+                    explainer_data=expl_metadata,
+                    target=target,
+                )
+            else:
+                logging.error("explainer metadata not ok, not uploading")
 
         return created_explainers
 
