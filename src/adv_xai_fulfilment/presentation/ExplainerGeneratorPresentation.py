@@ -15,7 +15,7 @@ class ExplainerGeneratorPresentation:
         pilot: str,
         metadata: str,
         data: str = "",
-        prediction_target: list[str] = [],
+        prediction_targets: list[str] = [],
     ):
         if not modelName and pilot and metadata:
             raise Exception("Missing required params")
@@ -26,7 +26,7 @@ class ExplainerGeneratorPresentation:
             data_folder=data,
             model_filename=modelName,
             metadata_filename=metadata,
-            prediction_target=prediction_target,
+            prediction_targets=prediction_targets,
         )
 
     def ask_to_explainer(self, pilot: str, request: str, explainer: str):

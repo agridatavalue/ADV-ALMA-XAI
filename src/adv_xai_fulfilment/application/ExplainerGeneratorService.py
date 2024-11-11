@@ -36,7 +36,7 @@ class ExplainerGeneratorService:
         model_filename: str,
         metadata_filename: str,
         data_folder: str = "",
-        prediction_target: list[str] = [],
+        prediction_targets: list[str] = [],
     ) -> list[Explainer]:
         assert isinstance(pilot, str), Errors.PILOT_NOT_STRING
         assert isinstance(model_filename, str), Errors.PILOT_NOT_STRING
@@ -51,8 +51,8 @@ class ExplainerGeneratorService:
             folder_path=data_folder, bucket_name=os.getenv("DATA_FOLDER_PATH")
         )
 
-        if not prediction_target:
-            prediction_target = meta_data.get("targetnames", [])
+        if not prediction_targets:
+            prediction_targets = meta_data.get("targetnames", [])
 
         logging.debug("selecting the matching Explainers")
         possible_explainers: list[Explainer] = self._explainer_retriever.get_by_data(
@@ -62,7 +62,7 @@ class ExplainerGeneratorService:
             f"found {len(possible_explainers)} explainers: {possible_explainers}"
         )
 
-        for target in prediction_target:
+        for target in prediction_targets:
             created_explainers: list[Explainer] = []
             for explainer in possible_explainers:
                 logging.debug(f"{target} - creating the explainer {explainer.name}")
