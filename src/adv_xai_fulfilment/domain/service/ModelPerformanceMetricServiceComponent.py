@@ -13,11 +13,11 @@ class ModelPerformanceMetricServiceComponent:
         y_pred = [y[0] for y in model.handler.predict(data.get("x"))]
         return {"y_pred": y_pred, "y_true": data.get("y")}
 
-    def get_metrics(self, model: Model, data: dict) -> dict:
+    def get_metrics(self, prediction_target: int, model: Model, data: dict) -> dict:
         if not data or not model:
             return {}
 
-        y_pred = [y[0] for y in model.handler.predict(data.get("x"))]
+        y_pred = [y[prediction_target] for y in model.handler.predict(data.get("x"))]
 
         mse = mean_squared_error(data.get("y"), y_pred)
         mae = mean_absolute_error(data.get("y"), y_pred)

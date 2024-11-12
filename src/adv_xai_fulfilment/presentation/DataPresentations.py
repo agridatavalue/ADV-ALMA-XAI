@@ -33,9 +33,17 @@ class DataPresentations:
         assert isinstance(model_file_name, str), Errors.MODEL_FILENAME_NOT_STRING
         return self.plot_scatter_service.genarate_data_for_pilot(model_file_name)
 
-    def get_model_performance_metric(self, model_filename: str) -> dict:
+    def get_model_performance_metric(
+        self, model_filename: str, prediction_target: int
+    ) -> dict:
         assert isinstance(model_filename, str), Errors.MODEL_FILENAME_NOT_STRING
-        return self.model_performance_service.get_metrics(model_filename=model_filename)
+        assert isinstance(
+            prediction_target, int
+        ), Errors.PREDICTION_TARGET_INDEX_NOT_INT
+
+        return self.model_performance_service.get_metrics(
+            model_filename=model_filename, prediction_target=prediction_target
+        )
 
     def genarate_model_performance(self, model_file_name: str) -> dict:
         assert isinstance(model_file_name, str), Errors.MODEL_FILENAME_NOT_STRING
