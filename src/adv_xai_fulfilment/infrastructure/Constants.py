@@ -5,6 +5,7 @@ class Errors:
     REQUEST_NOT_STRING = TypeError("request must be a string")
     EXPLAINER_NAME_NOT_STRING = TypeError("explainer_name must be a string")
     PREDICTION_TARGET_NOT_STRING = TypeError("prediction_target must be a string")
+    PREDICTION_TARGET_INDEX_NOT_INT = TypeError("prediction_target_index must be int")
 
     EXPLAINER_DATA_NOT_EXPLAINER_METADATA = TypeError(
         "explainer_data must be an instance of ExplainerMetaData"

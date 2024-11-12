@@ -302,8 +302,14 @@ components:
                     description: the identifier of the model file name
                     example: "model.pkl"
                     type: string
+                prediction_target_index:
+                    description: the index of the field name target to explain the model
+                    example: 0
+                    default: 0
+                    type: integer
             required:
                 - model
+                - prediction_target
         ModelPerformanceMetricResponse:
             type: array
             items:
