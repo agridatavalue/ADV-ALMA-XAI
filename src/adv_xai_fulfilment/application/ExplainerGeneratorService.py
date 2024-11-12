@@ -73,6 +73,7 @@ class ExplainerGeneratorService:
                         target=target,
                         explainer=explainer,
                         model_category=meta_data.get("modelcategory", ""),
+                        model_filename=model_filename,
                     )
                     created_explainers.append(explainer)
                 except Exception as e:
@@ -84,7 +85,9 @@ class ExplainerGeneratorService:
                 meta_data=meta_data,
                 target_name=target,
                 possible_explainers=created_explainers,
-                metrics=self._mpm_service.get_metrics(model=selected_model, data=data),
+                metrics=self._mpm_service.get_metrics(
+                    prediction_target=target, model=selected_model, data=data
+                ),
             )
             if expl_metadata.data_are_ok:
                 logging.debug("uploading the explainer metadata")
@@ -92,6 +95,7 @@ class ExplainerGeneratorService:
                     model_category=meta_data.get("modelcategory", ""),
                     explainer_data=expl_metadata,
                     target=target,
+                    model_filename=model_filename,
                 )
             else:
                 logging.error("explainer metadata not ok, not uploading")

@@ -4,6 +4,7 @@ class Errors:
     METADATA_FILENAME_NOT_STRING = TypeError("metadata_filename must be a string")
     REQUEST_NOT_STRING = TypeError("request must be a string")
     EXPLAINER_NAME_NOT_STRING = TypeError("explainer_name must be a string")
+    PREDICTION_TARGET_NOT_STRING = TypeError("prediction_target must be a string")
 
     EXPLAINER_DATA_NOT_EXPLAINER_METADATA = TypeError(
         "explainer_data must be an instance of ExplainerMetaData"
