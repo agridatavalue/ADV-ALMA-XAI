@@ -44,7 +44,12 @@ class ModelLoaderService:
         return Model(handler=model_data)
 
     def upload_to(
-        self, explainer: Explainer, target: str, model_category: str, model_path: str
+        self,
+        target: str,
+        explainer: Explainer,
+        model_path: str,
+        model_category: str,
+        model_filename: str,
     ):
         assert isinstance(explainer, Explainer), Errors.EXPLAINER_NOT_EXPLAINER
 
@@ -56,7 +61,7 @@ class ModelLoaderService:
             bucket_name=model_path,
             local_filepath=explainer_filename,
             target_filepath=self.__calculate_explainer_path(
-                target, model_category, explainer
+                target, model_category, explainer, model_filename
             ),
         )
         os.remove(explainer_filename)
@@ -69,7 +74,13 @@ class ModelLoaderService:
         return []
 
     def __calculate_explainer_path(
-        self, target: str, model_category: str, explainer: Explainer
+        self,
+        target: str,
+        model_category: str,
+        explainer: Explainer,
+        model_filename: str,
     ):
-        path: str = os.path.join(f"{target}_{model_category}", explainer.name + ".pkl")
-        return path.lower().replace(" ", "_")
+        path: str = os.path.join(
+            model_filename, f"{target}_{model_category}", explainer.name + ".pkl"
+        )
+        return path.lower().replace(" ", "_").replace("-", "_")

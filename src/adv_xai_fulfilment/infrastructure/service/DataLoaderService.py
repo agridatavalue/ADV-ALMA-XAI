@@ -82,7 +82,11 @@ class DataLoaderService:
         return metadata
 
     def upload(
-        self, explainer_data: ExplainerMetaData, target: str, model_category: str
+        self,
+        explainer_data: ExplainerMetaData,
+        target: str,
+        model_category: str,
+        model_filename: str,
     ) -> str:
         assert isinstance(
             explainer_data, ExplainerMetaData
@@ -100,14 +104,14 @@ class DataLoaderService:
             bucket_name=model_path,
             local_filepath=temp_path,
             target_filepath=self.__calculate_explainer_path(
-                target, model_category, filename
+                target, model_category, filename, model_filename
             ),
         )
         os.remove(temp_path)
         return res
 
     def __calculate_explainer_path(
-        self, target: str, model_category: str, filename: str
+        self, target: str, model_category: str, filename: str, model_filename: str
     ):
-        path: str = os.path.join(f"{target}_{model_category}", filename)
-        return path.lower().replace(" ", "_")
+        path: str = os.path.join(model_filename, f"{target}_{model_category}", filename)
+        return path.lower().replace(" ", "_").replace("-", "_")
