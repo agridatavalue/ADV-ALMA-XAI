@@ -1,5 +1,6 @@
 from alibi.explainers import PermutationImportance
 
+from ..Model import Model
 from .Explainer import Explainer
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
