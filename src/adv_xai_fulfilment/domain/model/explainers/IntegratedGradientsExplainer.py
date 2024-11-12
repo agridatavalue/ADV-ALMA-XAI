@@ -1,5 +1,6 @@
 from alibi.explainers import IntegratedGradients
 
+from ..Model import Model
 from .Explainer import Explainer
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
@@ -22,5 +23,6 @@ class IntegratedGradientsExplainer(Explainer):
                 DataTypeModelExplainer(DataTypeModel.TABULAR, IntegratedGradients),
             ],
         )
+
     def can_match_with(self, model: Model, meta_data: dict) -> bool:
         return False
