@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 
 from ..model.Model import Model
@@ -13,21 +14,27 @@ class ModelPerformanceMetricServiceComponent:
         y_pred = [y[0] for y in model.handler.predict(data.get("x"))]
         return {"y_pred": y_pred, "y_true": data.get("y")}
 
-    def get_metrics(self, prediction_target: int, model: Model, data: dict) -> dict:
+    def get_metrics(
+        self,
+        prediction_target_index: int,
+        model: Model,
+        data: dict["x" : pd.DataFrame, "y" : pd.DataFrame],
+    ) -> dict:
         if not data or not model:
             return {}
 
-        y_pred = [y[prediction_target] for y in model.handler.predict(data.get("x"))]
+        y_pred = [
+            y[prediction_target_index] for y in model.handler.predict(data.get("x"))
+        ]
+        y_true = data.get("y").iloc[:, 0]
 
-        mse = mean_squared_error(data.get("y"), y_pred)
-        mae = mean_absolute_error(data.get("y"), y_pred)
+        mse = mean_squared_error(y_true, y_pred)
+        mae = mean_absolute_error(y_true, y_pred)
 
         return {
             "Mean Squared Error (MSE)": mse,
-            "R-Squared (R²)": r2_score(data.get("y"), y_pred),
+            "R-Squared (R²)": r2_score(y_true, y_pred),
             "Mean Absolute Error (MAE)": mae,
             "Root Mean Squared Error (RMSE)": np.sqrt(mse),
-            "Mean Absolute Percentage Error (MAPE)": (
-                (mae / data.get("y")).mean()
-            ).to_list()[0],
+            "Mean Absolute Percentage Error (MAPE)": (mae / y_true).mean(),
         }

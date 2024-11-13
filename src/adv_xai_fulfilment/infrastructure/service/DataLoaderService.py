@@ -76,7 +76,7 @@ class DataLoaderService:
             )
 
         with open(file, "r") as json_file:
-            metadata = json.load(json_file)
+            metadata = json.load(json_file) or {}
 
         os.remove(file)
         return metadata

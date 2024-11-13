@@ -62,7 +62,8 @@ class ExplainerGeneratorService:
             f"found {len(possible_explainers)} explainers: {possible_explainers}"
         )
 
-        for target in prediction_targets:
+        index = 0
+        for target in prediction_targets:  # [Biomass, X-content]
             created_explainers: list[Explainer] = []
             for explainer in possible_explainers:
                 logging.debug(f"{target} - creating the explainer {explainer.name}")
@@ -73,7 +74,7 @@ class ExplainerGeneratorService:
                         target=target,
                         explainer=explainer,
                         model_category=meta_data.get("modelcategory", ""),
-                        model_filename=model_filename,
+                        model_filename=selected_model.filename,
                     )
                     created_explainers.append(explainer)
                 except Exception as e:
@@ -86,7 +87,9 @@ class ExplainerGeneratorService:
                 target_name=target,
                 possible_explainers=created_explainers,
                 metrics=self._mpm_service.get_metrics(
-                    prediction_target=target, model=selected_model, data=data
+                    prediction_target_index=index,
+                    model=selected_model,
+                    data=data,
                 ),
             )
             if expl_metadata.data_are_ok:
@@ -95,10 +98,11 @@ class ExplainerGeneratorService:
                     model_category=meta_data.get("modelcategory", ""),
                     explainer_data=expl_metadata,
                     target=target,
-                    model_filename=model_filename,
+                    model_filename=selected_model.filename,
                 )
             else:
                 logging.error("explainer metadata not ok, not uploading")
+            index += 1
 
         return created_explainers
 
