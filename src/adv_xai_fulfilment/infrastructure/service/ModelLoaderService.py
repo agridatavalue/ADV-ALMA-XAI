@@ -1,17 +1,18 @@
 import os
 import pickle
 import logging
-from keras.models import load_model
 
 from ..Helper import Helper
 from ...domain.model.Model import Model
-from ...domain.model.explainers.Explainer import Explainer
 from ..repository.BucketRepository import BucketRepository
+from ...domain.model.explainers.Explainer import Explainer
+from ...domain.service.ModelTranslator import ModelTranslator
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 from ..repository.PersistenceRepository import PersistenceRepository
 
 
 class ModelLoaderService:
+    _model_translator: ModelTranslator
     _bucketRepository: BucketRepository
     _persistenceRepository: PersistenceRepository
 
@@ -24,9 +25,10 @@ class ModelLoaderService:
                 "secure": os.getenv("MINIO_SECURE", "true").lower() == "true",
             }
         )
+        self._model_translator = ModelTranslator()
         self._persistenceRepository = PersistenceRepository()
 
-    def load_from(self, model_file_path: str) -> Model:
+    def load_from(self, model_file_path: str, meta_data: dict = {}) -> Model:
         logging.debug(f"loading model from {model_file_path}")
 
         if not Helper.is_local_path(model_file_path):
@@ -37,11 +39,14 @@ class ModelLoaderService:
                 bucket_name=os.getenv("MODEL_FOLDER_PATH"), object_name=model_file_path
             )
 
-        # ciò che ritorna è un'istanza di una classe
-        model_data = load_model(model_file_path)
+        selected_model: Model = (
+            self._model_translator.with_(meta_data.get("framework", "keras"))
+            .and_(meta_data.get("algorithm", "cnn"))
+            .translate(model_file_path)
+        )
 
         os.remove(model_file_path)
-        return Model(handler=model_data, filename=model_file_path)
+        return selected_model
 
     def upload_to(
         self,
