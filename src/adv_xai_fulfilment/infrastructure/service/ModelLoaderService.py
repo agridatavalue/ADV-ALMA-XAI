@@ -41,7 +41,7 @@ class ModelLoaderService:
         model_data = load_model(model_file_path)
 
         os.remove(model_file_path)
-        return Model(handler=model_data)
+        return Model(handler=model_data, filename=model_file_path)
 
     def upload_to(
         self,
