@@ -9,10 +9,10 @@ class ExplainerMetaData:
 
     def __init__(
         self,
+        metrics: dict,
         meta_data: dict,
         target_name: str,
         possible_explainers: list[Explainer],
-        metrics: dict,
     ):
         self._possible_explainers = possible_explainers
         self._target_name = target_name
