@@ -1,3 +1,8 @@
+from __future__ import annotations
+import numpy as np
+import pandas as pd
+
+
 class Model:
     name: str
     handler: any
@@ -7,3 +12,10 @@ class Model:
         self.name = name
         self.handler = handler
         self.filename = filename
+
+    @staticmethod
+    def supported_frameworks() -> list[str]: ...
+
+    def get_feature_importance(
+        self, feature_names: list, shap_values: np.array
+    ) -> pd.DataFrame: ...
