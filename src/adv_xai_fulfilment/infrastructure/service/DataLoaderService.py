@@ -7,6 +7,7 @@ from ..Helper import Helper
 from ..repository.BucketRepository import BucketRepository
 from ...domain.model.ExplainerMetaData import ExplainerMetaData
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
+from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
 
 
 class DataLoaderService:
@@ -75,6 +76,36 @@ class DataLoaderService:
                 bucket_name=bucket_name,
             )
 
+        with open(file, "r") as json_file:
+            metadata = json.load(json_file) or {}
+
+        os.remove(file)
+        return metadata
+
+    def load_explainer_metadata(self, expl_id: ExplainerIdentifier) -> dict:
+        assert isinstance(
+            expl_id, ExplainerIdentifier
+        ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
+
+        file: str = self._bucketRepository.download_from(
+            object_name=expl_id.get_metadata_path(),
+            bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
+        )
+        with open(file, "r") as json_file:
+            metadata = json.load(json_file) or {}
+
+        os.remove(file)
+        return metadata
+
+    def load_model_metadata(self, expl_id: ExplainerIdentifier) -> dict:
+        assert isinstance(
+            expl_id, ExplainerIdentifier
+        ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
+
+        file: str = self._bucketRepository.download_from(
+            object_name=expl_id.metadata.lower(),
+            bucket_name=os.getenv("MODEL_FOLDER_PATH"),
+        )
         with open(file, "r") as json_file:
             metadata = json.load(json_file) or {}
 

@@ -25,3 +25,7 @@ class Errors:
         "All elements in possible_explainers should be of type Explainer"
     )
     PATH_NOT_PICKLE = TypeError("Path must be a pickle file.")
+
+    EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER = TypeError(
+        "explainer_id must be an instance of ExplainerIdentifier"
+    )

@@ -167,11 +167,18 @@ paths:
             summary: Return the list of questions based on the metadata provided
             description: Return the list of questions based on the metadata provided
             parameters:
-                - name: metadata
+                - name: model
                   in: query
                   required: true
-                  description: "the identifier of the metadata file name"
-                  example: "metadata.json"
+                  description: "the identifier of the model file name"
+                  example: "model.pkl"
+                  schema:
+                      type: string
+                - name: prediction_target
+                  in: query
+                  required: true
+                  description: "the name of the field target to explain the model"
+                  example: "Biomass"
                   schema:
                       type: string
             responses:
@@ -240,9 +247,13 @@ components:
         FeedbackRequest:
             type: object
             properties:
-                meta_data:
-                    description: the identifier of the metadata file name
-                    example: "metadata.json"
+                model:
+                    description: the identifier of the model file name
+                    example: "model.pkl"
+                    type: string
+                prediction_target:
+                    description: the name of the field target to explain the model
+                    example: "Biomass"
                     type: string
                 responses:
                     type: array
@@ -253,6 +264,9 @@ components:
                                 type: string
                             answer:
                                 type: string
+            required:
+                - meta_data
+                - responses
 
         FeedbackResponse:
             type: object

@@ -3,27 +3,27 @@
         {
             "id": "1",
             "text": "From the explanation, I know how the software tool/algorithm works.",
-            "template_text": "From the explanation, I know how the software algorithm {action} {subjectname} {targetnames}."
+            "template_text": "From the explanation, I know how the software algorithm {action} {subjectname} {targetname}."
         },
         {
             "id": "2",
             "text": "This explanation of how the software tool/algorithm works is satisfying.",
-            "template_text": "This explanation of how the software {action} {subjectname} {targetnames} is satisfying."
+            "template_text": "This explanation of how the software {action} {subjectname} {targetname} is satisfying."
         },
         {
             "id": "3",
             "text": "This explanation of how the software tool/algorithm works has sufficient detail.",
-            "template_text": "This explanation of how the algorithm {action} {subjectname} {targetnames} has sufficient detail."
+            "template_text": "This explanation of how the algorithm {action} {subjectname} {targetname} has sufficient detail."
         },
         {
             "id": "4",
             "text": "This explanation of how the software tool/algorithm works seems complete.",
-            "template_text": "This explanation of how the algorithm {action} {subjectname} {targetnames} seems complete."
+            "template_text": "This explanation of how the algorithm {action} {subjectname} {targetname} seems complete."
         },
         {
             "id": "5",
             "text": "This explanation of how the software tool/algorithm works tells me how to use it.",
-            "template_text": "This explanation of how the algorithm {action} {subjectname} {targetnames} helps me to trust the process."
+            "template_text": "This explanation of how the algorithm {action} {subjectname} {targetname} helps me to trust the process."
         },
         {
             "id": "6",

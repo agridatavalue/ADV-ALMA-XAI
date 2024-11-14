@@ -16,10 +16,7 @@ def get_feedback():
     data: dict = request.get_json()
     logging.info(f"called /feedback api with params {data}")
     try:
-        response: bool = QuestionAndFeedbackPresentation().get_user_feedback_from(
-            metadata_filename=data.get("metadata"),
-            responses=data.get("responses"),
-        )
+        response: bool = QuestionAndFeedbackPresentation().get_user_feedback_from(data)
         return make_response(
             jsonify("OK" if response else "KO"),
             200,
