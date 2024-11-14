@@ -19,4 +19,4 @@ class ModelTranslator:
     def translate(self, filename: str) -> Model:
         for model in [KerasModel, TorchModel, ScikitLearnModel]:
             if self._framework.lower() in model.supported_frameworks():
-                return model(filename)
+                return model(filename=filename)

@@ -1,6 +1,7 @@
 import os
 import pickle
 
+from ...domain.model.Model import Model
 from ..repository.BucketRepository import BucketRepository
 from ...domain.model.explainers.Explainer import Explainer
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
@@ -18,16 +19,33 @@ class ExplainerRepositoryService:
             }
         )
 
-    def __get_filename(self, explainer: Explainer) -> str:
-        return f"{explainer.name}.pkl"
+    def __get_filename(
+        self,
+        category: str,
+        explainer: Explainer,
+        model_filename: str,
+        prediction_target: str,
+    ) -> str:
+        return f"{model_filename}/{prediction_target}_{category}/{(explainer.name)}.pkl".lower()
 
-    def download(self, pilot: str, explainer: Explainer) -> str:
+    def download(
+        self,
+        model: Model,
+        category: str,
+        explainer: Explainer,
+        prediction_target: str,
+    ) -> str:
         destination_file_path: str = os.path.join(
-            os.getenv("temp"), f"explainer_{pilot}_{explainer.name}.pkl"
+            os.getenv("temp"), f"explainer_{explainer.name}.pkl"
         )
         self._bucketRepository.download_from(
             bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
-            object_name=f"{pilot}/{self.__get_filename(explainer)}",
+            object_name=self.__get_filename(
+                prediction_target=prediction_target,
+                model_filename=model.filename,
+                explainer=explainer,
+                category=category,
+            ),
             destination_file_path=destination_file_path,
         )
 

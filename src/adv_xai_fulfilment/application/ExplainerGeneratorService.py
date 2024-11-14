@@ -63,7 +63,7 @@ class ExplainerGeneratorService:
         )
 
         index = 0
-        for target in prediction_targets:  # [Biomass, X-content]
+        for target in prediction_targets:
             created_explainers: list[Explainer] = []
             for explainer in possible_explainers:
                 logging.debug(f"{target} - creating the explainer {explainer.name}")
