@@ -1,10 +1,15 @@
 import numpy as np
 import pandas as pd
+from keras.models import load_model
 
 from ..Model import Model
 
 
 class KerasModel(Model):
+
+    def load(self, path: str) -> "KerasModel":
+        self.handler = load_model(path)
+        return self
 
     @staticmethod
     def supported_frameworks() -> list[str]:

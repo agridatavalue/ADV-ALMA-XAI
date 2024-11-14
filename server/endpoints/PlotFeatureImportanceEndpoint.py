@@ -1,6 +1,4 @@
-import json
 import logging
-import pandas as pd
 from flask import Blueprint, request, jsonify, make_response
 
 from src.adv_xai_fulfilment.presentation.DataPresentations import DataPresentations
@@ -16,19 +14,21 @@ def featureimportance():
     data: dict = request.get_json()
     logging.info(f"called /featureimportance api with params {data}")
     try:
-        response: pd.DataFrame = DataPresentations().genarate_feature_importance(
-            pilot=data.get("pilot"), meta_data_filename=data.get("meta_data")
+        response: dict[
+            "Feature" : list[str],
+            "Importance" : list[float],
+            "prediction_target":str,
+        ] = DataPresentations().genarate_feature_importance(
+            model_filename=data.get("model"),
+            meta_data_filename=data.get("meta_data"),
+            prediction_target=data.get("prediction_target"),
         )
-        response_as_json: dict = json.loads(response.to_json())
         return make_response(
             jsonify(
                 {
-                    "features": response_as_json.get("Feature", {}).get("0"),
-                    "importance": "",
-                    "values": [
-                        sublist[0]
-                        for sublist in response_as_json.get("Importance", {}).get("0")
-                    ],
+                    "values": response.get("Importance", []),
+                    "features": response.get("Feature", []),
+                    "importance": response.get("prediction_target", ""),
                 }
             ),
             200,
