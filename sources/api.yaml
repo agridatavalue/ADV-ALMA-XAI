@@ -238,14 +238,21 @@ components:
                                                     type: string
 
         FeedbackRequest:
-            type: array
-            items:
-                type: object
-                properties:
-                    id:
-                        type: string
-                    answer:
-                        type: string
+            type: object
+            properties:
+                meta_data:
+                    description: the identifier of the metadata file name
+                    example: "metadata.json"
+                    type: string
+                responses:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            id:
+                                type: string
+                            answer:
+                                type: string
 
         FeedbackResponse:
             type: object
@@ -260,12 +267,17 @@ components:
                     description: the identifier of the model file name
                     example: "model.pkl"
                     type: string
+                prediction_target:
+                    description: the name of the field target to explain the model
+                    example: "Biomass"
+                    type: string
                 meta_data:
                     description: the identifier of the metadata file name
                     example: "metadata.json"
                     type: string
             required:
                 - model
+                - prediction_target
         FeatureImportanceResponse:
             type: object
             properties:
