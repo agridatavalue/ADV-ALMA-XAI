@@ -29,7 +29,9 @@ class QuestionService:
             q.verticalize_for(data.get("model_metadata")) for q in Question.get_all()
         ]
 
-    def save_user_feedback(self, answers: list[dict]) -> list[Question]:
+    def save_user_feedback(
+        self, answers: list[dict], metadata_filename: str
+    ) -> list[Question]:
         user_answers: list[Question] = []
         for answer in answers:
             for question in Question.get_all():
