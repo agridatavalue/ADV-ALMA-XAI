@@ -51,11 +51,7 @@ class Question:
         self._text = self._template_text.format(
             **{
                 **data,
-                "targetnames": (
-                    data.get("targetnames")[0]
-                    if len(data.get("targetnames")) > 0
-                    else ""
-                ),
+                "targetname": data.get("targetname"),
                 "action": (
                     "predicts"
                     if data.get("modelcategory", "").lower() == "regression"
