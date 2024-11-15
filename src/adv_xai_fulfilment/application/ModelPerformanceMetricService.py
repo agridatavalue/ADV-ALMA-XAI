@@ -29,19 +29,48 @@ class ModelPerformanceMetricService:
             folder_path=explainer_identifier.data,
         )
 
-        return self._mdm_service.get_data(
+        model_metadata: dict = self._data_loader_service.load_model_metadata(
+            explainer_identifier
+        )
+        if not explainer_identifier.prediction_target:
+            explainer_identifier.prediction_target = (
+                model_metadata.get("targetnames", [])[0]
+                if model_metadata.get("targetnames", [])
+                else None
+            )
+
+        model_performance: dict = self._mdm_service.get_data(
             data=data,
             model=selected_model,
-            prediction_target_index=explainer_identifier.prediction_target,
+            prediction_target_index=model_metadata.get("targetnames", []).index(
+                explainer_identifier.prediction_target
+            ),
         )
+        return {**model_performance, "target": explainer_identifier.prediction_target}
 
-    def get_metrics(self, prediction_target: int, model_filename: str) -> dict:
-        selected_model: Model = self._model_loader_service.load_from(model_filename)
+    def get_metrics(self, explainer_identifier: ExplainerIdentifier) -> dict:
+        selected_model: Model = self._model_loader_service.load_from(
+            explainer_identifier.model
+        )
 
         data: dict = self._data_loader_service.load_data(
             bucket_name=os.getenv("DATA_FOLDER_PATH"), folder_path="crop"
         )
 
+        model_metadata: dict = self._data_loader_service.load_model_metadata(
+            explainer_identifier
+        )
+        if not explainer_identifier.prediction_target:
+            explainer_identifier.prediction_target = (
+                model_metadata.get("targetnames", [])[0]
+                if model_metadata.get("targetnames", [])
+                else None
+            )
+
         return self._mdm_service.get_metrics(
-            model=selected_model, data=data, prediction_target=prediction_target
+            model=selected_model,
+            data=data,
+            prediction_target_index=model_metadata.get("targetnames", []).index(
+                explainer_identifier.prediction_target
+            ),
         )

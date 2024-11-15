@@ -280,17 +280,22 @@ components:
                     description: the identifier of the model file name
                     example: "model.pkl"
                     type: string
-                prediction_target:
-                    description: the name of the field target to explain the model
-                    example: "Biomass"
+                data:
+                    description: the identifier of the data folder name
+                    example: "crop"
                     type: string
                 meta_data:
                     description: the identifier of the metadata file name
                     example: "metadata.json"
                     type: string
+                prediction_target:
+                    description: the name of the field target to explain the model
+                    example: "Biomass"
+                    type: string
             required:
+                - data
                 - model
-                - prediction_target
+                - meta_data
         FeatureImportanceResponse:
             type: object
             properties:
@@ -327,14 +332,17 @@ components:
                     description: the identifier of the model file name
                     example: "model.pkl"
                     type: string
-                prediction_target_index:
-                    description: the index of the field name target to explain the model
-                    example: 0
-                    default: 0
-                    type: integer
+                prediction_target:
+                    description: the name of the field target to explain the model
+                    example: "Biomass"
+                    type: string
+                meta_data:
+                    description: the identifier of the metadata file name
+                    example: "metadata.json"
+                    type: string
             required:
                 - model
-                - prediction_target
+                - meta_data
         ModelPerformanceMetricResponse:
             type: array
             items:
@@ -343,7 +351,8 @@ components:
                     key:
                         type: string
                     value:
-                        type: string
+                        type: number
+                        format: float
 
         ModelPerformanceRequest:
             type: object
@@ -357,12 +366,17 @@ components:
                     example: "crop"
                     type: string
                 prediction_target:
-                    description: the index of the field target to explain the model
-                    example: 0
-                    type: integer
+                    description: the name of the field target to explain the model
+                    example: "Biomass"
+                    type: string
+                meta_data:
+                    description: the identifier of the metadata file name
+                    example: "metadata.json"
+                    type: string
             required:
                 - data
                 - model
+                - meta_data
         ModelPerformanceResponse:
             type: object
             properties:
@@ -372,10 +386,12 @@ components:
                     type: array
                     items:
                         type: number
+                        format: float
                 prediction:
                     type: array
                     items:
                         type: number
+                        format: float
 
         BuildRequest:
             type: object
