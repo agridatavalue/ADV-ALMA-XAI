@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
     title: ADV
     description: "TEST"
-    version: 0.0.2
+    version: 0.0.3
     contact:
         name: "Mirko Colageo"
         email: m.colageo@almaviva.it
@@ -307,8 +307,17 @@ components:
         FeatureImportanceResponse:
             type: object
             properties:
-                data:
+                features:
+                    type: array
+                    items:
+                        type: string
+                importance:
                     type: string
+                values:
+                    type: array
+                    items:
+                        type: number
+                        format: float
 
         FeatureDescriptionRequest:
             type: object
@@ -332,6 +341,11 @@ components:
                         type: string
                     description:
                         type: string
+            example:
+                - feature: "Row distance (cm)"
+                  description: "Distance between plantation rows in cm"
+                - feature: "NO3-N 0-30 cm start (kg/ha)"
+                  description: "Nitrate content in the soil at 0-30 cm depth at the start of the season"
 
         ModelPerformanceMetricRequest:
             type: object
@@ -389,13 +403,13 @@ components:
             type: object
             properties:
                 target:
-                    type: integer
+                    type: string
                 actual:
                     type: array
                     items:
                         type: number
                         format: float
-                prediction:
+                predictions:
                     type: array
                     items:
                         type: number

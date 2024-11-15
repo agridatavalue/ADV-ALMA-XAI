@@ -15,15 +15,15 @@ def plotModelPerformanceEndpoint():
     data: dict = request.get_json()
     logging.info(f"called /model-performance api with params {data}")
     try:
-        response: dict[
-            "target":str, "actual" : list[float], "prediction" : list[float]
-        ] = DataPresentations().genarate_model_performance(data)
+        response: dict["target":str, "y_true" : list[float], "y_pred" : list[float]] = (
+            DataPresentations().genarate_model_performance(data)
+        )
         return make_response(
             jsonify(
                 {
                     "target": response.get("target"),
                     "actual": response.get("y_true"),
-                    "prediction": response.get("y_pred"),
+                    "predictions": response.get("y_pred"),
                 }
             ),
             200,

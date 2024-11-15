@@ -58,7 +58,7 @@ class DataPresentations:
 
     def genarate_model_performance(
         self, data: dict = {}
-    ) -> dict["target":str, "actual" : list[float], "prediction" : list[float]]:
+    ) -> dict["target":str, "y_true" : list[float], "y_pred" : list[float]]:
         data_sanitized = self._validator.validate_and_sanitize_model_performance(data)
         expl_id: ExplainerIdentifier = self._translator.translate(data_sanitized)
 
