@@ -1,43 +1,41 @@
 import logging
 
+from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
+from .validator.ExplainerGeneratorValidator import ExplainerGeneratorValidator
 from ..application.ExplainerGeneratorService import ExplainerGeneratorService
+from .translator.ExplainerIdentifierTranslator import ExplainerIdentifierTranslator
 
 
 class ExplainerGeneratorPresentation:
     _service: ExplainerGeneratorService
+    _validator: ExplainerGeneratorValidator
+    _translator: ExplainerIdentifierTranslator
 
     def __init__(self):
         self._service = ExplainerGeneratorService()
+        self._validator = ExplainerGeneratorValidator()
+        self._translator = ExplainerIdentifierTranslator()
 
-    def build(
-        self,
-        modelName: str,
-        pilot: str,
-        metadata: str,
-        data: str = "",
-        prediction_targets: list[str] = [],
-    ):
-        if not modelName and pilot and metadata:
-            raise Exception("Missing required params")
-
-        logging.info(f"Building Explainer with modelName: {modelName}, pilot: {pilot}")
-        return self._service.generate_explainer(
-            pilot=pilot,
-            data_folder=data,
-            model_filename=modelName,
-            metadata_filename=metadata,
-            prediction_targets=prediction_targets,
-        )
-
-    def ask_to_explainer(self, pilot: str, request: str, explainer: str):
-        if not pilot and request and explainer:
-            raise Exception("Missing required params")
+    def build(self, data: dict):
+        self._validator.validate_build(data)
+        request: ExplainerIdentifier = self._translator.translate(data)
 
         logging.info(
-            f"Ask to Explainer with pilot: {pilot}, request: {request}, explainer: {explainer}"
+            f"Building Explainer with modelName: {request.model}, pilot: {request.pilot}"
+        )
+        return self._service.generate_explainer(
+            request, data.get("prediction_targets", [])
+        )
+
+    def ask_to_explainer(self, data: dict):
+        self._validator.validate_ask(data)
+        expl_id: ExplainerIdentifier = self._translator.translate(data)
+
+        logging.info(
+            f"Ask to Explainer with pilot: {expl_id.pilot}, request: {data.get('request')}, explainer: {data.get('explainer')}"
         )
         return self._service.ask_to_explainer(
-            pilot=pilot,
-            request=request,
-            explainer_name=explainer,
+            request=data.get("request"),
+            explainer_name=data.get("explainer"),
+            explainer_identifier=expl_id,
         )

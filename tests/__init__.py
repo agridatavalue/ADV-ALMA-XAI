@@ -18,5 +18,5 @@ from .src.infrastructure.service.ModelLoaderService_unittest import (
 
 # PRESENTATION ----------------------------------------------------------------
 from .src.presentation.translator.ExplainerIdentifierTranslator_unittest import (
-    TestRequestIdentifierTranslator,
+    TestExplainerIdentifierTranslator,
 )

@@ -1,18 +1,25 @@
 class ExplainerIdentifier:
-    model: str
     data: str
+    model: str
+    pilot: str
     metadata: str
     prediction_target: str
 
     category: str
 
     def __init__(
-        self, model: str, metadata: str, prediction_target: str, data: str = ""
+        self,
+        model: str,
+        metadata: str,
+        prediction_target: str,
+        pilot: str,
+        data: str = "",
     ):
         self.data = data
         self.model = model
-        self.metadata = metadata
+        self.pilot = pilot
         self.category = ""
+        self.metadata = metadata
         self.prediction_target = prediction_target
 
     def get_metadata_path(self) -> str:
