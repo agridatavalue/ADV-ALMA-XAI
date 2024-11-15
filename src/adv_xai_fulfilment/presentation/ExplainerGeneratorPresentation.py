@@ -17,7 +17,7 @@ class ExplainerGeneratorPresentation:
         self._translator = ExplainerIdentifierTranslator()
 
     def build(self, data: dict):
-        self._validator.validate_build(data)
+        self._validator.validate_and_sanitize_build(data)
         request: ExplainerIdentifier = self._translator.translate(data)
 
         logging.info(
@@ -28,7 +28,7 @@ class ExplainerGeneratorPresentation:
         )
 
     def ask_to_explainer(self, data: dict):
-        self._validator.validate_ask(data)
+        self._validator.validate_and_sanitize_ask(data)
         expl_id: ExplainerIdentifier = self._translator.translate(data)
 
         logging.info(
