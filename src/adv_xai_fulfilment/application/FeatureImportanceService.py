@@ -30,25 +30,35 @@ class FeatureImportanceService:
         self._feature_description_translator = FeatureDescriptionTranslator()
 
     def get_data(
-        self, expl_id: ExplainerIdentifier
+        self, explainer_identifier: ExplainerIdentifier
     ) -> dict[
         "Feature" : list[str],
         "Importance" : list[float],
         "prediction_target":str,
     ]:
-        meta_data: dict = self._data_loader_service.load_model_metadata(expl_id)
+        meta_data: dict = self._data_loader_service.load_model_metadata(
+            explainer_identifier
+        )
         selected_model: Model = self._model_loader_service.load_from(
-            expl_id.model, meta_data=meta_data
+            model_file_path=explainer_identifier.model, meta_data=meta_data
         )
 
+        if not explainer_identifier.prediction_target:
+            explainer_identifier.prediction_target = (
+                meta_data.get("targetnames", [])[0]
+                if meta_data.get("targetnames", [])
+                else None
+            )
+        logging.debug(f"Prediction target: {explainer_identifier.prediction_target}")
+
         explainer = None
+        explainer_identifier.category = meta_data.get("modelcategory")
         for expl in self._explainer_retriever.get_for_feature_importance():
+            logging.debug(f"Trying explainer: {expl}")
             try:
-                path: str = self._explainer_repository_service.download(
-                    prediction_target=expl_id.prediction_target,
+                path: str = self._explainer_repository_service.download_from(
+                    explainer_identifier=explainer_identifier,
                     explainer=expl,
-                    category=meta_data.get("modelcategory"),
-                    model=selected_model,
                 )
                 expl.load(path)
                 explainer = expl
@@ -64,31 +74,43 @@ class FeatureImportanceService:
             return {
                 "Feature": [],
                 "Importance": [],
-                "prediction_target": expl_id.prediction_target,
+                "prediction_target": explainer_identifier.prediction_target,
             }
 
         logging.info(f"Explainer feature-importance: {explainer}")
 
         X_test = np.array(
             self._data_loader_service.load_data(
-                bucket_name=os.getenv("DATA_FOLDER_PATH"), folder_path="crop2"
+                bucket_name=os.getenv("DATA_FOLDER_PATH"),
+                folder_path=explainer_identifier.data,
             )["x"]
         )
 
         data: pd.DataFrame = selected_model.get_feature_importance(
-            feature_names=self.genarate_feature_description(expl_id),
+            feature_names=self.genarate_feature_description(explainer_identifier),
             shap_values=explainer.get_shap_values(x_test=X_test),
         )
-        return self.__prepare_data(data, expl_id.prediction_target)
+        return self.__prepare_data(
+            data=data,
+            prediction=explainer_identifier.prediction_target,
+            target_names=meta_data.get("targetnames", []),
+        )
 
-    def __prepare_data(self, data: pd.DataFrame, prediction: str) -> dict:
+    def __prepare_data(
+        self,
+        prediction: str,
+        data: dict["Feature" : pd.DataFrame, "Importance" : pd.DataFrame],
+        target_names: list[str],
+    ) -> dict:
         to_ret = {
             "Feature": data["Feature"].tolist(),
             "Importance": data["Importance"].tolist(),
             "prediction_target": prediction,
         }
         if len(to_ret["Importance"]) > 0 and isinstance(to_ret["Importance"][0], list):
-            to_ret["Importance"] = [d[0] for d in to_ret["Importance"]]
+            to_ret["Importance"] = [
+                d[target_names.index(prediction)] for d in to_ret["Importance"][0]
+            ]
         return to_ret
 
     def genarate_feature_description(

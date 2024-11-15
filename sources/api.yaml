@@ -174,10 +174,17 @@ paths:
                   example: "model.pkl"
                   schema:
                       type: string
+                - name: meta_data
+                  in: query
+                  required: true
+                  description: "the identifier of the metadata file name"
+                  example: "metadata.json"
+                  schema:
+                      type: string
                 - name: prediction_target
                   in: query
                   required: true
-                  description: "the name of the field target to explain the model"
+                  description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
                   example: "Biomass"
                   schema:
                       type: string
@@ -267,6 +274,7 @@ components:
             required:
                 - meta_data
                 - responses
+                - prediction_target
         FeedbackResponse:
             type: object
             properties:
@@ -289,7 +297,7 @@ components:
                     example: "metadata.json"
                     type: string
                 prediction_target:
-                    description: the name of the field target to explain the model
+                    description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
                     example: "Biomass"
                     type: string
             required:
@@ -333,7 +341,7 @@ components:
                     example: "model.pkl"
                     type: string
                 prediction_target:
-                    description: the name of the field target to explain the model
+                    description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
                     example: "Biomass"
                     type: string
                 meta_data:
@@ -366,7 +374,7 @@ components:
                     example: "crop"
                     type: string
                 prediction_target:
-                    description: the name of the field target to explain the model
+                    description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
                     example: "Biomass"
                     type: string
                 meta_data:
@@ -412,7 +420,7 @@ components:
                     description: optional
                     type: string
                 prediction_targets:
-                    description: the field names target to explain the model (Optional)
+                    description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
                     example: ["Biomass"]
                     type: array
                     items:
