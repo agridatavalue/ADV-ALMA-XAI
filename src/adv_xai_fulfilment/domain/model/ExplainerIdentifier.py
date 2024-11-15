@@ -19,4 +19,8 @@ class ExplainerIdentifier:
         return f"{self.model}/{self.prediction_target}_{self.category}/metadata.json".lower()
 
     def __repr__(self) -> str:
-        return f"ExplainerIdentifier(model={self.model} {', metadata='+self.metadata if self.metadata else ''} {', prediction_target='+self.prediction_target if self.prediction_target else ''} {', data='+self.data if self.data else ''})"
+        string_to_return = f"ExplainerIdentifier(model={self.model}"
+        for attr in ["category", "data", "metadata", "prediction_target"]:
+            if getattr(self, attr):
+                string_to_return += f", {attr}={getattr(self, attr)}"
+        return string_to_return + ")"

@@ -16,14 +16,14 @@ class TestQuestion(unittest.TestCase):
         testObj = Question(
             id="1",
             text="From the explanation, I know how the software tool/algorithm works.",
-            template_text="From the explanation, I know how the software algorithm {action} {subjectname} {targetnames}.",
+            template_text="From the explanation, I know how the software algorithm {action} {subjectname} {targetname}.",
             answers=[],
         )
         self.assertEqual(
             testObj.verticalize_for(
                 {
                     "subjectname": "leek",
-                    "targetnames": ["targetname"],
+                    "targetname": "targetname",
                     "modelcategory": "Regression",
                 }
             ).text,

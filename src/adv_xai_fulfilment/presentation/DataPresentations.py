@@ -1,47 +1,52 @@
-import pandas as pd
-
 from ..infrastructure.Constants import Errors
 from ..application.PlotScatterObservedPredictedService import (
     PlotScatterObservedPredictedService,
 )
+from ..domain.model.FeatureDescription import FeatureDescription
+from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
+from .validator.DataPresentationValidator import DataPresentationValidator
 from ..application.FeatureImportanceService import FeatureImportanceService
+from .translator.ExplainerIdentifierTranslator import RequestIdentifierTranslator
 from ..application.ModelPerformanceMetricService import ModelPerformanceMetricService
 
 
 class DataPresentations:
-    feature_importance_service: FeatureImportanceService
-    model_performance_service: ModelPerformanceMetricService
-    plot_scatter_service: PlotScatterObservedPredictedService
+    _feature_importance_service: FeatureImportanceService
+    _model_performance_service: ModelPerformanceMetricService
+    _plot_scatter_service: PlotScatterObservedPredictedService
+    _translator: RequestIdentifierTranslator
+    _validator: DataPresentationValidator
 
     def __init__(self):
-        self.plot_scatter_service = PlotScatterObservedPredictedService()
-        self.model_performance_service = ModelPerformanceMetricService()
-        self.feature_importance_service = FeatureImportanceService()
+        self._validator = DataPresentationValidator()
+        self._translator = RequestIdentifierTranslator()
+        self._plot_scatter_service = PlotScatterObservedPredictedService()
+        self._model_performance_service = ModelPerformanceMetricService()
+        self._feature_importance_service = FeatureImportanceService()
 
-    def genarate_feature_description(self, meta_data_filename: str) -> dict:
-        assert isinstance(meta_data_filename, str), Errors.METADATA_FILENAME_NOT_STRING
-        return self.feature_importance_service.genarate_feature_description(
-            meta_data_filename
-        )
+    def genarate_feature_description(
+        self, request: dict = {}
+    ) -> list[FeatureDescription]:
+        self._validator.validate_feature_description(request)
+        expl_id: ExplainerIdentifier = self._translator.translate(request)
+
+        return self._feature_importance_service.genarate_feature_description(expl_id)
 
     def genarate_feature_importance(
-        self, meta_data_filename: str, model_filename: str, prediction_target: str
+        self, request: dict = {}
     ) -> dict[
         "Feature" : list[str],
         "Importance" : list[float],
         "prediction_target":str,
     ]:
-        assert isinstance(prediction_target, str), Errors.PREDICTION_TARGET_NOT_STRING
+        self._validator.validate_feature_importance(request)
+        expl_id: ExplainerIdentifier = self._translator.translate(request)
 
-        return self.feature_importance_service.get_data(
-            model_filename=model_filename,
-            meta_data_filename=meta_data_filename,
-            prediction_target=prediction_target,
-        )
+        return self._feature_importance_service.get_data(expl_id)
 
     def genarate_performance_scatter_plot(self, model_file_name: str) -> dict:
         assert isinstance(model_file_name, str), Errors.MODEL_FILENAME_NOT_STRING
-        return self.plot_scatter_service.genarate_data_for_pilot(model_file_name)
+        return self._plot_scatter_service.genarate_data_for_pilot(model_file_name)
 
     def get_model_performance_metric(
         self, model_filename: str, prediction_target: int
@@ -51,10 +56,10 @@ class DataPresentations:
             prediction_target, int
         ), Errors.PREDICTION_TARGET_INDEX_NOT_INT
 
-        return self.model_performance_service.get_metrics(
+        return self._model_performance_service.get_metrics(
             model_filename=model_filename, prediction_target=prediction_target
         )
 
     def genarate_model_performance(self, model_file_name: str) -> dict:
         assert isinstance(model_file_name, str), Errors.MODEL_FILENAME_NOT_STRING
-        return self.model_performance_service.get_data(model_filename=model_file_name)
+        return self._model_performance_service.get_data(model_filename=model_file_name)

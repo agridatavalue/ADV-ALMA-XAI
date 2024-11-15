@@ -1,3 +1,8 @@
+# APPLICATION -----------------------------------------------------------------
+from .src.application.translator.FeatureDescriptionTranslator_unittest import (
+    TestFeatureDescriptionTranslator,
+)
+
 # DOMAIN ----------------------------------------------------------------------
 from .src.domain.model.Question_unittest import TestQuestion
 from .src.domain.model.Explainer_unittest import TestExplainer

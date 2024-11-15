@@ -2,6 +2,7 @@ import logging
 from flask import Blueprint, jsonify, make_response, request, abort
 
 from src.adv_xai_fulfilment.presentation.DataPresentations import DataPresentations
+from src.adv_xai_fulfilment.domain.model.FeatureDescription import FeatureDescription
 
 featureDescriptionEndpointBp = Blueprint("feature_description", __name__)
 
@@ -14,14 +15,14 @@ def FeatureDescriptionsEndpoint():
     data: dict = request.get_json()
     logging.info(f"called /feature-descriptions api with params {data}")
     try:
-        response: dict = DataPresentations().genarate_feature_description(
-            meta_data_filename=data.get("meta_data")
+        response: list[FeatureDescription] = (
+            DataPresentations().genarate_feature_description(data)
         )
         return make_response(
             jsonify(
                 [
-                    {"feature": key, "description": response.get(key)}
-                    for key in response.keys()
+                    {"feature": feature.name, "description": feature.description}
+                    for feature in response
                 ]
             ),
             200,

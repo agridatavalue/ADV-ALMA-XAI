@@ -1,3 +1,4 @@
+import os
 import unittest
 
 from src.adv_xai_fulfilment.domain.service.ModelTranslator import ModelTranslator
@@ -16,6 +17,9 @@ class TestModelTranslator(unittest.TestCase):
     def test_translate(self):
         testObj = ModelTranslator()
 
+        with open("model.h5", "w") as f:
+            f.write("")
+
         self.assertIsInstance(
             testObj.with_("keras").and_("cnn").translate("model.h5"),
             KerasModel,
@@ -28,3 +32,5 @@ class TestModelTranslator(unittest.TestCase):
             testObj.with_("scikit-learn").and_("cnn").translate("model.h5"),
             ScikitLearnModel,
         )
+
+        os.remove("model.h5")

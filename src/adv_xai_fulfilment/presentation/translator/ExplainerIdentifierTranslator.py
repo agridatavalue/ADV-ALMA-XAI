@@ -6,6 +6,6 @@ class RequestIdentifierTranslator:
         return ExplainerIdentifier(
             data=request.get("data"),
             model=request.get("model"),
-            metadata=request.get("metadata"),
+            metadata=request.get("meta_data", {}) or request.get("metadata"),
             prediction_target=request.get("prediction_target"),
         )
