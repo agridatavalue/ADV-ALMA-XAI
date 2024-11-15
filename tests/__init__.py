@@ -15,3 +15,8 @@ from .src.infrastructure.service.DataLoaderService_unittest import TestDataLoade
 from .src.infrastructure.service.ModelLoaderService_unittest import (
     ModelLoaderServiceTest,
 )
+
+# PRESENTATION ----------------------------------------------------------------
+from .src.presentation.translator.ExplainerIdentifierTranslator_unittest import (
+    TestRequestIdentifierTranslator,
+)
