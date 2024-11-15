@@ -5,6 +5,7 @@ from ...domain.model.Model import Model
 from ..repository.BucketRepository import BucketRepository
 from ...domain.model.explainers.Explainer import Explainer
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
+from ...domain.model.ExplainerIdentifier import ExplainerIdentifier
 
 
 class ExplainerRepositoryService:
@@ -49,6 +50,27 @@ class ExplainerRepositoryService:
             destination_file_path=destination_file_path,
         )
 
+        return destination_file_path if os.path.exists(destination_file_path) else ""
+
+    def download_from(
+        self,
+        explainer: Explainer,
+        explainer_identifier: ExplainerIdentifier,
+    ) -> str:
+        destination_file_path: str = os.path.join(
+            os.getenv("temp"), f"explainer_{explainer.name}.pkl"
+        )
+
+        self._bucketRepository.download_from(
+            bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
+            object_name=self.__get_filename(
+                prediction_target=explainer_identifier.prediction_target,
+                model_filename=explainer_identifier.model,
+                explainer=explainer,
+                category=explainer_identifier.category,
+            ),
+            destination_file_path=destination_file_path,
+        )
         return destination_file_path if os.path.exists(destination_file_path) else ""
 
     def upload_to(self, explainer: Explainer, pilot: str, model_path: str):
