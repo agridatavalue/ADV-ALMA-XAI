@@ -2,8 +2,10 @@ class Errors:
     PILOT_NOT_STRING = TypeError("pilot must be a string")
     MODEL_FILENAME_NOT_STRING = TypeError("model_filename must be a string")
     METADATA_FILENAME_NOT_STRING = TypeError("metadata_filename must be a string")
+    DATA_FOLDER_NOT_STRING = TypeError("data folder must be a string")
     REQUEST_NOT_STRING = TypeError("request must be a string")
     EXPLAINER_NAME_NOT_STRING = TypeError("explainer_name must be a string")
+    PREDICTION_TARGET_NOT_INT = TypeError("prediction_target must be an int")
     PREDICTION_TARGET_NOT_STRING = TypeError("prediction_target must be a string")
     PREDICTION_TARGET_INDEX_NOT_INT = TypeError("prediction_target_index must be int")
 

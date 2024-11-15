@@ -8,11 +8,18 @@ from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 
 class ModelPerformanceMetricServiceComponent:
 
-    def get_data(self, model: Model, data: dict) -> dict:
+    def get_data(
+        self, model: Model, data: dict, prediction_target_index: int = 0
+    ) -> dict["y_pred" : pd.DataFrame, "y_true" : pd.DataFrame]:
         assert isinstance(data, dict), Errors.DATA_NOT_DICT
 
-        y_pred = [y[0] for y in model.handler.predict(data.get("x"))]
-        return {"y_pred": y_pred, "y_true": data.get("y")}
+        return {
+            "y_true": (data.get("y").iloc[:, prediction_target_index]).to_list(),
+            "y_pred": [
+                float(y[prediction_target_index])
+                for y in model.handler.predict(data.get("x"))
+            ],
+        }
 
     def get_metrics(
         self,

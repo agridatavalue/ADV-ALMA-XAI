@@ -352,13 +352,30 @@ components:
                     description: the identifier of the model file name
                     example: "model.pkl"
                     type: string
+                data:
+                    description: the identifier of the data folder name
+                    example: "crop"
+                    type: string
+                prediction_target:
+                    description: the index of the field target to explain the model
+                    example: 0
+                    type: integer
             required:
+                - data
                 - model
         ModelPerformanceResponse:
             type: object
             properties:
-                data:
-                    type: string
+                target:
+                    type: integer
+                actual:
+                    type: array
+                    items:
+                        type: number
+                prediction:
+                    type: array
+                    items:
+                        type: number
 
         BuildRequest:
             type: object

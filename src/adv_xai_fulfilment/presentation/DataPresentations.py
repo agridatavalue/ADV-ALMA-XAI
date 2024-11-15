@@ -60,6 +60,11 @@ class DataPresentations:
             model_filename=model_filename, prediction_target=prediction_target
         )
 
-    def genarate_model_performance(self, model_file_name: str) -> dict:
-        assert isinstance(model_file_name, str), Errors.MODEL_FILENAME_NOT_STRING
-        return self._model_performance_service.get_data(model_filename=model_file_name)
+    def genarate_model_performance(
+        self, data: dict = {}
+    ) -> dict["target":str, "actual" : list[float], "prediction" : list[float]]:
+        data_sanitized = self._validator.validate_and_sanitize_model_performance(data)
+        expl_id: ExplainerIdentifier = self._translator.translate(data_sanitized)
+
+        model_performance: dict = self._model_performance_service.get_data(expl_id)
+        return {**model_performance, "target": data_sanitized.get("prediction_target")}
