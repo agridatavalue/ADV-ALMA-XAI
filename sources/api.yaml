@@ -267,7 +267,6 @@ components:
             required:
                 - meta_data
                 - responses
-
         FeedbackResponse:
             type: object
             properties:

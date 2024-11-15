@@ -3,6 +3,7 @@ import pandas as pd
 from keras.models import load_model
 
 from ..Model import Model
+from ..FeatureDescription import FeatureDescription
 
 
 class KerasModel(Model):
@@ -16,13 +17,13 @@ class KerasModel(Model):
         return ["keras", "tensorflow", "tensorflow-keras"]
 
     def get_feature_importance(
-        self, feature_names: list, shap_values: np.array
+        self, feature_names: list[FeatureDescription], shap_values: np.array
     ) -> pd.DataFrame:
         mean_abs_shap_values = np.mean(np.abs(shap_values), axis=0)
         return pd.DataFrame(
             [
                 {
-                    "Feature": feature_names,
+                    "Feature": [f.name for f in feature_names],
                     "Importance": mean_abs_shap_values.tolist(),
                 }
             ]
