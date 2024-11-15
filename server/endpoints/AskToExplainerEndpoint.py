@@ -16,11 +16,8 @@ def AskToExplainerEndpoint():
     data: dict = request.get_json()
     logging.info(f"called /ask api with params {data}")
     try:
-        response = ExplainerGeneratorPresentation().ask_to_explainer(
-            pilot=data.get("pilot"),
-            request=data.get("request"),
-            explainer=data.get("explainer"),
-        )
+        response = ExplainerGeneratorPresentation().ask_to_explainer(data)
+
         return make_response(
             jsonify({"response": response}),
             200,
