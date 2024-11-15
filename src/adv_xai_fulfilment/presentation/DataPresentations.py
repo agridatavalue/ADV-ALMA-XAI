@@ -27,7 +27,7 @@ class DataPresentations:
     def genarate_feature_description(
         self, request: dict = {}
     ) -> list[FeatureDescription]:
-        self._validator.validate_feature_description(request)
+        self._validator.validate_and_sanitize_feature_description(request)
         expl_id: ExplainerIdentifier = self._translator.translate(request)
 
         return self._feature_importance_service.genarate_feature_description(expl_id)
@@ -39,7 +39,7 @@ class DataPresentations:
         "Importance" : list[float],
         "prediction_target":str,
     ]:
-        self._validator.validate_feature_importance(request)
+        self._validator.validate_and_sanitize_feature_importance(request)
         expl_id: ExplainerIdentifier = self._translator.translate(request)
 
         return self._feature_importance_service.get_data(expl_id)

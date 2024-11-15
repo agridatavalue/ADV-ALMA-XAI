@@ -16,13 +16,13 @@ class QuestionAndFeedbackPresentation:
         self._translator = ExplainerIdentifierTranslator()
 
     def get_questions_from_metadata(self, request: dict = {}) -> list[dict]:
-        self._validator.validate_questions_(request)
+        self._validator.validate_and_sanitize_questions_(request)
         expl_id: ExplainerIdentifier = self._translator.translate(request)
 
         return [q.to_dict() for q in self._question_service.generate_from_dict(expl_id)]
 
     def get_user_feedback_from(self, request: dict = {}) -> bool:
-        self._validator.validate_feedback_(request)
+        self._validator.validate_and_sanitize_feedback_(request)
         expl_id: ExplainerIdentifier = self._translator.translate(request)
 
         feedback: list[Question] = self._question_service.save_user_feedback(

@@ -2,11 +2,11 @@ from .AbstractValidator import AbstractValidator
 
 
 class DataPresentationValidator(AbstractValidator):
-    def validate_feature_description(self, request: dict = {}) -> dict:
+    def validate_and_sanitize_feature_description(self, request: dict = {}) -> dict:
         self._validate_model(request.get("model"))
         return request
 
-    def validate_feature_importance(self, request: dict = {}) -> dict:
+    def validate_and_sanitize_feature_importance(self, request: dict = {}) -> dict:
         self._validate_model(request.get("model"))
         self._validate_prediction_target_str(request.get("prediction_target"))
         return request
