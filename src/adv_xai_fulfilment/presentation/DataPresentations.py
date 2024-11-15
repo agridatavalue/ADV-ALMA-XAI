@@ -48,17 +48,13 @@ class DataPresentations:
         assert isinstance(model_file_name, str), Errors.MODEL_FILENAME_NOT_STRING
         return self._plot_scatter_service.genarate_data_for_pilot(model_file_name)
 
-    def get_model_performance_metric(
-        self, model_filename: str, prediction_target: int
-    ) -> dict:
-        assert isinstance(model_filename, str), Errors.MODEL_FILENAME_NOT_STRING
-        assert isinstance(
-            prediction_target, int
-        ), Errors.PREDICTION_TARGET_INDEX_NOT_INT
-
-        return self._model_performance_service.get_metrics(
-            model_filename=model_filename, prediction_target=prediction_target
+    def get_model_performance_metric(self, data: dict = {}) -> dict:
+        data_sanitized = self._validator.validate_and_sanitize_model_performance_metric(
+            data
         )
+        expl_id: ExplainerIdentifier = self._translator.translate(data_sanitized)
+
+        return self._model_performance_service.get_metrics(expl_id)
 
     def genarate_model_performance(
         self, data: dict = {}
@@ -66,5 +62,4 @@ class DataPresentations:
         data_sanitized = self._validator.validate_and_sanitize_model_performance(data)
         expl_id: ExplainerIdentifier = self._translator.translate(data_sanitized)
 
-        model_performance: dict = self._model_performance_service.get_data(expl_id)
-        return {**model_performance, "target": data_sanitized.get("prediction_target")}
+        return self._model_performance_service.get_data(expl_id)
