@@ -6,7 +6,7 @@ from ..domain.model.FeatureDescription import FeatureDescription
 from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
 from .validator.DataPresentationValidator import DataPresentationValidator
 from ..application.FeatureImportanceService import FeatureImportanceService
-from .translator.ExplainerIdentifierTranslator import RequestIdentifierTranslator
+from .translator.ExplainerIdentifierTranslator import ExplainerIdentifierTranslator
 from ..application.ModelPerformanceMetricService import ModelPerformanceMetricService
 
 
@@ -14,12 +14,12 @@ class DataPresentations:
     _feature_importance_service: FeatureImportanceService
     _model_performance_service: ModelPerformanceMetricService
     _plot_scatter_service: PlotScatterObservedPredictedService
-    _translator: RequestIdentifierTranslator
+    _translator: ExplainerIdentifierTranslator
     _validator: DataPresentationValidator
 
     def __init__(self):
         self._validator = DataPresentationValidator()
-        self._translator = RequestIdentifierTranslator()
+        self._translator = ExplainerIdentifierTranslator()
         self._plot_scatter_service = PlotScatterObservedPredictedService()
         self._model_performance_service = ModelPerformanceMetricService()
         self._feature_importance_service = FeatureImportanceService()

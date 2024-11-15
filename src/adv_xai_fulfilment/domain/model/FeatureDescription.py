@@ -9,12 +9,3 @@ class FeatureDescription:
         self.type = type
         self.source = source
         self.description = description
-
-    @staticmethod
-    def create_from_dict(data: dict) -> "FeatureDescription":
-        return FeatureDescription(
-            name=data["name"],
-            type=data["type"],
-            source=data["source"],
-            description=data["description"],
-        )

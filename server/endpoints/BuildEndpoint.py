@@ -16,13 +16,7 @@ def build():
     data: dict = request.get_json()
     logging.info(f"called /build api with params {data}")
     try:
-        response = ExplainerGeneratorPresentation().build(
-            data=data.get("data"),
-            pilot=data.get("pilot"),
-            modelName=data.get("model"),
-            metadata=data.get("metadata"),
-            prediction_targets=data.get("prediction_targets", []),
-        )
+        response = ExplainerGeneratorPresentation().build(data)
         return make_response(
             jsonify(
                 {

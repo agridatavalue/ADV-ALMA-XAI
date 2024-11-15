@@ -2,13 +2,13 @@ import unittest
 
 from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
 from src.adv_xai_fulfilment.presentation.translator.ExplainerIdentifierTranslator import (
-    RequestIdentifierTranslator,
+    ExplainerIdentifierTranslator,
 )
 
 
-class TestRequestIdentifierTranslator(unittest.TestCase):
+class TestExplainerIdentifierTranslator(unittest.TestCase):
     def setUp(self):
-        self.testObj = RequestIdentifierTranslator()
+        self.testObj = ExplainerIdentifierTranslator()
 
     def test_translate(self):
         result = self.testObj.translate(

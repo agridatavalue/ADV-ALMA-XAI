@@ -1,18 +1,19 @@
 from src.adv_xai_fulfilment.domain.model.questions.Question import Question
 from src.adv_xai_fulfilment.application.QuestionService import QuestionService
 from .validator.ExplainerIdentifierValidator import ExplainerIdentifierValidator
-from .translator.ExplainerIdentifierTranslator import RequestIdentifierTranslator
+from .translator.ExplainerIdentifierTranslator import ExplainerIdentifierTranslator
 from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
 
 
 class QuestionAndFeedbackPresentation:
     _question_service: QuestionService
-    _translator: RequestIdentifierTranslator
+    _translator: ExplainerIdentifierTranslator
+    _validator: ExplainerIdentifierValidator
 
     def __init__(self):
         self._question_service = QuestionService()
         self._validator = ExplainerIdentifierValidator()
-        self._translator = RequestIdentifierTranslator()
+        self._translator = ExplainerIdentifierTranslator()
 
     def get_questions_from_metadata(self, request: dict = {}) -> list[dict]:
         self._validator.validate_questions_(request)
