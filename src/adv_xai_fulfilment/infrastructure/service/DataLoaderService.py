@@ -116,7 +116,7 @@ class DataLoaderService:
             metadata = json.load(json_file) or {}
 
         os.remove(file)
-        return self._translator.translate_v2(metadata)
+        return self._translator.translate(metadata)
 
     def upload(
         self,
