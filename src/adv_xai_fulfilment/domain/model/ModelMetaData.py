@@ -5,6 +5,7 @@ class ModelMetaData:
     data_type: str
     framework: str
     algorithm: str
+    model_type: str
     _targetnames: list[str]
     model_category: str
     feature_descriptions: list[FeatureDescription]
@@ -14,6 +15,7 @@ class ModelMetaData:
         data_type: str,
         framework: str,
         algorithm: str,
+        model_type: str,
         model_category: str,
         targetnames: list[str],
         feature_descriptions: list[FeatureDescription],
@@ -21,9 +23,25 @@ class ModelMetaData:
         self.data_type = data_type
         self.framework = framework
         self.algorithm = algorithm
+        self.model_type = model_type
         self._targetnames = targetnames
         self.model_category = model_category
         self.feature_descriptions = feature_descriptions
+
+    @property
+    def to_dict(self) -> dict:
+        return {
+            "data_type": self.data_type,
+            "framework": self.framework,
+            "algorithm": self.algorithm,
+            "model_type": self.model_type,
+            "model_category": self.model_category,
+            "targetnames": self._targetnames,
+            "feature_descriptions": [
+                feature_description.to_dict()
+                for feature_description in self.feature_descriptions
+            ],
+        }
 
     @property
     def target_names(self) -> list[str]:

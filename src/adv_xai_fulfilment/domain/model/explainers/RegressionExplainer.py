@@ -1,7 +1,7 @@
 from explainerdashboard import RegressionExplainer
 
+from ..DataType import DataType
 from .Explainer import Explainer
-from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 
@@ -18,7 +18,7 @@ class RegressionExplainer(Explainer):
             train_set_required=False,
             has_categorical_features=False,
             data_type_explainers=[
-                DataTypeModelExplainer(DataTypeModel.TABULAR, RegressionExplainer)
+                DataTypeModelExplainer(DataType.TABULAR, RegressionExplainer)
             ],
         )
 

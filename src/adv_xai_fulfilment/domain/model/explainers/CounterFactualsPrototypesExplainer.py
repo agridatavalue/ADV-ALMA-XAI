@@ -1,8 +1,9 @@
 from alibi.explainers import CounterfactualRL
 
 from ..Model import Model
+from ..DataType import DataType
 from .Explainer import Explainer
-from .DataTypeModel import DataTypeModel
+from ..ModelMetaData import ModelMetaData
 from .DataTypeModelExplainer import DataTypeModelExplainer
 
 
@@ -18,10 +19,10 @@ class CounterFactualsPrototypesExplainer(Explainer):
             train_set_required=None,
             has_categorical_features=True,
             data_type_explainers=[
-                DataTypeModelExplainer(DataTypeModel.IMAGE, CounterfactualRL),
-                DataTypeModelExplainer(DataTypeModel.TABULAR, CounterfactualRL),
+                DataTypeModelExplainer(DataType.IMAGE, CounterfactualRL),
+                DataTypeModelExplainer(DataType.TABULAR, CounterfactualRL),
             ],
         )
 
-    def can_match_with(self, model: Model, meta_data: dict) -> bool:
+    def can_match_with(self, model: Model, meta_data: ModelMetaData) -> bool:
         return False

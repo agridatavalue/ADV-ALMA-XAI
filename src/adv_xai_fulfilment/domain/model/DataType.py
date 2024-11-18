@@ -1,4 +1,4 @@
-class DataTypeModel:
+class DataType:
     TEXT: str = "TEXT"
     IMAGE: str = "IMAGE"
     TABULAR: str = "TABULAR"
@@ -6,9 +6,9 @@ class DataTypeModel:
     @staticmethod
     def from_string(text: str):
         if text.upper() == "TEXT":
-            return DataTypeModel.TEXT
+            return DataType.TEXT
         if text.upper() == "IMAGE":
-            return DataTypeModel.IMAGE
+            return DataType.IMAGE
         if text.upper() == "TABULAR":
-            return DataTypeModel.TABULAR
+            return DataType.TABULAR
         return None

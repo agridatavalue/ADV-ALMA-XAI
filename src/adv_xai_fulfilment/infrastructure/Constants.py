@@ -8,6 +8,9 @@ class Errors:
     PREDICTION_TARGET_NOT_INT = TypeError("prediction_target must be an int")
     PREDICTION_TARGET_NOT_STRING = TypeError("prediction_target must be a string")
     PREDICTION_TARGET_INDEX_NOT_INT = TypeError("prediction_target_index must be int")
+    METADATA_NOT_INSTANCE_OF_MODEL_METADATA = TypeError(
+        "Meta data is required to build the explainer"
+    )
 
     EXPLAINER_DATA_NOT_EXPLAINER_METADATA = TypeError(
         "explainer_data must be an instance of ExplainerMetaData"

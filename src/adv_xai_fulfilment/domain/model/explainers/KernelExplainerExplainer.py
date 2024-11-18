@@ -1,8 +1,8 @@
 import numpy as np
 from shap import KernelExplainer
 
+from ..DataType import DataType
 from .Explainer import Explainer
-from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 
@@ -19,7 +19,7 @@ class KernelExplainerExplainer(Explainer):
             train_set_required=True,
             has_categorical_features=True,
             data_type_explainers=[
-                DataTypeModelExplainer(DataTypeModel.TABULAR, KernelExplainer),
+                DataTypeModelExplainer(DataType.TABULAR, KernelExplainer),
             ],
         )
 

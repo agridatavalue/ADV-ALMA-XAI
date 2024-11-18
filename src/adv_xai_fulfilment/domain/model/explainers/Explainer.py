@@ -2,7 +2,8 @@ import pickle
 from abc import ABC
 
 from ..Model import Model
-from .DataTypeModel import DataTypeModel
+from ..DataType import DataType
+from ..ModelMetaData import ModelMetaData
 from ....infrastructure.Constants import Errors
 from .DataTypeModelExplainer import DataTypeModelExplainer
 
@@ -17,7 +18,7 @@ class Explainer(ABC):
     has_categorical_features: bool
     data_type_explainers: list[DataTypeModelExplainer]
 
-    meta_data: dict
+    meta_data: ModelMetaData
     build_result: any
 
     def __init__(
@@ -44,37 +45,33 @@ class Explainer(ABC):
         self.meta_data = None
         self.build_result = None
 
+    @property
+    def file_name(self) -> str:
+        return f"{self.name}.pkl"
+
     def load(self, path: str):
         assert (path or "").endswith(".pkl"), Errors.PATH_NOT_PICKLE
         with open(path, "rb") as file:
             self.build_result = pickle.load(file)
 
-    def can_match_with(self, model: Model, meta_data: dict) -> bool:
-        if not isinstance(meta_data, dict):
+    def can_match_with(self, model: Model, meta_data: ModelMetaData) -> bool:
+        if not isinstance(meta_data, ModelMetaData):
             return False
 
         return (
-            meta_data.get("modeltype") in self.type
-            and meta_data.get("modelcategory") in self.category
+            meta_data.model_type in self.type
+            and meta_data.model_category in self.category
             and (
-                DataTypeModel.from_string(meta_data.get("datatype"))
+                DataType.from_string(meta_data.data_type)
                 in [dt.data_type for dt in self.data_type_explainers]
             )
         )
 
-    def set_meta_data(self, meta_data: dict):
-        self.meta_data = {
-            **(meta_data or {}),
-            "id": 1,  # TODO: Change for a unique id
-            "name": self.name,
-            "xplanationscope": "global",
-            "xplainerparameters": "n/a",  # TODO: Change it
-            "xplanationtype": "feature_importance",  # TODO: Change it
-            "xplanationmetrics": "n/a",  # TODO: Change it
-            "modelparameters": "n/a",  # TODO: Change it
-            "modelspecifictype": "n/a",  # TODO: Change it
-            "xaidependencies": ["numpy", "Scikit-learn", "alibi[ray]"],
-        }
+    def set_meta_data(self, meta_data: ModelMetaData):
+        assert isinstance(
+            meta_data, ModelMetaData
+        ), "meta_data must be a ModelMetaData instance."
+        self.meta_data = meta_data
         return self
 
     def build(self, model, data: dict):
