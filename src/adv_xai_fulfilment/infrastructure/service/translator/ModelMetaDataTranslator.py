@@ -3,7 +3,7 @@ from ....domain.model.FeatureDescription import FeatureDescription
 
 
 class ModelMetaDataTranslator:
-    def translate_v2(self, data: dict) -> ModelMetaData:
+    def translate(self, data: dict) -> ModelMetaData:
         return ModelMetaData(
             data_type=data.get("datatype"),
             algorithm=data.get("algorithm", "cnn"),

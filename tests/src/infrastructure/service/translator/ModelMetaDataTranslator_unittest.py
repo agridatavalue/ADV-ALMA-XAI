@@ -11,8 +11,8 @@ class TestModelMetaDataTranslator(unittest.TestCase):
     def setUp(self):
         self.testObj = ModelMetaDataTranslator()
 
-    def test_translate_v2(self):
-        result = self.testObj.translate_v2(
+    def test_translate(self):
+        result = self.testObj.translate(
             {
                 "datatype": "data_type",
                 "framework": "framework",
