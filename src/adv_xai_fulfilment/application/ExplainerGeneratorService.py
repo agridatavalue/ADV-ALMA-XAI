@@ -34,11 +34,11 @@ class ExplainerGeneratorService:
     def generate_explainer(
         self, request: ExplainerIdentifier, prediction_targets: list[str]
     ) -> list[Explainer]:
-        logging.debug("downloading model")
-        selected_model: Model = self._modelLoaderService.load_from(request.model)
         logging.debug("downloading meta data")
-        meta_data: ModelMetaData = self._dataLoaderService.load_model_metadata(
-            request.metadata
+        meta_data: ModelMetaData = self._dataLoaderService.load_model_metadata(request)
+        logging.debug("downloading model")
+        selected_model: Model = self._modelLoaderService.load_from(
+            request.model, meta_data=meta_data
         )
         logging.debug("downloading data if present")
         data: dict[str, pd.DataFrame] = self._dataLoaderService.load_data(
