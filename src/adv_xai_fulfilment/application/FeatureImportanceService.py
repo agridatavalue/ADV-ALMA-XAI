@@ -4,10 +4,10 @@ import numpy as np
 import pandas as pd
 
 from ..domain.model.Model import Model
+from ..domain.model.ModelMetaData import ModelMetaData
 from ..domain.model.FeatureDescription import FeatureDescription
 from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
 from ..domain.service.ExplainerRetriever import ExplainerRetriever
-from .translator.FeatureDescriptionTranslator import FeatureDescriptionTranslator
 from ..infrastructure.service.DataLoaderService import DataLoaderService
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService
 from ..infrastructure.service.ExplainerRepositoryService import (
@@ -20,14 +20,12 @@ class FeatureImportanceService:
     _model_loader_service: ModelLoaderService
     _explainer_retriever: ExplainerRetriever
     _explainer_repository_service: ExplainerRepositoryService
-    _feature_description_translator: FeatureDescriptionTranslator
 
     def __init__(self):
         self._data_loader_service = DataLoaderService()
         self._explainer_retriever = ExplainerRetriever()
         self._model_loader_service = ModelLoaderService()
         self._explainer_repository_service = ExplainerRepositoryService()
-        self._feature_description_translator = FeatureDescriptionTranslator()
 
     def get_data(
         self, explainer_identifier: ExplainerIdentifier
@@ -36,7 +34,7 @@ class FeatureImportanceService:
         "Importance" : list[float],
         "prediction_target":str,
     ]:
-        meta_data: dict = self._data_loader_service.load_model_metadata(
+        meta_data: ModelMetaData = self._data_loader_service.load_model_metadata(
             explainer_identifier
         )
         selected_model: Model = self._model_loader_service.load_from(
@@ -44,15 +42,12 @@ class FeatureImportanceService:
         )
 
         if not explainer_identifier.prediction_target:
-            explainer_identifier.prediction_target = (
-                meta_data.get("targetnames", [])[0]
-                if meta_data.get("targetnames", [])
-                else None
-            )
+            explainer_identifier.prediction_target = meta_data.first_target_name
+
         logging.debug(f"Prediction target: {explainer_identifier.prediction_target}")
 
         explainer = None
-        explainer_identifier.category = meta_data.get("modelcategory")
+        explainer_identifier.category = meta_data.model_category
         for expl in self._explainer_retriever.get_for_feature_importance():
             logging.debug(f"Trying explainer: {expl}")
             try:
@@ -93,7 +88,7 @@ class FeatureImportanceService:
         return self.__prepare_data(
             data=data,
             prediction=explainer_identifier.prediction_target,
-            target_names=meta_data.get("targetnames", []),
+            target_names=meta_data.target_names,
         )
 
     def __prepare_data(
@@ -114,11 +109,9 @@ class FeatureImportanceService:
         return to_ret
 
     def genarate_feature_description(
-        self, expl_id: ExplainerIdentifier
+        self, explainer_identifier: ExplainerIdentifier
     ) -> list[FeatureDescription]:
-        meta_data: dict = self._data_loader_service.load_model_metadata(expl_id)
-        features: dict = (meta_data or {}).get("feature_descriptions", {})
-        return [
-            self._feature_description_translator.translate(key, features[key])
-            for key in features.keys()
-        ]
+        meta_data: ModelMetaData = self._data_loader_service.load_model_metadata(
+            explainer_identifier=explainer_identifier
+        )
+        return meta_data.feature_descriptions

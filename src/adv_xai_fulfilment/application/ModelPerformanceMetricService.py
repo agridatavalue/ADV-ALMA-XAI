@@ -1,6 +1,7 @@
 import os
 
 from ..domain.model.Model import Model
+from ..domain.model.ModelMetaData import ModelMetaData
 from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
 from ..infrastructure.service.DataLoaderService import DataLoaderService
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService
@@ -29,20 +30,16 @@ class ModelPerformanceMetricService:
             folder_path=explainer_identifier.data,
         )
 
-        model_metadata: dict = self._data_loader_service.load_model_metadata(
+        model_metadata: ModelMetaData = self._data_loader_service.load_model_metadata(
             explainer_identifier
         )
         if not explainer_identifier.prediction_target:
-            explainer_identifier.prediction_target = (
-                model_metadata.get("targetnames", [])[0]
-                if model_metadata.get("targetnames", [])
-                else None
-            )
+            explainer_identifier.prediction_target = model_metadata.first_target_name
 
         model_performance: dict = self._mdm_service.get_data(
             data=data,
             model=selected_model,
-            prediction_target_index=model_metadata.get("targetnames", []).index(
+            prediction_target_index=model_metadata.index_of_target_name(
                 explainer_identifier.prediction_target
             ),
         )
@@ -57,20 +54,16 @@ class ModelPerformanceMetricService:
             bucket_name=os.getenv("DATA_FOLDER_PATH"), folder_path="crop"
         )
 
-        model_metadata: dict = self._data_loader_service.load_model_metadata(
+        model_metadata: ModelMetaData = self._data_loader_service.load_model_metadata(
             explainer_identifier
         )
         if not explainer_identifier.prediction_target:
-            explainer_identifier.prediction_target = (
-                model_metadata.get("targetnames", [])[0]
-                if model_metadata.get("targetnames", [])
-                else None
-            )
+            explainer_identifier.prediction_target = model_metadata.first_target_name
 
         return self._mdm_service.get_metrics(
             model=selected_model,
             data=data,
-            prediction_target_index=model_metadata.get("targetnames", []).index(
+            prediction_target_index=model_metadata.index_of_target_name(
                 explainer_identifier.prediction_target
             ),
         )

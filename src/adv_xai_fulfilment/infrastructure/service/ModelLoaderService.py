@@ -4,8 +4,9 @@ import logging
 
 from ..Helper import Helper
 from ...domain.model.Model import Model
+from ...domain.model.ModelMetaData import ModelMetaData
+from ...domain.model.explainers.Explainer import Explainer
 from ..repository.BucketRepository import BucketRepository
-from ...domain.model.Explainer import Explainer
 from ...domain.service.ModelTranslator import ModelTranslator
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 from ..repository.PersistenceRepository import PersistenceRepository
@@ -28,7 +29,7 @@ class ModelLoaderService:
         self._model_translator = ModelTranslator()
         self._persistenceRepository = PersistenceRepository()
 
-    def load_from(self, model_file_path: str, meta_data: dict = {}) -> Model:
+    def load_from(self, model_file_path: str, meta_data: ModelMetaData) -> Model:
         logging.debug(f"loading model from {model_file_path}")
 
         if not Helper.is_local_path(model_file_path):
@@ -40,8 +41,8 @@ class ModelLoaderService:
             )
 
         selected_model: Model = (
-            self._model_translator.with_(meta_data.get("framework", "keras"))
-            .and_(meta_data.get("algorithm", "cnn"))
+            self._model_translator.with_(meta_data.framework)
+            .and_(meta_data.algorithm)
             .translate(model_file_path)
         )
 

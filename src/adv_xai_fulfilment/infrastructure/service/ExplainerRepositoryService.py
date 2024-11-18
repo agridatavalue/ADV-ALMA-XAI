@@ -3,7 +3,7 @@ import pickle
 
 from ...domain.model.Model import Model
 from ..repository.BucketRepository import BucketRepository
-from ...domain.model.Explainer import Explainer
+from ...domain.model.explainers.Explainer import Explainer
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 from ...domain.model.ExplainerIdentifier import ExplainerIdentifier
 
