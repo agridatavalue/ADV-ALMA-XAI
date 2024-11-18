@@ -1,6 +1,7 @@
 import unittest
 
 from src.adv_xai_fulfilment.domain.model.Model import Model
+from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
 from src.adv_xai_fulfilment.domain.service.ExplainerRetriever import ExplainerRetriever
 from src.adv_xai_fulfilment.domain.model.explainers.KernelSHAPExplainer import (
@@ -16,11 +17,15 @@ class TestExplainerRetriever(unittest.TestCase):
         model = Model({}, "TEST_name")
         actual = self.testObj.get_by_data(
             model,
-            {
-                "datatype": "tabular",
-                "modeltype": "classification",
-                "modelcategory": "tree",
-            },
+            ModelMetaData(
+                data_type="tabular",
+                framework="sklearn",
+                algorithm="random_forest",
+                model_type="classification",
+                target_names=[],
+                model_category="tree",
+                feature_descriptions=[],
+            ),
         )
         self.assertIsInstance(actual, list)
         self.assertTrue(all([isinstance(expl, Explainer) for expl in actual]))

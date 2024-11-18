@@ -5,12 +5,13 @@ from ....domain.model.FeatureDescription import FeatureDescription
 class ModelMetaDataTranslator:
     def translate_v2(self, data: dict) -> ModelMetaData:
         return ModelMetaData(
-            data_type=data.get("data_type"),
-            model_type=data.get("modeltype"),
+            data_type=data.get("datatype"),
             algorithm=data.get("algorithm", "cnn"),
             framework=data.get("framework", "keras"),
-            targetnames=data.get("targetnames"),
+            model_type=data.get("modeltype"),
+            target_names=data.get("targetnames"),
             model_category=data.get("modelcategory"),
+            feature_names=data.get("featurenames"),
             feature_descriptions=[
                 FeatureDescription(
                     name=feature.get("name"),
