@@ -21,6 +21,7 @@ class DataPresentationValidator(AbstractValidator):
         self, request: dict = {}
     ) -> dict:
         self._validate_model(request.get("model"))
+        self._validate_folder_data(request.get("data"))
         self._validate_metadata(request.get("meta_data"))
         return request
 

@@ -51,7 +51,8 @@ class ModelPerformanceMetricService:
         )
 
         data: dict = self._data_loader_service.load_data(
-            bucket_name=os.getenv("DATA_FOLDER_PATH"), folder_path="crop"
+            bucket_name=os.getenv("DATA_FOLDER_PATH"),
+            folder_path=explainer_identifier.model,
         )
 
         model_metadata: ModelMetaData = self._data_loader_service.load_model_metadata(
