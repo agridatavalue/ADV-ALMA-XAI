@@ -3,7 +3,7 @@ from alibi.explainers import PartialDependenceVariance
 from src.adv_xai_fulfilment.domain.model.Model import Model
 
 from ..Model import Model
-from ..Explainer import Explainer
+from .Explainer import Explainer
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
 

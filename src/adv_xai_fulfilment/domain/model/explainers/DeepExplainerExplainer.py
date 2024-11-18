@@ -1,6 +1,6 @@
 from shap import DeepExplainer
 
-from ..Explainer import Explainer
+from .Explainer import Explainer
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
 
