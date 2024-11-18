@@ -1,4 +1,3 @@
-import os
 import unittest
 
 from src.adv_xai_fulfilment.domain.service.ModelTranslator import ModelTranslator
@@ -13,25 +12,40 @@ from src.adv_xai_fulfilment.domain.model.machineLearningModel.ScikitLearnModel i
 )
 
 
-class TestModelTranslator(unittest.TestCase):
-    @unittest.skip("ModelTranslator is not implemented yet")
-    def test_translate(self):
-        testObj = ModelTranslator()
+class SilentKerasModel(KerasModel):
+    def load(self, path: str) -> "KerasModel":
+        return self
 
-        with open("model.h5", "w") as f:
-            f.write("")
+
+class SilentTorchModel(TorchModel):
+    def load(self, path: str) -> "TorchModel":
+        return self
+
+
+class SilentScikitLearnModel(ScikitLearnModel):
+    def load(self, path: str) -> "ScikitLearnModel":
+        return self
+
+
+class TestModelTranslator(unittest.TestCase):
+    def test_translate(self):
+        testObj = ModelTranslator(
+            models=[
+                SilentKerasModel,
+                SilentTorchModel,
+                SilentScikitLearnModel,
+            ]
+        )
 
         self.assertIsInstance(
             testObj.with_("keras").and_("cnn").translate("model.h5"),
-            KerasModel,
+            SilentKerasModel,
         )
         self.assertIsInstance(
             testObj.with_("torch").and_("cnn").translate("model.h5"),
-            TorchModel,
+            SilentTorchModel,
         )
         self.assertIsInstance(
             testObj.with_("scikit-learn").and_("cnn").translate("model.h5"),
-            ScikitLearnModel,
+            SilentScikitLearnModel,
         )
-
-        os.remove("model.h5")

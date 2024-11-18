@@ -5,8 +5,13 @@ from ..model.machineLearningModel.ScikitLearnModel import ScikitLearnModel
 
 
 class ModelTranslator:
+    _models: list[Model]
+
     _framework: str
     _algorithm: str
+
+    def __init__(self, models: list[Model] = []) -> None:
+        self._models = models or [KerasModel, TorchModel, ScikitLearnModel]
 
     def with_(self, framework: str) -> "ModelTranslator":
         self._framework = framework
@@ -17,6 +22,6 @@ class ModelTranslator:
         return self
 
     def translate(self, filename: str) -> Model:
-        for model in [KerasModel, TorchModel, ScikitLearnModel]:
+        for model in self._models:
             if self._framework.lower() in model.supported_frameworks():
                 return model(filename=filename)
