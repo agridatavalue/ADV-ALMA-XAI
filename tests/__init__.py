@@ -1,7 +1,5 @@
 # APPLICATION -----------------------------------------------------------------
-from .src.application.translator.FeatureDescriptionTranslator_unittest import (
-    TestFeatureDescriptionTranslator,
-)
+
 
 # DOMAIN ----------------------------------------------------------------------
 from .src.domain.model.Question_unittest import TestQuestion
@@ -14,6 +12,9 @@ from .src.infrastructure.Helper_unittest import TestHelper
 from .src.infrastructure.service.DataLoaderService_unittest import TestDataLoaderService
 from .src.infrastructure.service.ModelLoaderService_unittest import (
     ModelLoaderServiceTest,
+)
+from .src.infrastructure.service.translator.ModelMetaDataTranslator_unittest import (
+    TestModelMetaDataTranslator,
 )
 
 # PRESENTATION ----------------------------------------------------------------

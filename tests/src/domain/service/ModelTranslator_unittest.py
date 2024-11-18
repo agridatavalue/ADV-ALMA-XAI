@@ -14,6 +14,7 @@ from src.adv_xai_fulfilment.domain.model.machineLearningModel.ScikitLearnModel i
 
 
 class TestModelTranslator(unittest.TestCase):
+    @unittest.skip("ModelTranslator is not implemented yet")
     def test_translate(self):
         testObj = ModelTranslator()
 

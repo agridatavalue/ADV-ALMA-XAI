@@ -4,13 +4,16 @@ import logging
 import pandas as pd
 
 from ..Helper import Helper
+from ...domain.model.ModelMetaData import ModelMetaData
 from ..repository.BucketRepository import BucketRepository
 from ...domain.model.ExplainerMetaData import ExplainerMetaData
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
+from .translator.ModelMetaDataTranslator import ModelMetaDataTranslator
 from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
 
 
 class DataLoaderService:
+    _translator: ModelMetaDataTranslator
     _bucketRepository: BucketRepository
 
     def __init__(self):
@@ -22,6 +25,7 @@ class DataLoaderService:
                 "secure": os.getenv("MINIO_SECURE", "true").lower() == "true",
             }
         )
+        self._translator = ModelMetaDataTranslator()
 
     def load_data(self, folder_path: str, bucket_name: str) -> dict[str, pd.DataFrame]:
         if not folder_path:
@@ -97,20 +101,22 @@ class DataLoaderService:
         os.remove(file)
         return metadata
 
-    def load_model_metadata(self, expl_id: ExplainerIdentifier) -> dict:
+    def load_model_metadata(
+        self, explainer_identifier: ExplainerIdentifier
+    ) -> ModelMetaData:
         assert isinstance(
-            expl_id, ExplainerIdentifier
+            explainer_identifier, ExplainerIdentifier
         ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
 
         file: str = self._bucketRepository.download_from(
-            object_name=expl_id.metadata.lower(),
+            object_name=explainer_identifier.metadata.lower(),
             bucket_name=os.getenv("MODEL_FOLDER_PATH"),
         )
         with open(file, "r") as json_file:
             metadata = json.load(json_file) or {}
 
         os.remove(file)
-        return metadata
+        return self._translator.translate_v2(metadata)
 
     def upload(
         self,
