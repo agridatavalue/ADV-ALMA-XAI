@@ -4,6 +4,7 @@ import pandas as pd
 from dotenv import load_dotenv
 
 from ..domain.model.Model import Model
+from ..domain.model.ModelMetaData import ModelMetaData
 from ..domain.model.explainers.Explainer import Explainer
 from ..domain.model.ExplainerMetaData import ExplainerMetaData
 from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
@@ -36,14 +37,16 @@ class ExplainerGeneratorService:
         logging.debug("downloading model")
         selected_model: Model = self._modelLoaderService.load_from(request.model)
         logging.debug("downloading meta data")
-        meta_data: dict = self._dataLoaderService.load_meta_data(request.metadata)
+        meta_data: ModelMetaData = self._dataLoaderService.load_model_metadata(
+            request.metadata
+        )
         logging.debug("downloading data if present")
         data: dict[str, pd.DataFrame] = self._dataLoaderService.load_data(
             folder_path=request.data, bucket_name=os.getenv("DATA_FOLDER_PATH")
         )
 
         if not prediction_targets:
-            prediction_targets = meta_data.get("targetnames", [])
+            prediction_targets = meta_data.first_target_name
 
         logging.debug("selecting the matching Explainers")
         possible_explainers: list[Explainer] = self._explainer_retriever.get_by_data(
@@ -54,20 +57,18 @@ class ExplainerGeneratorService:
         )
 
         index = 0
-        created_explainers: list[Explainer] = []
+        all_explainers_created: list[Explainer] = []
         for target in prediction_targets:
+            created_explainers: list[Explainer] = []
             for explainer in possible_explainers:
                 logging.debug(f"{target} - creating the explainer {explainer.name}")
                 try:
                     explainer.build(model=selected_model, data=data)
-                    self._modelLoaderService.upload_to(
-                        model_path=os.getenv("EXPLAINER_FOLDER_PATH"),
-                        target=target,
-                        explainer=explainer,
-                        model_category=meta_data.get("modelcategory", ""),
-                        model_filename=selected_model.filename,
+                    self._modelLoaderService.upload_explainer(
+                        explainer=explainer, identifier=request
                     )
                     created_explainers.append(explainer)
+                    all_explainers_created.append(explainer)
                 except Exception as e:
                     logging.error(
                         f"error building the explainer {explainer.name}: {str(e)}"
@@ -95,7 +96,7 @@ class ExplainerGeneratorService:
                 logging.error("explainer metadata not ok, not uploading")
             index += 1
 
-        return created_explainers
+        return all_explainers_created
 
     def ask_to_explainer(
         self,
