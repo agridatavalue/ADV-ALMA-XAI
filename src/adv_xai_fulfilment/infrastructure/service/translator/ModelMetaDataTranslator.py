@@ -41,6 +41,7 @@ class ModelMetaDataTranslator:
             framework=data.get("framework", "keras"),
             model_type=data.get("modeltype"),
             target_names=data.get("targetnames"),
+            subject_name=data.get("Subjectname"),
             model_category=data.get("modelcategory"),
             feature_names=data.get("featurenames"),
             feature_descriptions=self.translate_feature_descriptions(

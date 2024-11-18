@@ -1,16 +1,17 @@
+from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
 
 
 class ExplainerMetaData:
     _metrics: dict
-    _meta_data: dict
+    _meta_data: ModelMetaData
     _target_name: str
     _possible_explainers: list[Explainer]
 
     def __init__(
         self,
         metrics: dict,
-        meta_data: dict,
+        meta_data: ModelMetaData,
         target_name: str,
         possible_explainers: list[Explainer],
     ):
@@ -32,9 +33,9 @@ class ExplainerMetaData:
     def generate(self) -> dict:
         return {
             "model_metadata": {
-                "subjectname": self._meta_data.get("Subjectname", ""),
+                "subjectname": self._meta_data.subject_name,
                 "targetname": self._target_name,
-                "modelcategory": self._meta_data.get("modelcategory", ""),
+                "modelcategory": self._meta_data.model_category,
                 "explaineed_model_name": "neuralnetwork",
                 "framework": ["Tensorflow", "pytorch", "scikit"],
                 "training_data_summary": "set with 100,000 instances and 20 features and 3 targets",
