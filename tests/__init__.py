@@ -1,5 +1,10 @@
 # APPLICATION -----------------------------------------------------------------
-
+from .src.application.ExplainerGeneratorService_unittest import (
+    TestExplainerGeneratorService,
+)
+from .src.application.ModelPerformanceMetricService_unittest import (
+    TestModelPerformanceMetricService,
+)
 
 # DOMAIN ----------------------------------------------------------------------
 from .src.domain.model.Question_unittest import TestQuestion

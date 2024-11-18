@@ -17,3 +17,8 @@ class TestDataTypeModel(unittest.TestCase):
         self.assertEqual(DataTypeModel.from_string("TABULAR"), DataTypeModel.TABULAR)
         self.assertIsNone(DataTypeModel.from_string("UNKNOWN"))
         self.assertIsNone(DataTypeModel.from_string(""))
+
+    def test_values(self):
+        self.assertEqual(DataTypeModel.TEXT, "TEXT")
+        self.assertEqual(DataTypeModel.IMAGE, "IMAGE")
+        self.assertEqual(DataTypeModel.TABULAR, "TABULAR")
