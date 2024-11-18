@@ -9,3 +9,8 @@ class FeatureDescription:
         self.type = type
         self.source = source
         self.description = description
+
+    def to_dict(self) -> dict:
+        return {
+            self.name: self.description,
+        }

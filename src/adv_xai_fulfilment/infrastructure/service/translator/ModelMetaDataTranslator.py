@@ -6,6 +6,7 @@ class ModelMetaDataTranslator:
     def translate_v2(self, data: dict) -> ModelMetaData:
         return ModelMetaData(
             data_type=data.get("data_type"),
+            model_type=data.get("modeltype"),
             algorithm=data.get("algorithm", "cnn"),
             framework=data.get("framework", "keras"),
             targetnames=data.get("targetnames"),
