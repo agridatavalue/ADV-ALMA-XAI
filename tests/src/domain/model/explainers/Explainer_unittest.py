@@ -23,6 +23,20 @@ class TestExplainer(unittest.TestCase):
             ],
         )
 
+    def test_set_meta_data(self):
+        self.assertIsNone(self.testObj.meta_data)
+        meta_data = ModelMetaData(
+            data_type="Text",
+            algorithm="algorithm",
+            framework="framework",
+            model_type="BlackBox",
+            target_names=[],
+            model_category="Regression",
+            feature_descriptions=[],
+        )
+        self.testObj.set_meta_data(meta_data)
+        self.assertEqual(self.testObj.meta_data, meta_data)
+
     def test_can_match_with(self):
         self.assertTrue(
             self.testObj.can_match_with(
@@ -39,7 +53,6 @@ class TestExplainer(unittest.TestCase):
             )
         )
 
-    def test_can_match_with_not_matching(self):
         self.assertFalse(
             self.testObj.can_match_with(
                 None,
