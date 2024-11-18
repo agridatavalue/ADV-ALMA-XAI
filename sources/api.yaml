@@ -362,8 +362,13 @@ components:
                     description: the identifier of the metadata file name
                     example: "metadata.json"
                     type: string
+                data:
+                    description: the identifier of the data folder name
+                    example: "crop"
+                    type: string
             required:
                 - model
+                - data
                 - meta_data
         ModelPerformanceMetricResponse:
             type: array
