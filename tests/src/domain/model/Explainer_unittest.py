@@ -1,5 +1,6 @@
 import unittest
 
+from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
 from src.adv_xai_fulfilment.domain.model.explainers.DataTypeModel import DataTypeModel
 from src.adv_xai_fulfilment.domain.model.explainers.DataTypeModelExplainer import (
@@ -26,11 +27,15 @@ class TestExplainer(unittest.TestCase):
         self.assertTrue(
             self.testObj.can_match_with(
                 None,
-                {
-                    "modeltype": "BlackBox",
-                    "modelcategory": "Regression",
-                    "datatype": "Text",
-                },
+                ModelMetaData(
+                    data_type="Text",
+                    algorithm="algorithm",
+                    framework="framework",
+                    model_type="BlackBox",
+                    targetnames=[],
+                    model_category="Regression",
+                    feature_descriptions=[],
+                ),
             )
         )
 
