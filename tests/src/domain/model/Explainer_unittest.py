@@ -1,6 +1,6 @@
 import unittest
 
-from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
+from src.adv_xai_fulfilment.domain.model.Explainer import Explainer
 from src.adv_xai_fulfilment.domain.model.explainers.DataTypeModel import DataTypeModel
 from src.adv_xai_fulfilment.domain.model.explainers.DataTypeModelExplainer import (
     DataTypeModelExplainer,

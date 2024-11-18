@@ -5,7 +5,7 @@ import logging
 from ..Helper import Helper
 from ...domain.model.Model import Model
 from ..repository.BucketRepository import BucketRepository
-from ...domain.model.explainers.Explainer import Explainer
+from ...domain.model.Explainer import Explainer
 from ...domain.service.ModelTranslator import ModelTranslator
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 from ..repository.PersistenceRepository import PersistenceRepository

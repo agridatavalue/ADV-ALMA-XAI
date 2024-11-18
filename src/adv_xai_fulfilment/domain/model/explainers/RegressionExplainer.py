@@ -1,6 +1,6 @@
 from explainerdashboard import RegressionExplainer
 
-from .Explainer import Explainer
+from ..Explainer import Explainer
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors

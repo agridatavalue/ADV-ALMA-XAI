@@ -1,7 +1,7 @@
 from alibi.explainers import AnchorText, AnchorImage, AnchorTabular
 
 from ..Model import Model
-from .Explainer import Explainer
+from ..Explainer import Explainer
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
 
