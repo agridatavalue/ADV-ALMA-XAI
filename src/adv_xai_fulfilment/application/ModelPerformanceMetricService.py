@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 
 from ..domain.model.Model import Model
 from ..domain.model.ModelMetaData import ModelMetaData
@@ -20,7 +21,9 @@ class ModelPerformanceMetricService:
         self._model_loader_service = ModelLoaderService()
         self._mdm_service = ModelPerformanceMetricServiceComponent()
 
-    def get_data(self, explainer_identifier: ExplainerIdentifier) -> dict:
+    def get_data(
+        self, explainer_identifier: ExplainerIdentifier
+    ) -> dict["target":str, "y_pred" : pd.DataFrame, "y_true" : pd.DataFrame]:
         selected_model: Model = self._model_loader_service.load_from(
             explainer_identifier.model
         )
@@ -45,7 +48,9 @@ class ModelPerformanceMetricService:
         )
         return {**model_performance, "target": explainer_identifier.prediction_target}
 
-    def get_metrics(self, explainer_identifier: ExplainerIdentifier) -> dict:
+    def get_metrics(
+        self, explainer_identifier: ExplainerIdentifier
+    ) -> dict["x" : pd.DataFrame, "y" : pd.DataFrame]:
         selected_model: Model = self._model_loader_service.load_from(
             explainer_identifier.model
         )
