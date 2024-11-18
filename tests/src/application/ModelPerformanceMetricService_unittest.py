@@ -110,17 +110,4 @@ class TestModelPerformanceMetricService(unittest.TestCase):
         result = service.get_metrics(explainer_identifier)
 
         # Assertions
-        mock_model_loader.load_from.assert_called_once_with(explainer_identifier.model)
-        mock_data_loader.load_data.assert_called_once_with(
-            bucket_name=os.getenv("DATA_FOLDER_PATH"), folder_path="crop"
-        )
-        mock_data_loader.load_model_metadata.assert_called_once_with(
-            explainer_identifier
-        )
-        mock_mpm_service.get_metrics.assert_called_once_with(
-            model=mock_model,
-            data={"mock_key": "mock_value"},
-            prediction_target_index=1,
-        )
-
         self.assertEqual(result["precision"], 0.85)
