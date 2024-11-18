@@ -1,12 +1,14 @@
+from .DataType import DataType
 from .FeatureDescription import FeatureDescription
 
 
 class ModelMetaData:
-    data_type: str
+    data_type: DataType
     framework: str
     algorithm: str
     model_type: str
-    _targetnames: list[str]
+    _target_names: list[str]
+    feature_names: list[str]
     model_category: str
     feature_descriptions: list[FeatureDescription]
 
@@ -17,14 +19,16 @@ class ModelMetaData:
         algorithm: str,
         model_type: str,
         model_category: str,
-        targetnames: list[str],
-        feature_descriptions: list[FeatureDescription],
+        target_names: list[str] = [],
+        feature_names: list[str] = [],
+        feature_descriptions: list[FeatureDescription] = [],
     ):
         self.data_type = data_type
         self.framework = framework
         self.algorithm = algorithm
         self.model_type = model_type
-        self._targetnames = targetnames
+        self._target_names = target_names
+        self.feature_names = feature_names
         self.model_category = model_category
         self.feature_descriptions = feature_descriptions
 
@@ -36,7 +40,7 @@ class ModelMetaData:
             "algorithm": self.algorithm,
             "model_type": self.model_type,
             "model_category": self.model_category,
-            "targetnames": self._targetnames,
+            "targetnames": self._target_names,
             "feature_descriptions": [
                 feature_description.to_dict()
                 for feature_description in self.feature_descriptions
@@ -45,15 +49,15 @@ class ModelMetaData:
 
     @property
     def target_names(self) -> list[str]:
-        return self._targetnames or []
+        return self._target_names or []
 
     def index_of_target_name(self, target_name: str) -> int:
         return (
-            self._targetnames.index(target_name)
-            if target_name in self._targetnames
+            self._target_names.index(target_name)
+            if target_name in self._target_names
             else -1
         )
 
     @property
     def first_target_name(self) -> str:
-        return self._targetnames[0] if self._targetnames else None
+        return self._target_names[0] if self._target_names else None

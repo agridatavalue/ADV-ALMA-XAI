@@ -32,7 +32,7 @@ class TestExplainer(unittest.TestCase):
                     algorithm="algorithm",
                     framework="framework",
                     model_type="BlackBox",
-                    targetnames=[],
+                    target_names=[],
                     model_category="Regression",
                     feature_descriptions=[],
                 ),
