@@ -1,7 +1,7 @@
 import unittest
 
 from src.adv_xai_fulfilment.domain.model.Model import Model
-from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
+from src.adv_xai_fulfilment.domain.model.Explainer import Explainer
 from src.adv_xai_fulfilment.domain.service.ExplainerRetriever import ExplainerRetriever
 from src.adv_xai_fulfilment.domain.model.explainers.KernelSHAPExplainer import (
     KernelSHAPExplainer,

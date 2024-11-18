@@ -1,10 +1,10 @@
 import pickle
 from abc import ABC
 
-from ..Model import Model
-from .DataTypeModel import DataTypeModel
-from .DataTypeModelExplainer import DataTypeModelExplainer
-from ....infrastructure.Constants import Errors
+from .Model import Model
+from .explainers.DataTypeModel import DataTypeModel
+from .explainers.DataTypeModelExplainer import DataTypeModelExplainer
+from ...infrastructure.Constants import Errors
 
 
 class Explainer(ABC):

@@ -1,7 +1,7 @@
 import numpy as np
 from alibi.explainers import KernelShap
 
-from .Explainer import Explainer
+from ..Explainer import Explainer
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
 

@@ -4,7 +4,7 @@ import pandas as pd
 from dotenv import load_dotenv
 
 from ..domain.model.Model import Model
-from ..domain.model.explainers.Explainer import Explainer
+from ..domain.model.Explainer import Explainer
 from ..domain.model.ExplainerMetaData import ExplainerMetaData
 from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
 from ..domain.service.ExplainerRetriever import ExplainerRetriever

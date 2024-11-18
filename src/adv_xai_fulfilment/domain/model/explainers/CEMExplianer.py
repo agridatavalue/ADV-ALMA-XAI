@@ -1,7 +1,7 @@
 from alibi.explainers import CEM
 
 from ..Model import Model
-from .Explainer import Explainer
+from ..Explainer import Explainer
 from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
 
@@ -17,7 +17,10 @@ class ContrastiveExplanationMethodExplainer(Explainer):
             is_distributed=False,
             train_set_required=False,
             has_categorical_features=True,
-            data_type_explainers=[DataTypeModelExplainer(DataTypeModel.TABULAR, CEM), DataTypeModelExplainer(DataTypeModel.IMAGE,CEM)],
+            data_type_explainers=[
+                DataTypeModelExplainer(DataTypeModel.TABULAR, CEM),
+                DataTypeModelExplainer(DataTypeModel.IMAGE, CEM),
+            ],
         )
 
     def build(self, model: Model, data: dict):

@@ -1,7 +1,7 @@
 import logging
 
 from ..model.Model import Model
-from ..model.explainers.Explainer import Explainer
+from ..model.Explainer import Explainer
 from ..model.explainers import all as all_class_explainers
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 
