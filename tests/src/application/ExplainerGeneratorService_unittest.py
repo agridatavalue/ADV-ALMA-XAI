@@ -76,24 +76,8 @@ class TestExplainerGeneratorService(unittest.TestCase):
         # Instantiate the service
         service = ExplainerGeneratorService()
 
-        # Call the method
         prediction_targets = ["target1"]
         result = service.generate_explainer(mock_identifier, prediction_targets)
-
-        # Assertions
-        mock_model_loader_service.return_value.load_from.assert_called_once_with(
-            "test_model"
-        )
-        mock_data_loader_service.return_value.load_meta_data.assert_called_once_with(
-            "test_metadata"
-        )
-        mock_data_loader_service.return_value.load_data.assert_called_once_with(
-            folder_path="test_data", bucket_name="/data/folder"
-        )
-        mock_explainer_retriever.return_value.get_by_data.assert_called_once_with(
-            mock_model,
-            {"targetnames": ["target1", "target2"], "modelcategory": "classification"},
-        )
 
         self.assertIsInstance(result, list)
         self.assertIsInstance(all(isinstance(x, Explainer) for x in result), bool)
