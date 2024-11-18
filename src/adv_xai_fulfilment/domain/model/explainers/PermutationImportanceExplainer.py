@@ -1,8 +1,9 @@
 from alibi.explainers import PermutationImportance
 
 from ..Model import Model
+from ..DataType import DataType
 from .Explainer import Explainer
-from .DataTypeModel import DataTypeModel
+from ..ModelMetaData import ModelMetaData
 from .DataTypeModelExplainer import DataTypeModelExplainer
 
 
@@ -18,9 +19,9 @@ class PermutationImportanceExplainer(Explainer):
             train_set_required=False,
             has_categorical_features=True,
             data_type_explainers=[
-                DataTypeModelExplainer(DataTypeModel.TABULAR, PermutationImportance)
+                DataTypeModelExplainer(DataType.TABULAR, PermutationImportance)
             ],
         )
 
-    def can_match_with(self, model: Model, meta_data: dict) -> bool:
+    def can_match_with(self, model: Model, meta_data: ModelMetaData) -> bool:
         return False

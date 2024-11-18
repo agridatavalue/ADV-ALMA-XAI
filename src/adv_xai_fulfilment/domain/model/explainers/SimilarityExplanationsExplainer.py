@@ -1,8 +1,9 @@
 from alibi.explainers import GradientSimilarity
 
 from ..Model import Model
+from ..DataType import DataType
 from .Explainer import Explainer
-from .DataTypeModel import DataTypeModel
+from ..ModelMetaData import ModelMetaData
 from .DataTypeModelExplainer import DataTypeModelExplainer
 
 
@@ -18,11 +19,11 @@ class SimilarityExplanationsExplainer(Explainer):
             train_set_required=True,
             has_categorical_features=True,
             data_type_explainers=[
-                DataTypeModelExplainer(DataTypeModel.TEXT, GradientSimilarity),
-                DataTypeModelExplainer(DataTypeModel.IMAGE, GradientSimilarity),
-                DataTypeModelExplainer(DataTypeModel.TABULAR, GradientSimilarity),
+                DataTypeModelExplainer(DataType.TEXT, GradientSimilarity),
+                DataTypeModelExplainer(DataType.IMAGE, GradientSimilarity),
+                DataTypeModelExplainer(DataType.TABULAR, GradientSimilarity),
             ],
         )
 
-    def can_match_with(self, model: Model, meta_data: dict) -> bool:
+    def can_match_with(self, model: Model, meta_data: ModelMetaData) -> bool:
         return False

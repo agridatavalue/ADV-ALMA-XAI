@@ -1,8 +1,8 @@
 import numpy as np
 from alibi.explainers import KernelShap
 
+from ..DataType import DataType
 from .Explainer import Explainer
-from .DataTypeModel import DataTypeModel
 from .DataTypeModelExplainer import DataTypeModelExplainer
 
 
@@ -18,7 +18,7 @@ class KernelSHAPExplainer(Explainer):
             train_set_required=True,
             has_categorical_features=True,
             data_type_explainers=[
-                DataTypeModelExplainer(DataTypeModel.TABULAR, KernelShap),
+                DataTypeModelExplainer(DataType.TABULAR, KernelShap),
             ],
         )
 
