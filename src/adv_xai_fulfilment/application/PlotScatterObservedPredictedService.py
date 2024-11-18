@@ -2,6 +2,7 @@ import os
 import numpy as np
 
 from ..domain.model.Model import Model
+from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
 from ..infrastructure.service.DataLoaderService import DataLoaderService
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService
 
@@ -14,11 +15,14 @@ class PlotScatterObservedPredictedService:
         self.data_loader_service = DataLoaderService()
         self.model_loader_service = ModelLoaderService()
 
-    def genarate_data_for_pilot(self, model_file_name: str) -> dict:
-        model: Model = self.model_loader_service.load_from(model_file_name)
+    def genarate_data_for_pilot(
+        self, explainer_identifier: ExplainerIdentifier
+    ) -> dict:
+        model: Model = self.model_loader_service.load_from(explainer_identifier.model)
 
         data = self.data_loader_service.load_data(
-            folder_path="crop", bucket_name=os.getenv("DATA_FOLDER_PATH")
+            folder_path=explainer_identifier.data,
+            bucket_name=os.getenv("DATA_FOLDER_PATH"),
         )
 
         X_test = np.array(data.get("x"))
