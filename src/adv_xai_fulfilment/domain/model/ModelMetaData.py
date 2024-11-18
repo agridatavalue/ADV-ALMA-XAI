@@ -7,6 +7,7 @@ class ModelMetaData:
     framework: str
     algorithm: str
     model_type: str
+    subject_name: str
     _target_names: list[str]
     feature_names: list[str]
     model_category: str
@@ -18,6 +19,7 @@ class ModelMetaData:
         framework: str,
         algorithm: str,
         model_type: str,
+        subject_name: str,
         model_category: str,
         target_names: list[str] = [],
         feature_names: list[str] = [],
@@ -27,6 +29,7 @@ class ModelMetaData:
         self.framework = framework
         self.algorithm = algorithm
         self.model_type = model_type
+        self.subject_name = subject_name
         self._target_names = target_names
         self.feature_names = feature_names
         self.model_category = model_category

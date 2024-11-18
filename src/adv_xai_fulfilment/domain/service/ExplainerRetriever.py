@@ -1,6 +1,7 @@
 import logging
 
 from ..model.Model import Model
+from ..model.ModelMetaData import ModelMetaData
 from ..model.explainers.Explainer import Explainer
 from ..model.explainers import all as all_class_explainers
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
@@ -19,8 +20,12 @@ class ExplainerRetriever:
         logging.debug("creating all Explainers")
         self._all_explainers_available = [c() for c in class_explainers]
 
-    def get_by_data(self, selected_model: Model, meta_data: dict) -> list[Explainer]:
-        assert isinstance(meta_data, dict), Errors.METADATA_NOT_DICT
+    def get_by_data(
+        self, selected_model: Model, meta_data: ModelMetaData
+    ) -> list[Explainer]:
+        assert isinstance(
+            meta_data, ModelMetaData
+        ), "meta_data is not ModelMetaData instance"
         assert isinstance(selected_model, Model), Errors.MODEL_NOT_MODEL
 
         return [

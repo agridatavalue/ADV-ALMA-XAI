@@ -87,7 +87,7 @@ class ExplainerGeneratorService:
             if expl_metadata.data_are_ok:
                 logging.debug("uploading the explainer metadata")
                 self._dataLoaderService.upload(
-                    model_category=meta_data.get("modelcategory", ""),
+                    model_category=meta_data.model_category,
                     explainer_data=expl_metadata,
                     target=target,
                     model_filename=selected_model.filename,
