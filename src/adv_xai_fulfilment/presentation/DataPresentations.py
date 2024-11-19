@@ -1,14 +1,14 @@
 import logging
 
-from ..application.PlotScatterObservedPredictedService import (
-    PlotScatterObservedPredictedService,
-)
 from ..domain.model.FeatureDescription import FeatureDescription
 from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
 from .validator.DataPresentationValidator import DataPresentationValidator
 from ..application.FeatureImportanceService import FeatureImportanceService
 from .translator.ExplainerIdentifierTranslator import ExplainerIdentifierTranslator
 from ..application.ModelPerformanceMetricService import ModelPerformanceMetricService
+from ..application.PlotScatterObservedPredictedService import (
+    PlotScatterObservedPredictedService,
+)
 
 
 class DataPresentations:
