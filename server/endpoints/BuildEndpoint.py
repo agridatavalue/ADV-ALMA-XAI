@@ -13,10 +13,8 @@ def build():
     if request.method != "POST":
         return "Not a valid request"
 
-    data: dict = request.get_json()
-    logging.info(f"called /build api with params {data}")
     try:
-        response = ExplainerGeneratorPresentation().build(data)
+        response = ExplainerGeneratorPresentation().build(request.get_json())
         return make_response(
             jsonify(
                 {

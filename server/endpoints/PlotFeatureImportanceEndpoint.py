@@ -11,14 +11,12 @@ def featureimportance():
     if request.method != "POST":
         return "Not a valid request"
 
-    data: dict = request.get_json()
-    logging.info(f"called /featureimportance api with params {data}")
     try:
         response: dict[
             "Feature" : list[str],
             "Importance" : list[float],
             "prediction_target":str,
-        ] = DataPresentations().genarate_feature_importance(data)
+        ] = DataPresentations().genarate_feature_importance(request.get_json())
 
         return make_response(
             jsonify(

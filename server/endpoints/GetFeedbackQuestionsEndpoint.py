@@ -13,10 +13,10 @@ def get_feedback():
     if request.method != "POST":
         return "Not a valid request"
 
-    data: dict = request.get_json()
-    logging.info(f"called /feedback api with params {data}")
     try:
-        response: bool = QuestionAndFeedbackPresentation().get_user_feedback_from(data)
+        response: bool = QuestionAndFeedbackPresentation().get_user_feedback_from(
+            request.get_json()
+        )
         return make_response(
             jsonify("OK" if response else "KO"),
             200,

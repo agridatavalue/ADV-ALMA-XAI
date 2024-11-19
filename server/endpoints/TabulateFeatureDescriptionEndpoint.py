@@ -1,5 +1,5 @@
 import logging
-from flask import Blueprint, jsonify, make_response, request, abort
+from flask import Blueprint, jsonify, make_response, request
 
 from src.adv_xai_fulfilment.presentation.DataPresentations import DataPresentations
 from src.adv_xai_fulfilment.domain.model.FeatureDescription import FeatureDescription
@@ -12,11 +12,9 @@ def FeatureDescriptionsEndpoint():
     if request.method != "POST":
         return "Not a valid request"
 
-    data: dict = request.get_json()
-    logging.info(f"called /feature-descriptions api with params {data}")
     try:
         response: list[FeatureDescription] = (
-            DataPresentations().genarate_feature_description(data)
+            DataPresentations().genarate_feature_description(request.get_json())
         )
         return make_response(
             jsonify(

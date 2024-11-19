@@ -1,5 +1,6 @@
 import logging
 
+from ..domain.model.explainers.Explainer import Explainer
 from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
 from .validator.ExplainerGeneratorValidator import ExplainerGeneratorValidator
 from ..application.ExplainerGeneratorService import ExplainerGeneratorService
@@ -16,18 +17,17 @@ class ExplainerGeneratorPresentation:
         self._translator = ExplainerIdentifierTranslator()
         self._build_service = ExplainerGeneratorService()
 
-    def build(self, data: dict):
+    def build(self, data: dict = {}) -> list[Explainer]:
+        logging.info(f"called build with params: {data}")
         self._validator.validate_and_sanitize_build(data)
         request: ExplainerIdentifier = self._translator.translate(data)
 
-        logging.info(
-            f"Building Explainer with modelName: {request.model}, pilot: {request.pilot}"
-        )
         return self._build_service.generate_explainer(
             request, data.get("prediction_targets", [])
         )
 
     def ask_to_explainer(self, data: dict):
+        logging.info(f"called ask_to_explainer with params: {data}")
         self._validator.validate_and_sanitize_ask(data)
         expl_id: ExplainerIdentifier = self._translator.translate(data)
 

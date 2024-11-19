@@ -11,10 +11,10 @@ def TabulateModelPerformanceMetricEndpoint():
     if request.method != "POST":
         return "Not a valid request"
 
-    data: dict = request.get_json()
-    logging.info(f"called /model-performance-metric api with params {data}")
     try:
-        response: dict = DataPresentations().get_model_performance_metric(data)
+        response: dict = DataPresentations().get_model_performance_metric(
+            request.get_json()
+        )
         return make_response(
             jsonify([{"key": k, "value": response[k]} for k in response.keys()]),
             200,
