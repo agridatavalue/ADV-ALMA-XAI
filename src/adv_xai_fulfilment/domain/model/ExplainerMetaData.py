@@ -30,7 +30,7 @@ class ExplainerMetaData:
             and len(self._metrics) > 0
         )
 
-    def generate(self) -> dict:
+    def to_dict(self) -> dict:
         return {
             "model_metadata": {
                 "subjectname": self._meta_data.subject_name,
