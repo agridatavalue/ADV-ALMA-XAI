@@ -29,8 +29,9 @@ class TestAleExplainer(unittest.TestCase):
                 framework="framework",
                 model_type="BlackBox",
                 target_names=[],
-                model_category="Regression",
                 feature_names=[],
+                subject_name="subject_name",
+                model_category="Regression",
                 feature_descriptions=[],
             )
         )
