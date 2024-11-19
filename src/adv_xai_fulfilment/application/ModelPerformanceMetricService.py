@@ -24,20 +24,20 @@ class ModelPerformanceMetricService:
     def get_data(
         self, explainer_identifier: ExplainerIdentifier
     ) -> dict["target":str, "y_pred" : pd.DataFrame, "y_true" : pd.DataFrame]:
+        model_metadata: ModelMetaData = self._data_loader_service.load_model_metadata(
+            explainer_identifier
+        )
+        if not explainer_identifier.prediction_target:
+            explainer_identifier.prediction_target = model_metadata.first_target_name
+
         selected_model: Model = self._model_loader_service.load_from(
-            explainer_identifier.model
+            explainer_identifier.model, meta_data=model_metadata
         )
 
         data: dict = self._data_loader_service.load_data(
             bucket_name=os.getenv("DATA_FOLDER_PATH"),
             folder_path=explainer_identifier.data,
         )
-
-        model_metadata: ModelMetaData = self._data_loader_service.load_model_metadata(
-            explainer_identifier
-        )
-        if not explainer_identifier.prediction_target:
-            explainer_identifier.prediction_target = model_metadata.first_target_name
 
         model_performance: dict = self._mdm_service.get_data(
             data=data,
