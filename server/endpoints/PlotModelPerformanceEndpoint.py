@@ -1,4 +1,3 @@
-import json
 import logging
 from flask import Blueprint, request, jsonify, make_response
 
@@ -12,11 +11,9 @@ def plotModelPerformanceEndpoint():
     if request.method != "POST":
         return "Not a valid request"
 
-    data: dict = request.get_json()
-    logging.info(f"called /model-performance api with params {data}")
     try:
         response: dict["target":str, "y_true" : list[float], "y_pred" : list[float]] = (
-            DataPresentations().genarate_model_performance(data)
+            DataPresentations().genarate_model_performance(request.get_json())
         )
         return make_response(
             jsonify(

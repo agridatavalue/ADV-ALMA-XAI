@@ -13,7 +13,6 @@ def get_all_questions():
     if request.method != "GET":
         return "Not a valid request"
 
-    logging.info(f"called /feedback api with params {request.args}")
     try:
         response: list = QuestionAndFeedbackPresentation().get_questions_from_metadata(
             request.args

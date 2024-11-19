@@ -13,10 +13,8 @@ def AskToExplainerEndpoint():
     if request.method != "POST":
         return "Not a valid request"
 
-    data: dict = request.get_json()
-    logging.info(f"called /ask api with params {data}")
     try:
-        response = ExplainerGeneratorPresentation().ask_to_explainer(data)
+        response = ExplainerGeneratorPresentation().ask_to_explainer(request.get_json())
 
         return make_response(
             jsonify({"response": response}),
