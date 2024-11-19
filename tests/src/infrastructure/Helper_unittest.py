@@ -7,6 +7,7 @@ from src.adv_xai_fulfilment.infrastructure.Helper import Helper
 
 class TestHelper(unittest.TestCase):
     def test_is_local_path_with_local_file(self):
+        self.assertTrue(Helper.is_local_path("README.md"))
         self.assertTrue(Helper.is_local_path(abspath("README.md")))
 
     def test_is_local_path_with_remote_file(self):

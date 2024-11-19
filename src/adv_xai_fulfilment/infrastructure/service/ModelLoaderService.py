@@ -33,13 +33,14 @@ class ModelLoaderService:
     def load_from(self, model_file_path: str, meta_data: ModelMetaData) -> Model:
         logging.debug(f"loading model from {model_file_path}")
 
-        if not Helper.is_local_path(model_file_path):
-            logging.debug(
-                f"is not a local path, downloading {model_file_path} from {os.getenv('MODEL_FOLDER_PATH')}"
-            )
-            model_file_path: str = self._bucketRepository.download_from(
-                bucket_name=os.getenv("MODEL_FOLDER_PATH"), object_name=model_file_path
-            )
+        # nb: at the moment we are working only with remote files
+        # if not Helper.is_local_path(model_file_path):
+        #     logging.debug(
+        #         f"is not a local path, downloading {model_file_path} from {os.getenv('MODEL_FOLDER_PATH')}"
+        #     )
+        model_file_path: str = self._bucketRepository.download_from(
+            bucket_name=os.getenv("MODEL_FOLDER_PATH"), object_name=model_file_path
+        )
 
         selected_model: Model = (
             self._model_translator.with_(meta_data.framework)
