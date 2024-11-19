@@ -7,14 +7,14 @@ from .translator.ExplainerIdentifierTranslator import ExplainerIdentifierTransla
 
 
 class ExplainerGeneratorPresentation:
-    _service: ExplainerGeneratorService
     _validator: ExplainerGeneratorValidator
     _translator: ExplainerIdentifierTranslator
+    _build_service: ExplainerGeneratorService
 
     def __init__(self):
-        self._service = ExplainerGeneratorService()
         self._validator = ExplainerGeneratorValidator()
         self._translator = ExplainerIdentifierTranslator()
+        self._build_service = ExplainerGeneratorService()
 
     def build(self, data: dict):
         self._validator.validate_and_sanitize_build(data)
@@ -23,7 +23,7 @@ class ExplainerGeneratorPresentation:
         logging.info(
             f"Building Explainer with modelName: {request.model}, pilot: {request.pilot}"
         )
-        return self._service.generate_explainer(
+        return self._build_service.generate_explainer(
             request, data.get("prediction_targets", [])
         )
 
@@ -34,7 +34,7 @@ class ExplainerGeneratorPresentation:
         logging.info(
             f"Ask to Explainer with pilot: {expl_id.pilot}, request: {data.get('request')}, explainer: {data.get('explainer')}"
         )
-        return self._service.ask_to_explainer(
+        return self._build_service.ask_to_explainer(
             request=data.get("request"),
             explainer_name=data.get("explainer"),
             explainer_identifier=expl_id,
