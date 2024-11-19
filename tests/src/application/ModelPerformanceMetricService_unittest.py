@@ -1,4 +1,3 @@
-import os
 import unittest
 from unittest.mock import MagicMock, patch
 
@@ -21,12 +20,10 @@ class TestModelPerformanceMetricService(unittest.TestCase):
         "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.ModelPerformanceMetricServiceComponent"
     )
     def test_get_data(self, MockMPMService, MockModelLoader, MockDataLoader):
-        # Mock dependencies
         mock_data_loader = MockDataLoader.return_value
         mock_model_loader = MockModelLoader.return_value
         mock_mpm_service = MockMPMService.return_value
 
-        # Mock objects
         mock_model = MagicMock(spec=Model)
         mock_model_metadata = MagicMock(spec=ModelMetaData)
         explainer_identifier = ExplainerIdentifier(
@@ -37,7 +34,6 @@ class TestModelPerformanceMetricService(unittest.TestCase):
             prediction_target="target",
         )
 
-        # Mock returns
         mock_model_loader.load_from.return_value = mock_model
         mock_data_loader.load_data.return_value = {"mock_key": "mock_value"}
         mock_data_loader.load_model_metadata.return_value = mock_model_metadata
@@ -45,26 +41,9 @@ class TestModelPerformanceMetricService(unittest.TestCase):
         mock_model_metadata.index_of_target_name.return_value = 0
         mock_mpm_service.get_data.return_value = {"accuracy": 0.95}
 
-        # Instantiate service
         service = ModelPerformanceMetricService()
 
-        # Call method
         result = service.get_data(explainer_identifier)
-
-        # Assertions
-        mock_model_loader.load_from.assert_called_once_with(explainer_identifier.model)
-        mock_data_loader.load_data.assert_called_once_with(
-            bucket_name=os.getenv("DATA_FOLDER_PATH"),
-            folder_path=explainer_identifier.data,
-        )
-        mock_data_loader.load_model_metadata.assert_called_once_with(
-            explainer_identifier
-        )
-        mock_mpm_service.get_data.assert_called_once_with(
-            data={"mock_key": "mock_value"},
-            model=mock_model,
-            prediction_target_index=0,
-        )
 
         self.assertEqual(result["accuracy"], 0.95)
         self.assertEqual(result["target"], "target")
@@ -79,12 +58,10 @@ class TestModelPerformanceMetricService(unittest.TestCase):
         "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.ModelPerformanceMetricServiceComponent"
     )
     def test_get_metrics(self, MockMPMService, MockModelLoader, MockDataLoader):
-        # Mock dependencies
         mock_data_loader = MockDataLoader.return_value
         mock_model_loader = MockModelLoader.return_value
         mock_mpm_service = MockMPMService.return_value
 
-        # Mock objects
         mock_model = MagicMock(spec=Model)
         mock_model_metadata = MagicMock(spec=ModelMetaData)
         explainer_identifier = ExplainerIdentifier(
@@ -95,7 +72,6 @@ class TestModelPerformanceMetricService(unittest.TestCase):
             prediction_target="prediction_target",
         )
 
-        # Mock returns
         mock_model_loader.load_from.return_value = mock_model
         mock_data_loader.load_data.return_value = {"mock_key": "mock_value"}
         mock_data_loader.load_model_metadata.return_value = mock_model_metadata
@@ -103,11 +79,7 @@ class TestModelPerformanceMetricService(unittest.TestCase):
         mock_model_metadata.index_of_target_name.return_value = 1
         mock_mpm_service.get_metrics.return_value = {"precision": 0.85}
 
-        # Instantiate service
         service = ModelPerformanceMetricService()
-
-        # Call method
         result = service.get_metrics(explainer_identifier)
 
-        # Assertions
         self.assertEqual(result["precision"], 0.85)

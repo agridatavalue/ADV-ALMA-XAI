@@ -23,6 +23,7 @@ class TestExplainerRetriever(unittest.TestCase):
                 algorithm="random_forest",
                 model_type="classification",
                 target_names=[],
+                subject_name="subject_name",
                 model_category="tree",
                 feature_descriptions=[],
             ),

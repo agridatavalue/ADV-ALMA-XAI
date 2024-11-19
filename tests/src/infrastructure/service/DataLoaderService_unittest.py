@@ -1,5 +1,6 @@
 import unittest
 
+from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.ExplainerMetaData import ExplainerMetaData
 from src.adv_xai_fulfilment.domain.model.explainers.AleExplainer import AleExplainer
 from src.adv_xai_fulfilment.infrastructure.service.DataLoaderService import (
@@ -21,7 +22,16 @@ class TestDataLoaderService(unittest.TestCase):
             explainer_data=ExplainerMetaData(
                 possible_explainers=[AleExplainer()],
                 target_name="test",
-                meta_data={"a": "b"},
+                meta_data=ModelMetaData(
+                    data_type="test",
+                    algorithm="test",
+                    framework="test",
+                    model_type="test",
+                    subject_name="test",
+                    target_names=[],
+                    model_category="test",
+                    feature_descriptions=[],
+                ),
                 metrics={},
             ),
         )

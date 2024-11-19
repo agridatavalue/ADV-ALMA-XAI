@@ -64,3 +64,6 @@ class ModelMetaData:
     @property
     def first_target_name(self) -> str:
         return self._target_names[0] if self._target_names else None
+
+    def __repr__(self) -> str:
+        return f"ModelMetaData({self.to_dict})"
