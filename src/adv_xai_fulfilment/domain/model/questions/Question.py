@@ -1,4 +1,3 @@
-from __future__ import annotations
 import json
 from os import path
 
@@ -44,7 +43,7 @@ class Question:
             "answers": [a.to_dict() for a in self._answers],
         }
 
-    def verticalize_for(self, data: dict) -> Question:
+    def verticalize_for(self, data: dict) -> "Question":
         if not isinstance(data, dict) or not self._template_text:
             return self
 
@@ -69,7 +68,7 @@ class Question:
         )
 
     @staticmethod
-    def get_all() -> list[Question]:
+    def get_all() -> list["Question"]:
         file_path = path.abspath(
             path.join(
                 path.dirname(__file__),
