@@ -1,11 +1,11 @@
 # ADV XAI FULFILMENT
 
-<small>version 0.0.1 of 11/19/2024</small>
+<small>version 0.0.1 of 19/11/2024</small>
 
 ## Summary
 
 -   [Glossary](#glossary)
--   [Project Description](#1-description)
+-   [Project Description](#10-description)
 -   [Software Architecture](#20-software-architecture)
     -   [Domain-Driven-Design (DDD)](#21-domain-driven-design-ddd)
     -   [Bucket Repository (SECURESTORE)](#22-bucket-repository)
@@ -21,7 +21,7 @@
 | ------- | ------------------------------------------------------------------------ |
 | service | by service we mean the "xai-fulfilment" project accessible via REST API; |
 
-## [1] Description
+## [1.0] Description
 
 This project focuses on the development of a fulfilment system based on Explainable AI (_XAI_) techniques. The goal is to provide an interface for data management and analysis, with particular attention to the transparency and interpretability of the artificial intelligence models used.
 
@@ -75,7 +75,7 @@ sequenceDiagram
 
 ## [3.0] Environment
 
-## [3.1] Test
+### [3.1] Test
 
 To run tests digit:
 
@@ -89,7 +89,7 @@ To have a _coverage_ report digit:
 python -m coverage run -m unittest | python -m coverage report
 ```
 
-## [3.2] Setup
+### [3.2] Setup
 
 Programming language required:
 
@@ -106,7 +106,7 @@ pyenv exec python -m venv venv
 pip install -r requirements.txt
 ```
 
-## [3.3] Start-up
+### [3.3] Start-up
 
 #### DEBUG mode
 
