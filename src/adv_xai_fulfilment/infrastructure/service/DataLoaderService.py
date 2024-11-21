@@ -14,6 +14,7 @@ from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIde
 
 
 class DataLoaderService:
+    _translator: ModelMetaDataTranslator
     _bucketRepository: BucketRepository
     _model_metadata_translator: ModelMetaDataTranslator
     _explainer_metadata_translator: ExplainerMetaDataTranslator

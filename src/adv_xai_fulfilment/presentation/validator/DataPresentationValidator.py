@@ -29,3 +29,7 @@ class DataPresentationValidator(AbstractValidator):
         self._validate_model(request.get("model"))
         self._validate_folder_data(request.get("data"))
         return request
+
+    def validate_and_sanitize_data_source_types(self, request: dict = {}) -> dict:
+        self._validate_model(request.get("model"))
+        return request

@@ -210,6 +210,35 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/FeedbackResponse"
+    
+    /data-source-types:
+        get:
+            summary: returns the list of data source types
+            description: returns the list of data source types
+            operationId: data-source-types
+            parameters:
+                - name: model
+                  in: query
+                  required: true
+                  description: "the identifier of the model file name"
+                  example: "model.pkl"
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DataSourceTypesResponse"
+                "400":
+                    description: Invalid IDs combination supplied
+                "404":
+                    description: Pilot / Model not found
+            tags:
+                - Data source types 
+
+
 
 tags: []
 servers: []
@@ -221,6 +250,19 @@ components:
             description: "Please enter token in following format: Bearer <JWT>"
             type: http
     schemas:
+        DataSourceTypesResponse:
+            type: object
+            properties:
+                sources:
+                    type: array
+                    items:
+                        type: object
+                        properties: 
+                            type: 
+                                type: string 
+                            value:
+                                type: number
+            example: '{sources: [{type:"agronomic", value:3}]}'
         QuestionsResponse:
             type: object
             properties:

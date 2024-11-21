@@ -37,6 +37,11 @@ from .src.infrastructure.service.translator.FeatureDescriptionTranslator_unittes
 )
 
 # PRESENTATION ----------------------------------------------------------------
+# ----> TRANSLATORS
+
 from .src.presentation.translator.ExplainerIdentifierTranslator_unittest import (
     TestExplainerIdentifierTranslator,
+)
+from .src.presentation.translator.DataPresntationsOutputTranslator_unittest import (
+    TestDataPresentationsOutputTranslator,
 )

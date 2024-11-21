@@ -22,6 +22,9 @@ class KernelSHAPExplainer(Explainer):
             ],
         )
 
-    def get_shap_values(self, x_test: np.array):
-        explanation = self.build_result.explain(x_test)
-        return explanation.shap_values
+    # def canMatchWith(self, model: Model, meta_data: dict) -> bool:
+    #     return super().can_match_with(model, meta_data) and model.name == meta_data.get(
+    #         "model"
+    #     )
+    def can_match_with(self, model: Model, meta_data: dict) -> bool:
+        return False
