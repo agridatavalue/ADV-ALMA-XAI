@@ -111,6 +111,7 @@ class FeatureImportanceService:
     def genarate_feature_description(
         self, explainer_identifier: ExplainerIdentifier
     ) -> list[FeatureDescription]:
+        explainer_identifier.metadata = "metadata_v2.json"
         meta_data: ModelMetaData = self._data_loader_service.load_model_metadata(
             explainer_identifier=explainer_identifier
         )

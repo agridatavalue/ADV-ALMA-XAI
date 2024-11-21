@@ -1,17 +1,19 @@
 import logging
-
 from ..domain.model.FeatureDescription import FeatureDescription
 from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
 from .validator.DataPresentationValidator import DataPresentationValidator
 from ..application.FeatureImportanceService import FeatureImportanceService
+from ..application.FeatureDescriptionService import FeatureDescriptionService
 from .translator.ExplainerIdentifierTranslator import ExplainerIdentifierTranslator
 from ..application.ModelPerformanceMetricService import ModelPerformanceMetricService
+from .translator.DataPresentationsOutputTranslator import DataPresentationsOutputTranslator
 from ..application.PlotScatterObservedPredictedService import (
     PlotScatterObservedPredictedService,
 )
 
 
 class DataPresentations:
+    _output_translator: DataPresentationsOutputTranslator
     _feature_importance_service: FeatureImportanceService
     _model_performance_service: ModelPerformanceMetricService
     _plot_scatter_service: PlotScatterObservedPredictedService
@@ -21,10 +23,18 @@ class DataPresentations:
     def __init__(self):
         self._validator = DataPresentationValidator()
         self._translator = ExplainerIdentifierTranslator()
+        self._output_translator = DataPresentationsOutputTranslator()
         self._plot_scatter_service = PlotScatterObservedPredictedService()
         self._model_performance_service = ModelPerformanceMetricService()
         self._feature_importance_service = FeatureImportanceService()
-
+        
+    def get_data_source_types(self, request: dict = {}):
+        logging.info(f"called get_data_source_types with params: {request}")
+        self._validator.validate_and_sanitize_data_source_types(request)
+        expl_id: ExplainerIdentifier = self._translator.translate(request)
+        descriptions: list[FeatureDescription]= self._feature_importance_service.genarate_feature_description(expl_id)
+        return self._output_translator.translate_data_source_types(descriptions)
+    
     def genarate_feature_description(
         self, request: dict = {}
     ) -> list[FeatureDescription]:

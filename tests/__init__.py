@@ -31,6 +31,11 @@ from .src.infrastructure.service.translator.ModelMetaDataTranslator_unittest imp
 )
 
 # PRESENTATION ----------------------------------------------------------------
+# ----> TRANSLATORS
+
 from .src.presentation.translator.ExplainerIdentifierTranslator_unittest import (
     TestExplainerIdentifierTranslator,
+)
+from .src.presentation.translator.DataPresntationsOutputTranslator_unittest import (
+    TestDataPresentationsOutputTranslator
 )
