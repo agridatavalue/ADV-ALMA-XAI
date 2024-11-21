@@ -29,6 +29,12 @@ from .src.infrastructure.service.ModelLoaderService_unittest import (
 from .src.infrastructure.service.translator.ModelMetaDataTranslator_unittest import (
     TestModelMetaDataTranslator,
 )
+from .src.infrastructure.service.translator.ExplainerMetaDataTranslator_unittest import (
+    TestExplainerMetaDataTranslator,
+)
+from .src.infrastructure.service.translator.FeatureDescriptionTranslator_unittest import (
+    TestFeatureDescriptionTranslator,
+)
 
 # PRESENTATION ----------------------------------------------------------------
 from .src.presentation.translator.ExplainerIdentifierTranslator_unittest import (

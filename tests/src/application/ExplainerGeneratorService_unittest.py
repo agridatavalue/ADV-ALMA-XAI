@@ -83,7 +83,3 @@ class TestExplainerGeneratorService(unittest.TestCase):
         self.assertIsInstance(all(isinstance(x, Explainer) for x in result), bool)
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0].name, "mock_explainer")
-
-
-if __name__ == "__main__":
-    unittest.main()

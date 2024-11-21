@@ -1,17 +1,16 @@
 import unittest
 
-from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.FeatureDescription import FeatureDescription
-from src.adv_xai_fulfilment.infrastructure.service.translator.ModelMetaDataTranslator import (
-    ModelMetaDataTranslator,
+from src.adv_xai_fulfilment.infrastructure.service.translator.FeatureDescriptionTranslator import (
+    FeatureDescriptionTranslator,
 )
 
 
-class TestModelMetaDataTranslator(unittest.TestCase):
+class TestFeatureDescriptionTranslator(unittest.TestCase):
     def setUp(self):
-        self.testObj = ModelMetaDataTranslator()
+        self.testObj = FeatureDescriptionTranslator()
 
-    def test_translate(self):
+    def test_translate_feature_descriptions(self):
         result = self.testObj.translate(
             {
                 "Row distance (cm)": {
@@ -36,21 +35,3 @@ class TestModelMetaDataTranslator(unittest.TestCase):
         self.assertEqual(
             result[0].description, "Distance between plantation rows in cm"
         )
-
-    def test_translate(self):
-        result = self.testObj.translate(
-            {
-                "datatype": "data_type",
-                "framework": "framework",
-                "algorithm": "algorithm",
-                "targetnames": ["targetnames"],
-                "modelcategory": "modelcategory",
-            }
-        )
-
-        self.assertIsInstance(result, ModelMetaData)
-        self.assertEqual(result.data_type, "data_type")
-        self.assertEqual(result.framework, "framework")
-        self.assertEqual(result.algorithm, "algorithm")
-        self.assertEqual(result.target_names, ["targetnames"])
-        self.assertEqual(result.model_category, "modelcategory")
