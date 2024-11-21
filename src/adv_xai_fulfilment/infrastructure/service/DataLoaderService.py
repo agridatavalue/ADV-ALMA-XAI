@@ -9,12 +9,14 @@ from ..repository.BucketRepository import BucketRepository
 from ...domain.model.ExplainerMetaData import ExplainerMetaData
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 from .translator.ModelMetaDataTranslator import ModelMetaDataTranslator
+from .translator.ExplainerMetaDataTranslator import ExplainerMetaDataTranslator
 from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
 
 
 class DataLoaderService:
-    _translator: ModelMetaDataTranslator
     _bucketRepository: BucketRepository
+    _model_metadata_translator: ModelMetaDataTranslator
+    _explainer_metadata_translator: ExplainerMetaDataTranslator
 
     def __init__(self):
         self._bucketRepository = BucketRepository(
@@ -25,7 +27,8 @@ class DataLoaderService:
                 "secure": os.getenv("MINIO_SECURE", "true").lower() == "true",
             }
         )
-        self._translator = ModelMetaDataTranslator()
+        self._model_metadata_translator = ModelMetaDataTranslator()
+        self._explainer_metadata_translator = ExplainerMetaDataTranslator()
 
     def load_data(self, folder_path: str, bucket_name: str) -> dict[str, pd.DataFrame]:
         if not folder_path:
@@ -86,7 +89,9 @@ class DataLoaderService:
         os.remove(file)
         return metadata
 
-    def load_explainer_metadata(self, expl_id: ExplainerIdentifier) -> dict:
+    def load_explainer_metadata(
+        self, expl_id: ExplainerIdentifier
+    ) -> ExplainerMetaData:
         assert isinstance(
             expl_id, ExplainerIdentifier
         ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
@@ -99,7 +104,7 @@ class DataLoaderService:
             metadata = json.load(json_file) or {}
 
         os.remove(file)
-        return metadata
+        return self._explainer_metadata_translator.translate(metadata)
 
     def load_model_metadata(
         self, explainer_identifier: ExplainerIdentifier
@@ -116,7 +121,7 @@ class DataLoaderService:
             metadata = json.load(json_file) or {}
 
         os.remove(file)
-        return self._translator.translate(metadata)
+        return self._model_metadata_translator.translate(metadata)
 
     def upload(
         self,

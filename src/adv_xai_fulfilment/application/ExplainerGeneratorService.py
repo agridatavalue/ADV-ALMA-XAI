@@ -11,6 +11,9 @@ from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
 from ..domain.service.ExplainerRetriever import ExplainerRetriever
 from ..infrastructure.service.DataLoaderService import DataLoaderService
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService
+from ..domain.service.FeatureImportanceServiceComponent import (
+    FeatureImportanceServiceComponent,
+)
 from ..domain.service.ModelPerformanceMetricServiceComponent import (
     ModelPerformanceMetricServiceComponent,
 )
@@ -24,15 +27,30 @@ class ExplainerGeneratorService:
     _explainer_retriever: ExplainerRetriever
 
     _mpm_service: ModelPerformanceMetricServiceComponent
+    _fi_service_comp: FeatureImportanceServiceComponent
 
     def __init__(self):
         self._dataLoaderService = DataLoaderService()
         self._modelLoaderService = ModelLoaderService()
         self._explainer_retriever = ExplainerRetriever()
+        self._fi_service_comp = FeatureImportanceServiceComponent()
         self._mpm_service = ModelPerformanceMetricServiceComponent()
 
     def generate_explainer(
         self, request: ExplainerIdentifier, prediction_targets: list[str]
+    ) -> list[Explainer]:
+        feature_importance: dict[
+            "Feature" : list[str],
+            "Importance" : list[float],
+            "prediction_target":str,
+        ] = self._fi_service_comp.get_data(request)
+        return self.__build(request, prediction_targets, feature_importance)
+
+    def __build(
+        self,
+        request: ExplainerIdentifier,
+        prediction_targets: list[str],
+        feature_importance: dict,
     ) -> list[Explainer]:
         logging.debug("downloading meta data")
         meta_data: ModelMetaData = self._dataLoaderService.load_model_metadata(request)
@@ -83,6 +101,7 @@ class ExplainerGeneratorService:
                     model=selected_model,
                     data=data,
                 ),
+                feature_importance=feature_importance,
             )
             if expl_metadata.data_are_ok:
                 logging.debug("uploading the explainer metadata")

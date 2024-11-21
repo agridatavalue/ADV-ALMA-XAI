@@ -6,6 +6,7 @@ class ExplainerMetaData:
     _metrics: dict
     _meta_data: ModelMetaData
     _target_name: str
+    _feature_importance: dict
     _possible_explainers: list[Explainer]
 
     def __init__(
@@ -14,11 +15,31 @@ class ExplainerMetaData:
         meta_data: ModelMetaData,
         target_name: str,
         possible_explainers: list[Explainer],
+        feature_importance: dict[
+            "Feature" : list[str],
+            "Importance" : list[float],
+            "prediction_target":str,
+        ] = {},
     ):
         self._possible_explainers = possible_explainers
+        self._feature_importance = feature_importance
         self._target_name = target_name
         self._meta_data = meta_data
         self._metrics = metrics
+
+    @property
+    def model_metadata(self) -> ModelMetaData:
+        return self._meta_data
+
+    @property
+    def feature_importance(
+        self,
+    ) -> dict[
+        "Feature" : list[str],
+        "Importance" : list[float],
+        "prediction_target":str,
+    ]:
+        return self._feature_importance
 
     @property
     def data_are_ok(self) -> bool:
@@ -45,6 +66,7 @@ class ExplainerMetaData:
                     "n_parameters": 100,
                 },
                 "performance_metrics": self._metrics,
+                "feature_importance": self._feature_importance,
             },
             "explainer_metadata": {
                 "explainers_identified": [

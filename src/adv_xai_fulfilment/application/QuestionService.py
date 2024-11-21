@@ -2,6 +2,7 @@ import logging
 
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 from src.adv_xai_fulfilment.domain.model.questions.Question import Question
+from src.adv_xai_fulfilment.domain.model.ExplainerMetaData import ExplainerMetaData
 from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
 from src.adv_xai_fulfilment.infrastructure.service.DataLoaderService import (
     DataLoaderService,
@@ -18,12 +19,11 @@ class QuestionService:
         expl_id.category = "regression"
 
         logging.debug(f"loading metadata from {expl_id.metadata}")
-        data: dict = self._data_loader_service.load_explainer_metadata(expl_id)
+        meta_data: ExplainerMetaData = (
+            self._data_loader_service.load_explainer_metadata(expl_id)
+        )
 
-        return [
-            q.verticalize_for(data.get("model_metadata", {}))
-            for q in Question.get_all()
-        ]
+        return [q.verticalize_for(meta_data.model_metadata) for q in Question.get_all()]
 
     def save_user_feedback(
         self, expl_id: ExplainerIdentifier, answers: list[dict]
