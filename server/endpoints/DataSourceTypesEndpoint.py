@@ -11,11 +11,9 @@ def DataSourceTypesEndpoint():
     if request.method != "GET":
         return "Not a valid request"
 
-    data: dict = request.args
-    logging.info(f"called /data-source-types api with params {data}")
     try:
         response: dict = DataPresentations().get_data_source_types(request.args)
-       
+
         return make_response(
             jsonify(response),
             200,
