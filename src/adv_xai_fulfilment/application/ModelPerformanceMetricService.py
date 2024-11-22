@@ -6,20 +6,20 @@ from ..domain.model.ModelMetaData import ModelMetaData
 from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
 from ..infrastructure.service.DataLoaderService import DataLoaderService
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService
-from ..domain.service.ModelPerformanceMetricServiceComponent import (
-    ModelPerformanceMetricServiceComponent,
+from ..domain.service.ModelPerformanceServiceComponent import (
+    ModelPerformanceServiceComponent,
 )
 
 
 class ModelPerformanceMetricService:
     _data_loader_service: DataLoaderService
     _model_loader_service: ModelLoaderService
-    _mdm_service: ModelPerformanceMetricServiceComponent
+    _mdm_service: ModelPerformanceServiceComponent
 
     def __init__(self):
         self._data_loader_service = DataLoaderService()
         self._model_loader_service = ModelLoaderService()
-        self._mdm_service = ModelPerformanceMetricServiceComponent()
+        self._mdm_service = ModelPerformanceServiceComponent()
 
     def get_data(
         self, explainer_identifier: ExplainerIdentifier

@@ -5,8 +5,8 @@ from unittest.mock import MagicMock
 from src.adv_xai_fulfilment.domain.model.machineLearningModel.KerasModel import (
     KerasModel,
 )
-from src.adv_xai_fulfilment.domain.service.ModelPerformanceMetricServiceComponent import (
-    ModelPerformanceMetricServiceComponent,
+from src.adv_xai_fulfilment.domain.service.ModelPerformanceServiceComponent import (
+    ModelPerformanceServiceComponent,
 )
 
 
@@ -17,9 +17,9 @@ class SilentKerasModel(KerasModel):
         return self
 
 
-class TestModelPerformanceMetricServiceComponent(unittest.TestCase):
+class TestModelPerformanceServiceComponent(unittest.TestCase):
     def test_get_data(self):
-        testObj = ModelPerformanceMetricServiceComponent()
+        testObj = ModelPerformanceServiceComponent()
 
         self.assertEqual(
             testObj.get_data(
@@ -34,7 +34,7 @@ class TestModelPerformanceMetricServiceComponent(unittest.TestCase):
         )
 
     def test_get_metrics(self):
-        testObj = ModelPerformanceMetricServiceComponent()
+        testObj = ModelPerformanceServiceComponent()
 
         actual = testObj.get_metrics(
             prediction_target_index=0,

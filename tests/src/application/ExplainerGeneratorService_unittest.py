@@ -22,7 +22,7 @@ class TestExplainerGeneratorService(unittest.TestCase):
         "src.adv_xai_fulfilment.application.ExplainerGeneratorService.ExplainerRetriever"
     )
     @patch(
-        "src.adv_xai_fulfilment.application.ExplainerGeneratorService.ModelPerformanceMetricServiceComponent"
+        "src.adv_xai_fulfilment.application.ExplainerGeneratorService.ModelPerformanceServiceComponent"
     )
     @patch("os.getenv")
     @unittest.skip("to fix")

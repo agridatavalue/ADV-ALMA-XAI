@@ -17,7 +17,7 @@ class TestModelPerformanceMetricService(unittest.TestCase):
         "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.ModelLoaderService"
     )
     @patch(
-        "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.ModelPerformanceMetricServiceComponent"
+        "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.ModelPerformanceServiceComponent"
     )
     def test_get_data(self, MockMPMService, MockModelLoader, MockDataLoader):
         mock_data_loader = MockDataLoader.return_value
@@ -55,7 +55,7 @@ class TestModelPerformanceMetricService(unittest.TestCase):
         "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.ModelLoaderService"
     )
     @patch(
-        "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.ModelPerformanceMetricServiceComponent"
+        "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.ModelPerformanceServiceComponent"
     )
     def test_get_metrics(self, MockMPMService, MockModelLoader, MockDataLoader):
         mock_data_loader = MockDataLoader.return_value

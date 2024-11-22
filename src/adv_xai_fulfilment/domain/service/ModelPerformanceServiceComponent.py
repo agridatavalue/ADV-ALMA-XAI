@@ -6,7 +6,7 @@ from ..model.Model import Model
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 
 
-class ModelPerformanceMetricServiceComponent:
+class ModelPerformanceServiceComponent:
 
     def get_data(
         self, model: Model, data: dict, prediction_target_index: int = 0

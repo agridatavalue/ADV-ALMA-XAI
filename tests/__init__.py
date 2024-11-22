@@ -13,8 +13,8 @@ from .src.domain.service.ExplainerRetriever_unittest import TestExplainerRetriev
 from .src.domain.model.machineLearningModel.KerasModel_unittest import TestKerasModel
 
 # ----> SERVICE
-from .src.domain.service.ModelPerformanceMetricServiceComponent_unittest import (
-    TestModelPerformanceMetricServiceComponent,
+from .src.domain.service.ModelPerformanceServiceComponent_unittest import (
+    TestModelPerformanceServiceComponent,
 )
 from .src.domain.service.FeatureImportanceServiceComponent_unittest import (
     TestFeatureImportanceServiceComponent,

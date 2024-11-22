@@ -18,6 +18,4 @@ class FeatureImportanceService:
         "prediction_target":str,
     ]:
         explainer_identifier.category = "regression"
-        return self._feature_importance_service_comp.get_data(
-            explainer_identifier=explainer_identifier,
-        )
+        return self._feature_importance_service_comp.get_data(explainer_identifier)

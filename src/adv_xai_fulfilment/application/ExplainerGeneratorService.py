@@ -11,11 +11,11 @@ from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
 from ..domain.service.ExplainerRetriever import ExplainerRetriever
 from ..infrastructure.service.DataLoaderService import DataLoaderService
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService
+from ..domain.service.ModelPerformanceServiceComponent import (
+    ModelPerformanceServiceComponent,
+)
 from ..domain.service.FeatureImportanceServiceComponent import (
     FeatureImportanceServiceComponent,
-)
-from ..domain.service.ModelPerformanceMetricServiceComponent import (
-    ModelPerformanceMetricServiceComponent,
 )
 
 load_dotenv()
@@ -26,7 +26,7 @@ class ExplainerGeneratorService:
     _modelLoaderService: ModelLoaderService
     _explainer_retriever: ExplainerRetriever
 
-    _mpm_service: ModelPerformanceMetricServiceComponent
+    _mpm_service: ModelPerformanceServiceComponent
     _fi_service_comp: FeatureImportanceServiceComponent
 
     def __init__(self):
@@ -34,7 +34,7 @@ class ExplainerGeneratorService:
         self._modelLoaderService = ModelLoaderService()
         self._explainer_retriever = ExplainerRetriever()
         self._fi_service_comp = FeatureImportanceServiceComponent()
-        self._mpm_service = ModelPerformanceMetricServiceComponent()
+        self._mpm_service = ModelPerformanceServiceComponent()
 
     def generate_explainer(
         self, request: ExplainerIdentifier, prediction_targets: list[str]
