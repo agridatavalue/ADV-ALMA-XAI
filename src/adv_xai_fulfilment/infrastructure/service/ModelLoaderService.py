@@ -42,6 +42,9 @@ class ModelLoaderService:
             bucket_name=os.getenv("MODEL_FOLDER_PATH"), object_name=model_file_path
         )
 
+        logging.debug(
+            f"select domain model for: framework {meta_data.framework} and algoritm {meta_data.algorithm}"
+        )
         selected_model: Model = (
             self._model_translator.with_(meta_data.framework)
             .and_(meta_data.algorithm)
