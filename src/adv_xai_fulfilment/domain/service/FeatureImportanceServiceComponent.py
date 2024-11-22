@@ -34,7 +34,6 @@ class FeatureImportanceServiceComponent:
         meta_data: ExplainerMetaData = (
             self._data_loader_service.load_explainer_metadata(explainer_identifier)
         )
-        print("\n\n>>> meta_data", meta_data)
         return meta_data.feature_importance
 
     def generate_data(

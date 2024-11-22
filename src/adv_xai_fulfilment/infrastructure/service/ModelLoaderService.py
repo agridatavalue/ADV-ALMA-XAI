@@ -6,7 +6,6 @@ from ..Helper import Helper
 from ..repository.BucketRepository import BucketRepository
 from src.adv_xai_fulfilment.domain.model.Model import Model
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
-from ..repository.PersistenceRepository import PersistenceRepository
 from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
 from src.adv_xai_fulfilment.domain.service.ModelTranslator import ModelTranslator
@@ -16,7 +15,6 @@ from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIde
 class ModelLoaderService:
     _model_translator: ModelTranslator
     _bucketRepository: BucketRepository
-    _persistenceRepository: PersistenceRepository
 
     def __init__(self):
         self._bucketRepository = BucketRepository(
@@ -28,7 +26,6 @@ class ModelLoaderService:
             }
         )
         self._model_translator = ModelTranslator()
-        self._persistenceRepository = PersistenceRepository()
 
     def load_from(self, model_file_path: str, meta_data: ModelMetaData) -> Model:
         logging.debug(f"loading model from {model_file_path}")
@@ -54,16 +51,19 @@ class ModelLoaderService:
         os.remove(model_file_path)
         return selected_model
 
-    def upload_explainer(self, explainer: Explainer, identifier: ExplainerIdentifier):
+    def upload_explainer(
+        self, explainer: Explainer, identifier: ExplainerIdentifier
+    ) -> str:
         with open(explainer.file_name, "wb") as file:
             pickle.dump(explainer.build_result, file)
 
-        self._bucketRepository.upload_to(
+        object_name = self._bucketRepository.upload_to(
             bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
             local_filepath=explainer.file_name,
             target_filepath=identifier.get_filename_path(explainer.file_name),
         )
         os.remove(explainer.file_name)
+        return object_name
 
     def upload_to(
         self,

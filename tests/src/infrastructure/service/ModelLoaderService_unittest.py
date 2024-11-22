@@ -2,46 +2,55 @@ import unittest
 from unittest.mock import MagicMock
 
 from src.adv_xai_fulfilment.domain.model.Model import Model
+from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
+from src.adv_xai_fulfilment.domain.model.machineLearningModel.KerasModel import (
+    KerasModel,
+)
 from src.adv_xai_fulfilment.infrastructure.service.ModelLoaderService import (
     ModelLoaderService,
 )
-from src.adv_xai_fulfilment.infrastructure.repository.PersistenceRepository import (
-    PersistenceRepository,
-)
+
+
+class SilentKerasModel(KerasModel):
+    def load(self, path: str) -> "SilentKerasModel":
+        self.handler = MagicMock()
+        return self
 
 
 class ModelLoaderServiceTest(unittest.TestCase):
     testObj: ModelLoaderService
 
-    def setUp(self):
-        self.testObj = ModelLoaderService()
+    def test_upload_explainer(self):
+        testObj = ModelLoaderService()
+        testObj._bucketRepository = MagicMock()
+        testObj._bucketRepository.upload_to = MagicMock(return_value="test")
 
-    @unittest.skip("to be updated")
-    def test_createFromDict_negative(self):
-        persistenceRepository = PersistenceRepository()
-        persistenceRepository.read = MagicMock(
-            return_value={
-                "models": [
-                    {
-                        "name": "ALE",
-                        "modeltype": ["BlackBox"],
-                        "modelcategory": ["Classification", "Regression"],
-                        "datatype": ["Tabular"],
-                        "explanations": "global",
-                        "categorical_features": "No",
-                        "train_set_required": "No",
-                        "distributed": "No",
-                    }
-                ]
-            }
+        explainer = MagicMock()
+        explainer.file_name = "test.pkl"
+        explainer.build_result = "test"
+
+        actual = testObj.upload_explainer(
+            explainer,
+            ExplainerIdentifier(
+                model="test",
+                pilot="test",
+                metadata="test",
+                prediction_target="test",
+            ),
         )
-        self.testObj._persistenceRepository = persistenceRepository
-        actual = self.testObj.load_from("test.json")
 
-        self.assertTrue(isinstance(actual, list))
-        self.assertEqual(len(actual), 1)
-        self.assertTrue(isinstance(actual[0], Model))
+        self.assertEqual(actual, "test")
 
+    def test_load_from(self):
+        testObj = ModelLoaderService()
+        testObj._bucketRepository.download_from = MagicMock(return_value="test.json")
+        testObj._model_translator.translate = MagicMock(
+            return_value=SilentKerasModel(filename="test")
+        )
 
-if __name__ == "__main__":
-    unittest.main()
+        with open("test.json", "w") as f:
+            f.write('{"framework": "test", "algorithm": "test"}')
+
+        actual = testObj.load_from("test.json", MagicMock())
+
+        self.assertIsInstance(actual, Model)
