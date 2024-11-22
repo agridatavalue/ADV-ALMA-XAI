@@ -43,7 +43,7 @@ class ExplainerGeneratorService:
             "Feature" : list[str],
             "Importance" : list[float],
             "prediction_target":str,
-        ] = self._fi_service_comp.get_data(request)
+        ] = self._fi_service_comp.generate_data(request)
         return self.__build(request, prediction_targets, feature_importance)
 
     def __build(

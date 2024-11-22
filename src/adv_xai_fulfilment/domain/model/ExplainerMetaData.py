@@ -85,3 +85,16 @@ class ExplainerMetaData:
             },
             "feedback_and_improvements": {},
         }
+
+    def __repr__(self) -> str:
+        string = f"ExplainerMetaData("
+        for attr in [
+            "_meta_data",
+            "_target_name",
+            "_possible_explainers",
+            "_metrics",
+            "_feature_importance",
+        ]:
+            if getattr(self, attr):
+                string += f"{attr}={getattr(self, attr)}, "
+        return string + ")"

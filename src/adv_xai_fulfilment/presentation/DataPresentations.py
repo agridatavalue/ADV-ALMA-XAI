@@ -1,10 +1,15 @@
 import logging
+
 from ..domain.model.FeatureDescription import FeatureDescription
 from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
 from .validator.DataPresentationValidator import DataPresentationValidator
 from ..application.FeatureImportanceService import FeatureImportanceService
+from ..application.FeatureDescriptionService import FeatureDescriptionService
 from .translator.ExplainerIdentifierTranslator import ExplainerIdentifierTranslator
 from ..application.ModelPerformanceMetricService import ModelPerformanceMetricService
+from .translator.DataPresentationsOutputTranslator import (
+    DataPresentationsOutputTranslator,
+)
 from ..application.PlotScatterObservedPredictedService import (
     PlotScatterObservedPredictedService,
 )
@@ -12,28 +17,40 @@ from ..application.PlotScatterObservedPredictedService import (
 
 class DataPresentations:
     _feature_importance_service: FeatureImportanceService
+    _feature_description_service: FeatureDescriptionService
     _model_performance_service: ModelPerformanceMetricService
     _plot_scatter_service: PlotScatterObservedPredictedService
-    _translator: ExplainerIdentifierTranslator
+    _input_translator: ExplainerIdentifierTranslator
+    _output_translator: DataPresentationsOutputTranslator
     _validator: DataPresentationValidator
 
     def __init__(self):
         self._validator = DataPresentationValidator()
-        self._translator = ExplainerIdentifierTranslator()
+        self._input_translator = ExplainerIdentifierTranslator()
+        self._output_translator = DataPresentationsOutputTranslator()
         self._plot_scatter_service = PlotScatterObservedPredictedService()
         self._model_performance_service = ModelPerformanceMetricService()
         self._feature_importance_service = FeatureImportanceService()
+        self._feature_description_service = FeatureDescriptionService()
 
-    def genarate_feature_description(
-        self, request: dict = {}
-    ) -> list[FeatureDescription]:
-        logging.info(f"called genarate_feature_description with params: {request}")
+    def get_data_source_types(self, request: dict = {}) -> dict:
+        logging.info(f"called get_data_source_types with params: {request}")
+        self._validator.validate_and_sanitize_data_source_types(request)
+        expl_id: ExplainerIdentifier = self._input_translator.translate(request)
+
+        descriptions: list[FeatureDescription] = (
+            self._feature_description_service.get_data(expl_id)
+        )
+        return self._output_translator.translate_data_source_types(descriptions)
+
+    def get_feature_description(self, request: dict = {}) -> list[FeatureDescription]:
+        logging.info(f"called get_feature_description with params: {request}")
         self._validator.validate_and_sanitize_feature_description(request)
-        expl_id: ExplainerIdentifier = self._translator.translate(request)
+        expl_id: ExplainerIdentifier = self._input_translator.translate(request)
 
-        return self._feature_importance_service.genarate_feature_description(expl_id)
+        return self._feature_description_service.get_data(expl_id)
 
-    def genarate_feature_importance(
+    def get_feature_importance(
         self, request: dict = {}
     ) -> dict[
         "Feature" : list[str],
@@ -42,13 +59,13 @@ class DataPresentations:
     ]:
         logging.info(f"called genarate_feature_importance with params: {request}")
         self._validator.validate_and_sanitize_feature_importance(request)
-        expl_id: ExplainerIdentifier = self._translator.translate(request)
+        expl_id: ExplainerIdentifier = self._input_translator.translate(request)
 
         return self._feature_importance_service.get_data(expl_id)
 
     def genarate_performance_scatter_plot(self, data: dict = {}) -> dict:
         data_sanitized: dict = self._validator.validate_and_sanitize_scatter(data)
-        expl_id: ExplainerIdentifier = self._translator.translate(data_sanitized)
+        expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
         return self._plot_scatter_service.genarate_data_for_pilot(expl_id)
 
     def get_model_performance_metric(self, data: dict = {}) -> dict:
@@ -56,7 +73,7 @@ class DataPresentations:
         data_sanitized: dict = (
             self._validator.validate_and_sanitize_model_performance_metric(data)
         )
-        expl_id: ExplainerIdentifier = self._translator.translate(data_sanitized)
+        expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
 
         return self._model_performance_service.get_metrics(expl_id)
 
@@ -65,6 +82,6 @@ class DataPresentations:
     ) -> dict["target":str, "y_true" : list[float], "y_pred" : list[float]]:
         logging.info(f"called genarate_model_performance with params: {data}")
         data_sanitized = self._validator.validate_and_sanitize_model_performance(data)
-        expl_id: ExplainerIdentifier = self._translator.translate(data_sanitized)
+        expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
 
         return self._model_performance_service.get_data(expl_id)
