@@ -16,7 +16,7 @@ def featureimportance():
             "Feature" : list[str],
             "Importance" : list[float],
             "prediction_target":str,
-        ] = DataPresentations().genarate_feature_importance(request.get_json())
+        ] = DataPresentations().get_feature_importance(request.get_json())
 
         return make_response(
             jsonify(

@@ -15,14 +15,15 @@ class ExplainerMetaDataTranslator:
         self._feature_description_translator = FeatureDescriptionTranslator()
 
     def translate(self, metadata: dict) -> ExplainerMetaData:
+        model_metadata = metadata.get("model_metadata", {})
         return ExplainerMetaData(
             metrics=metadata.get("metrics", {}),
-            target_name=metadata.get("target_name", {}),
+            target_name=model_metadata.get("targetname", ""),
             meta_data=self.model_metadata_translator.translate(
                 metadata.get("meta_data", {})
             ),
             possible_explainers=self._explainer_translator.translate(
                 metadata.get("possible_explainers", [])
             ),
-            feature_importance=metadata.get("feature_importance", {}),
+            feature_importance=model_metadata.get("feature_importance", {}),
         )

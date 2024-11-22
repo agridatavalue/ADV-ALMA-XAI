@@ -14,7 +14,7 @@ def FeatureDescriptionsEndpoint():
 
     try:
         response: list[FeatureDescription] = (
-            DataPresentations().genarate_feature_description(request.get_json())
+            DataPresentations().get_feature_description(request.get_json())
         )
         return make_response(
             jsonify(

@@ -5,10 +5,12 @@ import pandas as pd
 
 from ...domain.model.Model import Model
 from ...domain.model.ModelMetaData import ModelMetaData
+from ...domain.model.ExplainerMetaData import ExplainerMetaData
 from ...domain.model.ExplainerIdentifier import ExplainerIdentifier
 from ...domain.service.ExplainerRetriever import ExplainerRetriever
 from ...infrastructure.service.DataLoaderService import DataLoaderService
 from ...infrastructure.service.ModelLoaderService import ModelLoaderService
+from .FeatureDescriptionServiceComponent import FeatureDescriptionServiceComponent
 from ...infrastructure.service.ExplainerRepositoryService import (
     ExplainerRepositoryService,
 )
@@ -19,14 +21,23 @@ class FeatureImportanceServiceComponent:
     _model_loader_service: ModelLoaderService
     _explainer_retriever: ExplainerRetriever
     _explainer_repository_service: ExplainerRepositoryService
+    _feature_description_service: FeatureDescriptionServiceComponent
 
     def __init__(self):
         self._data_loader_service = DataLoaderService()
         self._explainer_retriever = ExplainerRetriever()
         self._model_loader_service = ModelLoaderService()
         self._explainer_repository_service = ExplainerRepositoryService()
+        self._feature_description_service = FeatureDescriptionServiceComponent()
 
-    def get_data(
+    def get_data(self, explainer_identifier: ExplainerIdentifier) -> dict:
+        meta_data: ExplainerMetaData = (
+            self._data_loader_service.load_explainer_metadata(explainer_identifier)
+        )
+        print("\n\n>>> meta_data", meta_data)
+        return meta_data.feature_importance
+
+    def generate_data(
         self, explainer_identifier: ExplainerIdentifier
     ) -> dict[
         "Feature" : list[str],
@@ -81,7 +92,9 @@ class FeatureImportanceServiceComponent:
         )
 
         data: pd.DataFrame = selected_model.get_feature_importance(
-            feature_names=self.genarate_feature_description(explainer_identifier),
+            feature_names=self._feature_description_service.get_data(
+                explainer_identifier
+            ),
             shap_values=explainer.get_shap_values(x_test=X_test),
         )
         return self.__prepare_data(

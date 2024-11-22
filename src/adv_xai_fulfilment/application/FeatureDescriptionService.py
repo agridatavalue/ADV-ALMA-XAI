@@ -1,33 +1,20 @@
-from ..domain.model.ModelMetaData import ModelMetaData
 from ..domain.model.FeatureDescription import FeatureDescription
 from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
-from ..domain.service.ExplainerRetriever import ExplainerRetriever
-from ..infrastructure.service.DataLoaderService import DataLoaderService
-from ..infrastructure.service.ModelLoaderService import ModelLoaderService
-from ..infrastructure.service.ExplainerRepositoryService import (
-    ExplainerRepositoryService,
+from ..domain.service.FeatureDescriptionServiceComponent import (
+    FeatureDescriptionServiceComponent,
 )
 
 
 class FeatureDescriptionService:
-    _data_loader_service: DataLoaderService
-    _model_loader_service: ModelLoaderService
-    _explainer_retriever: ExplainerRetriever
-    _explainer_repository_service: ExplainerRepositoryService
+    _feature_description_service: FeatureDescriptionServiceComponent
 
     def __init__(self):
-        self._data_loader_service = DataLoaderService()
-        self._explainer_retriever = ExplainerRetriever()
-        self._model_loader_service = ModelLoaderService()
-        self._explainer_repository_service = ExplainerRepositoryService()
+        self._feature_description_service = FeatureDescriptionServiceComponent()
 
     def get_data(
         self, explainer_identifier: ExplainerIdentifier
     ) -> list[FeatureDescription]:
-        meta_data: ModelMetaData = self._data_loader_service.load_model_metadata(
-            explainer_identifier=explainer_identifier
-        )
-        return meta_data.feature_descriptions
-    
-    def get_data_source_types(self, explainer_identifier: ExplainerIdentifier) -> list[str]: ...
-        
+        if not explainer_identifier.metadata:
+            explainer_identifier.metadata = "metadata_v2.json"
+
+        return self._feature_description_service.get_data(explainer_identifier)
