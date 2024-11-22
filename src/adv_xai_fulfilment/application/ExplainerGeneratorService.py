@@ -44,14 +44,7 @@ class ExplainerGeneratorService:
             "Importance" : list[float],
             "prediction_target":str,
         ] = self._fi_service_comp.generate_data(request)
-        return self.__build(request, prediction_targets, feature_importance)
 
-    def __build(
-        self,
-        request: ExplainerIdentifier,
-        prediction_targets: list[str],
-        feature_importance: dict,
-    ) -> list[Explainer]:
         logging.debug("downloading meta data")
         meta_data: ModelMetaData = self._dataLoaderService.load_model_metadata(request)
         logging.debug("downloading model")

@@ -71,25 +71,6 @@ class DataLoaderService:
         )
         return pd.read_csv(file)
 
-    def load_meta_data(self, metadata_filepath: str, bucket_name: str = None) -> dict:
-        if not bucket_name:
-            bucket_name = os.getenv("MODEL_FOLDER_PATH")
-
-        if not Helper.is_local_path(metadata_filepath):
-            logging.debug(
-                f"is not a local path, downloading {metadata_filepath} from {bucket_name}"
-            )
-            file: str = self._bucketRepository.download_from(
-                object_name=metadata_filepath,
-                bucket_name=bucket_name,
-            )
-
-        with open(file, "r") as json_file:
-            metadata = json.load(json_file) or {}
-
-        os.remove(file)
-        return metadata
-
     def load_explainer_metadata(
         self, expl_id: ExplainerIdentifier
     ) -> ExplainerMetaData:
