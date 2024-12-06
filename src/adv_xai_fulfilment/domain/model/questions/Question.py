@@ -69,7 +69,7 @@ class Question:
 
     @staticmethod
     def get_all() -> list["Question"]:
-        file_path = path.abspath(
+        file_path: str = path.abspath(
             path.join(
                 path.dirname(__file__),
                 "../../../../../",

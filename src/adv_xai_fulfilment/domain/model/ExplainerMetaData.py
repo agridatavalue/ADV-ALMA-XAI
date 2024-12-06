@@ -1,9 +1,14 @@
+import os
+
 from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
+from src.adv_xai_fulfilment.domain.model.questions.Question import Question
 from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
+from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
 
 
 class ExplainerMetaData:
     _metrics: dict
+    _feedback: list[Question]
     _meta_data: ModelMetaData
     _target_name: str
     _feature_importance: dict
@@ -20,12 +25,14 @@ class ExplainerMetaData:
             "Importance" : list[float],
             "prediction_target":str,
         ] = {},
+        feedback: list[Question] = [],
     ):
         self._possible_explainers = possible_explainers
         self._feature_importance = feature_importance
         self._target_name = target_name
         self._meta_data = meta_data
         self._metrics = metrics
+        self._feedback = feedback or []
 
     @property
     def model_metadata(self) -> ModelMetaData:
@@ -50,6 +57,16 @@ class ExplainerMetaData:
             and isinstance(self._metrics, dict)
             and len(self._metrics) > 0
         )
+
+    def add_feedback(self, feedback: Question) -> "ExplainerMetaData":
+        self._feedback.append(feedback)
+        return self
+
+    def get_file_path(self, expl_id: ExplainerIdentifier) -> str:
+        if not expl_id.category:
+            expl_id.category = "regression"
+
+        return f"{os.getenv('EXPLAINER_FOLDER_PATH')}/{expl_id.model}/{expl_id.prediction_target}_{expl_id.category}/metadata.json"
 
     def to_dict(self) -> dict:
         return {
@@ -83,7 +100,7 @@ class ExplainerMetaData:
                 "Data_security": "",
                 "regulatory_compliance": "Compliant with GDPR and local regulations",
             },
-            "feedback_and_improvements": {},
+            "feedback_and_improvements": [f.to_dict() for f in self._feedback],
         }
 
     def __repr__(self) -> str:
