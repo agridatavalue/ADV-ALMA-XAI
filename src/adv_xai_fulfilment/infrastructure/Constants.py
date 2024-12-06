@@ -34,3 +34,6 @@ class Errors:
     EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER = TypeError(
         "explainer_id must be an instance of ExplainerIdentifier"
     )
+    EXPLAINER_METADATA_NOT_EXPLAINER_METADATA = TypeError(
+        "explainer_metadata must be an instance of ExplainerMetaData"
+    )

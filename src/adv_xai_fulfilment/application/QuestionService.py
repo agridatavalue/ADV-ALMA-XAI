@@ -1,22 +1,29 @@
 import logging
 
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
+from src.adv_xai_fulfilment.domain.model.questions.Feedback import Feedback
 from src.adv_xai_fulfilment.domain.model.questions.Question import Question
 from src.adv_xai_fulfilment.domain.model.ExplainerMetaData import ExplainerMetaData
 from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
 from src.adv_xai_fulfilment.infrastructure.service.DataLoaderService import (
     DataLoaderService,
 )
+from src.adv_xai_fulfilment.infrastructure.service.ExplainerRepositoryService import (
+    ExplainerRepositoryService,
+)
 
 
 class QuestionService:
     _data_loader_service: DataLoaderService
+    _explainer_repository_service: ExplainerRepositoryService
 
     def __init__(self):
         self._data_loader_service = DataLoaderService()
+        self._explainer_repository_service = ExplainerRepositoryService()
 
     def generate_from_dict(self, expl_id: ExplainerIdentifier) -> list[Question]:
-        expl_id.category = "regression"
+        if not expl_id.category:
+            expl_id.category = "regression"
 
         logging.debug(f"loading metadata from {expl_id.metadata}")
         meta_data: ExplainerMetaData = (
@@ -25,14 +32,22 @@ class QuestionService:
 
         return [q.verticalize_for(meta_data.model_metadata) for q in Question.get_all()]
 
-    def save_user_feedback(
-        self, expl_id: ExplainerIdentifier, answers: list[dict]
-    ) -> list[Question]:
-        user_answers: list[Question] = []
-        for answer in answers:
-            for question in Question.get_all():
-                if question.id == answer.get("id"):
-                    question.user_has_answered = answer.get("answer")
-                    user_answers.append(question)
+    def save_pilot_feedback(self, feedback: Feedback, answers: list[dict]) -> Feedback:
+        for q in feedback.questions:
+            for a in answers:
+                if q.id == a.get("id"):
+                    q.user_has_answered = a.get("answer")
                     break
-        return user_answers
+
+        logging.debug(f"loading metadata from {feedback.explainer_identifier.metadata}")
+        meta_data: ExplainerMetaData = (
+            self._data_loader_service.load_explainer_metadata(
+                feedback.explainer_identifier
+            )
+        )
+
+        meta_data.add_feedback(feedback)
+        self._explainer_repository_service.upload_metadata(
+            feedback.explainer_identifier, meta_data
+        )
+        return feedback

@@ -1,6 +1,7 @@
 import logging
 
-from src.adv_xai_fulfilment.domain.model.questions.Question import Question
+from .translator.FeedbackTranslator import FeedbackTranslator
+from src.adv_xai_fulfilment.domain.model.questions.Feedback import Feedback
 from src.adv_xai_fulfilment.application.QuestionService import QuestionService
 from .validator.ExplainerIdentifierValidator import ExplainerIdentifierValidator
 from .translator.ExplainerIdentifierTranslator import ExplainerIdentifierTranslator
@@ -8,12 +9,14 @@ from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIde
 
 
 class QuestionAndFeedbackPresentation:
+    _feedback_translator: FeedbackTranslator
     _question_service: QuestionService
     _translator: ExplainerIdentifierTranslator
     _validator: ExplainerIdentifierValidator
 
     def __init__(self):
         self._question_service = QuestionService()
+        self._feedback_translator = FeedbackTranslator()
         self._validator = ExplainerIdentifierValidator()
         self._translator = ExplainerIdentifierTranslator()
 
@@ -29,9 +32,9 @@ class QuestionAndFeedbackPresentation:
     def get_user_feedback_from(self, request: dict = {}) -> bool:
         logging.info(f"called get_user_feedback_from method with params: {request}")
         self._validator.validate_and_sanitize_feedback_(request)
-        expl_id: ExplainerIdentifier = self._translator.translate(request)
 
-        feedback: list[Question] = self._question_service.save_user_feedback(
-            expl_id, request.get("responses")
+        feedback: Feedback = self._feedback_translator.translate_request(request)
+
+        return self._question_service.save_pilot_feedback(
+            feedback, answers=request.get("responses", [])
         )
-        return len(feedback) > 0

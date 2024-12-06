@@ -210,7 +210,7 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/FeedbackResponse"
-    
+
     /data-source-types:
         get:
             summary: returns the list of data source types
@@ -236,9 +236,7 @@ paths:
                 "404":
                     description: Pilot / Model not found
             tags:
-                - Data source types 
-
-
+                - Data source types
 
 tags: []
 servers: []
@@ -257,9 +255,9 @@ components:
                     type: array
                     items:
                         type: object
-                        properties: 
-                            type: 
-                                type: string 
+                        properties:
+                            type:
+                                type: string
                             value:
                                 type: number
             example: '{sources: [{type:"agronomic", value:3}]}'
@@ -296,6 +294,10 @@ components:
         FeedbackRequest:
             type: object
             properties:
+                pilot:
+                    description: the identifier of the pilot
+                    example: "pilot8"
+                    type: string
                 model:
                     description: the identifier of the model file name
                     example: "model.pkl"
@@ -311,10 +313,13 @@ components:
                         properties:
                             id:
                                 type: string
+                            text:
+                                type: string
                             answer:
                                 type: string
             required:
-                - meta_data
+                - pilot
+                - model
                 - responses
                 - prediction_target
         FeedbackResponse:

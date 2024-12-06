@@ -4,6 +4,7 @@ import pickle
 from ...domain.model.Model import Model
 from ..repository.BucketRepository import BucketRepository
 from ...domain.model.explainers.Explainer import Explainer
+from ...domain.model.ExplainerMetaData import ExplainerMetaData
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 from ...domain.model.ExplainerIdentifier import ExplainerIdentifier
 
@@ -86,3 +87,24 @@ class ExplainerRepositoryService:
             target_filepath=os.path.join(pilot, explainer_filename),
         )
         os.remove(explainer_filename)
+
+    def upload_metadata(
+        self, expl_id: ExplainerIdentifier, metadata: ExplainerMetaData
+    ) -> str:
+        assert isinstance(
+            metadata, ExplainerMetaData
+        ), Errors.EXPLAINER_METADATA_NOT_EXPLAINER_METADATA
+
+        metadata_filename: str = os.path.join(
+            os.getenv("temp"), f"{expl_id.model}/metadata.json"
+        )
+        with open(metadata_filename, "wb") as file:
+            file.write(metadata.to_dict())
+
+        res: str = self._bucketRepository.upload_to(
+            bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
+            local_filepath=metadata_filename,
+            target_filepath=metadata.get_file_path(expl_id),
+        )
+        os.remove(metadata_filename)
+        return res
