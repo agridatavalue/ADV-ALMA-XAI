@@ -14,7 +14,7 @@ def get_feedback():
         return "Not a valid request"
 
     try:
-        response: bool = QuestionAndFeedbackPresentation().get_user_feedback_from(
+        response: bool = QuestionAndFeedbackPresentation().get_pilot_feedback_from(
             request.get_json()
         )
         return make_response(

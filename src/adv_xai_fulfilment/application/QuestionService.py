@@ -39,6 +39,9 @@ class QuestionService:
                     q.user_has_answered = a.get("answer")
                     break
 
+        if not feedback.explainer_identifier.category:
+            feedback.explainer_identifier.category = "regression"
+
         logging.debug(f"loading metadata from {feedback.explainer_identifier.metadata}")
         meta_data: ExplainerMetaData = (
             self._data_loader_service.load_explainer_metadata(
@@ -47,6 +50,10 @@ class QuestionService:
         )
 
         meta_data.add_feedback(feedback)
+        print(
+            ">>> metadata.feedback_and_improvements",
+            meta_data.to_dict().get("feedback_and_improvements"),
+        )
         self._explainer_repository_service.upload_metadata(
             feedback.explainer_identifier, meta_data
         )

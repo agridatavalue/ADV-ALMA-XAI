@@ -1,4 +1,5 @@
 import os
+import json
 import pickle
 
 from ...domain.model.Model import Model
@@ -96,10 +97,13 @@ class ExplainerRepositoryService:
         ), Errors.EXPLAINER_METADATA_NOT_EXPLAINER_METADATA
 
         metadata_filename: str = os.path.join(
-            os.getenv("temp"), f"{expl_id.model}/metadata.json"
+            os.getenv("temp"), expl_id.model, "metadata.json"
         )
-        with open(metadata_filename, "wb") as file:
-            file.write(metadata.to_dict())
+        print(">>> saving into", metadata_filename)
+        with open(metadata_filename, "w") as file:
+            json.dump(metadata.to_dict(), file)
+
+        print(">>> saved file")
 
         res: str = self._bucketRepository.upload_to(
             bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),

@@ -42,6 +42,9 @@ class Feedback:
             "creation_date": self.creation_date.timestamp(),
         }
 
+    def __repr__(self) -> str:
+        return f"Feedback(pilot={self.pilot}, creation_date={self.creation_date}, questions={self.questions})"
+
     @staticmethod
     def create_from(param: any) -> "Feedback":
         if isinstance(param, ExplainerIdentifier):
