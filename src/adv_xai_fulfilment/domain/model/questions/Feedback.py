@@ -18,7 +18,7 @@ class Feedback:
         explainer_identifier: ExplainerIdentifier = None,
     ):
         self.pilot = pilot
-        self.questions = questions
+        self.questions = questions or []
         self.creation_date = datetime.now()
         self._explainer_identifier = explainer_identifier
 

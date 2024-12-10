@@ -33,12 +33,6 @@ class QuestionService:
         return [q.verticalize_for(meta_data.model_metadata) for q in Question.get_all()]
 
     def save_pilot_feedback(self, feedback: Feedback, answers: list[dict]) -> Feedback:
-        for q in feedback.questions:
-            for a in answers:
-                if q.id == a.get("id"):
-                    q.user_has_answered = a.get("answer")
-                    break
-
         if not feedback.explainer_identifier.category:
             feedback.explainer_identifier.category = "regression"
 
@@ -48,12 +42,7 @@ class QuestionService:
                 feedback.explainer_identifier
             )
         )
-
         meta_data.add_feedback(feedback)
-        print(
-            ">>> metadata.feedback_and_improvements",
-            meta_data.to_dict().get("feedback_and_improvements"),
-        )
         self._explainer_repository_service.upload_metadata(
             feedback.explainer_identifier, meta_data
         )

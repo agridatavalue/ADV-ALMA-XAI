@@ -30,6 +30,6 @@ class ExplainerMetaDataTranslator:
             ),
             feature_importance=model_metadata.get("feature_importance", {}),
             feedback=self._feedback_translator.translate_many(
-                metadata.get("feedback", [])
+                metadata.get("feedback_and_improvements", [])
             ),
         )

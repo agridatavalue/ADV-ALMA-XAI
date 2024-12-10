@@ -31,7 +31,6 @@ class QuestionAndFeedbackPresentation:
 
     def get_pilot_feedback_from(self, request: dict = {}) -> bool:
         logging.info(f"called get_user_feedback_from method with params: {request}")
-        print(">>> request:", request)
         self._validator.validate_and_sanitize_feedback_(request)
 
         feedback: Feedback = self._feedback_translator.translate_request(request)
