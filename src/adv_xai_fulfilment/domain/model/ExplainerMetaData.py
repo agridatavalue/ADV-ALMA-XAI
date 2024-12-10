@@ -66,7 +66,7 @@ class ExplainerMetaData:
         if not expl_id.category:
             expl_id.category = "regression"
 
-        return f"{os.getenv('EXPLAINER_FOLDER_PATH')}/{expl_id.model}/{expl_id.prediction_target}_{expl_id.category}/metadata.json"
+        return f"{expl_id.model}/{expl_id.prediction_target}_{expl_id.category}/metadata.json".lower()
 
     def to_dict(self) -> dict:
         return {

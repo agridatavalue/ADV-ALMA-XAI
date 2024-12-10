@@ -96,14 +96,12 @@ class ExplainerRepositoryService:
             metadata, ExplainerMetaData
         ), Errors.EXPLAINER_METADATA_NOT_EXPLAINER_METADATA
 
+        os.makedirs(os.path.join(os.getenv("temp"), expl_id.model), exist_ok=True)
         metadata_filename: str = os.path.join(
             os.getenv("temp"), expl_id.model, "metadata.json"
         )
-        print(">>> saving into", metadata_filename)
         with open(metadata_filename, "w") as file:
             json.dump(metadata.to_dict(), file)
-
-        print(">>> saved file")
 
         res: str = self._bucketRepository.upload_to(
             bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),

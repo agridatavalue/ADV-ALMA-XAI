@@ -37,13 +37,13 @@ class Feedback:
 
     def to_dict(self) -> dict:
         return {
-            "pilot": self.pilot,
+            "pilot": self.pilot.id,
             "questions": [q.to_dict() for q in self.questions],
             "creation_date": self.creation_date.timestamp(),
         }
 
     def __repr__(self) -> str:
-        return f"Feedback(pilot={self.pilot}, creation_date={self.creation_date}, questions={self.questions})"
+        return f"Feedback(pilot={self.pilot.id}, creation_date={self.creation_date}, questions={self.questions})"
 
     @staticmethod
     def create_from(param: any) -> "Feedback":
