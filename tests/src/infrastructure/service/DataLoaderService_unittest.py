@@ -1,8 +1,9 @@
 import os
 import unittest
 from os import path
-from unittest.mock import patch
+from dotenv import load_dotenv
 
+from src.adv_xai_fulfilment.domain.model.Pilot import Pilot
 from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.ExplainerMetaData import ExplainerMetaData
 from src.adv_xai_fulfilment.domain.model.explainers.AleExplainer import AleExplainer
@@ -10,6 +11,8 @@ from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIde
 from src.adv_xai_fulfilment.infrastructure.service.DataLoaderService import (
     DataLoaderService,
 )
+
+load_dotenv()
 
 
 class TestDataLoaderService(unittest.TestCase):
@@ -30,7 +33,10 @@ class TestDataLoaderService(unittest.TestCase):
         )
         actual = self.testObj.load_explainer_metadata(
             ExplainerIdentifier(
-                model="test", metadata="test", prediction_target="test", pilot="test"
+                model="test",
+                metadata="test",
+                prediction_target="test",
+                pilot=Pilot("test"),
             )
         )
 

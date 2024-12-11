@@ -118,7 +118,7 @@ class ExplainerGeneratorService:
     ):
         explainer: Explainer = self._explainer_retriever.get_by_name(explainer_name)
         pilot_data = self._modelLoaderService.download_for(
-            pilot=explainer_identifier.pilot
+            pilot=explainer_identifier.pilot.id
         )
         explainer.train_with_pilot_data(pilot_data)
         return explainer.ask_to_llm(request)

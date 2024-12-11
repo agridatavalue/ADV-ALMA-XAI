@@ -120,7 +120,9 @@ class DataLoaderService:
             filename: str = "metadata.json"
             model_path: str = os.getenv("EXPLAINER_FOLDER_PATH")
 
-        temp_path: str = os.path.join(os.getenv("TEMP"), filename)
+        temp_path: str = os.path.join(
+            os.getenv("TEMP") or os.path.dirname(__file__), filename
+        )
         with open(temp_path, "w") as file:
             file.write(json.dumps(explainer_data.to_dict()))
 

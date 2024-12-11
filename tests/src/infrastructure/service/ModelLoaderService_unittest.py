@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 
+from src.adv_xai_fulfilment.domain.model.Pilot import Pilot
 from src.adv_xai_fulfilment.domain.model.Model import Model
 from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
 from src.adv_xai_fulfilment.domain.model.machineLearningModel.KerasModel import (
@@ -33,7 +34,7 @@ class ModelLoaderServiceTest(unittest.TestCase):
             explainer,
             ExplainerIdentifier(
                 model="test",
-                pilot="test",
+                pilot=Pilot("test"),
                 metadata="test",
                 prediction_target="test",
             ),

@@ -32,7 +32,7 @@ class ExplainerGeneratorPresentation:
         expl_id: ExplainerIdentifier = self._translator.translate(data)
 
         logging.info(
-            f"Ask to Explainer with pilot: {expl_id.pilot}, request: {data.get('request')}, explainer: {data.get('explainer')}"
+            f"Ask to Explainer with pilot: {expl_id.pilot.id}, request: {data.get('request')}, explainer: {data.get('explainer')}"
         )
         return self._build_service.ask_to_explainer(
             request=data.get("request"),

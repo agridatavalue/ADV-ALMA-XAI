@@ -1,7 +1,10 @@
+from .Pilot import Pilot
+
+
 class ExplainerIdentifier:
     data: str
     model: str
-    pilot: str
+    pilot: Pilot
     metadata: str
     prediction_target: str
 
@@ -12,7 +15,7 @@ class ExplainerIdentifier:
         model: str,
         metadata: str,
         prediction_target: str,
-        pilot: str,
+        pilot: Pilot,
         data: str = "",
     ):
         self.data = data
