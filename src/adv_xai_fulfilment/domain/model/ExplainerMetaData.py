@@ -59,6 +59,7 @@ class ExplainerMetaData:
         )
 
     def add_feedback(self, feedback: Question) -> "ExplainerMetaData":
+        assert isinstance(feedback, Question), "feedback must be of type Question"
         self._feedback.append(feedback)
         return self
 

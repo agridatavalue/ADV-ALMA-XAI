@@ -5,7 +5,7 @@ from ...domain.model.questions.Feedback import Feedback
 from .ExplainerIdentifierTranslator import ExplainerIdentifierTranslator
 
 
-class FeedbackTranslator:
+class FeedbackRequestTranslator:
     _explainer_identifier_translator: ExplainerIdentifierTranslator
 
     def __init__(self):

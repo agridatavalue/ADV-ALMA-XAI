@@ -9,6 +9,7 @@ from .src.application.ModelPerformanceMetricService_unittest import (
 # DOMAIN ----------------------------------------------------------------------
 from .src.domain.model.Question_unittest import TestQuestion
 from .src.domain.service.ModelTranslator_unittest import TestModelTranslator
+from .src.domain.model.ExplainerMetaData_unittest import TestExplainerMetaData
 from .src.domain.service.ExplainerRetriever_unittest import TestExplainerRetriever
 from .src.domain.model.machineLearningModel.KerasModel_unittest import TestKerasModel
 
@@ -47,6 +48,9 @@ from .src.infrastructure.service.translator.FeatureDescriptionTranslator_unittes
 # PRESENTATION ----------------------------------------------------------------
 # ----> TRANSLATORS
 
+from .src.presentation.translator.FeedbackRequestTranslator_unittest import (
+    TestFeedbackRequestTranslator,
+)
 from .src.presentation.translator.ExplainerIdentifierTranslator_unittest import (
     TestExplainerIdentifierTranslator,
 )

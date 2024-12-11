@@ -94,7 +94,7 @@ python -m coverage run -m unittest | python -m coverage report
 Programming language required:
 
 ```bash
-python 3.11.5
+python 3.9.0
 ```
 
 Installation script:

@@ -1,6 +1,6 @@
 import logging
 
-from .translator.FeedbackTranslator import FeedbackTranslator
+from .translator.FeedbackRequestTranslator import FeedbackRequestTranslator
 from src.adv_xai_fulfilment.domain.model.questions.Feedback import Feedback
 from src.adv_xai_fulfilment.application.QuestionService import QuestionService
 from .validator.ExplainerIdentifierValidator import ExplainerIdentifierValidator
@@ -9,14 +9,14 @@ from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIde
 
 
 class QuestionAndFeedbackPresentation:
-    _feedback_translator: FeedbackTranslator
+    _feedback_translator: FeedbackRequestTranslator
     _question_service: QuestionService
     _translator: ExplainerIdentifierTranslator
     _validator: ExplainerIdentifierValidator
 
     def __init__(self):
         self._question_service = QuestionService()
-        self._feedback_translator = FeedbackTranslator()
+        self._feedback_translator = FeedbackRequestTranslator()
         self._validator = ExplainerIdentifierValidator()
         self._translator = ExplainerIdentifierTranslator()
 
