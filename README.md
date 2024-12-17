@@ -54,7 +54,39 @@ We have a proper bucket and here there is the folder organization:
 
 ### [2.3] Services Description
 
-#### [2.3.1] QuestionService
+#### [2.3.1] ExplainerGeneratorService
+
+-   **generate_explainer** method:
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant ExplainerGeneratorService
+    participant ModelLoaderService
+    participant MetaDataLoaderService
+    participant DataLoaderService
+
+    Client->>ExplainerGeneratorService: Build request
+    activate ExplainerGeneratorService
+    ExplainerGeneratorService->>ModelLoaderService: Load model
+    activate ModelLoaderService
+    ModelLoaderService-->>ExplainerGeneratorService: Return Model
+    deactivate ModelLoaderService
+    ExplainerGeneratorService->>MetaDataLoaderService: Load model metadata
+    activate MetaDataLoaderService
+    MetaDataLoaderService-->>ExplainerGeneratorService: Return MetaData
+    deactivate MetaDataLoaderService
+    ExplainerGeneratorService->>DataLoaderService: Load data
+    activate DataLoaderService
+    DataLoaderService-->>ExplainerGeneratorService: Return data
+    deactivate DataLoaderService
+    ExplainerGeneratorService->>ExplainerGeneratorService: build explainers and relative meta data
+    ExplainerGeneratorService-->>Client: Return response
+    deactivate ExplainerGeneratorService
+
+```
+
+#### [2.3.2] QuestionService
 
 -   **generate_from_dict** method:
 
@@ -75,6 +107,29 @@ sequenceDiagram
     deactivate QuestionService
 ```
 
+-   **save_pilot_feedback** method:
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant QuestionService
+    participant MetaDataLoader
+
+    Client->>QuestionService: Question list request
+    activate QuestionService
+    QuestionService->>MetaDataLoader: Get explainer meta data
+    activate MetaDataLoader
+    MetaDataLoader-->>QuestionService: Return explainer meta data
+    deactivate MetaDataLoader
+    QuestionService->>QuestionService: Add feedback to explainer meta data
+    QuestionService->>MetaDataLoader: Upload explainer meta data
+    activate MetaDataLoader
+    MetaDataLoader-->>QuestionService: Return explainer meta data
+    deactivate MetaDataLoader
+    QuestionService-->>Client: Return response
+    deactivate QuestionService
+```
+
 ## [3.0] Environment
 
 ### [3.1] Test
@@ -91,7 +146,7 @@ To have a _coverage_ report digit:
 python -m coverage run -m unittest | python -m coverage report
 ```
 
-returning like:
+returns:
 
 ```bash
 Name                                                                                       Stmts   Miss  Cover
