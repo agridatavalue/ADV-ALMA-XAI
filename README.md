@@ -1,6 +1,6 @@
 # ADV XAI FULFILMENT
 
-<small>version 0.0.1 of 19/11/2024</small>
+<small>version 0.0.2 of 17/12/2024</small>
 
 ## Summary
 
@@ -42,13 +42,15 @@ Key concepts of _DDD_ include:
 -   **Domain Services**: Operations that do not belong to any specific entity or value object.
 -   **Domain Events**: Events that represent something significant that has happened in the domain.
 
+![Domain-Driven-Design](docs/ddd.jpg)
+
 ### [2.2] Bucket Repository
 
 The _SECURESTORE_ server is a secure and scalable repository designed to store and manage data objects. It ensures data integrity and confidentiality through encryption and access control mechanisms. The server supports various storage backends and provides a RESTful API for seamless integration with other services.
 
 We have a proper bucket and here there is the folder organization:
 
-![Folder Structure](folder_structure.png)
+![Folder Structure](docs/folder_structure.png)
 
 ### [2.3] Services Description
 
@@ -89,6 +91,69 @@ To have a _coverage_ report digit:
 python -m coverage run -m unittest | python -m coverage report
 ```
 
+returning like:
+
+```bash
+Name                                                                                       Stmts   Miss  Cover
+--------------------------------------------------------------------------------------------------------------
+src/__init__.py                                                                                0      0   100%
+src/adv_xai_fulfilment/application/ExplainerGeneratorService.py                               65     41    37%
+src/adv_xai_fulfilment/application/ModelPerformanceMetricService.py                           31      2    94%
+src/adv_xai_fulfilment/domain/model/DataType.py                                               13      5    62%
+src/adv_xai_fulfilment/domain/model/ExplainerIdentifier.py                                    25      5    80%
+src/adv_xai_fulfilment/domain/model/ExplainerMetaData.py                                      44     10    77%
+src/adv_xai_fulfilment/domain/model/FeatureDescription.py                                     12      1    92%
+src/adv_xai_fulfilment/domain/model/Model.py                                                  19      1    95%
+src/adv_xai_fulfilment/domain/model/ModelMetaData.py                                          35      4    89%
+src/adv_xai_fulfilment/domain/model/Pilot.py                                                   9      2    78%
+src/adv_xai_fulfilment/domain/model/explainers/AleExplainer.py                                13      0   100%
+src/adv_xai_fulfilment/domain/model/explainers/AnchorsExplainer.py                            11      0   100%
+src/adv_xai_fulfilment/domain/model/explainers/CounterFactualsPrototypesExplainer.py          11      0   100%
+src/adv_xai_fulfilment/domain/model/explainers/CounterFactualsWithRlExplainer.py              11      0   100%
+src/adv_xai_fulfilment/domain/model/explainers/DataTypeModelExplainer.py                       7      0   100%
+src/adv_xai_fulfilment/domain/model/explainers/DeepExplainerExplainer.py                       9      1    89%
+src/adv_xai_fulfilment/domain/model/explainers/Explainer.py                                   53      8    85%
+src/adv_xai_fulfilment/domain/model/explainers/IntegratedGradientsExplainer.py                11      0   100%
+src/adv_xai_fulfilment/domain/model/explainers/KernelExplainerExplainer.py                    14      1    93%
+src/adv_xai_fulfilment/domain/model/explainers/KernelSHAPExplainer.py                         10      0   100%
+src/adv_xai_fulfilment/domain/model/explainers/PartialDependenceExplainer.py                  11      0   100%
+src/adv_xai_fulfilment/domain/model/explainers/PartialDependenceVarianceExplainer.py          11      0   100%
+src/adv_xai_fulfilment/domain/model/explainers/PermutationImportanceExplainer.py              11      0   100%
+src/adv_xai_fulfilment/domain/model/explainers/RegressionExplainer.py                         11      2    82%
+src/adv_xai_fulfilment/domain/model/explainers/SimilarityExplanationsExplainer.py             11      0   100%
+src/adv_xai_fulfilment/domain/model/explainers/TreeShapInterventionalExplainer.py             11      0   100%
+src/adv_xai_fulfilment/domain/model/explainers/TreeShapPathDependentExplainer.py              11      0   100%
+src/adv_xai_fulfilment/domain/model/explainers/__init__.py                                    16      0   100%
+src/adv_xai_fulfilment/domain/model/machineLearningModel/KerasModel.py                        15      2    87%
+src/adv_xai_fulfilment/domain/model/machineLearningModel/ScikitLearnModel.py                   9      2    78%
+src/adv_xai_fulfilment/domain/model/machineLearningModel/TorchModel.py                         5      0   100%
+src/adv_xai_fulfilment/domain/model/questions/Answer.py                                       16      1    94%
+src/adv_xai_fulfilment/domain/model/questions/Feedback.py                                     30      9    70%
+src/adv_xai_fulfilment/domain/model/questions/Question.py                                     42      2    95%
+src/adv_xai_fulfilment/domain/service/ExplainerRetriever.py                                   21      1    95%
+src/adv_xai_fulfilment/domain/service/FeatureDescriptionServiceComponent.py                   11      2    82%
+src/adv_xai_fulfilment/domain/service/FeatureImportanceServiceComponent.py                    57     27    53%
+src/adv_xai_fulfilment/domain/service/ModelPerformanceServiceComponent.py                     17      1    94%
+src/adv_xai_fulfilment/domain/service/ModelTranslator.py                                      20      0   100%
+src/adv_xai_fulfilment/infrastructure/Constants.py                                            24      0   100%
+src/adv_xai_fulfilment/infrastructure/Helper.py                                               11      0   100%
+src/adv_xai_fulfilment/infrastructure/repository/BucketRepository.py                          14      6    57%
+src/adv_xai_fulfilment/infrastructure/service/DataLoaderService.py                            67     22    67%
+src/adv_xai_fulfilment/infrastructure/service/ExplainerRepositoryService.py                   39     21    46%
+src/adv_xai_fulfilment/infrastructure/service/ModelLoaderService.py                           39      7    82%
+src/adv_xai_fulfilment/infrastructure/service/translator/ExplainerMetaDataTranslator.py       18      0   100%
+src/adv_xai_fulfilment/infrastructure/service/translator/ExplainerTranslator.py                4      0   100%
+src/adv_xai_fulfilment/infrastructure/service/translator/FeatureDescriptionTranslator.py       4      0   100%
+src/adv_xai_fulfilment/infrastructure/service/translator/FeedbackTranslator.py                13      3    77%
+src/adv_xai_fulfilment/infrastructure/service/translator/ModelMetaDataTranslator.py            8      0   100%
+src/adv_xai_fulfilment/presentation/translator/DataPresentationsOutputTranslator.py            6      0   100%
+src/adv_xai_fulfilment/presentation/translator/ExplainerIdentifierTranslator.py                5      0   100%
+src/adv_xai_fulfilment/presentation/translator/FeedbackRequestTranslator.py                   15      0   100%
+tests/__init__.py                                                                             21      0   100%
+--------------------------------------------------------------------------------------------------------------
+TOTAL                                                                                       1449    215    85%
+```
+
 ### [3.2] Setup
 
 Programming language required:
@@ -112,6 +177,11 @@ pip install -r requirements.txt
 
 ```bash
 .\venv\Scripts\activate
+python .\startServer.py -LEVEL DEBUG
+```
+
+```bash
+pyenv activate xai
 python .\startServer.py -LEVEL DEBUG
 ```
 
