@@ -72,9 +72,11 @@ class ExplainerMetaData:
     def to_dict(self) -> dict:
         return {
             "model_metadata": {
-                "subjectname": self._meta_data.subject_name,
+                "subjectname": self._meta_data.subject_name if self._meta_data else "",
                 "targetname": self._target_name,
-                "modelcategory": self._meta_data.model_category,
+                "modelcategory": (
+                    self._meta_data.model_category if self._meta_data else ""
+                ),
                 "explaineed_model_name": "neuralnetwork",
                 "framework": ["Tensorflow", "pytorch", "scikit"],
                 "training_data_summary": "set with 100,000 instances and 20 features and 3 targets",

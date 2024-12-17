@@ -14,3 +14,4 @@
     Automatically according to the settings, yeah.
 
 [ ] cuncurrency for download model (check if there is already been downloaded)
+[ ] creare un'api per listare le api da chiamare dal fe e aggiungere il tipo di spiegazione del modello (regression, image detection etc etc) 
