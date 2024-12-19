@@ -34,7 +34,6 @@ class QuestionAndFeedbackPresentation:
         self._validator.validate_and_sanitize_feedback_(request)
 
         feedback: Feedback = self._feedback_translator.translate_request(request)
-        print(">>> feedback:", feedback)
 
         return self._question_service.save_pilot_feedback(
             feedback, answers=request.get("responses", [])

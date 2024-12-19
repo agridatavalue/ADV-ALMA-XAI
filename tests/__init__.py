@@ -32,6 +32,12 @@ from .src.domain.model.explainers.KernelExplainerExplainer_unittest import (
 # INFRASTRUCTURE --------------------------------------------------------------
 from .src.infrastructure.Helper_unittest import TestHelper
 from .src.infrastructure.service.DataLoaderService_unittest import TestDataLoaderService
+from .src.infrastructure.repository.BucketRepository_unittest import (
+    TestBucketRepository,
+)
+from .src.infrastructure.service.ExplainerRepositoryService_unittest import (
+    TestExplainerRepositoryService,
+)
 from .src.infrastructure.service.ModelLoaderService_unittest import (
     ModelLoaderServiceTest,
 )
