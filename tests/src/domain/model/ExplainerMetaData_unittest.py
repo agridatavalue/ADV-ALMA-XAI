@@ -1,8 +1,8 @@
 import unittest
 
 
+from src.adv_xai_fulfilment.domain.model.questions.Answer import Answer
 from src.adv_xai_fulfilment.domain.model.questions.Question import Question
-from src.adv_xai_fulfilment.domain.model.questions.Feedback import Feedback
 from src.adv_xai_fulfilment.domain.model.ExplainerMetaData import ExplainerMetaData
 
 
@@ -17,7 +17,11 @@ class TestExplainerMetaData(unittest.TestCase):
             feature_importance={},
         )
         meta_data.add_feedback(
-            Question(id="1", text="text", answers=[{"value": "answer"}])
+            Question(
+                id="1",
+                text="text",
+                answers=[Answer.create_radio_answer("text", "value")],
+            )
         )
 
         actual = meta_data.to_dict()
