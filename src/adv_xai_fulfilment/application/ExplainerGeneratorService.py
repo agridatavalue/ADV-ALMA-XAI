@@ -22,16 +22,16 @@ load_dotenv()
 
 
 class ExplainerGeneratorService:
-    _dataLoaderService: DataLoaderService
-    _modelLoaderService: ModelLoaderService
+    _data_loader_service: DataLoaderService
+    _model_loader_service: ModelLoaderService
     _explainer_retriever: ExplainerRetriever
 
     _mpm_service: ModelPerformanceServiceComponent
     _fi_service_comp: FeatureImportanceServiceComponent
 
     def __init__(self):
-        self._dataLoaderService = DataLoaderService()
-        self._modelLoaderService = ModelLoaderService()
+        self._data_loader_service = DataLoaderService()
+        self._model_loader_service = ModelLoaderService()
         self._explainer_retriever = ExplainerRetriever()
         self._fi_service_comp = FeatureImportanceServiceComponent()
         self._mpm_service = ModelPerformanceServiceComponent()
@@ -46,13 +46,15 @@ class ExplainerGeneratorService:
         ] = self._fi_service_comp.generate_data(request)
 
         logging.debug("downloading meta data")
-        meta_data: ModelMetaData = self._dataLoaderService.load_model_metadata(request)
+        meta_data: ModelMetaData = self._data_loader_service.load_model_metadata(
+            request
+        )
         logging.debug("downloading model")
-        selected_model: Model = self._modelLoaderService.load_from(
+        selected_model: Model = self._model_loader_service.load_from(
             request.model, meta_data=meta_data
         )
         logging.debug("downloading data if present")
-        data: dict[str, pd.DataFrame] = self._dataLoaderService.load_data(
+        data: dict[str, pd.DataFrame] = self._data_loader_service.load_data(
             folder_path=request.data, bucket_name=os.getenv("DATA_FOLDER_PATH")
         )
 
@@ -75,7 +77,7 @@ class ExplainerGeneratorService:
                 logging.debug(f"{target} - creating the explainer {explainer.name}")
                 try:
                     explainer.build(model=selected_model, data=data)
-                    self._modelLoaderService.upload_explainer(
+                    self._model_loader_service.upload_explainer(
                         explainer=explainer, identifier=request
                     )
                     created_explainers.append(explainer)
@@ -98,7 +100,7 @@ class ExplainerGeneratorService:
             )
             if expl_metadata.data_are_ok:
                 logging.debug("uploading the explainer metadata")
-                self._dataLoaderService.upload(
+                self._data_loader_service.upload(
                     model_category=meta_data.model_category,
                     explainer_data=expl_metadata,
                     target=target,
@@ -117,7 +119,7 @@ class ExplainerGeneratorService:
         explainer_identifier: ExplainerIdentifier,
     ):
         explainer: Explainer = self._explainer_retriever.get_by_name(explainer_name)
-        pilot_data = self._modelLoaderService.download_for(
+        pilot_data = self._model_loader_service.download_for(
             pilot=explainer_identifier.pilot.id
         )
         explainer.train_with_pilot_data(pilot_data)
