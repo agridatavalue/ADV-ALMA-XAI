@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
     title: ADV
     description: "TEST"
-    version: 0.0.3
+    version: 0.0.4
     contact:
         name: "Mirko Colageo"
         email: m.colageo@almaviva.it
@@ -31,7 +31,55 @@ paths:
                 "404":
                     description: Pilot / Model not found
             tags:
-                - Build
+                - Explainer
+
+    /get-explainer-data:
+        get:
+            summary: Return the explainer data
+            description: Return the explainer data for a given pilot
+            operationId: getExplainerData
+            parameters:
+                - name: model
+                  in: query
+                  required: true
+                  description: "the identifier of the model file name"
+                  example: "model.pkl"
+                  schema:
+                      type: string
+                - name: meta_data
+                  in: query
+                  required: true
+                  description: "the identifier of the metadata file name"
+                  example: "metadata.json"
+                  schema:
+                      type: string
+                - name: prediction_target
+                  in: query
+                  required: true
+                  description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
+                  example: "Biomass"
+                  schema:
+                      type: string
+                - name: pilot
+                  in: query
+                  required: true
+                  description: the identifier of the pilot
+                  example: "pilot8"
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ExplainerDataResponse"
+                "400":
+                    description: Invalid IDs combination supplied
+                "404":
+                    description: Pilot / Model not found
+            tags:
+                - Explainer
 
     /feature-importance:
         post:
@@ -58,7 +106,7 @@ paths:
                 "500":
                     description: Internal server error
             tags:
-                - featureImportance
+                - ModelCard
 
     /feature-descriptions:
         post:
@@ -83,7 +131,7 @@ paths:
                 "500":
                     description: Internal server error
             tags:
-                - featureDescriptions
+                - ModelCard
 
     /model-performance-metric:
         post:
@@ -110,7 +158,7 @@ paths:
                 "500":
                     description: Internal server error
             tags:
-                - modelPerformanceMetric
+                - ModelCard
 
     /model-performance:
         post:
@@ -137,7 +185,7 @@ paths:
                 "500":
                     description: Internal server error
             tags:
-                - modelPerformance
+                - ModelCard
 
     /ask:
         post:
@@ -160,7 +208,7 @@ paths:
                 "404":
                     description: Pilot / Explainer not found
             tags:
-                - Ask
+                - Explainer
 
     /feedback:
         get:
@@ -195,6 +243,8 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/QuestionsResponse"
+            tags:
+                - Feedback
         post:
             summary: Receive the feedback from the user
             requestBody:
@@ -210,6 +260,8 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/FeedbackResponse"
+            tags:
+                - Feedback
 
     /data-source-types:
         get:
@@ -236,9 +288,18 @@ paths:
                 "404":
                     description: Pilot / Model not found
             tags:
-                - Data source types
+                - DataCard
 
-tags: []
+tags:
+    - name: Explainer
+      description: Operations related to the explainer
+    - name: DataCard
+      description: Endpoints returning data for data card
+    - name: ModelCard
+      description: Endpoints returning data for model card
+    - name: Feedback
+      description: Endpoints returning data for feedback handling
+
 servers: []
 components:
     securitySchemes:
@@ -248,6 +309,18 @@ components:
             description: "Please enter token in following format: Bearer <JWT>"
             type: http
     schemas:
+        ExplainerDataResponse:
+            type: object
+            properties:
+                endpoints:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            name:
+                                type: string
+                            url:
+                                type: string
         DataSourceTypesResponse:
             type: object
             properties:
