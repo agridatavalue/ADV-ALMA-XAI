@@ -11,6 +11,7 @@ from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
 from ..domain.service.ExplainerRetriever import ExplainerRetriever
 from ..infrastructure.service.DataLoaderService import DataLoaderService
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService
+from ..infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
 from ..domain.service.ModelPerformanceServiceComponent import (
     ModelPerformanceServiceComponent,
 )
@@ -23,18 +24,34 @@ load_dotenv()
 
 class ExplainerGeneratorService:
     _data_loader_service: DataLoaderService
-    _model_loader_service: ModelLoaderService
     _explainer_retriever: ExplainerRetriever
+    _model_loader_service: ModelLoaderService
+    _metadata_loader_service: MetaDataLoaderService
 
     _mpm_service: ModelPerformanceServiceComponent
     _fi_service_comp: FeatureImportanceServiceComponent
 
     def __init__(self):
         self._data_loader_service = DataLoaderService()
-        self._model_loader_service = ModelLoaderService()
         self._explainer_retriever = ExplainerRetriever()
-        self._fi_service_comp = FeatureImportanceServiceComponent()
+        self._model_loader_service = ModelLoaderService()
         self._mpm_service = ModelPerformanceServiceComponent()
+        self._metadata_loader_service = MetaDataLoaderService()
+        self._fi_service_comp = FeatureImportanceServiceComponent()
+
+    def prepare_explainer(
+        self, request: ExplainerIdentifier, prediction_targets: list[str]
+    ) -> list[Explainer]:
+        logging.debug("downloading meta data")
+        meta_data: ModelMetaData = self._metadata_loader_service.load_model_metadata(
+            request
+        )
+        logging.debug("downloading model")
+        selected_model: Model = self._model_loader_service.load_from(
+            request.model, meta_data=meta_data
+        )
+        logging.debug("downloading data if present")
+        data: dict[str, pd.DataFrame] = self._data_loader_service.load_data(request)
 
     def generate_explainer(
         self, request: ExplainerIdentifier, prediction_targets: list[str]
@@ -46,7 +63,7 @@ class ExplainerGeneratorService:
         ] = self._fi_service_comp.generate_data(request)
 
         logging.debug("downloading meta data")
-        meta_data: ModelMetaData = self._data_loader_service.load_model_metadata(
+        meta_data: ModelMetaData = self._metadata_loader_service.load_model_metadata(
             request
         )
         logging.debug("downloading model")
@@ -54,9 +71,7 @@ class ExplainerGeneratorService:
             request.model, meta_data=meta_data
         )
         logging.debug("downloading data if present")
-        data: dict[str, pd.DataFrame] = self._data_loader_service.load_data(
-            folder_path=request.data, bucket_name=os.getenv("DATA_FOLDER_PATH")
-        )
+        data: dict[str, pd.DataFrame] = self._data_loader_service.load_data(request)
 
         if not prediction_targets:
             prediction_targets = meta_data.first_target_name

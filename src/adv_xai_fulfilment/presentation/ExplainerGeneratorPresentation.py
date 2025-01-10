@@ -26,10 +26,13 @@ class ExplainerGeneratorPresentation:
             request, data.get("prediction_targets", [])
         )
 
-    def get_explainer_data(self, data: dict = {}) -> dict["endpoints" : list[str]]:
+    def get_explainer_data(self, data: dict = {}):
         logging.info(f"called get_explainer_data with params: {data}")
         self._validator.validate_and_sanitize_get_data(data)
-        return {"endpoints": []}
+        return self._build_service.prepare_explainer(
+            request=self._translator.translate(data),
+            prediction_targets=data.get("prediction_targets", []),
+        )
 
     def ask_to_explainer(self, data: dict):
         logging.info(f"called ask_to_explainer with params: {data}")

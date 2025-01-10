@@ -1,8 +1,8 @@
 import os
 import pickle
 import logging
+from os import path
 
-from ..Helper import Helper
 from ..repository.BucketRepository import BucketRepository
 from src.adv_xai_fulfilment.domain.model.Model import Model
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
@@ -30,26 +30,22 @@ class ModelLoaderService:
     def load_from(self, model_file_path: str, meta_data: ModelMetaData) -> Model:
         logging.debug(f"loading model from {model_file_path}")
 
-        # nb: at the moment we are working only with remote files
-        # if not Helper.is_local_path(model_file_path):
-        #     logging.debug(
-        #         f"is not a local path, downloading {model_file_path} from {os.getenv('MODEL_FOLDER_PATH')}"
-        #     )
-        model_file_path: str = self._bucketRepository.download_from(
-            bucket_name=os.getenv("MODEL_FOLDER_PATH"), object_name=model_file_path
-        )
+        model_file_path = Model.get_locale_filepath(model_file_path)
+        if not path.exists(model_file_path):
+            model_file_path: str = self._bucketRepository.download_from(
+                object_name=model_file_path,
+                bucket_name=os.getenv("MODEL_FOLDER_PATH"),
+                destination_file_path=model_file_path,
+            )
 
         logging.debug(
             f"select domain model for: framework {meta_data.framework} and algoritm {meta_data.algorithm}"
         )
-        selected_model: Model = (
+        return (
             self._model_translator.with_(meta_data.framework)
             .and_(meta_data.algorithm)
             .translate(model_file_path)
         )
-
-        os.remove(model_file_path)
-        return selected_model
 
     def upload_explainer(
         self, explainer: Explainer, identifier: ExplainerIdentifier

@@ -11,6 +11,7 @@ from src.adv_xai_fulfilment.application.ModelPerformanceMetricService import (
 
 
 class TestModelPerformanceMetricService(unittest.TestCase):
+    @patch("os.getenv", return_value="/mock/temp")
     @patch(
         "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.DataLoaderService"
     )
@@ -31,7 +32,7 @@ class TestModelPerformanceMetricService(unittest.TestCase):
             data="data",
             pilot=Pilot("pilot"),
             model="mock_model",
-            metadata="metadata",
+            metadata=ModelMetaData("", "", "", "", "", ""),
             prediction_target="target",
         )
 
@@ -49,6 +50,7 @@ class TestModelPerformanceMetricService(unittest.TestCase):
         self.assertEqual(result["accuracy"], 0.95)
         self.assertEqual(result["target"], "target")
 
+    @patch("os.getenv", return_value="/mock/temp")
     @patch(
         "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.DataLoaderService"
     )
@@ -69,7 +71,7 @@ class TestModelPerformanceMetricService(unittest.TestCase):
             data="crop",
             pilot=Pilot("pilot"),
             model="mock_model",
-            metadata="metadata",
+            metadata=ModelMetaData("", "", "", "", "", ""),
             prediction_target="prediction_target",
         )
 
