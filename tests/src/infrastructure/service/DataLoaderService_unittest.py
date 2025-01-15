@@ -31,6 +31,24 @@ class TestDataLoaderService(unittest.TestCase):
         self.testObj._bucketRepository.download_from = (
             lambda bucket_name, object_name: metadata_filepath
         )
+        self.testObj._explainer_metadata_translator.translate = (
+            lambda explainer_metadata: ExplainerMetaData(
+                possible_explainers=[AleExplainer()],
+                target_name="test",
+                meta_data=ModelMetaData(
+                    data_type="test",
+                    algorithm="test",
+                    framework="test",
+                    model_type="test",
+                    subject_name="test",
+                    target_names=[],
+                    model_category="test",
+                    feature_descriptions=[],
+                ),
+                metrics={},
+            )
+        )
+
         actual = self.testObj.load_explainer_metadata(
             ExplainerIdentifier(
                 model="test",

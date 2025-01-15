@@ -18,6 +18,9 @@ from src.adv_xai_fulfilment.infrastructure.service.DataLoaderService import (
 from src.adv_xai_fulfilment.infrastructure.service.ModelLoaderService import (
     ModelLoaderService,
 )
+from src.adv_xai_fulfilment.infrastructure.service.MetaDataLoaderService import (
+    MetaDataLoaderService,
+)
 from src.adv_xai_fulfilment.domain.service.ModelPerformanceServiceComponent import (
     ModelPerformanceServiceComponent,
 )
@@ -68,6 +71,11 @@ class TestExplainerGeneratorService(unittest.TestCase):
         mock_model_loader_service = MagicMock(spec=ModelLoaderService)
         mock_model_loader_service.load_from.return_value = mock_model
 
+        mock_metadata_loader_service = MagicMock(spec=MetaDataLoaderService)
+        mock_metadata_loader_service.load_model_metadata.return_value = ModelMetaData(
+            "", "", "", "", "", ""
+        )
+
         mock_mpm_service = MagicMock(spec=ModelPerformanceServiceComponent)
         mock_mpm_service.get_metrics.return_value = {"accuracy": 0.95}
 
@@ -93,6 +101,7 @@ class TestExplainerGeneratorService(unittest.TestCase):
         service._explainer_retriever = mock_explainer_retriever
         service._model_loader_service = mock_model_loader_service
         service._fi_service_comp = mock_feature_importance_service
+        service._metadata_loader_service = mock_metadata_loader_service
 
         result = service.generate_explainer(
             mock_identifier, prediction_targets=["target1"]

@@ -9,11 +9,13 @@ from ...domain.model.ModelMetaData import ModelMetaData
 from ..repository.BucketRepository import BucketRepository
 from ...domain.model.ExplainerMetaData import ExplainerMetaData
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
+from .translator.ExplainerMetaDataTranslator import ExplainerMetaDataTranslator
 from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
 
 
 class DataLoaderService:
     _bucketRepository: BucketRepository
+    _explainer_metadata_translator: ExplainerMetaDataTranslator
 
     def __init__(self):
         self._bucketRepository = BucketRepository(
@@ -24,6 +26,7 @@ class DataLoaderService:
                 "secure": os.getenv("MINIO_SECURE", "true").lower() == "true",
             }
         )
+        self._explainer_metadata_translator = ExplainerMetaDataTranslator()
 
     def load_data(self, expl_id: ExplainerIdentifier) -> dict[str, pd.DataFrame]:
         if not expl_id.data:
