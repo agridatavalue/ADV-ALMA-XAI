@@ -96,7 +96,7 @@ class DataLoaderService:
         ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
 
         file: str = self._bucketRepository.download_from(
-            object_name=explainer_identifier.metadata.lower(),
+            object_name=explainer_identifier.metadata,
             bucket_name=os.getenv("MODEL_FOLDER_PATH"),
         )
         with open(file, "r") as json_file:
