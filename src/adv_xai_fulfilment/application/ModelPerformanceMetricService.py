@@ -18,11 +18,13 @@ class ModelPerformanceMetricService:
     _mdm_service: ModelPerformanceServiceComponent
     _metadata_loader_service: MetaDataLoaderService
 
-    def __init__(self):
+    def __init__(self, metadata_loader_service: MetaDataLoaderService = None):
         self._mdm_service = ModelPerformanceServiceComponent()
         self._data_loader_service = DataLoaderService()
         self._model_loader_service = ModelLoaderService()
-        self._metadata_loader_service = MetaDataLoaderService()
+        self._metadata_loader_service = (
+            metadata_loader_service or MetaDataLoaderService()
+        )
 
     def get_data(
         self, explainer_identifier: ExplainerIdentifier

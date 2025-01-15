@@ -21,7 +21,9 @@ class TestModelPerformanceMetricService(unittest.TestCase):
     @patch(
         "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.ModelPerformanceServiceComponent"
     )
-    def test_get_data(self, MockMPMService, MockModelLoader, MockDataLoader):
+    def test_get_data(
+        self, mock_getenv, MockMPMService, MockModelLoader, MockDataLoader
+    ):
         mock_data_loader = MockDataLoader.return_value
         mock_model_loader = MockModelLoader.return_value
         mock_mpm_service = MockMPMService.return_value
@@ -37,13 +39,14 @@ class TestModelPerformanceMetricService(unittest.TestCase):
         )
 
         mock_model_loader.load_from.return_value = mock_model
-        mock_data_loader.load_data.return_value = {"mock_key": "mock_value"}
         mock_data_loader.load_model_metadata.return_value = mock_model_metadata
         mock_model_metadata.first_target_name = "default_target"
         mock_model_metadata.index_of_target_name.return_value = 0
         mock_mpm_service.get_data.return_value = {"accuracy": 0.95}
 
-        service = ModelPerformanceMetricService()
+        service = ModelPerformanceMetricService(
+            metadata_loader_service=mock_data_loader
+        )
 
         result = service.get_data(explainer_identifier)
 
@@ -60,10 +63,12 @@ class TestModelPerformanceMetricService(unittest.TestCase):
     @patch(
         "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.ModelPerformanceServiceComponent"
     )
-    def test_get_metrics(self, MockMPMService, MockModelLoader, MockDataLoader):
-        mock_data_loader = MockDataLoader.return_value
-        mock_model_loader = MockModelLoader.return_value
-        mock_mpm_service = MockMPMService.return_value
+    def test_get_metrics(
+        self, mock_getenv, MockMPMService, MockModelLoader, MockDataLoader
+    ):
+        mock_data_loader = MockDataLoader
+        mock_mpm_service = MockMPMService
+        mock_model_loader = MockModelLoader
 
         mock_model = MagicMock(spec=Model)
         mock_model_metadata = MagicMock(spec=ModelMetaData)
@@ -76,10 +81,9 @@ class TestModelPerformanceMetricService(unittest.TestCase):
         )
 
         mock_model_loader.load_from.return_value = mock_model
-        mock_data_loader.load_data.return_value = {"mock_key": "mock_value"}
-        mock_data_loader.load_model_metadata.return_value = mock_model_metadata
         mock_model_metadata.first_target_name = "default_target"
         mock_model_metadata.index_of_target_name.return_value = 1
+        mock_data_loader.load_model_metadata.return_value = mock_model_metadata
         mock_mpm_service.get_metrics.return_value = {"precision": 0.85}
 
         service = ModelPerformanceMetricService()

@@ -17,8 +17,8 @@ class MetaDataLoaderService:
     _model_metadata_translator: ModelMetaDataTranslator
     _explainer_metadata_translator: ExplainerMetaDataTranslator
 
-    def __init__(self):
-        self._bucketRepository = BucketRepository(
+    def __init__(self, bucket_repository: BucketRepository = None):
+        self._bucketRepository = bucket_repository or BucketRepository(
             {
                 "endpoint": os.getenv("MINIO_ENDPOINT"),
                 "access_key": os.getenv("MINIO_ACCESS_KEY"),
