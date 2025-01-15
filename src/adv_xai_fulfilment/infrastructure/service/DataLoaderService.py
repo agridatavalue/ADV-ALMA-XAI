@@ -5,6 +5,7 @@ import pandas as pd
 from os import path
 
 from ..Helper import Helper
+from ...domain.model.ModelMetaData import ModelMetaData
 from ..repository.BucketRepository import BucketRepository
 from ...domain.model.ExplainerMetaData import ExplainerMetaData
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors

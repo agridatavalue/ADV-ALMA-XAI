@@ -15,7 +15,6 @@ class TestExplainerIdentifierTranslator(unittest.TestCase):
             {
                 "data": "data",
                 "model": "model",
-                "meta_data": "meta_data",
                 "prediction_target": "prediction_target",
             }
         )
@@ -23,5 +22,4 @@ class TestExplainerIdentifierTranslator(unittest.TestCase):
         self.assertIsInstance(result, ExplainerIdentifier)
         self.assertEqual(result.data, "data")
         self.assertEqual(result.model, "model")
-        self.assertEqual(result.metadata, "meta_data")
         self.assertEqual(result.prediction_target, "prediction_target")

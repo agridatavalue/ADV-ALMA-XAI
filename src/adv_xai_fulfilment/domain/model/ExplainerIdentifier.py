@@ -42,10 +42,14 @@ class ExplainerIdentifier:
         return f"{self.model}/{self.prediction_target}_{self.category}/metadata.json".lower()
 
     def get_metadata_locale_filepath(self) -> str:
-        return self._metadata.get_local_file_path(
-            model=self.model,
-            category=self.category,
-            prediction_target=self.prediction_target,
+        return (
+            self._metadata.get_local_file_path(
+                model=self.model,
+                category=self.category,
+                prediction_target=self.prediction_target,
+            )
+            if self._metadata
+            else ""
         )
 
     def get_data_locale_filepath(self) -> str:

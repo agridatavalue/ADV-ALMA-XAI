@@ -5,6 +5,7 @@ import pandas as pd
 
 from src.adv_xai_fulfilment.domain.model.Model import Model
 from src.adv_xai_fulfilment.domain.model.Pilot import Pilot
+from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
 from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
 from src.adv_xai_fulfilment.domain.service.ExplainerRetriever import ExplainerRetriever
@@ -32,7 +33,7 @@ class MyExplainer(Explainer):
 
 
 class TestExplainerGeneratorService(unittest.TestCase):
-    @patch("os.getenv")
+    @patch("os.getenv", return_value="/mock/temp")
     def test_generate_explainer(self, mock_getenv):
 
         # Mock environment variables
@@ -50,7 +51,7 @@ class TestExplainerGeneratorService(unittest.TestCase):
             data="test_data",
             pilot=Pilot("test_pilot"),
             model="test_model",
-            metadata="test_metadata",
+            metadata=ModelMetaData("", "", "", "", "", ""),
             prediction_target="target1",
         )
 
