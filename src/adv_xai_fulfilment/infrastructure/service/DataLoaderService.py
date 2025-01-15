@@ -65,6 +65,40 @@ class DataLoaderService:
         )
         return pd.read_csv(file)
 
+    def load_explainer_metadata(
+        self, expl_id: ExplainerIdentifier
+    ) -> ExplainerMetaData:
+        assert isinstance(
+            expl_id, ExplainerIdentifier
+        ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
+
+        file: str = self._bucketRepository.download_from(
+            object_name=expl_id.get_metadata_path(),
+            bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
+        )
+        with open(file, "r") as json_file:
+            metadata = json.load(json_file) or {}
+
+        os.remove(file)
+        return self._explainer_metadata_translator.translate(metadata)
+
+    def load_model_metadata(
+        self, explainer_identifier: ExplainerIdentifier
+    ) -> ModelMetaData:
+        assert isinstance(
+            explainer_identifier, ExplainerIdentifier
+        ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
+
+        file: str = self._bucketRepository.download_from(
+            object_name=explainer_identifier.metadata,
+            bucket_name=os.getenv("MODEL_FOLDER_PATH"),
+        )
+        with open(file, "r") as json_file:
+            metadata = json.load(json_file) or {}
+
+        os.remove(file)
+        return self._model_metadata_translator.translate(metadata)
+
     def upload(
         self,
         explainer_data: ExplainerMetaData,
