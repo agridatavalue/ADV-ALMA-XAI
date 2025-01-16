@@ -20,11 +20,14 @@ class ExplainerGeneratorPresentation:
     def build(self, data: dict = {}) -> list[Explainer]:
         logging.info(f"called build with params: {data}")
         self._validator.validate_and_sanitize_build(data)
-        request: ExplainerIdentifier = self._translator.translate(data)
+        requests: list[ExplainerIdentifier] = self._translator.translate(data)
 
-        return self._build_service.generate_explainer(
-            request, data.get("prediction_targets", [])
-        )
+        return [
+            self._build_service.generate_explainer(
+                request, data.get("prediction_targets", [])
+            )
+            for request in requests
+        ]
 
     def get_explainer_data(self, data: dict = {}):
         logging.info(f"called get_explainer_data with params: {data}")
