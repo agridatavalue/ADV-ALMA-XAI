@@ -28,14 +28,14 @@ class ModelLoaderService:
         self._model_translator = ModelTranslator()
 
     def load_from(self, model_file_path: str, meta_data: ModelMetaData) -> Model:
-        logging.debug(f"loading model from {model_file_path}")
+        model_local_file_path: str = Model.get_locale_filepath(model_file_path)
+        logging.debug(f"loading model from {model_file_path} to {model_file_path}")
 
-        model_file_path = Model.get_locale_filepath(model_file_path)
-        if not path.exists(model_file_path):
+        if not path.exists(model_local_file_path):
             model_file_path: str = self._bucketRepository.download_from(
                 object_name=model_file_path,
                 bucket_name=os.getenv("MODEL_FOLDER_PATH"),
-                destination_file_path=model_file_path,
+                destination_file_path=model_local_file_path,
             )
 
         logging.debug(
@@ -44,22 +44,23 @@ class ModelLoaderService:
         return (
             self._model_translator.with_(meta_data.framework)
             .and_(meta_data.algorithm)
-            .translate(model_file_path)
+            .translate(model_local_file_path)
         )
 
     def upload_explainer(
         self, explainer: Explainer, identifier: ExplainerIdentifier
     ) -> str:
-        with open(explainer.file_name, "wb") as file:
+        locale_explainer_path: str = identifier.get_explainer_locale_filepath(explainer)
+
+        os.makedirs(os.path.dirname(locale_explainer_path), exist_ok=True)
+        with open(locale_explainer_path, "wb") as file:
             pickle.dump(explainer.build_result, file)
 
-        object_name = self._bucketRepository.upload_to(
+        return self._bucketRepository.upload_to(
             bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
-            local_filepath=explainer.file_name,
+            local_filepath=locale_explainer_path,
             target_filepath=identifier.get_filename_path(explainer.file_name),
         )
-        os.remove(explainer.file_name)
-        return object_name
 
     def upload_to(
         self,

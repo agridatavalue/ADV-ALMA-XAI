@@ -1,4 +1,4 @@
-from explainerdashboard import RegressionExplainer
+from explainerdashboard import RegressionExplainer as DashboardRegressionExplainer
 
 from ..DataType import DataType
 from .Explainer import Explainer
@@ -18,10 +18,12 @@ class RegressionExplainer(Explainer):
             train_set_required=False,
             has_categorical_features=False,
             data_type_explainers=[
-                DataTypeModelExplainer(DataType.TABULAR, RegressionExplainer)
+                DataTypeModelExplainer(DataType.TABULAR, DashboardRegressionExplainer)
             ],
         )
 
     def build(self, model, data: dict):
         assert isinstance(data, dict), Errors.DATA_NOT_DICT
-        self.build_result = RegressionExplainer(model, data.get("x"), data.get("y"))
+        self.build_result = DashboardRegressionExplainer(
+            model, data.get("x"), data.get("y")
+        )

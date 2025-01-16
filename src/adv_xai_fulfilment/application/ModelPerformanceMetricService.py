@@ -18,13 +18,11 @@ class ModelPerformanceMetricService:
     _mdm_service: ModelPerformanceServiceComponent
     _metadata_loader_service: MetaDataLoaderService
 
-    def __init__(self, metadata_loader_service: MetaDataLoaderService = None):
+    def __init__(self):
         self._mdm_service = ModelPerformanceServiceComponent()
         self._data_loader_service = DataLoaderService()
         self._model_loader_service = ModelLoaderService()
-        self._metadata_loader_service = (
-            metadata_loader_service or MetaDataLoaderService()
-        )
+        self._metadata_loader_service = MetaDataLoaderService()
 
     def get_data(
         self, explainer_identifier: ExplainerIdentifier
@@ -63,10 +61,7 @@ class ModelPerformanceMetricService:
             explainer_identifier.model, meta_data=model_metadata
         )
 
-        data: dict = self._data_loader_service.load_data(
-            bucket_name=os.getenv("DATA_FOLDER_PATH"),
-            folder_path=explainer_identifier.data,
-        )
+        data: dict = self._data_loader_service.load_data(explainer_identifier)
 
         return self._mdm_service.get_metrics(
             model=selected_model,

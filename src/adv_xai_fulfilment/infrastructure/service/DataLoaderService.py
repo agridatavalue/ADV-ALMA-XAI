@@ -4,17 +4,18 @@ import logging
 import pandas as pd
 from os import path
 
-from ..Helper import Helper
 from ...domain.model.ModelMetaData import ModelMetaData
 from ..repository.BucketRepository import BucketRepository
 from ...domain.model.ExplainerMetaData import ExplainerMetaData
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
+from .translator.ModelMetaDataTranslator import ModelMetaDataTranslator
 from .translator.ExplainerMetaDataTranslator import ExplainerMetaDataTranslator
 from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
 
 
 class DataLoaderService:
     _bucketRepository: BucketRepository
+    _model_metadata_translator: ModelMetaDataTranslator
     _explainer_metadata_translator: ExplainerMetaDataTranslator
 
     def __init__(self):
@@ -26,46 +27,32 @@ class DataLoaderService:
                 "secure": os.getenv("MINIO_SECURE", "true").lower() == "true",
             }
         )
+        self._model_metadata_translator = ModelMetaDataTranslator()
         self._explainer_metadata_translator = ExplainerMetaDataTranslator()
 
     def load_data(self, expl_id: ExplainerIdentifier) -> dict[str, pd.DataFrame]:
         if not expl_id.data:
             return None
 
-        x_file_path: str = f"{expl_id.model}/{expl_id.data}/x.csv"
-        y_file_path: str = f"{expl_id.model}/{expl_id.data}/y.csv"
+        to_return = {}
+        for file in ["x.csv", "y.csv"]:
+            current_file = expl_id.get_data_locale_filepath(file)
+            if not os.path.exists(current_file):
+                logging.debug(
+                    f"file {current_file} does not exist, downloading from {os.getenv('DATA_FOLDER_PATH')}"
+                )
+                self._bucketRepository.download_from(
+                    bucket_name=os.getenv("DATA_FOLDER_PATH"),
+                    object_name=f"{expl_id.data}/{file}",
+                    destination_file_path=current_file,
+                )
+            to_return[file.replace(".csv", "")] = pd.read_csv(current_file)
 
-        bucket_name = os.getenv("DATA_FOLDER_PATH")
-        if not os.path.exists(expl_id.get_data_locale_filepath()):
-            logging.debug(
-                f"file {x_file_path} does not exist, downloading from {bucket_name}"
-            )
-            file_x: str = self._bucketRepository.download_from(
-                bucket_name=bucket_name,
-                object_name=x_file_path,
-                destination_file_path="x.csv",
-            )
-
-        if not Helper.is_local_path(y_file_path):
-            logging.debug(
-                f"file {y_file_path} does not exist, downloading from {bucket_name}"
-            )
-            file_y: str = self._bucketRepository.download_from(
-                bucket_name=bucket_name,
-                object_name=y_file_path,
-                destination_file_path="y.csv",
-            )
-
-        data = {"x": pd.read_csv(file_x), "y": pd.read_csv(file_y)}
-        os.remove(file_x)
-        os.remove(file_y)
-
-        return data
+        return to_return
 
     def load_file(self, file_path: str, bucket_name: str) -> pd.DataFrame:
         file: str = self._bucketRepository.download_from(
-            object_name=file_path,
-            bucket_name=bucket_name,
+            object_name=file_path, bucket_name=bucket_name
         )
         return pd.read_csv(file)
 
@@ -94,7 +81,7 @@ class DataLoaderService:
         ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
 
         file: str = self._bucketRepository.download_from(
-            object_name=explainer_identifier.metadata,
+            object_name=explainer_identifier.metadata_identifier,
             bucket_name=os.getenv("MODEL_FOLDER_PATH"),
         )
         with open(file, "r") as json_file:

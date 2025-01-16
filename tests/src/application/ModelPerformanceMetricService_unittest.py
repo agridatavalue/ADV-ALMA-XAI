@@ -13,20 +13,20 @@ from src.adv_xai_fulfilment.application.ModelPerformanceMetricService import (
 class TestModelPerformanceMetricService(unittest.TestCase):
     @patch("os.getenv", return_value="/mock/temp")
     @patch(
-        "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.DataLoaderService"
+        "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.ModelPerformanceServiceComponent"
     )
     @patch(
         "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.ModelLoaderService"
     )
     @patch(
-        "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.ModelPerformanceServiceComponent"
+        "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.DataLoaderService"
     )
     def test_get_data(
-        self, mock_getenv, MockMPMService, MockModelLoader, MockDataLoader
+        self, MockDataLoader, MockMPMService, MockModelLoader, mock_getenv
     ):
         mock_data_loader = MockDataLoader.return_value
-        mock_model_loader = MockModelLoader.return_value
         mock_mpm_service = MockMPMService.return_value
+        mock_model_loader = MockModelLoader.return_value
 
         mock_model = MagicMock(spec=Model)
         mock_model_metadata = MagicMock(spec=ModelMetaData)
@@ -44,9 +44,7 @@ class TestModelPerformanceMetricService(unittest.TestCase):
         mock_model_metadata.index_of_target_name.return_value = 0
         mock_mpm_service.get_data.return_value = {"accuracy": 0.95}
 
-        service = ModelPerformanceMetricService(
-            metadata_loader_service=mock_data_loader
-        )
+        service = ModelPerformanceMetricService()
 
         result = service.get_data(explainer_identifier)
 
@@ -64,11 +62,11 @@ class TestModelPerformanceMetricService(unittest.TestCase):
         "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.ModelPerformanceServiceComponent"
     )
     def test_get_metrics(
-        self, mock_getenv, MockMPMService, MockModelLoader, MockDataLoader
+        self, MockMPMService, MockModelLoader, MockDataLoader, mock_getenv
     ):
-        mock_data_loader = MockDataLoader
-        mock_mpm_service = MockMPMService
-        mock_model_loader = MockModelLoader
+        mock_data_loader = MockDataLoader.return_value
+        mock_mpm_service = MockMPMService.return_value
+        mock_model_loader = MockModelLoader.return_value
 
         mock_model = MagicMock(spec=Model)
         mock_model_metadata = MagicMock(spec=ModelMetaData)

@@ -84,10 +84,7 @@ class FeatureImportanceServiceComponent:
         logging.info(f"Explainer feature-importance: {explainer}")
 
         X_test = np.array(
-            self._data_loader_service.load_data(
-                bucket_name=os.getenv("DATA_FOLDER_PATH"),
-                folder_path=explainer_identifier.data,
-            )["x"]
+            self._data_loader_service.load_data(explainer_identifier)["x"]
         )
 
         data: pd.DataFrame = selected_model.get_feature_importance(

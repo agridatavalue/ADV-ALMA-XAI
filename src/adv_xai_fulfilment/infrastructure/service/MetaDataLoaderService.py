@@ -61,7 +61,7 @@ class MetaDataLoaderService:
         file: str = expl_id.get_metadata_locale_filepath()
         if not path.exists(file):
             file: str = self._bucketRepository.download_from(
-                object_name=expl_id.metadata.filename.lower(),
+                object_name=expl_id.metadata_identifier,
                 bucket_name=os.getenv("MODEL_FOLDER_PATH"),
                 destination_file_path=file,
             )

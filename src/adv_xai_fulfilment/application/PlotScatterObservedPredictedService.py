@@ -20,10 +20,7 @@ class PlotScatterObservedPredictedService:
     ) -> dict["y_observed" : np.ndarray, "y_predicted" : np.ndarray]:
         model: Model = self.model_loader_service.load_from(explainer_identifier.model)
 
-        data = self.data_loader_service.load_data(
-            folder_path=explainer_identifier.data,
-            bucket_name=os.getenv("DATA_FOLDER_PATH"),
-        )
+        data = self.data_loader_service.load_data(explainer_identifier)
 
         X_test = np.array(data.get("x"))
         y_test = np.array(data.get("y"))

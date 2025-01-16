@@ -1,5 +1,3 @@
-import os
-
 from .DataType import DataType
 from .FeatureDescription import FeatureDescription
 
@@ -62,14 +60,6 @@ class ModelMetaData:
             if target_name in self._target_names
             else -1
         )
-
-    @staticmethod
-    def get_local_file_path(
-        model: str, category: str, prediction_target: str, pilot: str = ""
-    ) -> str:
-        return os.path.join(
-            os.getenv("TEMP"), model, f"{prediction_target}_{category}", "metadata.json"
-        ).lower()
 
     @property
     def first_target_name(self) -> str:

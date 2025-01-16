@@ -15,6 +15,7 @@ class Errors:
     EXPLAINER_DATA_NOT_EXPLAINER_METADATA = TypeError(
         "explainer_data must be an instance of ExplainerMetaData"
     )
+    MODEL_NOT_VALID = TypeError("Model is not valid")
     MODEL_NOT_MODEL = TypeError("model must be an instance of Model")
     DATA_NOT_DICT = TypeError("data must be a dictionary")
     METADATA_NOT_DICT = TypeError("metadata must be a dictionary")
