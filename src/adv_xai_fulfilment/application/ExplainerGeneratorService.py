@@ -1,9 +1,9 @@
-import os
 import logging
 import pandas as pd
 from dotenv import load_dotenv
 
 from ..domain.model.Model import Model
+from ..infrastructure.Constants import Errors
 from ..domain.model.ModelMetaData import ModelMetaData
 from ..domain.model.explainers.Explainer import Explainer
 from ..domain.model.ExplainerMetaData import ExplainerMetaData
@@ -66,10 +66,16 @@ class ExplainerGeneratorService:
         meta_data: ModelMetaData = self._metadata_loader_service.load_model_metadata(
             request
         )
+        request.metadata = meta_data
+
         logging.debug("downloading model")
         selected_model: Model = self._model_loader_service.load_from(
             request.model, meta_data=meta_data
         )
+        if not selected_model.is_ok():
+            logging.error("empty model")
+            raise Errors.MODEL_NOT_MODEL
+
         logging.debug("downloading data if present")
         data: dict[str, pd.DataFrame] = self._data_loader_service.load_data(request)
 
@@ -116,10 +122,10 @@ class ExplainerGeneratorService:
             if expl_metadata.data_are_ok:
                 logging.debug("uploading the explainer metadata")
                 self._data_loader_service.upload(
-                    model_category=meta_data.model_category,
-                    explainer_data=expl_metadata,
                     target=target,
+                    explainer_data=expl_metadata,
                     model_filename=selected_model.filename,
+                    model_category=meta_data.model_category,
                 )
             else:
                 logging.error("explainer metadata not ok, not uploading")

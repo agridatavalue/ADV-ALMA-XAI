@@ -20,6 +20,9 @@ class Model:
 
     def load(self, path: str) -> "Model": ...
 
+    def is_ok(self) -> bool:
+        return self.handler is not None
+
     @staticmethod
     def supported_frameworks() -> list[str]: ...
 
