@@ -36,6 +36,6 @@ class BucketRepository:
         self, bucket_name: str, target_filepath: str, local_filepath: str
     ) -> str:
         result = self._client.fput_object(
-            bucket_name, target_filepath.replace(os.sep, "/"), local_filepath
+            bucket_name, local_filepath, target_filepath.replace(os.sep, "/")
         )
         return result.object_name
