@@ -1,7 +1,7 @@
 import os
 import json
+import logging
 import pandas as pd
-from os import path
 
 from ...domain.model.ModelMetaData import ModelMetaData
 from ..repository.BucketRepository import BucketRepository
@@ -50,23 +50,45 @@ class MetaDataLoaderService:
         with open(file, "r") as json_file:
             metadata = json.load(json_file) or {}
 
-        os.remove(file)
         return self._explainer_metadata_translator.translate(metadata)
+
+    def upload_explainer_metadata(
+        self, expl_id: ExplainerIdentifier, metadata: ExplainerMetaData
+    ):
+        assert isinstance(
+            metadata, ExplainerMetaData
+        ), Errors.EXPLAINER_METADATA_NOT_EXPLAINER_METADATA
+        assert isinstance(
+            expl_id, ExplainerIdentifier
+        ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
+
+        file_path: str = metadata.get_locale_file_path(expl_id)
+        with open(file_path, "w") as json_file:
+            json.dump(metadata.to_dict(), json_file)
+
+        return self._bucketRepository.upload_to(
+            bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
+            target_filepath=metadata.get_file_path(expl_id),
+            local_filepath=file_path,
+        )
 
     def load_model_metadata(self, expl_id: ExplainerIdentifier) -> ModelMetaData:
         assert isinstance(
             expl_id, ExplainerIdentifier
         ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
 
-        file: str = expl_id.get_metadata_locale_filepath()
-        if not path.exists(file):
-            file: str = self._bucketRepository.download_from(
+        filepath: str = expl_id.get_model_metadata_locale_filepath()
+        if not os.path.exists(filepath):
+            logging.debug(
+                f'file {filepath} not exists, downloading {os.getenv("MODEL_FOLDER_PATH")}/{expl_id.metadata_identifier}'
+            )
+            filepath: str = self._bucketRepository.download_from(
                 object_name=expl_id.metadata_identifier,
                 bucket_name=os.getenv("MODEL_FOLDER_PATH"),
-                destination_file_path=file,
+                destination_file_path=filepath,
             )
 
-        with open(file, "r") as json_file:
-            metadata = json.load(json_file) or {}
+        with open(filepath, "r") as json_file:
+            metadata: dict = json.load(json_file) or {}
 
         return self._model_metadata_translator.translate(metadata)

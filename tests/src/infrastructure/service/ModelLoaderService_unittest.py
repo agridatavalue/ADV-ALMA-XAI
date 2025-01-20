@@ -22,27 +22,6 @@ class SilentKerasModel(KerasModel):
 class ModelLoaderServiceTest(unittest.TestCase):
     testObj: ModelLoaderService
 
-    def test_upload_explainer(self):
-        testObj = ModelLoaderService()
-        testObj._bucketRepository = MagicMock()
-        testObj._bucketRepository.upload_to = MagicMock(return_value="test")
-
-        explainer = MagicMock()
-        explainer.file_name = "test.pkl"
-        explainer.build_result = "test"
-
-        actual = testObj.upload_explainer(
-            explainer,
-            ExplainerIdentifier(
-                model="test",
-                pilot=Pilot("test"),
-                metadata=ModelMetaData("", "", "", "", "", ""),
-                prediction_target="test",
-            ),
-        )
-
-        self.assertEqual(actual, "test")
-
     @patch("os.getenv", return_value="/mock/temp")
     def test_load_from(self, mock_getenv):
         testObj = ModelLoaderService()

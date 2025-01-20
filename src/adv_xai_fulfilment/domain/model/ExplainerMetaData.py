@@ -1,3 +1,5 @@
+import os
+
 from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.questions.Question import Question
 from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
@@ -66,6 +68,11 @@ class ExplainerMetaData:
             expl_id.category = "regression"
 
         return f"{expl_id.model}/{expl_id.prediction_target}_{expl_id.category}/metadata.json".lower()
+
+    def get_locale_file_path(self, expl_id: ExplainerIdentifier) -> str:
+        return os.path.join(
+            os.getenv("TEMP"), expl_id.model, expl_id.pilot.id, "metadata.json"
+        )
 
     def to_dict(self) -> dict:
         return {

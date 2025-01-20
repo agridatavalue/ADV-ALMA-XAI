@@ -68,9 +68,8 @@ class DataLoaderService:
             bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
         )
         with open(file, "r") as json_file:
-            metadata = json.load(json_file) or {}
+            metadata: dict = json.load(json_file) or {}
 
-        os.remove(file)
         return self._explainer_metadata_translator.translate(metadata)
 
     def load_model_metadata(
@@ -80,51 +79,33 @@ class DataLoaderService:
             explainer_identifier, ExplainerIdentifier
         ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
 
-        file: str = self._bucketRepository.download_from(
-            object_name=explainer_identifier.metadata_identifier,
-            bucket_name=os.getenv("MODEL_FOLDER_PATH"),
-        )
-        with open(file, "r") as json_file:
-            metadata = json.load(json_file) or {}
+        if not os.path.exists(explainer_identifier.get_metadata_locale_filepath()):
+            file: str = self._bucketRepository.download_from(
+                object_name=explainer_identifier.metadata_identifier,
+                bucket_name=os.getenv("MODEL_FOLDER_PATH"),
+            )
 
-        os.remove(file)
+        with open(file, "r") as json_file:
+            metadata: dict = json.load(json_file) or {}
+
         return self._model_metadata_translator.translate(metadata)
 
     def upload(
         self,
         explainer_data: ExplainerMetaData,
-        target: str,
-        model_category: str,
-        model_filename: str,
+        explainer_identifier: ExplainerIdentifier,
     ) -> str:
         assert isinstance(
             explainer_data, ExplainerMetaData
         ), Errors.EXPLAINER_DATA_NOT_EXPLAINER_METADATA
 
-        if isinstance(explainer_data, ExplainerMetaData):
-            filename: str = "metadata.json"
-            model_path: str = os.getenv("EXPLAINER_FOLDER_PATH")
-
-        temp_path: str = path.join(
-            os.getenv("TEMP") or path.dirname(__file__), filename
-        )
+        temp_path: str = explainer_identifier.get_metadata_locale_filepath()
+        os.makedirs(os.path.dirname(temp_path), exist_ok=True)
         with open(temp_path, "w") as file:
             file.write(json.dumps(explainer_data.to_dict()))
 
-        res: str = self._bucketRepository.upload_to(
-            bucket_name=model_path,
+        return self._bucketRepository.upload_to(
+            bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
             local_filepath=temp_path,
-            target_filepath=self.__calculate_explainer_path(
-                target, model_category, filename, model_filename
-            ),
+            target_filepath=explainer_identifier.get_metadata_path(),
         )
-        os.remove(temp_path)
-        return res
-
-    def __calculate_explainer_path(
-        self, target: str, model_category: str, filename: str, model_filename: str
-    ):
-        path_calc: str = path.join(
-            model_filename, f"{target}_{model_category}", filename
-        )
-        return path_calc.lower().replace(" ", "_").replace("-", "_")

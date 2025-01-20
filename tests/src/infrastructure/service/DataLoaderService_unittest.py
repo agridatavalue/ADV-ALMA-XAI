@@ -21,7 +21,7 @@ class TestDataLoaderService(unittest.TestCase):
 
     def test_load_explainer_metadata(self):
         metadata_filepath: str = path.join(
-            os.getenv("temp"), "test_load_explainer_metadata.json"
+            os.getenv("TEMP"), "test_load_explainer_metadata.json"
         )
         with open(metadata_filepath, "w") as f:
             f.write(

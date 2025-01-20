@@ -1,4 +1,5 @@
 import os
+import shutil
 from minio import Minio
 
 
@@ -29,13 +30,19 @@ class BucketRepository:
         if not destination_file_path:
             destination_file_path = object_name
 
-        self._client.fget_object(bucket_name, object_name, destination_file_path)
-        return destination_file_path
+        res = self._client.fget_object(
+            bucket_name=bucket_name,
+            object_name=object_name,
+            file_path=object_name,
+        )
+        return shutil.move(res.object_name, destination_file_path)
 
     def upload_to(
         self, bucket_name: str, target_filepath: str, local_filepath: str
     ) -> str:
         result = self._client.fput_object(
-            bucket_name, local_filepath, target_filepath.replace(os.sep, "/")
+            bucket_name=bucket_name,
+            file_path=local_filepath,
+            object_name=target_filepath.replace(os.sep, "/"),
         )
         return result.object_name

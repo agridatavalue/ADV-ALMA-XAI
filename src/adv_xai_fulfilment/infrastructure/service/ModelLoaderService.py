@@ -9,7 +9,6 @@ from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
 from src.adv_xai_fulfilment.domain.service.ModelTranslator import ModelTranslator
-from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
 
 
 class ModelLoaderService:
@@ -47,21 +46,6 @@ class ModelLoaderService:
             .translate(model_local_file_path)
         )
 
-    def upload_explainer(
-        self, explainer: Explainer, identifier: ExplainerIdentifier
-    ) -> str:
-        locale_explainer_path: str = identifier.get_explainer_locale_filepath(explainer)
-
-        os.makedirs(os.path.dirname(locale_explainer_path), exist_ok=True)
-        with open(locale_explainer_path, "wb") as file:
-            pickle.dump(explainer.build_result, file)
-
-        return self._bucketRepository.upload_to(
-            bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
-            local_filepath=locale_explainer_path,
-            target_filepath=identifier.get_filename_path(explainer.file_name),
-        )
-
     def upload_to(
         self,
         target: str,
@@ -82,7 +66,6 @@ class ModelLoaderService:
                 target, model_category, explainer, model_filename
             ),
         )
-        os.remove(explainer.file_name)
 
     def __calculate_explainer_path(
         self,
