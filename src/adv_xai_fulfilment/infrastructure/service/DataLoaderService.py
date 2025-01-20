@@ -1,13 +1,8 @@
 import os
-import json
 import logging
 import pandas as pd
-from os import path
 
-from ...domain.model.ModelMetaData import ModelMetaData
 from ..repository.BucketRepository import BucketRepository
-from ...domain.model.ExplainerMetaData import ExplainerMetaData
-from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 from .translator.ModelMetaDataTranslator import ModelMetaDataTranslator
 from .translator.ExplainerMetaDataTranslator import ExplainerMetaDataTranslator
 from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
@@ -55,23 +50,3 @@ class DataLoaderService:
             object_name=file_path, bucket_name=bucket_name
         )
         return pd.read_csv(file)
-
-    def upload(
-        self,
-        explainer_data: ExplainerMetaData,
-        explainer_identifier: ExplainerIdentifier,
-    ) -> str:
-        assert isinstance(
-            explainer_data, ExplainerMetaData
-        ), Errors.EXPLAINER_DATA_NOT_EXPLAINER_METADATA
-
-        temp_path: str = explainer_identifier.get_metadata_locale_filepath()
-        os.makedirs(os.path.dirname(temp_path), exist_ok=True)
-        with open(temp_path, "w") as file:
-            file.write(json.dumps(explainer_data.to_dict()))
-
-        return self._bucketRepository.upload_to(
-            bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
-            local_filepath=temp_path,
-            target_filepath=explainer_identifier.get_explainer_metadata_path(),
-        )

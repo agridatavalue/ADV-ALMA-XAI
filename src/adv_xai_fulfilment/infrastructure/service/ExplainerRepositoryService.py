@@ -3,7 +3,6 @@ import json
 import pickle
 import logging
 
-from ...domain.model.Model import Model
 from ..repository.BucketRepository import BucketRepository
 from ...domain.model.explainers.Explainer import Explainer
 from ...domain.model.ExplainerMetaData import ExplainerMetaData
@@ -22,38 +21,6 @@ class ExplainerRepositoryService:
                 "secret_key": os.getenv("MINIO_SECRET_KEY"),
             }
         )
-
-    def __get_filename(
-        self,
-        category: str,
-        explainer: Explainer,
-        model_filename: str,
-        prediction_target: str,
-    ) -> str:
-        return f"{model_filename}/{prediction_target}_{category}/{(explainer.name)}.pkl".lower()
-
-    def download(
-        self,
-        model: Model,
-        category: str,
-        explainer: Explainer,
-        prediction_target: str,
-    ) -> str:
-        destination_file_path: str = os.path.join(
-            os.getenv("TEMP"), f"explainer_{explainer.name}.pkl"
-        )
-        self._bucketRepository.download_from(
-            bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
-            object_name=self.__get_filename(
-                prediction_target=prediction_target,
-                model_filename=model.filename,
-                explainer=explainer,
-                category=category,
-            ),
-            destination_file_path=destination_file_path,
-        )
-
-        return destination_file_path if os.path.exists(destination_file_path) else ""
 
     def download_from(
         self,
