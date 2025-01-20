@@ -44,7 +44,7 @@ class MetaDataLoaderService:
         ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
 
         file: str = self._bucketRepository.download_from(
-            object_name=expl_id.get_metadata_path(),
+            object_name=expl_id.get_explainer_metadata_path(),
             bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
         )
         with open(file, "r") as json_file:

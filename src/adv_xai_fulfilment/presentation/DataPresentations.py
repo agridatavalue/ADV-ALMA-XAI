@@ -57,7 +57,7 @@ class DataPresentations:
         "Importance" : list[float],
         "prediction_target":str,
     ]:
-        logging.info(f"called genarate_feature_importance with params: {request}")
+        logging.info(f"called get_feature_importance with params: {request}")
         self._validator.validate_and_sanitize_feature_importance(request)
         expl_id: ExplainerIdentifier = self._input_translator.translate(request)
 

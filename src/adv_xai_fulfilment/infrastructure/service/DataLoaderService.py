@@ -63,10 +63,17 @@ class DataLoaderService:
             expl_id, ExplainerIdentifier
         ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
 
-        file: str = self._bucketRepository.download_from(
-            object_name=expl_id.get_metadata_path(),
-            bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
-        )
+        file: str = expl_id.get_explainer_metadata_locale_filepath()
+        if not os.path.exists(file):
+            logging.debug(
+                f"file {file} does not exist, downloading {expl_id.get_explainer_metadata_path()} from {os.getenv('EXPLAINER_FOLDER_PATH')}"
+            )
+            file: str = self._bucketRepository.download_from(
+                object_name=expl_id.get_explainer_metadata_path(),
+                bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
+                destination_file_path=file,
+            )
+
         with open(file, "r") as json_file:
             metadata: dict = json.load(json_file) or {}
 
@@ -108,5 +115,5 @@ class DataLoaderService:
         return self._bucketRepository.upload_to(
             bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
             local_filepath=temp_path,
-            target_filepath=explainer_identifier.get_metadata_path(),
+            target_filepath=explainer_identifier.get_explainer_metadata_path(),
         )

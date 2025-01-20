@@ -420,9 +420,14 @@ components:
                     description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
                     example: "Biomass"
                     type: string
+                pilot:
+                    description: the identifier of the pilot
+                    example: "pilot8"
+                    type: string
             required:
                 - data
                 - model
+                - pilot
                 - meta_data
         FeatureImportanceResponse:
             type: object
