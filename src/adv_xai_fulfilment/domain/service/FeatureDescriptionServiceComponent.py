@@ -1,19 +1,19 @@
 from ..model.ModelMetaData import ModelMetaData
 from ..model.FeatureDescription import FeatureDescription
 from ..model.ExplainerIdentifier import ExplainerIdentifier
-from ...infrastructure.service.DataLoaderService import DataLoaderService
+from ...infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
 
 
 class FeatureDescriptionServiceComponent:
-    _data_loader_service: DataLoaderService
+    _metadata_loader_service: MetaDataLoaderService
 
     def __init__(self):
-        self._data_loader_service = DataLoaderService()
+        self._metadata_loader_service = MetaDataLoaderService()
 
     def get_data(
         self, explainer_identifier: ExplainerIdentifier
     ) -> list[FeatureDescription]:
-        meta_data: ModelMetaData = self._data_loader_service.load_model_metadata(
+        meta_data: ModelMetaData = self._metadata_loader_service.load_model_metadata(
             explainer_identifier=explainer_identifier
         )
         return meta_data.feature_descriptions

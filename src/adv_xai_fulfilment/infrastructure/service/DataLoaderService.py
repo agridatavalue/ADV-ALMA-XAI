@@ -56,48 +56,6 @@ class DataLoaderService:
         )
         return pd.read_csv(file)
 
-    def load_explainer_metadata(
-        self, expl_id: ExplainerIdentifier
-    ) -> ExplainerMetaData:
-        assert isinstance(
-            expl_id, ExplainerIdentifier
-        ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
-
-        file: str = expl_id.get_explainer_metadata_locale_filepath()
-        if not os.path.exists(file):
-            logging.debug(
-                f"file {file} does not exist, downloading {expl_id.get_explainer_metadata_path()} from {os.getenv('EXPLAINER_FOLDER_PATH')}"
-            )
-            file: str = self._bucketRepository.download_from(
-                object_name=expl_id.get_explainer_metadata_path(),
-                bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
-                destination_file_path=file,
-            )
-
-        with open(file, "r") as json_file:
-            metadata: dict = json.load(json_file) or {}
-
-        return self._explainer_metadata_translator.translate(metadata)
-
-    def load_model_metadata(
-        self, explainer_identifier: ExplainerIdentifier
-    ) -> ModelMetaData:
-        assert isinstance(
-            explainer_identifier, ExplainerIdentifier
-        ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
-
-        file: str = explainer_identifier.get_model_metadata_locale_filepath()
-        if not os.path.exists(file):
-            file = self._bucketRepository.download_from(
-                object_name=explainer_identifier.metadata_identifier,
-                bucket_name=os.getenv("MODEL_FOLDER_PATH"),
-            )
-
-        with open(file, "r") as json_file:
-            metadata: dict = json.load(json_file) or {}
-
-        return self._model_metadata_translator.translate(metadata)
-
     def upload(
         self,
         explainer_data: ExplainerMetaData,
