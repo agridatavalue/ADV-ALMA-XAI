@@ -71,7 +71,7 @@ class ExplainerGeneratorService:
             "Feature" : list[str],
             "Importance" : list[float],
             "prediction_target":str,
-        ] = {}  # self._fi_service_comp.generate_data(request)
+        ] = self._fi_service_comp.generate_data(request)
 
         meta_data, selected_model, data = self.prepare_explainer(request)
 
