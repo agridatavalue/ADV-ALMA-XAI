@@ -3,7 +3,7 @@ from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIde
 
 
 class ExplainerIdentifierTranslator:
-    def translate(self, request: dict) -> list[ExplainerIdentifier]:
+    def translate_many(self, request: dict) -> list[ExplainerIdentifier]:
         return [
             ExplainerIdentifier(
                 data=request.get("data"),
@@ -13,6 +13,9 @@ class ExplainerIdentifierTranslator:
                 prediction_target=pred,
             )
             for pred in request.get(
-                "prediction_targets", [request.get("prediction_target")]
+                "prediction_targets", [request.get("prediction_target", [])]
             )
         ]
+
+    def translate(self, request: dict) -> ExplainerIdentifier:
+        return self.translate_many(request)[0]

@@ -79,8 +79,9 @@ class DataLoaderService:
             explainer_identifier, ExplainerIdentifier
         ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
 
-        if not os.path.exists(explainer_identifier.get_metadata_locale_filepath()):
-            file: str = self._bucketRepository.download_from(
+        file: str = explainer_identifier.get_model_metadata_locale_filepath()
+        if not os.path.exists(file):
+            file = self._bucketRepository.download_from(
                 object_name=explainer_identifier.metadata_identifier,
                 bucket_name=os.getenv("MODEL_FOLDER_PATH"),
             )
