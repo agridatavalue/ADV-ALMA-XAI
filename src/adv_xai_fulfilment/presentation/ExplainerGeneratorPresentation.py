@@ -2,8 +2,8 @@ import logging
 
 from ..domain.model.explainers.Explainer import Explainer
 from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
-from .validator.ExplainerGeneratorValidator import ExplainerGeneratorValidator
 from ..application.ExplainerGeneratorService import ExplainerGeneratorService
+from .validator.ExplainerGeneratorValidator import ExplainerGeneratorValidator
 from .translator.ExplainerIdentifierTranslator import ExplainerIdentifierTranslator
 
 
