@@ -229,6 +229,13 @@ paths:
                   example: "metadata.json"
                   schema:
                       type: string
+                - name: pilot
+                  in: query
+                  required: true
+                  description: the identifier of the pilot
+                  example: "pilot8"
+                  schema:
+                      type: string
                 - name: prediction_target
                   in: query
                   required: true

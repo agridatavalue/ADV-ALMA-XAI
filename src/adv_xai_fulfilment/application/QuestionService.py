@@ -28,7 +28,7 @@ class QuestionService:
         if not expl_id.category:
             expl_id.category = "regression"
 
-        logging.debug(f"loading metadata from {expl_id.metadata}")
+        logging.debug(f"loading metadata from {expl_id.metadata_identifier}")
         meta_data: ExplainerMetaData = (
             self._metadata_loader_service.load_explainer_metadata(expl_id)
         )
