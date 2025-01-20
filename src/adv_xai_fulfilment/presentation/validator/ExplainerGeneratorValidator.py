@@ -8,6 +8,12 @@ class ExplainerGeneratorValidator(AbstractValidator):
         self._validate_metadata(data.get("metadata", data.get("meta_data")))
         return data
 
+    def validate_and_sanitize_prepare(self, data: dict) -> dict:
+        self._validate_model(data.get("model"))
+        self._validate_pilot(data.get("pilot"))
+        self._validate_metadata(data.get("metadata", data.get("meta_data")))
+        return data
+
     def validate_and_sanitize_ask(self, data: dict) -> dict:
         self._validate_pilot(data.get("pilot"))
         assert isinstance(data.get("request"), str), "Request must be a string"
