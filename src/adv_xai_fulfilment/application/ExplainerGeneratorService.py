@@ -6,6 +6,7 @@ from ..domain.model.Model import Model
 from ..infrastructure.Constants import Errors
 from ..domain.model.ModelMetaData import ModelMetaData
 from ..domain.model.explainers.Explainer import Explainer
+from ..domain.model.FeatureImportance import FeatureImportance
 from ..domain.model.ExplainerMetaData import ExplainerMetaData
 from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
 from ..domain.service.ExplainerRetriever import ExplainerRetriever
@@ -47,31 +48,29 @@ class ExplainerGeneratorService:
     def prepare_explainer(
         self, request: ExplainerIdentifier
     ) -> list[ModelMetaData, Model, dict[str, pd.DataFrame]]:
-        logging.debug("downloading meta data")
+        logging.debug(f"downloading meta_data {request.metadata_identifier}")
         meta_data: ModelMetaData = self._metadata_loader_service.load_model_metadata(
-            request
+            expl_id=request
         )
         request.metadata = meta_data
 
-        logging.debug("downloading model")
+        logging.debug(f"downloading model {request.model}")
         selected_model: Model = self._model_loader_service.load_from(
-            request.model, meta_data=meta_data
+            model_file_path=request.model, meta_data=meta_data
         )
         if not selected_model.is_ok():
             logging.error("empty model")
             raise Errors.MODEL_NOT_MODEL
 
-        logging.debug("downloading data if present")
+        logging.debug(f"downloading {request.data} data if present")
         data: dict[str, pd.DataFrame] = self._data_loader_service.load_data(request)
 
         return meta_data, selected_model, data
 
     def generate_explainer(self, request: ExplainerIdentifier) -> list[Explainer]:
-        feature_importance: dict[
-            "Feature" : list[str],
-            "Importance" : list[float],
-            "prediction_target":str,
-        ] = self._fi_service_comp.generate_data(request)
+        feature_importance: FeatureImportance = self._fi_service_comp.generate_data(
+            request
+        )
 
         meta_data, selected_model, data = self.prepare_explainer(request)
 

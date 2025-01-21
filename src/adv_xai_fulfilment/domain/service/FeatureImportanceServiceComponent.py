@@ -5,6 +5,7 @@ import pandas as pd
 from ...domain.model.Model import Model
 from ...domain.model.ModelMetaData import ModelMetaData
 from ...domain.model.ExplainerMetaData import ExplainerMetaData
+from ...domain.model.FeatureImportance import FeatureImportance
 from ...domain.model.ExplainerIdentifier import ExplainerIdentifier
 from ...domain.service.ExplainerRetriever import ExplainerRetriever
 from ...infrastructure.service.DataLoaderService import DataLoaderService
@@ -32,7 +33,7 @@ class FeatureImportanceServiceComponent:
         self._explainer_repository_service = ExplainerRepositoryService()
         self._feature_description_service = FeatureDescriptionServiceComponent()
 
-    def get_data(self, explainer_identifier: ExplainerIdentifier) -> dict:
+    def get_data(self, explainer_identifier: ExplainerIdentifier) -> FeatureImportance:
         meta_data: ExplainerMetaData = (
             self._metadata_loader_service.load_explainer_metadata(explainer_identifier)
         )
@@ -40,11 +41,7 @@ class FeatureImportanceServiceComponent:
 
     def generate_data(
         self, explainer_identifier: ExplainerIdentifier
-    ) -> dict[
-        "Feature" : list[str],
-        "Importance" : list[float],
-        "prediction_target":str,
-    ]:
+    ) -> FeatureImportance:
         meta_data: ModelMetaData = self._metadata_loader_service.load_model_metadata(
             explainer_identifier
         )
@@ -77,11 +74,11 @@ class FeatureImportanceServiceComponent:
 
         if not explainer:
             logging.error("No explainer found for feature importance")
-            return {
-                "Feature": [],
-                "Importance": [],
-                "prediction_target": explainer_identifier.prediction_target,
-            }
+            return FeatureImportance(
+                feature=[],
+                importance=[],
+                prediction_target=explainer_identifier.prediction_target,
+            )
 
         logging.info(f"Explainer feature-importance: {explainer}")
 
@@ -107,13 +104,15 @@ class FeatureImportanceServiceComponent:
         data: dict["Feature" : pd.DataFrame, "Importance" : pd.DataFrame],
         target_names: list[str],
     ) -> dict:
-        to_ret = {
-            "Feature": data["Feature"].tolist(),
-            "Importance": data["Importance"].tolist(),
-            "prediction_target": prediction,
-        }
-        if len(to_ret["Importance"]) > 0 and isinstance(to_ret["Importance"][0], list):
-            to_ret["Importance"] = [
-                d[target_names.index(prediction)] for d in to_ret["Importance"][0]
+
+        to_ret = FeatureImportance(
+            prediction_target=prediction,
+            feature=data["Feature"].tolist(),
+            importance=data["Importance"].tolist(),
+        )
+
+        if len(to_ret.importance) > 0 and isinstance(to_ret.importance[0], list):
+            to_ret.importance = [
+                d[target_names.index(prediction)] for d in to_ret.importance[0]
             ]
         return to_ret

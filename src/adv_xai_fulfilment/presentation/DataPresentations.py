@@ -1,5 +1,6 @@
 import logging
 
+from ..domain.model.FeatureImportance import FeatureImportance
 from ..domain.model.FeatureDescription import FeatureDescription
 from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
 from .validator.DataPresentationValidator import DataPresentationValidator
@@ -50,13 +51,7 @@ class DataPresentations:
 
         return self._feature_description_service.get_data(expl_id)
 
-    def get_feature_importance(
-        self, request: dict = {}
-    ) -> dict[
-        "Feature" : list[str],
-        "Importance" : list[float],
-        "prediction_target":str,
-    ]:
+    def get_feature_importance(self, request: dict = {}) -> FeatureImportance:
         logging.info(f"called get_feature_importance with params: {request}")
         self._validator.validate_and_sanitize_feature_importance(request)
         expl_id: ExplainerIdentifier = self._input_translator.translate(request)

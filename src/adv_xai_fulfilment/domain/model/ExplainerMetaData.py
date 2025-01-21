@@ -3,15 +3,16 @@ import os
 from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.questions.Question import Question
 from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
+from src.adv_xai_fulfilment.domain.model.FeatureImportance import FeatureImportance
 from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
 
 
 class ExplainerMetaData:
     _metrics: dict
+    _target_name: str
     _feedback: list[Question]
     _meta_data: ModelMetaData
-    _target_name: str
-    _feature_importance: dict
+    _feature_importance: FeatureImportance
     _possible_explainers: list[Explainer]
 
     def __init__(
@@ -20,32 +21,22 @@ class ExplainerMetaData:
         meta_data: ModelMetaData,
         target_name: str,
         possible_explainers: list[Explainer],
-        feature_importance: dict[
-            "Feature" : list[str],
-            "Importance" : list[float],
-            "prediction_target":str,
-        ] = {},
+        feature_importance: FeatureImportance = None,
         feedback: list[Question] = [],
     ):
         self._possible_explainers = possible_explainers
         self._feature_importance = feature_importance
         self._target_name = target_name
+        self._feedback = feedback or []
         self._meta_data = meta_data
         self._metrics = metrics
-        self._feedback = feedback or []
 
     @property
     def model_metadata(self) -> ModelMetaData:
         return self._meta_data
 
     @property
-    def feature_importance(
-        self,
-    ) -> dict[
-        "Feature" : list[str],
-        "Importance" : list[float],
-        "prediction_target":str,
-    ]:
+    def feature_importance(self) -> FeatureImportance:
         return self._feature_importance
 
     @property
@@ -91,7 +82,7 @@ class ExplainerMetaData:
                     "n_parameters": 100,
                 },
                 "performance_metrics": self._metrics,
-                "feature_importance": self._feature_importance,
+                "feature_importance": self._feature_importance.to_dict(),
             },
             "explainer_metadata": {
                 "explainers_identified": [

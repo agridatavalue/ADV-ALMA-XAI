@@ -4,6 +4,7 @@ from unittest.mock import MagicMock
 from src.adv_xai_fulfilment.domain.model.Pilot import Pilot
 from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
+from src.adv_xai_fulfilment.domain.model.FeatureImportance import FeatureImportance
 from src.adv_xai_fulfilment.domain.model.ExplainerMetaData import ExplainerMetaData
 from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
 from src.adv_xai_fulfilment.domain.service.FeatureImportanceServiceComponent import (
@@ -40,11 +41,9 @@ class TestFeatureImportanceServiceComponent(unittest.TestCase):
                         data_type_explainers=[],
                     )
                 ],
-                feature_importance={
-                    "Feature": ["feature1"],
-                    "Importance": [0.1],
-                    "prediction_target": "target",
-                },
+                feature_importance=FeatureImportance(
+                    feature=["feature1"], importance=[0.1], prediction_target="target"
+                ),
             )
         )
         actual = testObj.get_data(self.request)
