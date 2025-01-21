@@ -29,13 +29,6 @@ class MetaDataLoaderService:
         self._model_metadata_translator = ModelMetaDataTranslator()
         self._explainer_metadata_translator = ExplainerMetaDataTranslator()
 
-    def load_file(self, file_path: str, bucket_name: str) -> pd.DataFrame:
-        file: str = self._bucketRepository.download_from(
-            object_name=file_path,
-            bucket_name=bucket_name,
-        )
-        return pd.read_csv(file)
-
     def load_explainer_metadata(
         self, expl_id: ExplainerIdentifier
     ) -> ExplainerMetaData:

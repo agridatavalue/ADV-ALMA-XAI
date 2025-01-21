@@ -16,7 +16,11 @@ class TestBucketRepository(unittest.TestCase):
                 "region": "",
             }
         )
-        test_obj._client = type("Minio", (), {"fget_object": lambda x, y, z: None})
+        test_obj._client = type(
+            "Minio",
+            (),
+            {"fget_object": lambda bucket_name, object_name, file_path: None},
+        )
 
         self.assertEqual(
             test_obj.download_from("bucket_name", "object_name"), "object_name"
@@ -42,7 +46,7 @@ class TestBucketRepository(unittest.TestCase):
             "Minio",
             (),
             {
-                "fput_object": lambda x, y, z: type(
+                "fput_object": lambda bucket_name, file_path, object_name: type(
                     "Result", (), {"object_name": "target_filepath"}
                 )()
             },

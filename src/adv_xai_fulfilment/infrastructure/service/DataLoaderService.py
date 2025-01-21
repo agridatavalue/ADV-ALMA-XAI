@@ -3,15 +3,11 @@ import logging
 import pandas as pd
 
 from ..repository.BucketRepository import BucketRepository
-from .translator.ModelMetaDataTranslator import ModelMetaDataTranslator
-from .translator.ExplainerMetaDataTranslator import ExplainerMetaDataTranslator
 from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
 
 
 class DataLoaderService:
     _bucketRepository: BucketRepository
-    _model_metadata_translator: ModelMetaDataTranslator
-    _explainer_metadata_translator: ExplainerMetaDataTranslator
 
     def __init__(self):
         self._bucketRepository = BucketRepository(
@@ -22,8 +18,6 @@ class DataLoaderService:
                 "secure": os.getenv("MINIO_SECURE", "true").lower() == "true",
             }
         )
-        self._model_metadata_translator = ModelMetaDataTranslator()
-        self._explainer_metadata_translator = ExplainerMetaDataTranslator()
 
     def load_data(self, expl_id: ExplainerIdentifier) -> dict[str, pd.DataFrame]:
         if not expl_id.data:
@@ -44,9 +38,3 @@ class DataLoaderService:
             to_return[file.replace(".csv", "")] = pd.read_csv(current_file)
 
         return to_return
-
-    def load_file(self, file_path: str, bucket_name: str) -> pd.DataFrame:
-        file: str = self._bucketRepository.download_from(
-            object_name=file_path, bucket_name=bucket_name
-        )
-        return pd.read_csv(file)
