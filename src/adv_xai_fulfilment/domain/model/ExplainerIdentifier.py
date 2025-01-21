@@ -24,7 +24,7 @@ class ExplainerIdentifier:
         *,
         model: str,
         pilot: Pilot,
-        metadata: str,
+        metadata_identifier: str,
         prediction_target: str,
         data: str = "",
     ):
@@ -33,8 +33,8 @@ class ExplainerIdentifier:
         self.pilot = pilot
         self.category = ""
         self._metadata = None
-        self.metadata_identifier = metadata
         self.prediction_target = prediction_target
+        self.metadata_identifier = metadata_identifier
 
     @property
     def metadata(self) -> ModelMetaData:

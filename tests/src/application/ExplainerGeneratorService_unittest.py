@@ -54,12 +54,14 @@ class TestExplainerGeneratorService(unittest.TestCase):
             data="test_data",
             pilot=Pilot("test_pilot"),
             model="test_model",
-            metadata=ModelMetaData("", "", "", "", "", ""),
+            metadata_identifier="test_metadata_identifier",
             prediction_target="target1",
         )
 
         # Mock model loader service
         mock_model = MagicMock(spec=Model)
+        mock_model.name = "test"
+        mock_model.is_ok.return_value = True
         mock_model.filename = "mock_model.pkl"
 
         mock_data_loader_service = MagicMock(spec=DataLoaderService)
@@ -103,9 +105,7 @@ class TestExplainerGeneratorService(unittest.TestCase):
         service._fi_service_comp = mock_feature_importance_service
         service._metadata_loader_service = mock_metadata_loader_service
 
-        result = service.generate_explainer(
-            mock_identifier, prediction_targets=["target1"]
-        )
+        result = service.generate_explainer(mock_identifier)
 
         self.assertIsInstance(result, list)
         self.assertTrue(all(isinstance(x, Explainer) for x in result))

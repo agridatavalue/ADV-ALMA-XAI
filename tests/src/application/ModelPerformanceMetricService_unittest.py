@@ -32,10 +32,10 @@ class TestModelPerformanceMetricService(unittest.TestCase):
         mock_model_metadata = MagicMock(spec=ModelMetaData)
         explainer_identifier = ExplainerIdentifier(
             data="data",
-            pilot=Pilot("pilot"),
             model="mock_model",
-            metadata=ModelMetaData("", "", "", "", "", ""),
+            pilot=Pilot("pilot"),
             prediction_target="target",
+            metadata_identifier="test_metadata_identifier",
         )
 
         mock_model_loader.load_from.return_value = mock_model
@@ -72,10 +72,10 @@ class TestModelPerformanceMetricService(unittest.TestCase):
         mock_model_metadata = MagicMock(spec=ModelMetaData)
         explainer_identifier = ExplainerIdentifier(
             data="crop",
-            pilot=Pilot("pilot"),
             model="mock_model",
-            metadata=ModelMetaData("", "", "", "", "", ""),
+            pilot=Pilot("pilot"),
             prediction_target="prediction_target",
+            metadata_identifier="test_metadata_identifier",
         )
 
         mock_model_loader.load_from.return_value = mock_model

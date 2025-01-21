@@ -15,7 +15,10 @@ class TestFeatureImportanceServiceComponent(unittest.TestCase):
 
     def setUp(self):
         self.request = ExplainerIdentifier(
-            model="test", metadata="test", prediction_target="test", pilot=Pilot("test")
+            model="test",
+            pilot=Pilot("test"),
+            prediction_target="test",
+            metadata_identifier="test",
         )
 
     def test_get_data(self):
