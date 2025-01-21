@@ -26,5 +26,5 @@ def FeatureDescriptionsEndpoint():
             200,
         )
     except Exception as e:
-        logging.error(f"error while featureimportance: {e}")
+        logging.error(f"error while featureDescriptions: {e}")
         return make_response(jsonify({"status": str(e)}), 500)

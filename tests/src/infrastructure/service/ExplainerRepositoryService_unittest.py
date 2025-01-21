@@ -19,9 +19,9 @@ class TestExplainerRepositoryService(unittest.TestCase):
             test_obj.upload_metadata(
                 expl_id=ExplainerIdentifier(
                     model="model",
-                    metadata="metadata",
-                    prediction_target="regression",
                     pilot=Pilot("pilot_id"),
+                    prediction_target="regression",
+                    metadata_identifier="metadata",
                 ),
                 metadata=ExplainerMetaData(
                     metrics={"metric": "value"},

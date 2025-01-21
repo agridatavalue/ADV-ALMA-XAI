@@ -8,6 +8,7 @@ class DataPresentationValidator(AbstractValidator):
 
     def validate_and_sanitize_feature_importance(self, request: dict = {}) -> dict:
         self._validate_model(request.get("model"))
+        self._validate_pilot(request.get("pilot"))
         self._validate_folder_data(request.get("data"))
         return request
 

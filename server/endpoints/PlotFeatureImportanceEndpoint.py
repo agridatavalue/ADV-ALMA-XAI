@@ -12,18 +12,14 @@ def featureimportance():
         return "Not a valid request"
 
     try:
-        response: dict[
-            "Feature" : list[str],
-            "Importance" : list[float],
-            "prediction_target":str,
-        ] = DataPresentations().get_feature_importance(request.get_json())
+        response = DataPresentations().get_feature_importance(request.get_json())
 
         return make_response(
             jsonify(
                 {
-                    "values": response.get("Importance", []),
-                    "features": response.get("Feature", []),
-                    "importance": response.get("prediction_target", ""),
+                    "values": response.importance,
+                    "features": response.feature,
+                    "importance": response.prediction_target,
                 }
             ),
             200,

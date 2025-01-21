@@ -2,8 +2,8 @@ import logging
 
 from ..domain.model.explainers.Explainer import Explainer
 from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
-from .validator.ExplainerGeneratorValidator import ExplainerGeneratorValidator
 from ..application.ExplainerGeneratorService import ExplainerGeneratorService
+from .validator.ExplainerGeneratorValidator import ExplainerGeneratorValidator
 from .translator.ExplainerIdentifierTranslator import ExplainerIdentifierTranslator
 
 
@@ -20,25 +20,29 @@ class ExplainerGeneratorPresentation:
     def build(self, data: dict = {}) -> list[Explainer]:
         logging.info(f"called build with params: {data}")
         self._validator.validate_and_sanitize_build(data)
-        request: ExplainerIdentifier = self._translator.translate(data)
+        requests: list[ExplainerIdentifier] = self._translator.translate_many(data)
 
-        return self._build_service.generate_explainer(
-            request, data.get("prediction_targets", [])
-        )
+        return [self._build_service.generate_explainer(request) for request in requests]
 
-    def get_explainer_data(self, data: dict = {}) -> dict["endpoints" : list[str]]:
+    def prepare(self, data: dict = {}) -> list[Explainer]:
+        logging.info(f"called prepare with params: {data}")
+        self._validator.validate_and_sanitize_prepare(data)
+        requests: list[ExplainerIdentifier] = self._translator.translate_many(data)
+
+        return [self._build_service.prepare_explainer(request) for request in requests]
+
+    def get_explainer_data(self, data: dict = {}):
         logging.info(f"called get_explainer_data with params: {data}")
         self._validator.validate_and_sanitize_get_data(data)
-        return {"endpoints": []}
+        self._build_service.prepare_explainer(request=self._translator.translate(data))
+        return True
 
-    def ask_to_explainer(self, data: dict):
+    def ask_to_explainer(self, data: dict = {}):
         logging.info(f"called ask_to_explainer with params: {data}")
         self._validator.validate_and_sanitize_ask(data)
         expl_id: ExplainerIdentifier = self._translator.translate(data)
 
-        logging.info(
-            f"Ask to Explainer with pilot: {expl_id.pilot.id}, request: {data.get('request')}, explainer: {data.get('explainer')}"
-        )
+        logging.info(f"Ask to Explainer: {str(expl_id)}")
         return self._build_service.ask_to_explainer(
             request=data.get("request"),
             explainer_name=data.get("explainer"),

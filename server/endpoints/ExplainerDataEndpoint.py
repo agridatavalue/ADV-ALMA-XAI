@@ -5,11 +5,11 @@ from src.adv_xai_fulfilment.presentation.ExplainerGeneratorPresentation import (
     ExplainerGeneratorPresentation,
 )
 
-buildBp = Blueprint("explainer_data", __name__)
+explainerDataBp = Blueprint("explainer_data", __name__)
 
 
-@buildBp.route("/get-explainer-data", methods=["GET"])
-def build():
+@explainerDataBp.route("/get-explainer-data", methods=["GET"])
+def get_explainer_data_endpoint():
     if request.method != "GET":
         return "Not a valid request"
 

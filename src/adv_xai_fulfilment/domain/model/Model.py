@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pandas as pd
 
@@ -19,8 +20,17 @@ class Model:
 
     def load(self, path: str) -> "Model": ...
 
+    def is_ok(self) -> bool:
+        return self.handler is not None
+
     @staticmethod
     def supported_frameworks() -> list[str]: ...
+
+    @classmethod
+    def get_locale_filepath(cls, name: str = None) -> str:
+        if name is None and hasattr(cls, "name"):
+            name = cls.name
+        return os.path.join(os.getenv("TEMP"), name, name)
 
     def get_feature_importance(
         self, feature_names: list[FeatureDescription], shap_values: np.array

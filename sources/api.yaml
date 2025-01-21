@@ -33,6 +33,31 @@ paths:
             tags:
                 - Explainer
 
+    /prepare:
+        post:
+            summary: Prepare the explainer
+            description: Prepare explainer for a given pilot
+            operationId: prepare
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/PrepareRequest"
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/PrepareResponse"
+                "400":
+                    description: Invalid IDs combination supplied
+                "404":
+                    description: Pilot / Model not found
+            tags:
+                - Explainer
+
     /get-explainer-data:
         get:
             summary: Return the explainer data
@@ -229,6 +254,13 @@ paths:
                   example: "metadata.json"
                   schema:
                       type: string
+                - name: pilot
+                  in: query
+                  required: true
+                  description: the identifier of the pilot
+                  example: "pilot8"
+                  schema:
+                      type: string
                 - name: prediction_target
                   in: query
                   required: true
@@ -420,9 +452,14 @@ components:
                     description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
                     example: "Biomass"
                     type: string
+                pilot:
+                    description: the identifier of the pilot
+                    example: "pilot8"
+                    type: string
             required:
                 - data
                 - model
+                - pilot
                 - meta_data
         FeatureImportanceResponse:
             type: object
@@ -569,6 +606,40 @@ components:
                 - metadata
                 - pilot
         BuildResponse:
+            type: object
+            properties:
+                status:
+                    type: string
+
+        PrepareRequest:
+            type: object
+            properties:
+                model:
+                    description: path for the ML model file
+                    example: "model.pkl"
+                    type: string
+                metadata:
+                    description: path for the metadata file
+                    example: "metadata.json"
+                    type: string
+                pilot:
+                    description: the identifier of the pilot
+                    example: "pilot8"
+                    type: string
+                data:
+                    description: optional
+                    type: string
+                prediction_targets:
+                    description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
+                    example: ["Biomass"]
+                    type: array
+                    items:
+                        type: string
+            required:
+                - model
+                - metadata
+                - pilot
+        PrepareResponse:
             type: object
             properties:
                 status:
