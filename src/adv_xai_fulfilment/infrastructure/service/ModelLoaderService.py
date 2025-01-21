@@ -1,5 +1,4 @@
 import os
-import pickle
 import logging
 from os import path
 
@@ -45,36 +44,3 @@ class ModelLoaderService:
             .and_(meta_data.algorithm)
             .translate(model_local_file_path)
         )
-
-    def upload_to(
-        self,
-        target: str,
-        explainer: Explainer,
-        model_path: str,
-        model_category: str,
-        model_filename: str,
-    ):
-        assert isinstance(explainer, Explainer), Errors.EXPLAINER_NOT_EXPLAINER
-
-        with open(explainer.file_name, "wb") as file:
-            pickle.dump(explainer.build_result, file)
-
-        self._bucketRepository.upload_to(
-            bucket_name=model_path,
-            local_filepath=explainer.file_name,
-            target_filepath=self.__calculate_explainer_path(
-                target, model_category, explainer, model_filename
-            ),
-        )
-
-    def __calculate_explainer_path(
-        self,
-        target: str,
-        model_category: str,
-        explainer: Explainer,
-        model_filename: str,
-    ):
-        path: str = os.path.join(
-            model_filename, f"{target}_{model_category}", explainer.name + ".pkl"
-        )
-        return path.lower().replace(" ", "_").replace("-", "_")

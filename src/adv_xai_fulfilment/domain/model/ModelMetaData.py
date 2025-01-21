@@ -42,12 +42,9 @@ class ModelMetaData:
             "framework": self.framework,
             "algorithm": self.algorithm,
             "model_type": self.model_type,
-            "model_category": self.model_category,
             "targetnames": self._target_names,
-            "feature_descriptions": [
-                feature_description.to_dict()
-                for feature_description in self.feature_descriptions
-            ],
+            "model_category": self.model_category,
+            "feature_descriptions": [fd.to_dict() for fd in self.feature_descriptions],
         }
 
     @property

@@ -1,7 +1,7 @@
-import os
 import pandas as pd
 
 from ..domain.model.Model import Model
+from ..domain.model.ModelData import ModelData
 from ..domain.model.ModelMetaData import ModelMetaData
 from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
 from ..infrastructure.service.DataLoaderService import DataLoaderService
@@ -37,7 +37,7 @@ class ModelPerformanceMetricService:
             explainer_identifier.model, meta_data=model_metadata
         )
 
-        data: dict = self._data_loader_service.load_data(explainer_identifier)
+        data: ModelData = self._data_loader_service.load_data(explainer_identifier)
 
         model_performance: dict = self._mdm_service.get_data(
             data=data,
@@ -61,7 +61,7 @@ class ModelPerformanceMetricService:
             explainer_identifier.model, meta_data=model_metadata
         )
 
-        data: dict = self._data_loader_service.load_data(explainer_identifier)
+        data: ModelData = self._data_loader_service.load_data(explainer_identifier)
 
         return self._mdm_service.get_metrics(
             model=selected_model,

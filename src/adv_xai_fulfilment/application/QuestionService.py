@@ -1,26 +1,20 @@
 import logging
 
-from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 from src.adv_xai_fulfilment.domain.model.questions.Feedback import Feedback
 from src.adv_xai_fulfilment.domain.model.questions.Question import Question
 from ..infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
 from src.adv_xai_fulfilment.domain.model.ExplainerMetaData import ExplainerMetaData
 from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
-from src.adv_xai_fulfilment.infrastructure.service.DataLoaderService import (
-    DataLoaderService,
-)
 from src.adv_xai_fulfilment.infrastructure.service.ExplainerRepositoryService import (
     ExplainerRepositoryService,
 )
 
 
 class QuestionService:
-    _data_loader_service: DataLoaderService
     _metadata_loader_service: MetaDataLoaderService
     _explainer_repository_service: ExplainerRepositoryService
 
     def __init__(self):
-        self._data_loader_service = DataLoaderService()
         self._metadata_loader_service = MetaDataLoaderService()
         self._explainer_repository_service = ExplainerRepositoryService()
 

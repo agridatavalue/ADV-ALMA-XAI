@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 
 from ..domain.model.Model import Model
 from ..infrastructure.Constants import Errors
+from ..domain.model.ModelData import ModelData
 from ..domain.model.ModelMetaData import ModelMetaData
 from ..domain.model.explainers.Explainer import Explainer
 from ..domain.model.FeatureImportance import FeatureImportance
@@ -63,7 +64,7 @@ class ExplainerGeneratorService:
             raise Errors.MODEL_NOT_MODEL
 
         logging.debug(f"downloading {request.data} data if present")
-        data: dict[str, pd.DataFrame] = self._data_loader_service.load_data(request)
+        data: ModelData = self._data_loader_service.load_data(request)
 
         return meta_data, selected_model, data
 

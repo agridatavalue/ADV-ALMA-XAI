@@ -49,7 +49,7 @@ class ExplainerIdentifier:
         self.category = metadata.model_category
 
     def get_explainer_metadata_path(self) -> str:
-        return f"{self.model}/{self.prediction_target.lower()}_{self.category}/metadata.json"
+        return f"{self.model}/{self.prediction_target.lower()}_{self.category.lower()}/metadata.json"
 
     def get_model_metadata_locale_filepath(self) -> str:
         return os.path.join(os.getenv("TEMP"), self.model, "metadata.json")
@@ -62,7 +62,7 @@ class ExplainerIdentifier:
     def get_data_locale_filepath(self, filename: str) -> str:
         assert isinstance(filename, str), "filename must be a string"
         return os.path.join(
-            ModelData("data").get_locale_folder_path(self.model), filename
+            os.getenv("TEMP"), "data", self.model, self.pilot.id, filename
         )
 
     def get_explainer_locale_filepath(self, expl: Explainer) -> str:

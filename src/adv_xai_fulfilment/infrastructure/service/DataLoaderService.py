@@ -3,6 +3,7 @@ import logging
 import pandas as pd
 
 from ..repository.BucketRepository import BucketRepository
+from src.adv_xai_fulfilment.domain.model.ModelData import ModelData
 from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
 
 
@@ -19,11 +20,11 @@ class DataLoaderService:
             }
         )
 
-    def load_data(self, expl_id: ExplainerIdentifier) -> dict[str, pd.DataFrame]:
+    def load_data(self, expl_id: ExplainerIdentifier) -> ModelData:
         if not expl_id.data:
             return None
 
-        to_return = {}
+        data = ModelData()
         for file in ["x.csv", "y.csv"]:
             current_file = expl_id.get_data_locale_filepath(file)
             if not os.path.exists(current_file):
@@ -35,6 +36,6 @@ class DataLoaderService:
                     object_name=f"{expl_id.data}/{file}",
                     destination_file_path=current_file,
                 )
-            to_return[file.replace(".csv", "")] = pd.read_csv(current_file)
+            setattr(data, file.replace(".csv", ""), pd.read_csv(current_file))
 
-        return to_return
+        return data

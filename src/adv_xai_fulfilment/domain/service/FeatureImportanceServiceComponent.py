@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 
 from ...domain.model.Model import Model
+from ...domain.model.ModelData import ModelData
 from ...domain.model.ModelMetaData import ModelMetaData
 from ...domain.model.ExplainerMetaData import ExplainerMetaData
 from ...domain.model.FeatureImportance import FeatureImportance
@@ -82,15 +83,15 @@ class FeatureImportanceServiceComponent:
 
         logging.info(f"Explainer feature-importance: {explainer}")
 
-        X_test = np.array(
-            self._data_loader_service.load_data(explainer_identifier)["x"]
+        model_data: ModelData = self._data_loader_service.load_data(
+            explainer_identifier
         )
 
         data: pd.DataFrame = selected_model.get_feature_importance(
             feature_names=self._feature_description_service.get_data(
                 explainer_identifier
             ),
-            shap_values=explainer.get_shap_values(x_test=X_test),
+            shap_values=explainer.get_shap_values(x_test=np.array(model_data.x)),
         )
         return self.__prepare_data(
             data=data,

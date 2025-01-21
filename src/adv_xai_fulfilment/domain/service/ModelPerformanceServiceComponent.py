@@ -3,37 +3,34 @@ import pandas as pd
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 
 from ..model.Model import Model
+from ..model.ModelData import ModelData
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 
 
 class ModelPerformanceServiceComponent:
 
     def get_data(
-        self, model: Model, data: dict, prediction_target_index: int = 0
+        self, model: Model, data: ModelData, prediction_target_index: int = 0
     ) -> dict["y_pred" : pd.DataFrame, "y_true" : pd.DataFrame]:
         assert isinstance(data, dict), Errors.DATA_NOT_DICT
 
         return {
-            "y_true": (data.get("y").iloc[:, prediction_target_index]).to_list(),
+            "y_true": data.get_y_for_prediction_target(
+                prediction_target_index
+            ).to_list(),
             "y_pred": [
-                float(y[prediction_target_index])
-                for y in model.handler.predict(data.get("x"))
+                float(y[prediction_target_index]) for y in model.handler.predict(data.x)
             ],
         }
 
     def get_metrics(
-        self,
-        prediction_target_index: int,
-        model: Model,
-        data: dict["x" : pd.DataFrame, "y" : pd.DataFrame],
+        self, prediction_target_index: int, model: Model, data: ModelData
     ) -> dict:
-        if not data or not model:
+        if data.is_empty or not model:
             return {}
 
-        y_pred = [
-            y[prediction_target_index] for y in model.handler.predict(data.get("x"))
-        ]
-        y_true = data.get("y").iloc[:, 0]
+        y_pred = [y[prediction_target_index] for y in model.handler.predict(data.x)]
+        y_true = data.y.iloc[:, 0]
 
         mse = mean_squared_error(y_true, y_pred)
         mae = mean_absolute_error(y_true, y_pred)

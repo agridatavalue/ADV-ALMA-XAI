@@ -1,7 +1,7 @@
-import os
 import numpy as np
 
 from ..domain.model.Model import Model
+from ..domain.model.ModelData import ModelData
 from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
 from ..infrastructure.service.DataLoaderService import DataLoaderService
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService
@@ -20,9 +20,9 @@ class PlotScatterObservedPredictedService:
     ) -> dict["y_observed" : np.ndarray, "y_predicted" : np.ndarray]:
         model: Model = self.model_loader_service.load_from(explainer_identifier.model)
 
-        data = self.data_loader_service.load_data(explainer_identifier)
+        data: ModelData = self.data_loader_service.load_data(explainer_identifier)
 
-        X_test = np.array(data.get("x"))
-        y_test = np.array(data.get("y"))
+        X_test = np.array(data.x)
+        y_test = np.array(data.y)
 
         return {"y_observed": y_test, "y_predicted": model.handler.predict(X_test)}
