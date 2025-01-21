@@ -1,8 +1,14 @@
+import os
 import unittest
+from unittest.mock import Mock
 
 from src.adv_xai_fulfilment.infrastructure.repository.BucketRepository import (
     BucketRepository,
 )
+
+
+class FakeMinioResponse:
+    object_name = "object_name"
 
 
 class TestBucketRepository(unittest.TestCase):
@@ -16,11 +22,11 @@ class TestBucketRepository(unittest.TestCase):
                 "region": "",
             }
         )
-        test_obj._client = type(
-            "Minio",
-            (),
-            {"fget_object": lambda bucket_name, object_name, file_path: None},
-        )
+
+        with open("object_name", "w") as f:
+            f.write("This is a test file.")
+        test_obj._client = Mock()
+        test_obj._client.fget_object.return_value = FakeMinioResponse()
 
         self.assertEqual(
             test_obj.download_from("bucket_name", "object_name"), "object_name"
@@ -31,6 +37,9 @@ class TestBucketRepository(unittest.TestCase):
             ),
             "destination_file_path",
         )
+        if os.path.exists("object_name"):
+            os.remove("object_name")
+        os.remove("destination_file_path")
 
     def test_upload_to(self):
         test_obj = BucketRepository(
@@ -42,15 +51,11 @@ class TestBucketRepository(unittest.TestCase):
                 "region": "",
             }
         )
-        test_obj._client = type(
-            "Minio",
-            (),
-            {
-                "fput_object": lambda bucket_name, file_path, object_name: type(
-                    "Result", (), {"object_name": "target_filepath"}
-                )()
-            },
-        )
+
+        test_obj._client = Mock()
+        test_obj._client.fput_object.return_value = type(
+            "Result", (), {"object_name": "target_filepath"}
+        )()
 
         self.assertEqual(
             test_obj.upload_to("bucket_name", "target_filepath", "local_filepath"),

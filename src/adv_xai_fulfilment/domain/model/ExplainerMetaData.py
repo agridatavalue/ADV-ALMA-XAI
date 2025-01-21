@@ -82,7 +82,11 @@ class ExplainerMetaData:
                     "n_parameters": 100,
                 },
                 "performance_metrics": self._metrics,
-                "feature_importance": self._feature_importance.to_dict(),
+                "feature_importance": (
+                    self._feature_importance.to_dict()
+                    if self._feature_importance
+                    else {}
+                ),
             },
             "explainer_metadata": {
                 "explainers_identified": [
