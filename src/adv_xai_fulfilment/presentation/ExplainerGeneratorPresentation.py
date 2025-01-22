@@ -32,6 +32,9 @@ class ExplainerGeneratorPresentation:
         return [self._build_service.prepare_explainer(request) for request in requests]
 
     def get_explainer_data(self, data: dict = {}):
+        """
+        return the endpoints for front-end to archive xai
+        """
         logging.info(f"called get_explainer_data with params: {data}")
         self._validator.validate_and_sanitize_get_data(data)
         self._build_service.prepare_explainer(request=self._translator.translate(data))
