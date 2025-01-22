@@ -27,6 +27,7 @@ class DataLoaderService:
         data = ModelData()
         for file in ["x.csv", "y.csv"]:
             current_file = expl_id.get_data_locale_filepath(file)
+            os.makedirs(os.path.dirname(current_file), exist_ok=True)
             if not os.path.exists(current_file):
                 logging.debug(
                     f"file {current_file} does not exist, downloading from {os.getenv('DATA_FOLDER_PATH')}"

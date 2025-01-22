@@ -61,7 +61,9 @@ class ExplainerIdentifier:
 
     def get_data_locale_filepath(self, filename: str) -> str:
         assert isinstance(filename, str), "filename must be a string"
-        return os.path.join(os.getenv("TEMP"), self.model, "data", filename)
+        return os.path.join(
+            os.getenv("TEMP"), self.model, self.pilot.id, "data", filename
+        )
 
     def get_explainer_locale_filepath(self, expl: Explainer) -> str:
         assert isinstance(expl, Explainer), "expl must be an instance of Explainer"
