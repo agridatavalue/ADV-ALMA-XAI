@@ -1,0 +1,24 @@
+import logging
+from flask import Blueprint, request, jsonify, make_response
+
+from src.adv_xai_fulfilment.presentation.DataPresentations import DataPresentations
+
+
+partialDepBp = Blueprint("part_dep", __name__)
+
+
+@partialDepBp.route("/partial-dependence", methods=["POST"])
+def partial_dependence():
+    if request.method != "POST":
+        return "Not a valid request"
+
+    try:
+        response = DataPresentations().get_partial_dependence(request.get_json())
+        print(">>> response", response)
+        return make_response(
+            jsonify(response.to_dict()),
+            200,
+        )
+    except Exception as e:
+        logging.error(f"error while building the explainers: {e}")
+        return make_response(jsonify({"status": str(e)}), 500)

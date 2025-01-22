@@ -58,6 +58,33 @@ paths:
             tags:
                 - Explainer
 
+    /partial-dependence:
+        post:
+            summary: Return the partial dependence data
+            description: Return the partial dependence data for a given pilot
+            operationId: partialDependence
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/PartialDependenceRequest"
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/PartialDependenceResponse"
+                "400":
+                    description: Invalid IDs combination supplied
+                "404":
+                    description: Pilot / Model not found
+                "500":
+                    description: Internal server error
+            tags:
+                - DataCard
+
     /get-explainer-data:
         get:
             summary: Return the explainer data
@@ -341,6 +368,71 @@ components:
             description: "Please enter token in following format: Bearer <JWT>"
             type: http
     schemas:
+        PartialDependenceRequest:
+            type: object
+            properties:
+                model:
+                    description: the identifier of the model file name
+                    example: "model.pkl"
+                    type: string
+                pilot:
+                    description: the identifier of the pilot
+                    example: "pilot8"
+                    type: string
+                meta_data:
+                    description: the identifier of the metadata file name
+                    example: "metadata.json"
+                    type: string
+                data:
+                    description: the identifier of the data folder name
+                    example: "crop"
+                    type: string
+                prediction_target:
+                    description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
+                    example: "Biomass"
+                    type: string
+                feature:
+                    description: the name of the feature to explain
+                    example: "NO3-N 0-30 cm start (kg/ha)"
+                    type: string
+            required:
+                - data
+                - model
+                - pilot
+                - feature
+                - meta_data
+                - prediction_target
+
+        PartialDependenceResponse:
+            type: object
+            properties:
+                std_effect:
+                    type: number
+                    format: float
+                mean_effect:
+                    type: number
+                    format: float
+                feature_values:
+                    type: array
+                    items:
+                        type: number
+                        format: float
+                pdp_values:
+                    type: array
+                    items:
+                        type: number
+                        format: float
+                lower_bound:
+                    type: array
+                    items:
+                        type: number
+                        format: float
+                upper_bound:
+                    type: array
+                    items:
+                        type: number
+                        format: float
+
         ExplainerDataResponse:
             type: object
             properties:

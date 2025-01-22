@@ -1,10 +1,12 @@
 import logging
 
 from ..domain.model.FeatureImportance import FeatureImportance
+from ..domain.model.PartialDependence import PartialDependence
 from ..domain.model.FeatureDescription import FeatureDescription
 from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
 from .validator.DataPresentationValidator import DataPresentationValidator
 from ..application.FeatureImportanceService import FeatureImportanceService
+from ..application.PartialDependenceService import PartialDependenceService
 from ..application.FeatureDescriptionService import FeatureDescriptionService
 from .translator.ExplainerIdentifierTranslator import ExplainerIdentifierTranslator
 from ..application.ModelPerformanceMetricService import ModelPerformanceMetricService
@@ -19,6 +21,7 @@ from ..application.PlotScatterObservedPredictedService import (
 class DataPresentations:
     _feature_importance_service: FeatureImportanceService
     _feature_description_service: FeatureDescriptionService
+    _partial_dependence_service: PartialDependenceService
     _model_performance_service: ModelPerformanceMetricService
     _plot_scatter_service: PlotScatterObservedPredictedService
     _input_translator: ExplainerIdentifierTranslator
@@ -32,6 +35,7 @@ class DataPresentations:
         self._plot_scatter_service = PlotScatterObservedPredictedService()
         self._model_performance_service = ModelPerformanceMetricService()
         self._feature_importance_service = FeatureImportanceService()
+        self._partial_dependence_service = PartialDependenceService()
         self._feature_description_service = FeatureDescriptionService()
 
     def get_data_source_types(self, request: dict = {}) -> dict:
@@ -80,3 +84,12 @@ class DataPresentations:
         expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
 
         return self._model_performance_service.get_data(expl_id)
+
+    def get_partial_dependence(self, data: dict = {}) -> PartialDependence:
+        logging.info(f"called get_partial_dependence with params: {data}")
+        data_sanitized = self._validator.validate_and_sanitize_partial_dependence(data)
+        expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
+
+        return self._partial_dependence_service.get_data(
+            expl_id, data_sanitized.get("feature")
+        )
