@@ -2,7 +2,7 @@ from .BuildEndpoint import buildBp
 from .TargetsEndpoint import targetsBp
 from .PrepareEndpoint import prepareBp
 from .GetAllQuestionsEndpoint import questionsBp
-from .ExplainerDataEndpoint import explainerDataBp
+from .ExplaineGuideEndpoint import explainerGuideBp
 from .PartialDependenceEndpoint import partialDepBp
 from .GetFeedbackQuestionsEndpoint import feedbackBp
 from .DataSourceTypesEndpoint import dataSourceTypesBp
@@ -21,7 +21,7 @@ routes = [
     feedbackBp,
     questionsBp,
     partialDepBp,
-    explainerDataBp,
+    explainerGuideBp,
     dataSourceTypesBp,
     dataDistributionBp,
     featureImportanceBp,

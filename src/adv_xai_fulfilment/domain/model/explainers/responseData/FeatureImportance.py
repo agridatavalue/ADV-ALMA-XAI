@@ -12,6 +12,7 @@ class FeatureImportance(ExplainerResponseData):
         feature: list[str] = [],
         importance: list[float] = [],
     ):
+        super().__init__("feature-importance")
         self.feature = feature
         self.importance = importance
         self.prediction_target = prediction_target

@@ -5,22 +5,26 @@ from ..domain.model.Model import Model
 from ..infrastructure.Constants import Errors
 from ..domain.model.ModelData import ModelData
 from ..domain.model.ModelMetaData import ModelMetaData
+from ..domain.model.ExplainerGuide import ExplainerGuide
 from ..domain.model.explainers.Explainer import Explainer
-from ..domain.model.FeatureImportance import FeatureImportance
 from ..domain.model.ExplainerMetaData import ExplainerMetaData
 from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
 from ..domain.service.ExplainerRetriever import ExplainerRetriever
 from ..infrastructure.service.DataLoaderService import DataLoaderService
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService
 from ..infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
-from ..infrastructure.service.ExplainerRepositoryService import (
-    ExplainerRepositoryService,
-)
+from ..domain.model.explainers.responseData.FeatureImportance import FeatureImportance
 from ..domain.service.ModelPerformanceServiceComponent import (
     ModelPerformanceServiceComponent,
 )
 from ..domain.service.FeatureImportanceServiceComponent import (
     FeatureImportanceServiceComponent,
+)
+from ..infrastructure.service.ExplainerRepositoryService import (
+    ExplainerRepositoryService,
+)
+from ..domain.model.explainers.responseData.ExplainerResponseData import (
+    ExplainerResponseData,
 )
 
 load_dotenv()
@@ -67,8 +71,14 @@ class ExplainerGeneratorService:
 
         return meta_data, selected_model, data
 
-    def describe_explainer(self, request: ExplainerIdentifier):
-        meta_data, selected_model, data = self.prepare_explainer(request)
+    def describe_explainer(
+        self, request: ExplainerIdentifier
+    ) -> list[ExplainerResponseData]:
+        logging.debug(f"downloading meta_data {request.metadata_identifier}")
+        meta_data: ModelMetaData = self._metadata_loader_service.load_model_metadata(
+            expl_id=request
+        )
+        return ExplainerGuide(meta_data).get_explainers()
 
     def generate_explainer(self, request: ExplainerIdentifier) -> list[Explainer]:
         feature_importance: FeatureImportance = self._fi_service_comp.generate_data(

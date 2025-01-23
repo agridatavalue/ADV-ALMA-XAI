@@ -1,4 +1,5 @@
 from .DataType import DataType
+from .ModelCategory import ModelCategory
 from .explainers.responseData.FeatureDescription import FeatureDescription
 
 
@@ -10,7 +11,7 @@ class ModelMetaData:
     subject_name: str
     _target_names: list[str]
     feature_names: list[str]
-    model_category: str
+    model_category: ModelCategory
     feature_descriptions: list[FeatureDescription]
 
     def __init__(
@@ -25,25 +26,40 @@ class ModelMetaData:
         feature_names: list[str] = [],
         feature_descriptions: list[FeatureDescription] = [],
     ):
-        self.data_type = data_type
+        self.data_type = DataType.from_string(data_type)
         self.framework = framework
         self.algorithm = algorithm
         self.model_type = model_type
         self.subject_name = subject_name
         self._target_names = target_names
         self.feature_names = feature_names
-        self.model_category = model_category
+        self.model_category = ModelCategory.from_string(model_category)
         self.feature_descriptions = feature_descriptions
 
     @property
+    def is_tabular(self) -> bool:
+        return self.data_type == DataType.TABULAR
+
+    @property
+    def is_image(self) -> bool:
+        return self.data_type == DataType.IMAGE
+
+    @property
+    def is_regression(self) -> bool:
+        return self.model_category == ModelCategory.REGRESSION
+
+    @property
+    def is_classification(self) -> bool:
+        return self.model_category == ModelCategory.CLASSIFICATION
+
     def to_dict(self) -> dict:
         return {
-            "data_type": self.data_type,
+            "data_type": str(self.data_type),
             "framework": self.framework,
             "algorithm": self.algorithm,
             "model_type": self.model_type,
             "targetnames": self._target_names,
-            "model_category": self.model_category,
+            "model_category": str(self.model_category),
             "feature_descriptions": [fd.to_dict() for fd in self.feature_descriptions],
         }
 

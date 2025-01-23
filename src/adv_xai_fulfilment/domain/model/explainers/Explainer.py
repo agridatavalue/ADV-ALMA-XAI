@@ -2,7 +2,6 @@ import pickle
 from abc import ABC
 
 from ..Model import Model
-from ..DataType import DataType
 from ..ModelMetaData import ModelMetaData
 from ....infrastructure.Constants import Errors
 from .DataTypeModelExplainer import DataTypeModelExplainer
@@ -62,7 +61,7 @@ class Explainer(ABC):
             meta_data.model_type in self.type
             and meta_data.model_category in self.category
             and (
-                DataType.from_string(meta_data.data_type)
+                meta_data.data_type
                 in [dt.data_type for dt in self.data_type_explainers]
             )
         )

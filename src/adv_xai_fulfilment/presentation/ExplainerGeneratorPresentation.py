@@ -5,6 +5,9 @@ from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
 from ..application.ExplainerGeneratorService import ExplainerGeneratorService
 from .validator.ExplainerGeneratorValidator import ExplainerGeneratorValidator
 from .translator.ExplainerIdentifierTranslator import ExplainerIdentifierTranslator
+from ..domain.model.explainers.responseData.ExplainerResponseData import (
+    ExplainerResponseData,
+)
 
 
 class ExplainerGeneratorPresentation:
@@ -31,7 +34,7 @@ class ExplainerGeneratorPresentation:
 
         return [self._build_service.prepare_explainer(request) for request in requests]
 
-    def get_explainer_data(self, data: dict = {}):
+    def get_explainer_guide(self, data: dict = {}) -> list[ExplainerResponseData]:
         logging.info(f"called get_explainer_data with params: {data}")
         self._validator.validate_and_sanitize_get_data(data)
         expl_id: ExplainerIdentifier = self._translator.translate(data)

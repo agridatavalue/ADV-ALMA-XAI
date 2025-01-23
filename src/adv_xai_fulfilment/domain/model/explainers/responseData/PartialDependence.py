@@ -21,6 +21,7 @@ class PartialDependence(ExplainerResponseData):
         lower_bound: np.ndarray = None,
         upper_bound: np.ndarray = None,
     ):
+        super().__init__("partial-dependence")
         self.pdp_values = pdp_values
         self.std_effect = std_effect
         self.mean_effect = mean_effect
