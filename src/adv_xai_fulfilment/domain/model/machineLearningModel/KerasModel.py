@@ -4,7 +4,7 @@ from tqdm import tqdm
 from keras.models import load_model
 
 from ..Model import Model
-from ..PartialDependence import PartialDependence
+from ..explainers.responseData.PartialDependence import PartialDependence
 from ..explainers.responseData.FeatureDescription import FeatureDescription
 
 

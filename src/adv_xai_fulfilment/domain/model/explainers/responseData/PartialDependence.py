@@ -1,7 +1,9 @@
 import numpy as np
 
+from .ExplainerResponseData import ExplainerResponseData
 
-class PartialDependence:
+
+class PartialDependence(ExplainerResponseData):
     std_effect: float
     mean_effect: float
     pdp_values: np.ndarray

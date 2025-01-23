@@ -1,6 +1,5 @@
 import logging
 
-from ..domain.model.PartialDependence import PartialDependence
 from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
 from .validator.DataPresentationValidator import DataPresentationValidator
 from ..application.FeatureImportanceService import FeatureImportanceService
@@ -8,6 +7,7 @@ from ..application.PartialDependenceService import PartialDependenceService
 from ..application.FeatureDescriptionService import FeatureDescriptionService
 from .translator.ExplainerIdentifierTranslator import ExplainerIdentifierTranslator
 from ..application.ModelPerformanceMetricService import ModelPerformanceMetricService
+from ..domain.model.explainers.responseData.PartialDependence import PartialDependence
 from ..domain.model.explainers.responseData.FeatureImportance import FeatureImportance
 from ..domain.model.explainers.responseData.FeatureDescription import FeatureDescription
 from .translator.DataPresentationsOutputTranslator import (
