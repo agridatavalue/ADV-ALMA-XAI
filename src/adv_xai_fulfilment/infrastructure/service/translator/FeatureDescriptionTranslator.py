@@ -1,4 +1,6 @@
-from src.adv_xai_fulfilment.domain.model.FeatureDescription import FeatureDescription
+from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureDescription import (
+    FeatureDescription,
+)
 
 
 class FeatureDescriptionTranslator:

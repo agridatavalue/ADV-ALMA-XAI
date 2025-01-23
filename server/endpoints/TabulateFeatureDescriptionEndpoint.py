@@ -2,7 +2,9 @@ import logging
 from flask import Blueprint, jsonify, make_response, request
 
 from src.adv_xai_fulfilment.presentation.DataPresentations import DataPresentations
-from src.adv_xai_fulfilment.domain.model.FeatureDescription import FeatureDescription
+from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureDescription import (
+    FeatureDescription,
+)
 
 featureDescriptionEndpointBp = Blueprint("feature_description", __name__)
 

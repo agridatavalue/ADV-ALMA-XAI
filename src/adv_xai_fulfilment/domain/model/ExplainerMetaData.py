@@ -3,8 +3,10 @@ import os
 from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.questions.Question import Question
 from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
-from src.adv_xai_fulfilment.domain.model.FeatureImportance import FeatureImportance
 from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
+from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureImportance import (
+    FeatureImportance,
+)
 
 
 class ExplainerMetaData:

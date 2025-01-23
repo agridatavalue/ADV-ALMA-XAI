@@ -6,13 +6,13 @@ from ...domain.model.Model import Model
 from ...domain.model.ModelData import ModelData
 from ...domain.model.ModelMetaData import ModelMetaData
 from ...domain.model.ExplainerMetaData import ExplainerMetaData
-from ...domain.model.FeatureImportance import FeatureImportance
 from ...domain.model.ExplainerIdentifier import ExplainerIdentifier
 from ...domain.service.ExplainerRetriever import ExplainerRetriever
 from ...infrastructure.service.DataLoaderService import DataLoaderService
 from ...infrastructure.service.ModelLoaderService import ModelLoaderService
 from ...infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
 from .FeatureDescriptionServiceComponent import FeatureDescriptionServiceComponent
+from ...domain.model.explainers.responseData.FeatureImportance import FeatureImportance
 from ...infrastructure.service.ExplainerRepositoryService import (
     ExplainerRepositoryService,
 )

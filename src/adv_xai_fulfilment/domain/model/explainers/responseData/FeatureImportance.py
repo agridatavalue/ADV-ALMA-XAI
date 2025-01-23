@@ -1,4 +1,7 @@
-class FeatureImportance:
+from .ExplainerResponseData import ExplainerResponseData
+
+
+class FeatureImportance(ExplainerResponseData):
     feature: list[str]
     importance: list[float]
     prediction_target: str

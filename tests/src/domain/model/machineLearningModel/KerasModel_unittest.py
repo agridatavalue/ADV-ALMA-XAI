@@ -2,9 +2,11 @@ import unittest
 import numpy as np
 import pandas as pd
 
-from src.adv_xai_fulfilment.domain.model.FeatureDescription import FeatureDescription
 from src.adv_xai_fulfilment.domain.model.machineLearningModel.KerasModel import (
     KerasModel,
+)
+from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureDescription import (
+    FeatureDescription,
 )
 
 

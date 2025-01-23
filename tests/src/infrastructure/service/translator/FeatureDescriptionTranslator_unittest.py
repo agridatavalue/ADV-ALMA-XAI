@@ -1,6 +1,8 @@
 import unittest
 
-from src.adv_xai_fulfilment.domain.model.FeatureDescription import FeatureDescription
+from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureDescription import (
+    FeatureDescription,
+)
 from src.adv_xai_fulfilment.infrastructure.service.translator.FeatureDescriptionTranslator import (
     FeatureDescriptionTranslator,
 )

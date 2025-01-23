@@ -2,7 +2,7 @@ import os
 import numpy as np
 import pandas as pd
 
-from .FeatureDescription import FeatureDescription
+from .explainers.responseData.FeatureDescription import FeatureDescription
 
 
 class Model:

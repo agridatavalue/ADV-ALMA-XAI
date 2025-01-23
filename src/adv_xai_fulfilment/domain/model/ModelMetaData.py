@@ -1,5 +1,5 @@
 from .DataType import DataType
-from .FeatureDescription import FeatureDescription
+from .explainers.responseData.FeatureDescription import FeatureDescription
 
 
 class ModelMetaData:

@@ -1,4 +1,7 @@
-class FeatureDescription:
+from .ExplainerResponseData import ExplainerResponseData
+
+
+class FeatureDescription(ExplainerResponseData):
     name: str
     type: str
     source: str
