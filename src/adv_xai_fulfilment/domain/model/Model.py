@@ -20,6 +20,8 @@ class Model:
 
     def load(self, path: str) -> "Model": ...
 
+    def get_partial_dependence(X: pd.DataFrame, feature: str): ...
+
     def is_ok(self) -> bool:
         return self.handler is not None
 

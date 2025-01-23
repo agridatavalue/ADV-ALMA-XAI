@@ -1,5 +1,4 @@
 import logging
-import pandas as pd
 from dotenv import load_dotenv
 
 from ..domain.model.Model import Model
@@ -48,7 +47,7 @@ class ExplainerGeneratorService:
 
     def prepare_explainer(
         self, request: ExplainerIdentifier
-    ) -> list[ModelMetaData, Model, dict[str, pd.DataFrame]]:
+    ) -> list[ModelMetaData, Model, ModelData]:
         logging.debug(f"downloading meta_data {request.metadata_identifier}")
         meta_data: ModelMetaData = self._metadata_loader_service.load_model_metadata(
             expl_id=request
@@ -67,6 +66,9 @@ class ExplainerGeneratorService:
         data: ModelData = self._data_loader_service.load_data(request)
 
         return meta_data, selected_model, data
+
+    def describe_explainer(self, request: ExplainerIdentifier):
+        meta_data, selected_model, data = self.prepare_explainer(request)
 
     def generate_explainer(self, request: ExplainerIdentifier) -> list[Explainer]:
         feature_importance: FeatureImportance = self._fi_service_comp.generate_data(
