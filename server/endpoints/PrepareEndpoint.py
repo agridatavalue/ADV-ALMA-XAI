@@ -12,9 +12,17 @@ def prepare():
         return "Not a valid request"
 
     try:
-        ExplainerGeneratorPresentation().prepare(request.get_json())
+
         return make_response(
-            jsonify({"status": "OK"}),
+            jsonify(
+                {
+                    "status": (
+                        "OK"
+                        if ExplainerGeneratorPresentation().prepare(request.get_json())
+                        else "KO"
+                    )
+                }
+            ),
             200,
         )
     except Exception as e:

@@ -27,12 +27,15 @@ class ExplainerGeneratorPresentation:
 
         return [self._build_service.generate_explainer(request) for request in requests]
 
-    def prepare(self, data: dict = {}) -> list[Explainer]:
+    def prepare(self, data: dict = {}) -> bool:
         logging.info(f"called prepare with params: {data}")
         self._validator.validate_and_sanitize_prepare(data)
         requests: list[ExplainerIdentifier] = self._translator.translate_many(data)
 
-        return [self._build_service.prepare_explainer(request) for request in requests]
+        for request in requests:
+            self._build_service.prepare_explainer(request)
+
+        return True
 
     def get_explainer_guide(self, data: dict = {}) -> list[ExplainerResponseData]:
         logging.info(f"called get_explainer_data with params: {data}")
