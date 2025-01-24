@@ -12,7 +12,7 @@ class CounterFactualsWithRlExplainer(Explainer):
         super().__init__(
             name="TreeSHAPpathdependent",
             type=["BlackBox", "WhiteBox"],
-            category=["Classification"],
+            categories=["Classification"],
             explanations="local",
             is_distributed=False,
             train_set_required=True,

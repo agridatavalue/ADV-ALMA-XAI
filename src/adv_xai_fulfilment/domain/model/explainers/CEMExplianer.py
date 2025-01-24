@@ -13,7 +13,7 @@ class ContrastiveExplanationMethodExplainer(Explainer):
         super().__init__(
             name="CEM",
             type=["BlackBox"],
-            category=["Classification"],
+            categories=["Classification"],
             explanations="local",
             is_distributed=False,
             train_set_required=False,

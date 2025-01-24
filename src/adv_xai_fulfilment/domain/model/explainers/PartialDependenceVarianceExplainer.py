@@ -12,7 +12,7 @@ class PartialDependenceVarianceExplainer(Explainer):
         super().__init__(
             name="PartialDependenceVariance",
             type=["BlackBox", "WhiteBox"],
-            category=["Classification", "Regression"],
+            categories=["Classification", "Regression"],
             explanations="global",
             is_distributed=False,
             train_set_required=False,

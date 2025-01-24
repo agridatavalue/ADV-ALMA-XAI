@@ -3,6 +3,7 @@ from abc import ABC
 
 from ..Model import Model
 from ..ModelMetaData import ModelMetaData
+from ..ModelCategory import ModelCategory
 from ....infrastructure.Constants import Errors
 from .DataTypeModelExplainer import DataTypeModelExplainer
 
@@ -10,7 +11,7 @@ from .DataTypeModelExplainer import DataTypeModelExplainer
 class Explainer(ABC):
     name: str
     type: list[str]
-    category: list[str]
+    category: list[ModelCategory]
     explanations: str
     is_distributed: bool
     train_set_required: bool
@@ -24,7 +25,7 @@ class Explainer(ABC):
         self,
         name: str,
         type: list[str],
-        category: list[str],
+        categories: list[str],
         explanations: str,
         is_distributed: bool,
         train_set_required: bool,
@@ -34,12 +35,14 @@ class Explainer(ABC):
         super().__init__()
         self.name = name
         self.type = type
-        self.category = category
         self.explanations = explanations
         self.is_distributed = is_distributed
         self.train_set_required = train_set_required
         self.data_type_explainers = data_type_explainers
         self.has_categorical_features = has_categorical_features
+        self.categories = [
+            ModelCategory.from_string(category) for category in categories
+        ]
 
         self.meta_data = None
         self.build_result = None
@@ -59,7 +62,7 @@ class Explainer(ABC):
 
         return (
             meta_data.model_type in self.type
-            and meta_data.model_category in self.category
+            and meta_data.model_category in self.categories
             and (
                 meta_data.data_type
                 in [dt.data_type for dt in self.data_type_explainers]

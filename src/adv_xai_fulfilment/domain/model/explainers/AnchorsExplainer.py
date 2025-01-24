@@ -12,7 +12,7 @@ class AnchorsExplainer(Explainer):
         super().__init__(
             name="Anchors",
             type=["BlackBox"],
-            category=["Classification"],
+            categories=["Classification"],
             explanations="global",
             is_distributed=False,
             train_set_required=False,

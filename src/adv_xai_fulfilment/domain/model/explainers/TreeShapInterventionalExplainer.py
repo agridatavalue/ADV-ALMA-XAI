@@ -12,7 +12,7 @@ class TreeShapInterventionalExplainer(Explainer):
         super().__init__(
             name="TreeSHAPinterventional",
             type=["WhiteBox"],
-            category=["Classification", "Regression"],
+            categories=["Classification", "Regression"],
             explanations="both",
             is_distributed=False,
             train_set_required=None,

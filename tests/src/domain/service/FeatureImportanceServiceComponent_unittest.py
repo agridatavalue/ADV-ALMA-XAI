@@ -35,7 +35,7 @@ class TestFeatureImportanceServiceComponent(unittest.TestCase):
                     Explainer(
                         "name",
                         type=[],
-                        category=[],
+                        categories=[],
                         explanations="",
                         is_distributed=False,
                         train_set_required=False,

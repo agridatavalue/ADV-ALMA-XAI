@@ -12,7 +12,7 @@ class TreeShapPathDependentExplainer(Explainer):
         super().__init__(
             name="TreeSHAPpathdependent",
             type=["WhiteBox"],
-            category=["Classification", "Regression"],
+            categories=["Classification", "Regression"],
             explanations="both",
             is_distributed=False,
             train_set_required=None,

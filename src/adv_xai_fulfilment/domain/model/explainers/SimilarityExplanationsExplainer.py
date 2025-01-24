@@ -12,7 +12,7 @@ class SimilarityExplanationsExplainer(Explainer):
         super().__init__(
             name="SimilarityExplanations",
             type=["WhiteBox"],
-            category=["Classification", "Regression"],
+            categories=["Classification", "Regression"],
             explanations="local",
             is_distributed=False,
             train_set_required=True,

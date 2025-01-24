@@ -12,7 +12,7 @@ class IntegratedGradientsExplainer(Explainer):
         super().__init__(
             name="IntegratedGradients",
             type=["BlackBox"],
-            category=["Classification", "Regression"],
+            categories=["Classification", "Regression"],
             explanations="local",
             is_distributed=False,
             train_set_required=False,

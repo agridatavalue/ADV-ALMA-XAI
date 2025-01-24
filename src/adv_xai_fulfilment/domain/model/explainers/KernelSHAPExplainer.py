@@ -11,7 +11,7 @@ class KernelSHAPExplainer(Explainer):
         super().__init__(
             name="KernelSHAP",
             type=["BlackBox"],
-            category=["Classification", "Regression"],
+            categories=["Classification", "Regression"],
             explanations="both",
             is_distributed=True,
             train_set_required=True,

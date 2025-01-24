@@ -12,7 +12,7 @@ class RegressionExplainer(Explainer):
         super().__init__(
             name="RegressionExplainer",
             type=["BlackBox"],
-            category=["Regression"],
+            categories=["Regression"],
             explanations="global",
             is_distributed=False,
             train_set_required=False,
