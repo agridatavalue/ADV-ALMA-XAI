@@ -1,7 +1,7 @@
 import logging
 from flask import Blueprint, request, jsonify, make_response
 
-from src.adv_xai_fulfilment.presentation.DataPresentations import DataPresentations
+from src.adv_xai_fulfilment import DataPresentations
 
 
 partialDepBp = Blueprint("part_dep", __name__)
@@ -14,7 +14,7 @@ def partial_dependence():
 
     try:
         response = DataPresentations().get_partial_dependence(request.get_json())
-        print(">>> response", response)
+
         return make_response(
             jsonify(response.to_dict()),
             200,

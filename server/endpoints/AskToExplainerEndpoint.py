@@ -1,9 +1,7 @@
 import logging
 from flask import Blueprint, request, jsonify, make_response
 
-from src.adv_xai_fulfilment.presentation.ExplainerGeneratorPresentation import (
-    ExplainerGeneratorPresentation,
-)
+from src.adv_xai_fulfilment import ExplainerGeneratorPresentation
 
 askToExplainerEndpointBp = Blueprint("ask", __name__)
 

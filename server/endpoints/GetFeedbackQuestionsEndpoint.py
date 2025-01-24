@@ -1,9 +1,7 @@
 import logging
 from flask import Blueprint, request, jsonify, make_response
 
-from src.adv_xai_fulfilment.presentation.QuestionAndFeedbackPresentation import (
-    QuestionAndFeedbackPresentation,
-)
+from src.adv_xai_fulfilment import QuestionAndFeedbackPresentation
 
 feedbackBp = Blueprint("feedback", __name__)
 

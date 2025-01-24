@@ -1,7 +1,7 @@
 import logging
 from flask import Blueprint, request, jsonify, make_response
 
-from src.adv_xai_fulfilment.presentation.DataPresentations import DataPresentations
+from src.adv_xai_fulfilment import DataPresentations
 
 modelPerformanceMetricBp = Blueprint("model-performance-metric", __name__)
 
