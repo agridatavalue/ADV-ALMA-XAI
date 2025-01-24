@@ -1,15 +1,14 @@
 import os
 import json
 import logging
-import pandas as pd
 
+from ...infrastructure.Constants import Errors
 from ...domain.model.ModelMetaData import ModelMetaData
 from ..repository.BucketRepository import BucketRepository
 from ...domain.model.ExplainerMetaData import ExplainerMetaData
-from src.adv_xai_fulfilment.infrastructure.Constants import Errors
+from ...domain.model.ExplainerIdentifier import ExplainerIdentifier
 from .translator.ModelMetaDataTranslator import ModelMetaDataTranslator
 from .translator.ExplainerMetaDataTranslator import ExplainerMetaDataTranslator
-from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
 
 
 class MetaDataLoaderService:
@@ -29,9 +28,7 @@ class MetaDataLoaderService:
         self._model_metadata_translator = ModelMetaDataTranslator()
         self._explainer_metadata_translator = ExplainerMetaDataTranslator()
 
-    def load_explainer_metadata(
-        self, expl_id: ExplainerIdentifier
-    ) -> ExplainerMetaData:
+    def load_explainer_metadata(self, expl_id: ExplainerIdentifier) -> ExplainerMetaData:
         assert isinstance(
             expl_id, ExplainerIdentifier
         ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
@@ -47,7 +44,7 @@ class MetaDataLoaderService:
                 destination_file_path=file,
             )
 
-        with open(file, "r") as json_file:
+        with open(file) as json_file:
             metadata: dict = json.load(json_file) or {}
 
         return self._explainer_metadata_translator.translate(metadata)
@@ -88,7 +85,7 @@ class MetaDataLoaderService:
                 destination_file_path=filepath,
             )
 
-        with open(filepath, "r") as json_file:
+        with open(filepath) as json_file:
             metadata: dict = json.load(json_file) or {}
 
         return self._model_metadata_translator.translate(metadata)

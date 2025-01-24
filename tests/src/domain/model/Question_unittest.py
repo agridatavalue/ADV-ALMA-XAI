@@ -5,7 +5,6 @@ from src.adv_xai_fulfilment.domain.model.questions.Question import Question
 
 
 class TestQuestion(unittest.TestCase):
-
     def test_get_all(self):
         testObj = Question.get_all()
         self.assertIsInstance(testObj, list)

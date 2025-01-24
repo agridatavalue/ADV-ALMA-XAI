@@ -7,7 +7,6 @@ from .DataTypeModelExplainer import DataTypeModelExplainer
 
 
 class KernelSHAPExplainer(Explainer):
-
     def __init__(self):
         super().__init__(
             name="KernelSHAP",

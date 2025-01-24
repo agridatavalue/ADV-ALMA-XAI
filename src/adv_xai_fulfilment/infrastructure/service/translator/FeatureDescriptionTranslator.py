@@ -1,6 +1,5 @@
-from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureDescription import (
-    FeatureDescription,
-)
+from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureDescription import \
+    FeatureDescription
 
 
 class FeatureDescriptionTranslator:
@@ -8,13 +7,15 @@ class FeatureDescriptionTranslator:
         return [
             FeatureDescription(
                 name=key,
-                type=data[key].get("type") if type(data[key]) == dict else data[key],
+                type=(
+                    data[key].get("type") if isinstance(data[key], dict) else data[key]
+                ),
                 source=(
-                    data[key].get("source") if type(data[key]) == dict else data[key]
+                    data[key].get("source") if isinstance(data[key], dict) else data[key]
                 ),
                 description=(
                     data[key].get("description")
-                    if type(data[key]) == dict
+                    if isinstance(data[key], dict)
                     else data[key]
                 ),
             )

@@ -1,13 +1,11 @@
-from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureDescription import (
-    FeatureDescription,
-)
 from collections import Counter
+
+from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureDescription import \
+    FeatureDescription
 
 
 class DataPresentationsOutputTranslator:
-    def translate_data_source_types(
-        self, descriptions: list[FeatureDescription]
-    ) -> dict:
+    def translate_data_source_types(self, descriptions: list[FeatureDescription]) -> dict:
         type_counts = Counter(description.type for description in descriptions)
 
         return {

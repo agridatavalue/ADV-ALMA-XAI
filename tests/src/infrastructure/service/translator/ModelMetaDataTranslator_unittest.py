@@ -2,9 +2,8 @@ import unittest
 
 from src.adv_xai_fulfilment.domain.model.DataType import DataType
 from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
-from src.adv_xai_fulfilment.infrastructure.service.translator.ModelMetaDataTranslator import (
-    ModelMetaDataTranslator,
-)
+from src.adv_xai_fulfilment.infrastructure.service.translator.ModelMetaDataTranslator import \
+    ModelMetaDataTranslator
 
 
 class TestModelMetaDataTranslator(unittest.TestCase):

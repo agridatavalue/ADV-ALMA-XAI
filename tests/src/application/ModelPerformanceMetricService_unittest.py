@@ -5,9 +5,8 @@ from src.adv_xai_fulfilment.domain.model.Model import Model
 from src.adv_xai_fulfilment.domain.model.Pilot import Pilot
 from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
-from src.adv_xai_fulfilment.application.ModelPerformanceMetricService import (
-    ModelPerformanceMetricService,
-)
+from src.adv_xai_fulfilment.application.ModelPerformanceMetricService import \
+    ModelPerformanceMetricService
 
 
 class TestModelPerformanceMetricService(unittest.TestCase):
@@ -21,9 +20,7 @@ class TestModelPerformanceMetricService(unittest.TestCase):
     @patch(
         "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.DataLoaderService"
     )
-    def test_get_data(
-        self, MockDataLoader, MockMPMService, MockModelLoader, mock_getenv
-    ):
+    def test_get_data(self, MockDataLoader, MockMPMService, MockModelLoader, mock_getenv):
         mock_data_loader = MockDataLoader.return_value
         mock_mpm_service = MockMPMService.return_value
         mock_model_loader = MockModelLoader.return_value

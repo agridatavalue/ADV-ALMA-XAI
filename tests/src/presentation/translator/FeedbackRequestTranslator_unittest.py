@@ -1,11 +1,10 @@
 import unittest
 
 from src.adv_xai_fulfilment.domain.model.Pilot import Pilot
-from src.adv_xai_fulfilment.domain.model.questions.Question import Question
 from src.adv_xai_fulfilment.domain.model.questions.Feedback import Feedback
-from src.adv_xai_fulfilment.presentation.translator.FeedbackRequestTranslator import (
-    FeedbackRequestTranslator,
-)
+from src.adv_xai_fulfilment.domain.model.questions.Question import Question
+from src.adv_xai_fulfilment.presentation.translator.FeedbackRequestTranslator import \
+    FeedbackRequestTranslator
 
 
 class TestFeedbackRequestTranslator(unittest.TestCase):

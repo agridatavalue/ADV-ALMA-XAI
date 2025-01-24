@@ -1,13 +1,11 @@
 import unittest
-import pandas as pd
 from unittest.mock import MagicMock
 
-from src.adv_xai_fulfilment.domain.model.machineLearningModel.KerasModel import (
-    KerasModel,
-)
-from src.adv_xai_fulfilment.domain.service.ModelPerformanceServiceComponent import (
-    ModelPerformanceServiceComponent,
-)
+import pandas as pd
+
+from src.adv_xai_fulfilment.domain.model.machineLearningModel.KerasModel import KerasModel
+from src.adv_xai_fulfilment.domain.service.ModelPerformanceServiceComponent import \
+    ModelPerformanceServiceComponent
 
 
 class SilentKerasModel(KerasModel):

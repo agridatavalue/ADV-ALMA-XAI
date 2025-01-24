@@ -16,9 +16,7 @@ class TestHelper(unittest.TestCase):
 
     def test_is_local_path_with_nonexistent_file(self):
         with patch("os.path.exists", return_value=False):
-            self.assertFalse(
-                Helper.is_local_path("file:///path/to/nonexistent_file.txt")
-            )
+            self.assertFalse(Helper.is_local_path("file:///path/to/nonexistent_file.txt"))
 
     def test_is_local_path_with_invalid_url(self):
         self.assertFalse(Helper.is_local_path("not_a_valid_url"))

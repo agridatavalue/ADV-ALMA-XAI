@@ -8,7 +8,6 @@ from .DataTypeModelExplainer import DataTypeModelExplainer
 
 
 class SimilarityExplanationsExplainer(Explainer):
-
     def __init__(self):
         super().__init__(
             name="SimilarityExplanations",

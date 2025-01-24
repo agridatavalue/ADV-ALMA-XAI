@@ -1,13 +1,11 @@
 import unittest
+
 import numpy as np
 import pandas as pd
 
-from src.adv_xai_fulfilment.domain.model.machineLearningModel.KerasModel import (
-    KerasModel,
-)
-from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureDescription import (
-    FeatureDescription,
-)
+from src.adv_xai_fulfilment.domain.model.machineLearningModel.KerasModel import KerasModel
+from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureDescription import \
+    FeatureDescription
 
 
 class SilentKerasModel(KerasModel):
@@ -16,7 +14,6 @@ class SilentKerasModel(KerasModel):
 
 
 class TestKerasModel(unittest.TestCase):
-
     def test_supported_frameworks(self):
         result = KerasModel.supported_frameworks()
         self.assertIsInstance(result, list)

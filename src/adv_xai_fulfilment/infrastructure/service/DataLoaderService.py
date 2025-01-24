@@ -1,10 +1,11 @@
 import os
 import logging
+
 import pandas as pd
 
+from ...domain.model.ModelData import ModelData
 from ..repository.BucketRepository import BucketRepository
-from src.adv_xai_fulfilment.domain.model.ModelData import ModelData
-from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
+from ...domain.model.ExplainerIdentifier import ExplainerIdentifier
 
 
 class DataLoaderService:

@@ -4,7 +4,6 @@ from src.adv_xai_fulfilment.domain.model.DataType import DataType
 
 
 class TestDataType(unittest.TestCase):
-
     def test_from_string(self):
         self.assertEqual(DataType.from_string("text"), DataType.TEXT)
         self.assertEqual(DataType.from_string("Text"), DataType.TEXT)

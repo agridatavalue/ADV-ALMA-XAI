@@ -1,9 +1,8 @@
 import unittest
 
 from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
-from src.adv_xai_fulfilment.infrastructure.service.translator.ExplainerTranslator import (
-    ExplainerTranslator,
-)
+from src.adv_xai_fulfilment.infrastructure.service.translator.ExplainerTranslator import \
+    ExplainerTranslator
 
 
 class TestExplainerTranslator(unittest.TestCase):

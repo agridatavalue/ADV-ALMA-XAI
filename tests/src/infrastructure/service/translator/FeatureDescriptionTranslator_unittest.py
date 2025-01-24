@@ -1,11 +1,9 @@
 import unittest
 
-from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureDescription import (
-    FeatureDescription,
-)
-from src.adv_xai_fulfilment.infrastructure.service.translator.FeatureDescriptionTranslator import (
-    FeatureDescriptionTranslator,
-)
+from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureDescription import \
+    FeatureDescription
+from src.adv_xai_fulfilment.infrastructure.service.translator.FeatureDescriptionTranslator import \
+    FeatureDescriptionTranslator
 
 
 class TestFeatureDescriptionTranslator(unittest.TestCase):
@@ -34,6 +32,4 @@ class TestFeatureDescriptionTranslator(unittest.TestCase):
         self.assertEqual(result[0].name, "Row distance (cm)")
         self.assertEqual(result[0].type, "agronomic")
         self.assertEqual(result[0].source, "field measurement")
-        self.assertEqual(
-            result[0].description, "Distance between plantation rows in cm"
-        )
+        self.assertEqual(result[0].description, "Distance between plantation rows in cm")

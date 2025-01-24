@@ -1,7 +1,6 @@
 import os
 
 from .Pilot import Pilot
-from .ModelData import ModelData
 from .ModelMetaData import ModelMetaData
 from .explainers.Explainer import Explainer
 from ...infrastructure.Constants import Errors
@@ -55,9 +54,7 @@ class ExplainerIdentifier:
         return os.path.join(os.getenv("TEMP"), self.model, "metadata.json")
 
     def get_explainer_metadata_locale_filepath(self) -> str:
-        return os.path.join(
-            os.getenv("TEMP"), self.model, self.pilot.id, "metadata.json"
-        )
+        return os.path.join(os.getenv("TEMP"), self.model, self.pilot.id, "metadata.json")
 
     def get_data_locale_filepath(self, filename: str) -> str:
         assert isinstance(filename, str), "filename must be a string"
@@ -67,14 +64,10 @@ class ExplainerIdentifier:
 
     def get_explainer_locale_filepath(self, expl: Explainer) -> str:
         assert isinstance(expl, Explainer), "expl must be an instance of Explainer"
-        return os.path.join(
-            os.getenv("TEMP"), self.model, self.pilot.id, expl.file_name
-        )
+        return os.path.join(os.getenv("TEMP"), self.model, self.pilot.id, expl.file_name)
 
     def get_filename_path(self, filename: str) -> str:
-        return (
-            f"{self.model}/{self.prediction_target}_{self.category}/{filename}".lower()
-        )
+        return f"{self.model}/{self.prediction_target}_{self.category}/{filename}".lower()
 
     def __repr__(self) -> str:
         string_to_return = f"ExplainerIdentifier(model={self.model}"

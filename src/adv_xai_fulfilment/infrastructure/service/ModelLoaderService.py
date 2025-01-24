@@ -1,12 +1,9 @@
 import os
 import logging
-from os import path
 
 from ..repository.BucketRepository import BucketRepository
 from src.adv_xai_fulfilment.domain.model.Model import Model
-from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
-from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
 from src.adv_xai_fulfilment.domain.service.ModelTranslator import ModelTranslator
 
 
@@ -29,7 +26,7 @@ class ModelLoaderService:
         model_local_file_path: str = Model.get_locale_filepath(model_file_path)
         logging.debug(f"loading model from {model_file_path} to {model_file_path}")
 
-        if not path.exists(model_local_file_path):
+        if not os.path.exists(model_local_file_path):
             model_file_path: str = self._bucketRepository.download_from(
                 object_name=model_file_path,
                 bucket_name=os.getenv("MODEL_FOLDER_PATH"),

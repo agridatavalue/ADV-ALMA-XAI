@@ -2,9 +2,8 @@ import os
 import unittest
 from unittest.mock import Mock
 
-from src.adv_xai_fulfilment.infrastructure.repository.BucketRepository import (
-    BucketRepository,
-)
+from src.adv_xai_fulfilment.infrastructure.repository.BucketRepository import \
+    BucketRepository
 
 
 class FakeMinioResponse:
@@ -32,9 +31,7 @@ class TestBucketRepository(unittest.TestCase):
             test_obj.download_from("bucket_name", "object_name"), "object_name"
         )
         self.assertEqual(
-            test_obj.download_from(
-                "bucket_name", "object_name", "destination_file_path"
-            ),
+            test_obj.download_from("bucket_name", "object_name", "destination_file_path"),
             "destination_file_path",
         )
         if os.path.exists("object_name"):

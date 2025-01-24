@@ -8,7 +8,6 @@ from .DataTypeModelExplainer import DataTypeModelExplainer
 
 
 class PartialDependenceExplainer(Explainer):
-
     def __init__(self):
         super().__init__(
             name="PartialDependence",

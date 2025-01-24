@@ -1,14 +1,12 @@
 import unittest
-from shap import KernelExplainer
+
 import numpy as np
+from shap import KernelExplainer
 
 from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
-from src.adv_xai_fulfilment.domain.model.machineLearningModel.KerasModel import (
-    KerasModel,
-)
-from src.adv_xai_fulfilment.domain.model.explainers.KernelExplainerExplainer import (
-    KernelExplainerExplainer,
-)
+from src.adv_xai_fulfilment.domain.model.machineLearningModel.KerasModel import KerasModel
+from src.adv_xai_fulfilment.domain.model.explainers.KernelExplainerExplainer import \
+    KernelExplainerExplainer
 
 
 class SilentKerasModel(KerasModel):

@@ -3,9 +3,8 @@ import unittest
 from src.adv_xai_fulfilment.domain.model.DataType import DataType
 from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
-from src.adv_xai_fulfilment.domain.model.explainers.DataTypeModelExplainer import (
-    DataTypeModelExplainer,
-)
+from src.adv_xai_fulfilment.domain.model.explainers.DataTypeModelExplainer import \
+    DataTypeModelExplainer
 
 
 class TestExplainer(unittest.TestCase):
@@ -18,9 +17,7 @@ class TestExplainer(unittest.TestCase):
             is_distributed=True,
             train_set_required=True,
             has_categorical_features=True,
-            data_type_explainers=[
-                DataTypeModelExplainer(DataType.TEXT, "explanations")
-            ],
+            data_type_explainers=[DataTypeModelExplainer(DataType.TEXT, "explanations")],
         )
 
     def test_set_meta_data(self):

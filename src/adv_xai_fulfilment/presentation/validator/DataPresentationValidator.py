@@ -18,9 +18,7 @@ class DataPresentationValidator(AbstractValidator):
         self._validate_metadata(request.get("meta_data"))
         return request
 
-    def validate_and_sanitize_model_performance_metric(
-        self, request: dict = {}
-    ) -> dict:
+    def validate_and_sanitize_model_performance_metric(self, request: dict = {}) -> dict:
         self._validate_model(request.get("model"))
         self._validate_folder_data(request.get("data"))
         self._validate_metadata(request.get("meta_data"))

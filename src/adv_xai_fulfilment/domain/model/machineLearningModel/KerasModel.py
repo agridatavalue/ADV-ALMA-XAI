@@ -9,7 +9,6 @@ from ..explainers.responseData.FeatureDescription import FeatureDescription
 
 
 class KerasModel(Model):
-
     def load(self, path: str) -> "KerasModel":
         self.handler = load_model(path)
         return self
@@ -31,9 +30,7 @@ class KerasModel(Model):
             ]
         )
 
-    def get_partial_dependence(
-        self, X: pd.DataFrame, feature: str
-    ) -> PartialDependence:
+    def get_partial_dependence(self, X: pd.DataFrame, feature: str) -> PartialDependence:
         num_points = len(X)
 
         if hasattr(X, "columns"):

@@ -8,7 +8,6 @@ from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 
 
 class KernelExplainerExplainer(Explainer):
-
     def __init__(self):
         super().__init__(
             name="KernelExplainer",

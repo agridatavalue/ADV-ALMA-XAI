@@ -1,12 +1,10 @@
 import os
 
-from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
-from src.adv_xai_fulfilment.domain.model.questions.Question import Question
-from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
-from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
-from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureImportance import (
-    FeatureImportance,
-)
+from .ModelMetaData import ModelMetaData
+from .questions.Question import Question
+from .explainers.Explainer import Explainer
+from .ExplainerIdentifier import ExplainerIdentifier
+from .explainers.responseData.FeatureImportance import FeatureImportance
 
 
 class ExplainerMetaData:
