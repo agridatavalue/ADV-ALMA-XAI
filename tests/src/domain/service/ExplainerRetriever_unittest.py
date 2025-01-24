@@ -4,8 +4,9 @@ from src.adv_xai_fulfilment.domain.model.Model import Model
 from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
 from src.adv_xai_fulfilment.domain.service.ExplainerRetriever import ExplainerRetriever
-from src.adv_xai_fulfilment.domain.model.explainers.KernelSHAPExplainer import \
-    KernelSHAPExplainer
+from src.adv_xai_fulfilment.domain.model.explainers.KernelSHAPExplainer import (
+    KernelSHAPExplainer,
+)
 
 
 class TestExplainerRetriever(unittest.TestCase):
@@ -23,7 +24,7 @@ class TestExplainerRetriever(unittest.TestCase):
                 model_type="classification",
                 target_names=[],
                 subject_name="subject_name",
-                model_category="tree",
+                model_category="CLASSIFICATION",
                 feature_descriptions=[],
             ),
         )

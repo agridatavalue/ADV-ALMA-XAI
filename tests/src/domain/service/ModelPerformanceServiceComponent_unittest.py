@@ -3,9 +3,13 @@ from unittest.mock import MagicMock
 
 import pandas as pd
 
-from src.adv_xai_fulfilment.domain.model.machineLearningModel.KerasModel import KerasModel
-from src.adv_xai_fulfilment.domain.service.ModelPerformanceServiceComponent import \
-    ModelPerformanceServiceComponent
+from src.adv_xai_fulfilment.domain.model.ModelData import ModelData
+from src.adv_xai_fulfilment.domain.model.machineLearningModel.KerasModel import (
+    KerasModel,
+)
+from src.adv_xai_fulfilment.domain.service.ModelPerformanceServiceComponent import (
+    ModelPerformanceServiceComponent,
+)
 
 
 class SilentKerasModel(KerasModel):
@@ -19,12 +23,13 @@ class TestModelPerformanceServiceComponent(unittest.TestCase):
     def test_get_data(self):
         testObj = ModelPerformanceServiceComponent()
 
+        model_data = ModelData()
+        model_data.x = pd.DataFrame({"target": [1, 2, 3]})
+        model_data.y = pd.DataFrame({"target": [1, 2, 3]})
+
         self.assertEqual(
             testObj.get_data(
-                data={
-                    "y": pd.DataFrame({"target": [1, 2, 3]}),
-                    "x": pd.DataFrame({"target": [1, 2, 3]}),
-                },
+                data=model_data,
                 model=SilentKerasModel(filename="test"),
                 prediction_target_index=0,
             ),
@@ -34,13 +39,14 @@ class TestModelPerformanceServiceComponent(unittest.TestCase):
     def test_get_metrics(self):
         testObj = ModelPerformanceServiceComponent()
 
+        model_data = ModelData()
+        model_data.x = pd.DataFrame({"target": [1, 2, 3]})
+        model_data.y = pd.DataFrame({"target": [1, 2, 3]})
+
         actual = testObj.get_metrics(
+            data=model_data,
             prediction_target_index=0,
             model=SilentKerasModel(filename="test"),
-            data={
-                "x": pd.DataFrame({"target": [1, 2, 3]}),
-                "y": pd.DataFrame({"target": [1, 2, 3]}),
-            },
         )
 
         self.assertIsInstance(actual, dict)

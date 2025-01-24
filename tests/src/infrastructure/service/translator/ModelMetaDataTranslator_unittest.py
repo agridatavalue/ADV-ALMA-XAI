@@ -1,9 +1,11 @@
 import unittest
 
 from src.adv_xai_fulfilment.domain.model.DataType import DataType
+from src.adv_xai_fulfilment.domain.model.ModelCategory import ModelCategory
 from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
-from src.adv_xai_fulfilment.infrastructure.service.translator.ModelMetaDataTranslator import \
-    ModelMetaDataTranslator
+from src.adv_xai_fulfilment.infrastructure.service.translator.ModelMetaDataTranslator import (
+    ModelMetaDataTranslator,
+)
 
 
 class TestModelMetaDataTranslator(unittest.TestCase):
@@ -17,7 +19,7 @@ class TestModelMetaDataTranslator(unittest.TestCase):
                 "framework": "framework",
                 "algorithm": "algorithm",
                 "targetnames": ["targetnames"],
-                "modelcategory": "modelcategory",
+                "modelcategory": "regression",
             }
         )
 
@@ -26,4 +28,4 @@ class TestModelMetaDataTranslator(unittest.TestCase):
         self.assertEqual(result.framework, "framework")
         self.assertEqual(result.algorithm, "algorithm")
         self.assertEqual(result.target_names, ["targetnames"])
-        self.assertEqual(result.model_category, "modelcategory")
+        self.assertEqual(result.model_category, ModelCategory.REGRESSION)

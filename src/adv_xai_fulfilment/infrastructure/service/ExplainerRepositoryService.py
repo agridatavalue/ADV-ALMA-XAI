@@ -39,7 +39,7 @@ class ExplainerRepositoryService:
             )
         return destination_file_path if os.path.exists(destination_file_path) else ""
 
-    def upload_to(self, explainer: Explainer, identifier: ExplainerIdentifier):
+    def upload_to(self, explainer: Explainer, identifier: ExplainerIdentifier) -> str:
         assert isinstance(explainer, Explainer), Errors.EXPLAINER_NOT_EXPLAINER
         logging.debug(f"uploading the explainer {explainer.name}")
 

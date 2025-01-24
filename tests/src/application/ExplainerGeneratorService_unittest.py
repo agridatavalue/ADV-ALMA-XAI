@@ -5,10 +5,12 @@ import pandas as pd
 
 from src.adv_xai_fulfilment.domain.model.Model import Model
 from src.adv_xai_fulfilment.domain.model.Pilot import Pilot
+from src.adv_xai_fulfilment.domain.model.ModelData import ModelData
 from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
 from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
 from src.adv_xai_fulfilment.domain.service.ExplainerRetriever import ExplainerRetriever
+
 from src.adv_xai_fulfilment.application.ExplainerGeneratorService import (
     ExplainerGeneratorService,
 )
@@ -26,6 +28,12 @@ from src.adv_xai_fulfilment.domain.service.ModelPerformanceServiceComponent impo
 )
 from src.adv_xai_fulfilment.domain.service.FeatureImportanceServiceComponent import (
     FeatureImportanceServiceComponent,
+)
+from src.adv_xai_fulfilment.infrastructure.service.ExplainerRepositoryService import (
+    ExplainerRepositoryService,
+)
+from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureImportance import (
+    FeatureImportance,
 )
 
 
@@ -64,18 +72,18 @@ class TestExplainerGeneratorService(unittest.TestCase):
         mock_model.is_ok.return_value = True
         mock_model.filename = "mock_model.pkl"
 
+        model_data = ModelData()
+        model_data.x = pd.DataFrame()
+        model_data.y = pd.DataFrame()
         mock_data_loader_service = MagicMock(spec=DataLoaderService)
-        mock_data_loader_service.load_data.return_value = {
-            "train": pd.DataFrame(),
-            "test": pd.DataFrame(),
-        }
+        mock_data_loader_service.load_data.return_value = model_data
 
         mock_model_loader_service = MagicMock(spec=ModelLoaderService)
         mock_model_loader_service.load_from.return_value = mock_model
 
         mock_metadata_loader_service = MagicMock(spec=MetaDataLoaderService)
         mock_metadata_loader_service.load_model_metadata.return_value = ModelMetaData(
-            "", "", "", "", "", ""
+            "tabular", "", "", "", "", "regression"
         )
 
         mock_mpm_service = MagicMock(spec=ModelPerformanceServiceComponent)
@@ -84,11 +92,11 @@ class TestExplainerGeneratorService(unittest.TestCase):
         mock_feature_importance_service = MagicMock(
             spec=FeatureImportanceServiceComponent
         )
-        mock_feature_importance_service.generate_data.return_value = {
-            "Feature": ["feature1", "feature2"],
-            "Importance": [0.5, 0.5],
-            "prediction_target": "target1",
-        }
+        mock_feature_importance_service.generate_data.return_value = FeatureImportance(
+            importance=[0.5, 0.5],
+            prediction_target="target1",
+            feature=["feature1", "feature2"],
+        )
 
         mock_explainer_retriever = MagicMock(spec=ExplainerRetriever)
         mock_explainer_retriever.get_by_data.return_value = [
@@ -96,9 +104,13 @@ class TestExplainerGeneratorService(unittest.TestCase):
             MyExplainer("test_explainer2", [], [], "", False, False, False, []),
         ]
 
+        mock_explainer_service = MagicMock(spec=ExplainerRepositoryService)
+        mock_explainer_service.upload_to.return_value = "/a/simple/path"
+
         # Instantiate the service
         service = ExplainerGeneratorService()
         service._mpm_service = mock_mpm_service
+        service._explainer_service = mock_explainer_service
         service._data_loader_service = mock_data_loader_service
         service._explainer_retriever = mock_explainer_retriever
         service._model_loader_service = mock_model_loader_service

@@ -1,8 +1,10 @@
 import unittest
 
+from src.adv_xai_fulfilment.domain.model.ModelCategory import ModelCategory
 from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
-from src.adv_xai_fulfilment.infrastructure.service.translator.ExplainerTranslator import \
-    ExplainerTranslator
+from src.adv_xai_fulfilment.infrastructure.service.translator.ExplainerTranslator import (
+    ExplainerTranslator,
+)
 
 
 class TestExplainerTranslator(unittest.TestCase):
@@ -15,7 +17,7 @@ class TestExplainerTranslator(unittest.TestCase):
                 {
                     "name": "name",
                     "type": ["type"],
-                    "category": ["category"],
+                    "category": ["regression"],
                     "explanations": "explanations",
                     "is_distributed": True,
                     "train_set_required": True,
@@ -30,7 +32,7 @@ class TestExplainerTranslator(unittest.TestCase):
         self.assertTrue(all([isinstance(x, Explainer) for x in result]))
         self.assertEqual(result[0].name, "name")
         self.assertEqual(result[0].type, ["type"])
-        self.assertEqual(result[0].category, ["category"])
+        self.assertEqual(result[0].category, ModelCategory.REGRESSION)
         self.assertEqual(result[0].explanations, "explanations")
         self.assertEqual(result[0].is_distributed, True)
         self.assertEqual(result[0].train_set_required, True)

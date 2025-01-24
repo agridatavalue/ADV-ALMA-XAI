@@ -19,6 +19,7 @@ class Errors:
     MODEL_NOT_MODEL = TypeError("model must be an instance of Model")
     DATA_NOT_DICT = TypeError("data must be a dictionary")
     METADATA_NOT_DICT = TypeError("metadata must be a dictionary")
+    MODEL_DATA_NOT_MODEL_DATA_TYPE = TypeError("data must be an instance of ModelData")
 
     EXPLAINER_NOT_EXPLAINER = TypeError("explainer must be an instance of Explainer")
 

@@ -12,7 +12,7 @@ class ModelPerformanceServiceComponent:
     def get_data(
         self, model: Model, data: ModelData, prediction_target_index: int = 0
     ) -> dict["y_pred" : pd.DataFrame, "y_true" : pd.DataFrame]:
-        assert isinstance(data, dict), Errors.DATA_NOT_DICT
+        assert isinstance(data, ModelData), Errors.MODEL_DATA_NOT_MODEL_DATA_TYPE
 
         return {
             "y_true": data.get_y_for_prediction_target(
