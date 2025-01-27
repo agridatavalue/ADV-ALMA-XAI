@@ -12,15 +12,13 @@ def plotModelPerformanceEndpoint():
         return "Not a valid request"
 
     try:
-        response: dict["target":str, "y_true" : list[float], "y_pred" : list[float]] = (
-            DataPresentations().genarate_model_performance(request.get_json())
-        )
+        response = DataPresentations().genarate_model_performance(request.get_json())
         return make_response(
             jsonify(
                 {
-                    "target": response.get("target"),
-                    "actual": response.get("y_true"),
-                    "predictions": response.get("y_pred"),
+                    "target": response.target,
+                    "actual": response.y_true,
+                    "predictions": response.y_pred,
                 }
             ),
             200,

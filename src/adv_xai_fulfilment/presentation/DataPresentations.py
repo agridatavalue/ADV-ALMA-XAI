@@ -7,6 +7,7 @@ from ..application.PartialDependenceService import PartialDependenceService
 from ..application.FeatureDescriptionService import FeatureDescriptionService
 from .translator.ExplainerIdentifierTranslator import ExplainerIdentifierTranslator
 from ..application.ModelPerformanceMetricService import ModelPerformanceMetricService
+from ..domain.model.explainers.responseData.ModelPerformance import ModelPerformance
 from ..domain.model.explainers.responseData.PartialDependence import PartialDependence
 from ..domain.model.explainers.responseData.FeatureImportance import FeatureImportance
 from ..domain.model.explainers.responseData.FeatureDescription import FeatureDescription
@@ -79,9 +80,7 @@ class DataPresentations:
 
         return self._model_performance_service.get_metrics(expl_id)
 
-    def genarate_model_performance(
-        self, data: dict = {}
-    ) -> dict["target":str, "y_true" : list[float], "y_pred" : list[float]]:
+    def genarate_model_performance(self, data: dict = {}) -> ModelPerformance:
         logging.info(f"called genarate_model_performance with params: {data}")
         data_sanitized = self._validator.validate_and_sanitize_model_performance(data)
         expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
