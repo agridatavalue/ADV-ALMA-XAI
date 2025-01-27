@@ -12,11 +12,12 @@ def build():
         return "Not a valid request"
 
     try:
-        response = ExplainerGeneratorPresentation().build(request.get_json())
+        response: list = ExplainerGeneratorPresentation().build(request.get_json())
         return make_response(
             jsonify(
                 {
-                    "status": f"success - stored {len(response)} explainers and metadata in SECURESTOR"
+                    "status": f"success - stored {len(response)} explainers and metadata in SECURESTOR",
+                    "explainers": [{"name": e.file_name} for e in response],
                 }
             ),
             200,
