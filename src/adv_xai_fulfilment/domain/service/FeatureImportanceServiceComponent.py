@@ -104,7 +104,7 @@ class FeatureImportanceServiceComponent:
         prediction: str,
         data: dict["Feature" : pd.DataFrame, "Importance" : pd.DataFrame],
         target_names: list[str],
-    ) -> dict:
+    ) -> FeatureImportance:
 
         to_ret = FeatureImportance(
             prediction_target=prediction,
