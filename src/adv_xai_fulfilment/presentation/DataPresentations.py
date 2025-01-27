@@ -10,6 +10,9 @@ from ..application.ModelPerformanceMetricService import ModelPerformanceMetricSe
 from ..domain.model.explainers.responseData.PartialDependence import PartialDependence
 from ..domain.model.explainers.responseData.FeatureImportance import FeatureImportance
 from ..domain.model.explainers.responseData.FeatureDescription import FeatureDescription
+from ..domain.model.explainers.responseData.ModelPerformanceMetrics import (
+    ModelPerformanceMetrics,
+)
 from .translator.DataPresentationsOutputTranslator import (
     DataPresentationsOutputTranslator,
 )
@@ -67,10 +70,10 @@ class DataPresentations:
         expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
         return self._plot_scatter_service.genarate_data_for_pilot(expl_id)
 
-    def get_model_performance_metric(self, data: dict = {}) -> dict:
-        logging.info(f"called get_model_performance_metric with params: {data}")
+    def get_model_performance_metrics(self, data: dict = {}) -> ModelPerformanceMetrics:
+        logging.info(f"called get_model_performance_metrics with params: {data}")
         data_sanitized: dict = (
-            self._validator.validate_and_sanitize_model_performance_metric(data)
+            self._validator.validate_and_sanitize_model_performance_metrics(data)
         )
         expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
 

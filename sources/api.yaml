@@ -185,24 +185,24 @@ paths:
             tags:
                 - ModelCard
 
-    /model-performance-metric:
+    /model-performance-metrics:
         post:
-            summary: Return the model performance metric
-            description: Return the model performance metric for a given pilot
-            operationId: modelPerformanceMetric
+            summary: Return the model performance metrics
+            description: Return the model performance metrics for a given pilot
+            operationId: modelPerformanceMetrics
             requestBody:
                 required: true
                 content:
                     application/json:
                         schema:
-                            $ref: "#/components/schemas/ModelPerformanceMetricRequest"
+                            $ref: "#/components/schemas/ModelPerformanceMetricsRequest"
             responses:
                 "200":
                     description: successful operation
                     content:
                         application/json:
                             schema:
-                                $ref: "#/components/schemas/ModelPerformanceMetricResponse"
+                                $ref: "#/components/schemas/ModelPerformanceMetricsResponse"
                 "400":
                     description: Invalid IDs combination supplied
                 "404":
@@ -596,7 +596,7 @@ components:
                 - feature: "NO3-N 0-30 cm start (kg/ha)"
                   description: "Nitrate content in the soil at 0-30 cm depth at the start of the season"
 
-        ModelPerformanceMetricRequest:
+        ModelPerformanceMetricsRequest:
             type: object
             properties:
                 model:
@@ -615,11 +615,16 @@ components:
                     description: the identifier of the data folder name
                     example: "crop"
                     type: string
+                pilot:
+                    description: the identifier of the pilot
+                    example: "pilot8"
+                    type: string
             required:
                 - model
                 - data
+                - pilot
                 - meta_data
-        ModelPerformanceMetricResponse:
+        ModelPerformanceMetricsResponse:
             type: array
             items:
                 type: object

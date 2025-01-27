@@ -10,6 +10,9 @@ from ..infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
 from ..domain.service.ModelPerformanceServiceComponent import (
     ModelPerformanceServiceComponent,
 )
+from ..domain.model.explainers.responseData.ModelPerformanceMetrics import (
+    ModelPerformanceMetrics,
+)
 
 
 class ModelPerformanceMetricService:
@@ -50,7 +53,7 @@ class ModelPerformanceMetricService:
 
     def get_metrics(
         self, explainer_identifier: ExplainerIdentifier
-    ) -> dict["x" : pd.DataFrame, "y" : pd.DataFrame]:
+    ) -> ModelPerformanceMetrics:
         model_metadata: ModelMetaData = (
             self._metadata_loader_service.load_model_metadata(explainer_identifier)
         )
