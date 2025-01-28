@@ -12,7 +12,7 @@ from .PlotFeatureImportanceEndpoint import featureImportanceBp
 from .PlotModelPerformanceEndpoint import plotModelPerformanceBp
 from .DataFeatureAverageScoresEndpoint import featureAverageScoresBp
 from .TabulateFeatureDescriptionEndpoint import featureDescriptionEndpointBp
-from .TabulateModelPerformanceMetricEndpoint import modelPerformanceMetricBp
+from .TabulateModelPerformanceMetricEndpoint import modelPerformanceMetricsBp
 
 routes = [
     buildBp,
@@ -28,6 +28,6 @@ routes = [
     plotModelPerformanceBp,
     featureAverageScoresBp,
     askToExplainerEndpointBp,
-    modelPerformanceMetricBp,
+    modelPerformanceMetricsBp,
     featureDescriptionEndpointBp,
 ]
