@@ -46,6 +46,7 @@ class FeatureImportanceServiceComponent:
         meta_data: ModelMetaData = self._metadata_loader_service.load_model_metadata(
             explainer_identifier
         )
+
         selected_model: Model = self._model_loader_service.load_from(
             model_file_path=explainer_identifier.model, meta_data=meta_data
         )

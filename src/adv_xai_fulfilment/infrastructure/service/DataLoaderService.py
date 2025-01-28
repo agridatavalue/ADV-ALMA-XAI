@@ -25,6 +25,8 @@ class DataLoaderService:
         if not expl_id.data:
             return None
 
+        logging.info(f"loading data for {str(expl_id)}")
+
         data = ModelData()
         for file in ["x.csv", "y.csv"]:
             current_file = expl_id.get_data_locale_filepath(file)

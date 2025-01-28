@@ -28,7 +28,9 @@ class MetaDataLoaderService:
         self._model_metadata_translator = ModelMetaDataTranslator()
         self._explainer_metadata_translator = ExplainerMetaDataTranslator()
 
-    def load_explainer_metadata(self, expl_id: ExplainerIdentifier) -> ExplainerMetaData:
+    def load_explainer_metadata(
+        self, expl_id: ExplainerIdentifier
+    ) -> ExplainerMetaData:
         assert isinstance(
             expl_id, ExplainerIdentifier
         ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
@@ -73,6 +75,7 @@ class MetaDataLoaderService:
         assert isinstance(
             expl_id, ExplainerIdentifier
         ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
+        logging.info(f"loading model metadata for {str(expl_id)}")
 
         filepath: str = expl_id.get_model_metadata_locale_filepath()
         if not os.path.exists(filepath):

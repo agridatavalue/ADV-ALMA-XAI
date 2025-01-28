@@ -81,6 +81,7 @@ class ExplainerGeneratorService:
         return ExplainerGuide(meta_data).get_explainers()
 
     def generate_explainer(self, request: ExplainerIdentifier) -> list[Explainer]:
+        logging.debug(f"generating the explainer for {str(request)}")
         feature_importance: FeatureImportance = self._fi_service_comp.generate_data(
             request
         )
@@ -89,6 +90,9 @@ class ExplainerGeneratorService:
 
         if not request.prediction_target:
             request.prediction_target = meta_data.first_target_name
+            logging.debug(
+                f"prediction target not provided, using the first target: {request.prediction_target}"
+            )
 
         logging.debug(
             f"selecting the matching Explainers for model {selected_model.name}"

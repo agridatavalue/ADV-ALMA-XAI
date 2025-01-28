@@ -1,5 +1,6 @@
 import os
 import logging
+import colorlog
 import argparse
 from dotenv import load_dotenv
 from os.path import dirname
@@ -24,10 +25,26 @@ def main():
     )
     args = parser.parse_args()
 
+    log_format = "%(log_color)s%(levelname)s %(asctime)s - %(message)s"
+    log_colors = {
+        "DEBUG": "cyan",
+        "INFO": "green",
+        "WARNING": "yellow",
+        "ERROR": "red",
+        "CRITICAL": "bold_red",
+    }
+
+    # Set up the formatter with colors
+    formatter = colorlog.ColoredFormatter(log_format, log_colors=log_colors)
+
+    # Create a stream handler
+    handler = logging.StreamHandler()
+    handler.setFormatter(formatter)
+
+    # Configure the root logger
     logging.basicConfig(
         level=getattr(logging, args.LEVEL.upper(), None),
-        format="%(levelname)s %(asctime)s - %(message)s",
-        encoding="utf-8",
+        handlers=[handler],
     )
     logging.info(f"starting with environment {args.ENV} and log level {args.LEVEL}")
 
