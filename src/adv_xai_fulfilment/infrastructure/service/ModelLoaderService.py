@@ -11,8 +11,8 @@ class ModelLoaderService:
     _model_translator: ModelTranslator
     _bucketRepository: BucketRepository
 
-    def __init__(self):
-        self._bucketRepository = BucketRepository(
+    def __init__(self, bucketRepository: BucketRepository = None):
+        self._bucketRepository = bucketRepository or BucketRepository(
             {
                 "endpoint": os.getenv("MINIO_ENDPOINT"),
                 "access_key": os.getenv("MINIO_ACCESS_KEY"),

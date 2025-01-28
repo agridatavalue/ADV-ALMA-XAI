@@ -6,6 +6,9 @@ from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
 from src.adv_xai_fulfilment.domain.model.ExplainerMetaData import ExplainerMetaData
 from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
+from src.adv_xai_fulfilment.infrastructure.service.MetaDataLoaderService import (
+    MetaDataLoaderService,
+)
 from src.adv_xai_fulfilment.domain.service.FeatureImportanceServiceComponent import (
     FeatureImportanceServiceComponent,
 )
@@ -25,9 +28,9 @@ class TestFeatureImportanceServiceComponent(unittest.TestCase):
         )
 
     def test_get_data(self):
-        testObj = FeatureImportanceServiceComponent()
-        testObj._data_loader_service.load_explainer_metadata = MagicMock(
-            return_value=ExplainerMetaData(
+        mock_metadata_loader_service = MagicMock(spec=MetaDataLoaderService)
+        mock_metadata_loader_service.load_explainer_metadata.return_value = (
+            ExplainerMetaData(
                 metrics={},
                 meta_data=ModelMetaData,
                 target_name="target",
@@ -48,16 +51,16 @@ class TestFeatureImportanceServiceComponent(unittest.TestCase):
                 ),
             )
         )
+
+        testObj = FeatureImportanceServiceComponent()
+        testObj._metadata_loader_service = mock_metadata_loader_service
+
         actual = testObj.get_data(self.request)
 
-        self.assertEqual(
-            actual,
-            {
-                "Feature": ["feature1"],
-                "Importance": [0.1],
-                "prediction_target": "target",
-            },
-        )
+        self.assertIsInstance(actual, FeatureImportance)
+        self.assertEqual(actual.feature, ["feature1"])
+        self.assertEqual(actual.importance, [0.1])
+        self.assertEqual(actual.prediction_target, "target")
 
     @unittest.skip("Not implemented")
     def test_generate_data(self):

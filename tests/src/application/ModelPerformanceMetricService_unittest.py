@@ -5,8 +5,12 @@ from src.adv_xai_fulfilment.domain.model.Model import Model
 from src.adv_xai_fulfilment.domain.model.Pilot import Pilot
 from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
-from src.adv_xai_fulfilment.application.ModelPerformanceMetricService import \
-    ModelPerformanceMetricService
+from src.adv_xai_fulfilment.application.ModelPerformanceMetricService import (
+    ModelPerformanceMetricService,
+)
+from src.adv_xai_fulfilment.infrastructure.service.MetaDataLoaderService import (
+    MetaDataLoaderService,
+)
 
 
 class TestModelPerformanceMetricService(unittest.TestCase):
@@ -20,10 +24,21 @@ class TestModelPerformanceMetricService(unittest.TestCase):
     @patch(
         "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.DataLoaderService"
     )
-    def test_get_data(self, MockDataLoader, MockMPMService, MockModelLoader, mock_getenv):
+    @patch(
+        "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.ModelMetaDataService"
+    )
+    def test_get_data(
+        self,
+        MockDataLoader,
+        MockMPMService,
+        MockModelLoader,
+        ModelMetaDataService,
+        mock_getenv,
+    ):
         mock_data_loader = MockDataLoader.return_value
         mock_mpm_service = MockMPMService.return_value
         mock_model_loader = MockModelLoader.return_value
+        mock_metadata_loader_service = ModelMetaDataService.return_value
 
         mock_model = MagicMock(spec=Model)
         mock_model_metadata = MagicMock(spec=ModelMetaData)
@@ -40,6 +55,9 @@ class TestModelPerformanceMetricService(unittest.TestCase):
         mock_model_metadata.first_target_name = "default_target"
         mock_model_metadata.index_of_target_name.return_value = 0
         mock_mpm_service.get_data.return_value = {"accuracy": 0.95}
+        mock_metadata_loader_service.load_model_metadata.return_value = (
+            mock_model_metadata
+        )
 
         service = ModelPerformanceMetricService()
 
