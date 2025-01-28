@@ -1,3 +1,4 @@
+import re
 import os
 
 from .Pilot import Pilot
@@ -48,7 +49,7 @@ class ExplainerIdentifier:
         self.category = metadata.model_category
 
     def get_explainer_metadata_path(self) -> str:
-        return f"{self.model}/{self.prediction_target.lower()}_{self.category.lower()}/metadata.json"
+        return f"{self.model}/{self.__sanitize_for_path(self.prediction_target)}_{self.category.lower()}/metadata.json"
 
     def get_model_metadata_locale_filepath(self) -> str:
         return os.path.join(os.getenv("TEMP"), self.model, "metadata.json")
@@ -71,9 +72,7 @@ class ExplainerIdentifier:
         )
 
     def get_filename_path(self, filename: str) -> str:
-        return (
-            f"{self.model}/{self.prediction_target}_{self.category}/{filename}".lower()
-        )
+        return f"{self.model}/{self.__sanitize_for_path(self.prediction_target)}_{self.category}/{filename}".lower()
 
     def __repr__(self) -> str:
         string_to_return = f"ExplainerIdentifier(model={self.model}"
@@ -81,3 +80,7 @@ class ExplainerIdentifier:
             if getattr(self, attr):
                 string_to_return += f", {attr}={getattr(self, attr)}"
         return string_to_return + ")"
+
+    def __sanitize_for_path(self, string: str) -> str:
+        sanitized_string = re.sub(r"[^a-zA-Z0-9]", "", string)
+        return sanitized_string.replace(" ", "_").lower()

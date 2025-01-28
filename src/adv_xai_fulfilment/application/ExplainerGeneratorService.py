@@ -52,13 +52,11 @@ class ExplainerGeneratorService:
     def prepare_explainer(
         self, request: ExplainerIdentifier
     ) -> list[ModelMetaData, Model, ModelData]:
-        logging.debug(f"downloading meta_data {request.metadata_identifier}")
         meta_data: ModelMetaData = self._metadata_loader_service.load_model_metadata(
             expl_id=request
         )
         request.metadata = meta_data
 
-        logging.debug(f"downloading model {request.model}")
         selected_model: Model = self._model_loader_service.load_from(
             model_file_path=request.model, meta_data=meta_data
         )
@@ -66,7 +64,6 @@ class ExplainerGeneratorService:
             logging.error("empty model")
             raise Errors.MODEL_NOT_MODEL
 
-        logging.debug(f"downloading {request.data} data if present")
         data: ModelData = self._data_loader_service.load_data(request)
 
         return meta_data, selected_model, data
@@ -107,7 +104,7 @@ class ExplainerGeneratorService:
         created_explainers: list[Explainer] = []
         for explainer in possible_explainers:
             logging.debug(
-                f"{request.prediction_target} - creating the explainer {explainer.name}"
+                f"creating {explainer.name} explainer for target {request.prediction_target}"
             )
             try:
                 explainer.build(model=selected_model, data=data)
@@ -137,7 +134,7 @@ class ExplainerGeneratorService:
                 metadata=expl_metadata, expl_id=request
             )
         else:
-            logging.error("explainer metadata not ok, not uploading")
+            logging.warning("explainer metadata not ok, not uploading")
 
         return created_explainers
 

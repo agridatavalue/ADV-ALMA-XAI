@@ -1,11 +1,12 @@
-import pickle
+import joblib
 
 from ..Model import Model
 
 
 class ScikitLearnModel(Model):
     def load(self, path: str) -> "ScikitLearnModel":
-        self.handler = pickle.load(open(path, "rb"))
+        # self.handler = pickle.load(open(path, "rb"))
+        self.handler = joblib.load(path)
         return self
 
     @staticmethod

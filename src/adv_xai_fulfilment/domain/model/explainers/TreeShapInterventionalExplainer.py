@@ -3,7 +3,7 @@ from alibi.explainers import TreeShap
 from ..Model import Model
 from ..DataType import DataType
 from .Explainer import Explainer
-from ..ModelMetaData import ModelMetaData
+from ....infrastructure.Constants import Errors
 from .DataTypeModelExplainer import DataTypeModelExplainer
 
 
@@ -20,5 +20,10 @@ class TreeShapInterventionalExplainer(Explainer):
             data_type_explainers=[DataTypeModelExplainer(DataType.TABULAR, TreeShap)],
         )
 
-    def can_match_with(self, model: Model, meta_data: ModelMetaData) -> bool:
-        return False
+    def build(self, model: Model, data: dict):
+        if not self.meta_data:
+            raise Errors.METADATA_NOT_INSTANCE_OF_MODEL_METADATA
+
+        self.build_result = TreeShap(
+            model.handler, feature_names=self.meta_data.feature_names
+        )

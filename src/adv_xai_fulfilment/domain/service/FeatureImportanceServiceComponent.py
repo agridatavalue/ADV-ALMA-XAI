@@ -43,6 +43,7 @@ class FeatureImportanceServiceComponent:
     def generate_data(
         self, explainer_identifier: ExplainerIdentifier
     ) -> FeatureImportance:
+        logging.info(f"Generating feature importance for {explainer_identifier}")
         meta_data: ModelMetaData = self._metadata_loader_service.load_model_metadata(
             explainer_identifier
         )

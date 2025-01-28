@@ -30,7 +30,16 @@ class ModelPerformanceServiceComponent:
         if data.is_empty or not model:
             return ModelPerformanceMetrics()
 
-        y_pred = [y[prediction_target_index] for y in model.handler.predict(data.x)]
+        if data.y.empty:
+            return ModelPerformanceMetrics()
+
+        y_pred = None
+        predictions = model.handler.predict(data.x)
+        if isinstance(predictions, np.ndarray):
+            if len(predictions.shape) == 2:  # 2D array
+                y_pred = [y[prediction_target_index] for y in predictions]
+            elif len(predictions.shape) == 1:  # 1D array
+                y_pred = predictions
         y_true = data.y.iloc[:, 0]
 
         mse = mean_squared_error(y_true, y_pred)
