@@ -18,3 +18,10 @@ class FeatureDescription(ExplainerResponseData):
         return {
             self.name: self.description,
         }
+
+    def __repr__(self) -> str:
+        str_to_return = f"{self.__class__.__name__}("
+        for prop in ["name", "type", "source", "description"]:
+            if getattr(self, prop):
+                str_to_return += f"{prop}={getattr(self, prop)}, "
+        return str_to_return + ")"
