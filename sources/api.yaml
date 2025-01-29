@@ -85,7 +85,7 @@ paths:
             tags:
                 - DataCard
 
-    /get-explainer-data:
+    /get-explainer-guide:
         get:
             summary: Return the explainer data
             description: Return the explainer data for a given pilot
