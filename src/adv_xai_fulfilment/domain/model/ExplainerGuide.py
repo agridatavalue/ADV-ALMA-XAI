@@ -1,11 +1,11 @@
+import numpy as np
+
 from .ModelMetaData import ModelMetaData
-
-from .explainers.responseData.ExplainerResponseData import ExplainerResponseData
-
 from .explainers.responseData.ModelPerformance import ModelPerformance
 from .explainers.responseData.PartialDependence import PartialDependence
 from .explainers.responseData.FeatureImportance import FeatureImportance
 from .explainers.responseData.FeatureDescription import FeatureDescription
+from .explainers.responseData.ExplainerResponseData import ExplainerResponseData
 from .explainers.responseData.ModelPerformanceMetrics import ModelPerformanceMetrics
 
 
@@ -22,11 +22,16 @@ class ExplainerGuide:
         if self._meta_data.is_tabular:
             if self._meta_data.is_classification or self._meta_data.is_regression:
                 return [
-                    ModelPerformance,
-                    PartialDependence,
-                    FeatureImportance,
-                    FeatureDescription,
-                    ModelPerformanceMetrics,
+                    ModelPerformance(),
+                    PartialDependence(
+                        feature_values=np.ndarray([], dtype=float),
+                        pdp_values=np.ndarray([], dtype=float),
+                        mean_effect=0.0,
+                        std_effect=0.0,
+                    ),
+                    FeatureImportance(""),
+                    FeatureDescription(),
+                    ModelPerformanceMetrics(),
                 ]
 
         return []

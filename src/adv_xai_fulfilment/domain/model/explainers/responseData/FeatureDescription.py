@@ -7,7 +7,9 @@ class FeatureDescription(ExplainerResponseData):
     source: str
     description: str
 
-    def __init__(self, name: str, description: str, type: str, source: str):
+    def __init__(
+        self, name: str = "", description: str = "", type: str = "", source: str = ""
+    ):
         super().__init__("feature-description")
         self.name = name
         self.type = type

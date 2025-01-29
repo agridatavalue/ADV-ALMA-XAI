@@ -27,5 +27,5 @@ def get_explainer_data_endpoint():
             200,
         )
     except Exception as e:
-        logging.error(f"error while get-explainer-data the explainers: {e}")
+        logging.error(f"error while get-explainer-guide the explainers: {e}")
         return make_response(jsonify({"status": str(e)}), 500)
