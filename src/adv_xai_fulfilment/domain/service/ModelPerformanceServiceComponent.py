@@ -17,12 +17,14 @@ class ModelPerformanceServiceComponent:
     ) -> ModelPerformance:
         assert isinstance(data, ModelData), Errors.MODEL_DATA_NOT_MODEL_DATA_TYPE
 
-        return ModelPerformance(
-            y_true=data.get_y_for_prediction_target(prediction_target_index).to_list(),
-            y_pred=[
-                float(y[prediction_target_index]) for y in model.handler.predict(data.x)
-            ],
-        )
+        y_true = data.get_y_for_prediction_target(prediction_target_index).to_list()
+        predictions = model.handler.predict(data.x)
+        if predictions.ndim == 1:  # 1D array
+            y_pred = [float(y) for y in predictions]
+        else:  # 2D array
+            y_pred = [float(y[prediction_target_index]) for y in predictions]
+
+        return ModelPerformance(y_true=y_true, y_pred=y_pred)
 
     def get_metrics(
         self, prediction_target_index: int, model: Model, data: ModelData

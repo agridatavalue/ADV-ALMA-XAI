@@ -1,3 +1,5 @@
+import logging
+
 from ..domain.model.Model import Model
 from ..domain.model.ModelData import ModelData
 from ..domain.model.ModelMetaData import ModelMetaData
@@ -31,6 +33,9 @@ class ModelPerformanceMetricService:
             self._metadata_loader_service.load_model_metadata(explainer_identifier)
         )
         if not explainer_identifier.prediction_target:
+            logging.debug(
+                f"empty prediction target, setting default as {model_metadata.first_target_name}"
+            )
             explainer_identifier.prediction_target = model_metadata.first_target_name
 
         selected_model: Model = self._model_loader_service.load_from(
@@ -39,12 +44,16 @@ class ModelPerformanceMetricService:
 
         data: ModelData = self._data_loader_service.load_data(explainer_identifier)
 
+        pred_target_index = model_metadata.index_of_target_name(
+            explainer_identifier.prediction_target
+        )
+        logging.debug(
+            f"index {pred_target_index} for target {explainer_identifier.prediction_target}"
+        )
         mp: ModelPerformance = self._mdm_service.get_data(
             data=data,
             model=selected_model,
-            prediction_target_index=model_metadata.index_of_target_name(
-                explainer_identifier.prediction_target
-            ),
+            prediction_target_index=pred_target_index,
         )
         mp.target = explainer_identifier.prediction_target
         return mp
