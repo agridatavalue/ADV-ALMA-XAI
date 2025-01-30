@@ -37,7 +37,8 @@ class BucketRepository:
             file_path=object_name,
         )
 
-        os.makedirs(os.path.dirname(destination_file_path), exist_ok=True)
+        if destination_file_path:
+            os.makedirs(os.path.dirname(destination_file_path), exist_ok=True)
         return shutil.move(res.object_name, destination_file_path)
 
     def upload_to(

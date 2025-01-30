@@ -92,7 +92,7 @@ class ExplainerGeneratorService:
             )
 
         logging.debug(
-            f"selecting the matching Explainers for model {selected_model.name}"
+            f"selecting the matching Explainers for model {selected_model.__class__.__name__}"
         )
         possible_explainers: list[Explainer] = self._explainer_retriever.get_by_data(
             selected_model, meta_data

@@ -28,6 +28,13 @@ class ExplainerRetriever:
         ), "meta_data is not ModelMetaData instance"
         assert isinstance(selected_model, Model), Errors.MODEL_NOT_MODEL
 
+        logging.debug(
+            "searching for explainer for this metadata:"
+            f"model_type: {meta_data.model_type}, "
+            f"model_category: {meta_data.model_category}, "
+            f"data_type: {meta_data.data_type}"
+        )
+
         return [
             expl.set_meta_data(meta_data)
             for expl in self._all_explainers_available
