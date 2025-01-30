@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 
+import numpy as np
 import pandas as pd
 
 from src.adv_xai_fulfilment.domain.model.ModelData import ModelData
@@ -21,7 +22,9 @@ from src.adv_xai_fulfilment.domain.model.explainers.responseData.ModelPerformanc
 class SilentKerasModel(KerasModel):
     def load(self, model_path) -> "SilentKerasModel":
         self.handler = MagicMock()
-        self.handler.predict = MagicMock(side_effect=lambda x: [[0]] * len(x))
+        self.handler.predict = MagicMock(
+            return_value=np.array([[2.0, 0], [4.0, 0], [6.0, 0]])
+        )
         return self
 
 
@@ -39,7 +42,7 @@ class TestModelPerformanceServiceComponent(unittest.TestCase):
             prediction_target_index=0,
         )
         self.assertIsInstance(actual, ModelPerformance)
-        self.assertEqual(actual.y_pred, [0.0, 0.0, 0.0])
+        self.assertEqual(actual.y_pred, [2.0, 4.0, 6.0])
         self.assertEqual(actual.y_true, [1, 2, 3])
 
     def test_get_metrics(self):

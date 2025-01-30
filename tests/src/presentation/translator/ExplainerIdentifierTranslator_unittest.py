@@ -24,15 +24,12 @@ class TestExplainerIdentifierTranslator(unittest.TestCase):
         self.assertEqual(result.model, "model")
         self.assertEqual(result.prediction_target, "prediction_target")
 
-    def test_translate_many_with_single_target(self):
+    def test_translate_many_without_target(self):
         result = self.testObj.translate_many(
-            [
-                {
-                    "data": "data",
-                    "model": "model",
-                    "prediction_target": "prediction_target",
-                }
-            ]
+            {
+                "data": "data",
+                "model": "model",
+            }
         )
 
         self.assertIsInstance(result, list)
@@ -40,20 +37,17 @@ class TestExplainerIdentifierTranslator(unittest.TestCase):
         self.assertTrue(all(isinstance(r, ExplainerIdentifier) for r in result))
         self.assertEqual(result[0].data, "data")
         self.assertEqual(result[0].model, "model")
-        self.assertEqual(result[0].prediction_target, "prediction_target")
 
     def test_translate_many_with_multiple_targets(self):
         result = self.testObj.translate_many(
-            [
-                {
-                    "data": "data",
-                    "model": "model",
-                    "prediction_targets": [
-                        "prediction_target_1",
-                        "prediction_target_2",
-                    ],
-                }
-            ]
+            {
+                "data": "data",
+                "model": "model",
+                "prediction_targets": [
+                    "prediction_target_1",
+                    "prediction_target_2",
+                ],
+            }
         )
 
         self.assertIsInstance(result, list)
