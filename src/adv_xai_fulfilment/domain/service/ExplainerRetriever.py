@@ -7,6 +7,7 @@ from ..model.explainers import all as all_class_explainers
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 
 POSSIBLE_FEATURE_IMPORTANCE_EXPLAINER_NAMES = [
+    "TreeShapInterventionalExplainer",
     "KernelExplainer",
     "DeepExplainer",
     "KernelSHAP",

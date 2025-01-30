@@ -53,6 +53,9 @@ class FeatureImportanceServiceComponent:
         )
 
         if not explainer_identifier.prediction_target:
+            logging.debug(
+                "No prediction target provided, setting {meta_data.first_target_name}"
+            )
             explainer_identifier.prediction_target = meta_data.first_target_name
 
         logging.debug(f"Prediction target: {explainer_identifier.prediction_target}")

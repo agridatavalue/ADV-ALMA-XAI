@@ -61,13 +61,13 @@ class MetaDataLoaderService:
             expl_id, ExplainerIdentifier
         ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
 
-        file_path: str = metadata.get_locale_file_path(expl_id)
+        file_path: str = expl_id.get_explainer_metadata_locale_filepath()
         with open(file_path, "w") as json_file:
             json.dump(metadata.to_dict(), json_file)
 
         return self._bucketRepository.upload_to(
             bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
-            target_filepath=metadata.get_file_path(expl_id),
+            target_filepath=expl_id.get_explainer_metadata_path(),
             local_filepath=file_path,
         )
 

@@ -15,6 +15,12 @@ class ModelPerformanceMetrics(ExplainerResponseData):
         self.metrics[name] = value
         return self
 
+    def has_metrics(self) -> bool:
+        return bool(self.metrics)
+
+    def to_dict(self) -> dict:
+        return self.metrics
+
     def __repr__(self) -> str:
         str_to_return = f"{self.__class__.__name__}("
         for prop in []:

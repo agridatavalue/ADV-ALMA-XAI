@@ -128,13 +128,11 @@ class ExplainerGeneratorService:
             ),
             feature_importance=feature_importance,
         )
-        if expl_metadata.data_are_ok:
-            logging.debug("uploading the explainer metadata")
-            self._metadata_loader_service.upload_explainer_metadata(
-                metadata=expl_metadata, expl_id=request
-            )
-        else:
-            logging.warning("explainer metadata not ok, not uploading")
+
+        logging.debug("uploading the explainer metadata")
+        self._metadata_loader_service.upload_explainer_metadata(
+            metadata=expl_metadata, expl_id=request
+        )
 
         return created_explainers
 

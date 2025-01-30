@@ -5,10 +5,11 @@ from .questions.Question import Question
 from .explainers.Explainer import Explainer
 from .ExplainerIdentifier import ExplainerIdentifier
 from .explainers.responseData.FeatureImportance import FeatureImportance
+from .explainers.responseData.ModelPerformanceMetrics import ModelPerformanceMetrics
 
 
 class ExplainerMetaData:
-    _metrics: dict
+    _metrics: ModelPerformanceMetrics
     _target_name: str
     _feedback: list[Question]
     _meta_data: ModelMetaData
@@ -17,7 +18,7 @@ class ExplainerMetaData:
 
     def __init__(
         self,
-        metrics: dict,
+        metrics: ModelPerformanceMetrics,
         meta_data: ModelMetaData,
         target_name: str,
         possible_explainers: list[Explainer],
@@ -38,16 +39,6 @@ class ExplainerMetaData:
     @property
     def feature_importance(self) -> FeatureImportance:
         return self._feature_importance
-
-    @property
-    def data_are_ok(self) -> bool:
-        return (
-            isinstance(self._possible_explainers, list)
-            and len(self._possible_explainers) > 0
-            and all(isinstance(expl, Explainer) for expl in self._possible_explainers)
-            and isinstance(self._metrics, dict)
-            and len(self._metrics) > 0
-        )
 
     def add_feedback(self, feedback: Question) -> "ExplainerMetaData":
         assert isinstance(feedback, Question), "feedback must be of type Question"
@@ -81,7 +72,7 @@ class ExplainerMetaData:
                     "activation_fun": "Relu",
                     "n_parameters": 100,
                 },
-                "performance_metrics": self._metrics,
+                "performance_metrics": self._metrics.to_dict() if self._metrics else {},
                 "feature_importance": (
                     self._feature_importance.to_dict()
                     if self._feature_importance
