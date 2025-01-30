@@ -53,7 +53,7 @@ class MetaDataLoaderService:
 
     def upload_explainer_metadata(
         self, expl_id: ExplainerIdentifier, metadata: ExplainerMetaData
-    ):
+    ) -> str:
         assert isinstance(
             metadata, ExplainerMetaData
         ), Errors.EXPLAINER_METADATA_NOT_EXPLAINER_METADATA

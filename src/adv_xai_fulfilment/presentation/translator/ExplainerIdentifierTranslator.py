@@ -19,7 +19,10 @@ class ExplainerIdentifierTranslator:
         return self.translate_many(request)[0]
 
     def __get_prediction_targets(self, request: dict) -> list[str]:
-        to_return: list[str] = request.get(
-            "prediction_target", request.get("prediction_targets", [""])
-        )
-        return to_return if len(to_return) > 0 and to_return[0] else [""]
+        if request.get("prediction_target"):
+            return [request.get("prediction_target")]
+
+        if request.get("prediction_targets"):
+            return request.get("prediction_targets")
+
+        return [""]

@@ -61,6 +61,6 @@ from .src.presentation.translator.FeedbackRequestTranslator_unittest import (
 from .src.presentation.translator.ExplainerIdentifierTranslator_unittest import (
     TestExplainerIdentifierTranslator,
 )
-from .src.presentation.translator.DataPresntationsOutputTranslator_unittest import (
+from .src.presentation.translator.DataPresentationsOutputTranslator_unittest import (
     TestDataPresentationsOutputTranslator,
 )
