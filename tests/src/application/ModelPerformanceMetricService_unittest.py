@@ -8,8 +8,8 @@ from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIde
 from src.adv_xai_fulfilment.application.ModelPerformanceMetricService import (
     ModelPerformanceMetricService,
 )
-from src.adv_xai_fulfilment.infrastructure.service.MetaDataLoaderService import (
-    MetaDataLoaderService,
+from src.adv_xai_fulfilment.domain.model.explainers.responseData.ModelPerformance import (
+    ModelPerformance,
 )
 
 
@@ -25,7 +25,7 @@ class TestModelPerformanceMetricService(unittest.TestCase):
         "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.DataLoaderService"
     )
     @patch(
-        "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.ModelMetaDataService"
+        "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.MetaDataLoaderService"
     )
     def test_get_data(
         self,
@@ -54,17 +54,23 @@ class TestModelPerformanceMetricService(unittest.TestCase):
         mock_data_loader.load_model_metadata.return_value = mock_model_metadata
         mock_model_metadata.first_target_name = "default_target"
         mock_model_metadata.index_of_target_name.return_value = 0
-        mock_mpm_service.get_data.return_value = {"accuracy": 0.95}
+        mock_mpm_service.get_data.return_value = ModelPerformance(
+            target="target", y_true=[], y_pred=[]
+        )
         mock_metadata_loader_service.load_model_metadata.return_value = (
             mock_model_metadata
         )
 
         service = ModelPerformanceMetricService()
+        service._metadata_loader_service = mock_metadata_loader_service
+        service._model_loader_service = mock_model_loader
+        service._data_loader_service = mock_data_loader
+        service._mdm_service = mock_mpm_service
 
         result = service.get_data(explainer_identifier)
 
-        self.assertEqual(result["accuracy"], 0.95)
-        self.assertEqual(result["target"], "target")
+        self.assertIsInstance(result, ModelPerformance)
+        self.assertEqual(result.target, "target")
 
     @patch("os.getenv", return_value="/mock/temp")
     @patch(

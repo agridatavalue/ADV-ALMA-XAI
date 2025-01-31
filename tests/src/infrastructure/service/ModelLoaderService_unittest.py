@@ -1,3 +1,4 @@
+import os
 import unittest
 from unittest.mock import MagicMock, patch
 
@@ -31,5 +32,7 @@ class ModelLoaderServiceTest(unittest.TestCase):
             f.write('{"framework": "test", "algorithm": "test"}')
 
         actual = testObj.load_from("test.json", MagicMock())
+
+        os.remove("test.json")
 
         self.assertIsInstance(actual, Model)
