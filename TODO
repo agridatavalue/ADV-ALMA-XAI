@@ -13,5 +13,4 @@
     I mean, uh, if you decide on a topic and you publish a message, uh, on this topic, it will be created. 
     Automatically according to the settings, yeah.
 
-[ ] cuncurrency for download model (check if there is already been downloaded)
-[ ] creare un'api per listare le api da chiamare dal fe e aggiungere il tipo di spiegazione del modello (regression, image detection etc etc) 
+[ ] datagen potrebbe avere file x.csv o y.csv in maiuscolo, il servizio non deve esser case-sensitive

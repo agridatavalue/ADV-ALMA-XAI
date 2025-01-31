@@ -58,6 +58,33 @@ paths:
             tags:
                 - Explainer
 
+    /confusion-matrix:
+        post:
+            summary: Return the confusion matrix data
+            description: Return the confusion matrix data for a given pilot
+            operationId: confusionMatrix
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/ConfusionMatrixRequest"
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ConfusionMatrixResponse"
+                "400":
+                    description: Invalid IDs combination supplied
+                "404":
+                    description: Pilot / Model not found
+                "500":
+                    description: Internal server error
+            tags:
+                - ModelCard
+
     /partial-dependence:
         post:
             summary: Return the partial dependence data
@@ -368,6 +395,53 @@ components:
             description: "Please enter token in following format: Bearer <JWT>"
             type: http
     schemas:
+        ConfusionMatrixRequest:
+            type: object
+            properties:
+                model:
+                    description: the identifier of the model file name
+                    example: "model.pkl"
+                    type: string
+                pilot:
+                    description: the identifier of the pilot
+                    example: "pilot8"
+                    type: string
+                meta_data:
+                    description: the identifier of the metadata file name
+                    example: "metadata.json"
+                    type: string
+                data:
+                    description: the identifier of the data folder name
+                    example: "crop"
+                    type: string
+                prediction_target:
+                    description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
+                    example: "Biomass"
+                    type: string
+        ConfusionMatrixResponse:
+            type: object
+            properties:
+                actual:
+                    type: object
+                    properties:
+                        0:
+                            type: number
+                            format: float
+                        1:
+                            type: number
+                            format: float
+                    example: { 0: 0.5, 1: 0.5 }
+                predicted:
+                    type: object
+                    properties:
+                        0:
+                            type: number
+                            format: float
+                        1:
+                            type: number
+                            format: float
+                    example: { 0: 0.5, 1: 0.5 }
+
         PartialDependenceRequest:
             type: object
             properties:
@@ -402,7 +476,6 @@ components:
                 - feature
                 - meta_data
                 - prediction_target
-
         PartialDependenceResponse:
             type: object
             properties:

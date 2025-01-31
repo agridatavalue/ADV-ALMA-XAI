@@ -2,7 +2,10 @@ import os
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
+from sklearn.metrics import confusion_matrix
 
+from .ModelData import ModelData
+from .explainers.responseData.ConfusionMatrix import ConfusionMatrix
 from .explainers.responseData.PartialDependence import PartialDependence
 from .explainers.responseData.FeatureDescription import FeatureDescription
 
@@ -40,6 +43,11 @@ class Model:
 
     def __repr__(self) -> str:
         return 'Model(name="{}", filename="{}")'.format(self.name, self.filename)
+
+    def get_confusion_matrix(self, data: ModelData) -> ConfusionMatrix:
+        obj = ConfusionMatrix()
+        obj.data = confusion_matrix(data.y, self.handler.predict(data.x))
+        return obj
 
     def get_partial_dependence(
         self, X: pd.DataFrame, feature: str

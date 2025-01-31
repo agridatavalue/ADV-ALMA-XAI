@@ -6,6 +6,7 @@ from .ExplaineGuideEndpoint import explainerGuideBp
 from .PartialDependenceEndpoint import partialDepBp
 from .GetFeedbackQuestionsEndpoint import feedbackBp
 from .DataSourceTypesEndpoint import dataSourceTypesBp
+from .ConfusionMatrixEndpoint import confusionMatrixBp
 from .DataDistributionEndpoint import dataDistributionBp
 from .AskToExplainerEndpoint import askToExplainerEndpointBp
 from .PlotFeatureImportanceEndpoint import featureImportanceBp
@@ -23,6 +24,7 @@ routes = [
     partialDepBp,
     explainerGuideBp,
     dataSourceTypesBp,
+    confusionMatrixBp,
     dataDistributionBp,
     featureImportanceBp,
     plotModelPerformanceBp,
