@@ -1,6 +1,15 @@
 # APPLICATION -----------------------------------------------------------------
+from .src.application.PartialDependenceService_unittest import (
+    TestPartialDependenceService,
+)
+from .src.application.FeatureImportanceService_unittest import (
+    TestFeatureImportanceService,
+)
 from .src.application.ExplainerGeneratorService_unittest import (
     TestExplainerGeneratorService,
+)
+from .src.application.FeatureDescriptionService_unittest import (
+    TestFeatureDescriptionService,
 )
 from .src.application.ModelPerformanceMetricService_unittest import (
     TestModelPerformanceMetricService,

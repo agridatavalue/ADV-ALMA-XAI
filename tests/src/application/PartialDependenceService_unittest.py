@@ -1,0 +1,77 @@
+import unittest
+import numpy as np
+from unittest.mock import MagicMock
+
+from src.adv_xai_fulfilment.domain.model.Model import Model
+from src.adv_xai_fulfilment.domain.model.Pilot import Pilot
+from src.adv_xai_fulfilment.domain.model.ModelData import ModelData
+from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
+from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
+from src.adv_xai_fulfilment.application.PartialDependenceService import (
+    PartialDependenceService,
+)
+from src.adv_xai_fulfilment.infrastructure.service.DataLoaderService import (
+    DataLoaderService,
+)
+from src.adv_xai_fulfilment.infrastructure.service.ModelLoaderService import (
+    ModelLoaderService,
+)
+from src.adv_xai_fulfilment.infrastructure.service.MetaDataLoaderService import (
+    MetaDataLoaderService,
+)
+from src.adv_xai_fulfilment.domain.model.explainers.responseData.PartialDependence import (
+    PartialDependence,
+)
+
+
+class MyModel(Model):
+    def __init__(self, filename):
+        super().__init__(filename)
+
+    def is_ok(self):
+        return True
+
+    def get_partial_dependence(self, x, feature):
+        return PartialDependence(
+            feature_values=np.array([0.2, 0.2]),
+            pdp_values=np.array([0.2, 0.2]),
+            mean_effect=0.4,
+            std_effect=0.4,
+        )
+
+
+class TestPartialDependenceService(unittest.TestCase):
+    def test_get_data(self):
+        mock_data_loader_service = MagicMock(spec=DataLoaderService)
+        mock_data_loader_service.load_data.return_value = ModelData()
+
+        mock_model_loader_service = MagicMock(spec=ModelLoaderService)
+        mock_model_loader_service.load_from.return_value = MyModel(filename=None)
+
+        mock_metadata_loader_service = MagicMock(spec=MetaDataLoaderService)
+        mock_metadata_loader_service.load_model_metadata.return_value = ModelMetaData(
+            data_type="TABULAR",
+            framework="framework",
+            algorithm="algorithm",
+            model_type="model_type",
+            subject_name="subject_name",
+            model_category="regression",
+            feature_names=["feature"],
+        )
+
+        testObj = PartialDependenceService()
+        testObj._data_loader_service = mock_data_loader_service
+        testObj._model_loader_service = mock_model_loader_service
+        testObj._metadata_loader_service = mock_metadata_loader_service
+
+        result = testObj.get_data(
+            request=ExplainerIdentifier(
+                model="model",
+                pilot=Pilot("pilot"),
+                prediction_target="prediction_target",
+                metadata_identifier="metadata_identifier",
+            ),
+            feature="feature",
+        )
+
+        self.assertIsInstance(result, PartialDependence)
