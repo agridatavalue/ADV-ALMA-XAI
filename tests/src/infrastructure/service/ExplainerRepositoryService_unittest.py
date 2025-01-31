@@ -8,6 +8,12 @@ from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIde
 from src.adv_xai_fulfilment.infrastructure.service.ExplainerRepositoryService import (
     ExplainerRepositoryService,
 )
+from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureImportance import (
+    FeatureImportance,
+)
+from src.adv_xai_fulfilment.domain.model.explainers.responseData.ModelPerformanceMetrics import (
+    ModelPerformanceMetrics,
+)
 
 
 class TestExplainerRepositoryService(unittest.TestCase):
@@ -24,7 +30,7 @@ class TestExplainerRepositoryService(unittest.TestCase):
                     metadata_identifier="metadata",
                 ),
                 metadata=ExplainerMetaData(
-                    metrics={"metric": "value"},
+                    metrics=ModelPerformanceMetrics().add_metric("metric", 0.0),
                     meta_data=ModelMetaData(
                         data_type="",
                         framework="",

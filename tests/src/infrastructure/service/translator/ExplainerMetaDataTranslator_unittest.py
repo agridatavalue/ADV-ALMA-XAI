@@ -2,8 +2,12 @@ import unittest
 
 from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.ExplainerMetaData import ExplainerMetaData
-from src.adv_xai_fulfilment.infrastructure.service.translator.ExplainerMetaDataTranslator import \
-    ExplainerMetaDataTranslator
+from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureImportance import (
+    FeatureImportance,
+)
+from src.adv_xai_fulfilment.infrastructure.service.translator.ExplainerMetaDataTranslator import (
+    ExplainerMetaDataTranslator,
+)
 
 
 class TestExplainerMetaDataTranslator(unittest.TestCase):
@@ -52,4 +56,4 @@ class TestExplainerMetaDataTranslator(unittest.TestCase):
 
         self.assertIsInstance(result, ExplainerMetaData)
         self.assertIsInstance(result.model_metadata, ModelMetaData)
-        self.assertIsInstance(result.feature_importance, dict)
+        self.assertIsInstance(result.feature_importance, FeatureImportance)

@@ -2,19 +2,26 @@ import unittest
 
 
 from src.adv_xai_fulfilment.domain.model.questions.Answer import Answer
+from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.questions.Question import Question
 from src.adv_xai_fulfilment.domain.model.ExplainerMetaData import ExplainerMetaData
+from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureImportance import (
+    FeatureImportance,
+)
+from src.adv_xai_fulfilment.domain.model.explainers.responseData.ModelPerformanceMetrics import (
+    ModelPerformanceMetrics,
+)
 
 
 class TestExplainerMetaData(unittest.TestCase):
 
     def test_to_dict(self):
         meta_data = ExplainerMetaData(
-            metrics={},
-            meta_data={},
+            metrics=ModelPerformanceMetrics().add_metric("metric", 0.0),
+            meta_data=ModelMetaData("TABULAR", "f", "a", "m", "s", "CLASSIFICATION"),
             target_name="target",
             possible_explainers=[],
-            feature_importance={},
+            feature_importance=FeatureImportance("feature"),
         )
         meta_data.add_feedback(
             Question(

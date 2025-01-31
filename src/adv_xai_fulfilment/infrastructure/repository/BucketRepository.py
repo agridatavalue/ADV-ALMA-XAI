@@ -37,7 +37,7 @@ class BucketRepository:
             file_path=object_name,
         )
 
-        if destination_file_path:
+        if destination_file_path and os.path.dirname(destination_file_path):
             os.makedirs(os.path.dirname(destination_file_path), exist_ok=True)
         return shutil.move(res.object_name, destination_file_path)
 
