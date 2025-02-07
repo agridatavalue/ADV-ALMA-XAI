@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 
 from src.adv_xai_fulfilment.domain.model.model_data import ModelData
+from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.machine_learning_model import KerasModel
 from src.adv_xai_fulfilment.domain.model.explainers.response_data import (
     ModelPerformance,
@@ -48,9 +49,13 @@ class TestModelPerformanceServiceComponent(unittest.TestCase):
         model_data.x = pd.DataFrame({"target": [1, 2, 3]})
         model_data.y = pd.DataFrame({"target": [1, 2, 3]})
 
+        model_metadata = MagicMock(spec=ModelMetaData)
+        model_metadata.is_regression = True
+
         actual = testObj.get_metrics(
             data=model_data,
-            prediction_target_index=0,
+            model_metadata=model_metadata,
+            prediction_target="target",
             model=SilentKerasModel(filename="test"),
         )
 
