@@ -9,7 +9,6 @@ from ...domain.model.explainer_metadata import ExplainerMetaData
 from ...domain.model.explainer_identifier import ExplainerIdentifier
 from .translator.ModelMetaDataTranslator import ModelMetaDataTranslator
 from .translator.ExplainerMetaDataTranslator import ExplainerMetaDataTranslator
-from ...domain.model import ExplainerMetaData, ExplainerIdentifier, ModelMetaData
 
 
 class MetaDataLoaderService:

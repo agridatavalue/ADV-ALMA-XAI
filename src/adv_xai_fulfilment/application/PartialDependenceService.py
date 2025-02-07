@@ -8,7 +8,6 @@ from ..domain.model.explainer_identifier import ExplainerIdentifier
 from ..domain.model.explainers.response_data import PartialDependence
 from ..infrastructure.service.DataLoaderService import DataLoaderService
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService
-from ..domain.model import Model, ModelData, ModelMetaData, ExplainerIdentifier
 from ..infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
 
 
