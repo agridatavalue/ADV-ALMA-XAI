@@ -3,6 +3,7 @@ import json
 import pickle
 import logging
 
+from ...domain.model.explainers import Explainer
 from ..repository.BucketRepository import BucketRepository
 from ...domain.model.explainers.explainer import Explainer
 from ...domain.model.explainer_metadata import ExplainerMetaData

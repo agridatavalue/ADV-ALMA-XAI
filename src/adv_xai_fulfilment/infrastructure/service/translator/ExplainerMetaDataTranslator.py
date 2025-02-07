@@ -1,6 +1,7 @@
 from .FeedbackTranslator import FeedbackTranslator
 from .ExplainerTranslator import ExplainerTranslator
 from .ModelMetaDataTranslator import ModelMetaDataTranslator
+from src.adv_xai_fulfilment.domain.model import ExplainerMetaData
 from .FeatureImportanceTranslator import FeatureImportanceTranslator
 from .FeatureDescriptionTranslator import FeatureDescriptionTranslator
 from .ModelPerformanceMetricsTranslator import ModelPerformanceMetricsTranslator
