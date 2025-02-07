@@ -1,13 +1,11 @@
 import logging
 
-from ..domain.model.explainers.Explainer import Explainer
-from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
+from ..domain.model import ExplainerIdentifier
+from ..domain.model.explainers import Explainer
+from ..domain.model.explainers.responseData import ExplainerResponseData
 from ..application.ExplainerGeneratorService import ExplainerGeneratorService
 from .validator.ExplainerGeneratorValidator import ExplainerGeneratorValidator
 from .translator.ExplainerIdentifierTranslator import ExplainerIdentifierTranslator
-from ..domain.model.explainers.responseData.ExplainerResponseData import (
-    ExplainerResponseData,
-)
 
 
 class ExplainerGeneratorPresentation:

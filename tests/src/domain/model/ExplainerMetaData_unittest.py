@@ -1,14 +1,14 @@
 import unittest
 
 
-from src.adv_xai_fulfilment.domain.model.questions.Answer import Answer
-from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
-from src.adv_xai_fulfilment.domain.model.questions.Question import Question
-from src.adv_xai_fulfilment.domain.model.ExplainerMetaData import ExplainerMetaData
-from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureImportance import (
+from src.adv_xai_fulfilment.domain.model.questions.answer import Answer
+from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
+from src.adv_xai_fulfilment.domain.model.questions.question import Question
+from src.adv_xai_fulfilment.domain.model.explainer_metadata import ExplainerMetaData
+from src.adv_xai_fulfilment.domain.model.explainers.responseData.feature_importance import (
     FeatureImportance,
 )
-from src.adv_xai_fulfilment.domain.model.explainers.responseData.ModelPerformanceMetrics import (
+from src.adv_xai_fulfilment.domain.model.explainers.responseData.model_performance_metrics import (
     ModelPerformanceMetrics,
 )
 

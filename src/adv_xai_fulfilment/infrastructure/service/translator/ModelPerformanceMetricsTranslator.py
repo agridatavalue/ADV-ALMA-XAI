@@ -1,6 +1,4 @@
-from ....domain.model.explainers.responseData.ModelPerformanceMetrics import (
-    ModelPerformanceMetrics,
-)
+from ....domain.model.explainers.responseData import ModelPerformanceMetrics
 
 
 class ModelPerformanceMetricsTranslator:

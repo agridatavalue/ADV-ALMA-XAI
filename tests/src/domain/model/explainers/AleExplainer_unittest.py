@@ -2,9 +2,9 @@ import unittest
 
 from alibi.explainers import ALE
 
-from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
-from src.adv_xai_fulfilment.domain.model.explainers.AleExplainer import AleExplainer
-from src.adv_xai_fulfilment.domain.model.machineLearningModel.KerasModel import KerasModel
+from src.adv_xai_fulfilment.domain.model.explainers import AleExplainer
+from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
+from src.adv_xai_fulfilment.domain.model.machineLearningModel import KerasModel
 
 
 class SilentKerasModel(KerasModel):

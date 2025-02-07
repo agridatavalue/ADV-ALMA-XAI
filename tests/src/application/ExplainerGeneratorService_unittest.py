@@ -3,12 +3,9 @@ from unittest.mock import MagicMock, patch
 
 import pandas as pd
 
-from src.adv_xai_fulfilment.domain.model.Model import Model
-from src.adv_xai_fulfilment.domain.model.Pilot import Pilot
-from src.adv_xai_fulfilment.domain.model.ModelData import ModelData
-from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
-from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
-from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
+from src.adv_xai_fulfilment.domain.model.explainers import Explainer
+from src.adv_xai_fulfilment.domain.model import Model, Pilot, ModelData
+from src.adv_xai_fulfilment.domain.model import ModelMetaData, ExplainerIdentifier
 from src.adv_xai_fulfilment.domain.service.ExplainerRetriever import ExplainerRetriever
 
 from src.adv_xai_fulfilment.application.ExplainerGeneratorService import (
@@ -32,7 +29,7 @@ from src.adv_xai_fulfilment.domain.service.FeatureImportanceServiceComponent imp
 from src.adv_xai_fulfilment.infrastructure.service.ExplainerRepositoryService import (
     ExplainerRepositoryService,
 )
-from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureImportance import (
+from src.adv_xai_fulfilment.domain.model.explainers.responseData import (
     FeatureImportance,
 )
 

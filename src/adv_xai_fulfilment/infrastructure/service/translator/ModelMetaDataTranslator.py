@@ -1,4 +1,4 @@
-from ....domain.model.ModelMetaData import ModelMetaData
+from ....domain.model import ModelMetaData
 from .FeatureDescriptionTranslator import FeatureDescriptionTranslator
 
 

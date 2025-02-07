@@ -1,19 +1,16 @@
 import logging
 from dotenv import load_dotenv
 
-from ..domain.model.Model import Model
 from ..infrastructure.Constants import Errors
-from ..domain.model.ModelData import ModelData
-from ..domain.model.ModelMetaData import ModelMetaData
-from ..domain.model.ExplainerGuide import ExplainerGuide
-from ..domain.model.explainers.Explainer import Explainer
-from ..domain.model.ExplainerMetaData import ExplainerMetaData
-from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
+from ..domain.model.explainers import Explainer
+from ..domain.model import Model, ModelData, ModelMetaData
 from ..domain.service.ExplainerRetriever import ExplainerRetriever
+from ..domain.model.explainers.responseData import FeatureImportance
+from ..domain.model.explainers.responseData import ExplainerResponseData
 from ..infrastructure.service.DataLoaderService import DataLoaderService
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService
 from ..infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
-from ..domain.model.explainers.responseData.FeatureImportance import FeatureImportance
+from ..domain.model import ExplainerGuide, ExplainerMetaData, ExplainerIdentifier
 from ..domain.service.ModelPerformanceServiceComponent import (
     ModelPerformanceServiceComponent,
 )
@@ -22,9 +19,6 @@ from ..domain.service.FeatureImportanceServiceComponent import (
 )
 from ..infrastructure.service.ExplainerRepositoryService import (
     ExplainerRepositoryService,
-)
-from ..domain.model.explainers.responseData.ExplainerResponseData import (
-    ExplainerResponseData,
 )
 
 load_dotenv()

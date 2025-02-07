@@ -1,6 +1,6 @@
 import unittest
 
-from src.adv_xai_fulfilment.domain.model.DataType import DataType
+from src.adv_xai_fulfilment.domain.model.data_type import DataType
 
 
 class TestDataType(unittest.TestCase):

@@ -3,12 +3,10 @@ import json
 import logging
 
 from ...infrastructure.Constants import Errors
-from ...domain.model.ModelMetaData import ModelMetaData
 from ..repository.BucketRepository import BucketRepository
-from ...domain.model.ExplainerMetaData import ExplainerMetaData
-from ...domain.model.ExplainerIdentifier import ExplainerIdentifier
 from .translator.ModelMetaDataTranslator import ModelMetaDataTranslator
 from .translator.ExplainerMetaDataTranslator import ExplainerMetaDataTranslator
+from ...domain.model import ExplainerMetaData, ExplainerIdentifier, ModelMetaData
 
 
 class MetaDataLoaderService:

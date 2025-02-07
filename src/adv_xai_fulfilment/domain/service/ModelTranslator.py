@@ -1,7 +1,5 @@
-from ..model.Model import Model
-from ..model.machineLearningModel.KerasModel import KerasModel
-from ..model.machineLearningModel.TorchModel import TorchModel
-from ..model.machineLearningModel.ScikitLearnModel import ScikitLearnModel
+from ..model import Model
+from ..model.machineLearningModel import KerasModel, TorchModel, ScikitLearnModel
 
 
 class ModelTranslator:

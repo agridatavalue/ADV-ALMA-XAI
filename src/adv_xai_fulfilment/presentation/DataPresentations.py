@@ -1,21 +1,17 @@
 import logging
 
-from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
+from ..domain.model import ExplainerIdentifier
+from ..domain.model.explainers.responseData import ConfusionMatrix
+from ..domain.model.explainers.responseData import ModelPerformanceMetrics
 from ..application.ConfusionMatrixService import ConfusionMatrixService
 from .validator.DataPresentationValidator import DataPresentationValidator
 from ..application.FeatureImportanceService import FeatureImportanceService
 from ..application.PartialDependenceService import PartialDependenceService
 from ..application.FeatureDescriptionService import FeatureDescriptionService
-from ..domain.model.explainers.responseData.ConfusionMatrix import ConfusionMatrix
 from .translator.ExplainerIdentifierTranslator import ExplainerIdentifierTranslator
 from ..application.ModelPerformanceMetricService import ModelPerformanceMetricService
-from ..domain.model.explainers.responseData.ModelPerformance import ModelPerformance
-from ..domain.model.explainers.responseData.PartialDependence import PartialDependence
-from ..domain.model.explainers.responseData.FeatureImportance import FeatureImportance
-from ..domain.model.explainers.responseData.FeatureDescription import FeatureDescription
-from ..domain.model.explainers.responseData.ModelPerformanceMetrics import (
-    ModelPerformanceMetrics,
-)
+from ..domain.model.explainers.responseData import PartialDependence, FeatureImportance
+from ..domain.model.explainers.responseData import FeatureDescription, ModelPerformance
 from .translator.DataPresentationsOutputTranslator import (
     DataPresentationsOutputTranslator,
 )

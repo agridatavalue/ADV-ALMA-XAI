@@ -1,7 +1,5 @@
-from ...domain.model.Pilot import Pilot
-from ...domain.model.questions.Answer import Answer
-from ...domain.model.questions.Question import Question
-from ...domain.model.questions.Feedback import Feedback
+from ...domain.model import Pilot
+from ...domain.model.questions import Answer, Question, Feedback
 from .ExplainerIdentifierTranslator import ExplainerIdentifierTranslator
 
 

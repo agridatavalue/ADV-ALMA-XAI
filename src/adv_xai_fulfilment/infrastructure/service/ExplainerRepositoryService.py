@@ -3,11 +3,10 @@ import json
 import pickle
 import logging
 
+from ...domain.model.explainers import Explainer
 from ..repository.BucketRepository import BucketRepository
-from ...domain.model.explainers.Explainer import Explainer
-from ...domain.model.ExplainerMetaData import ExplainerMetaData
+from ...domain.model import ExplainerMetaData, ExplainerIdentifier
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
-from ...domain.model.ExplainerIdentifier import ExplainerIdentifier
 
 
 class ExplainerRepositoryService:

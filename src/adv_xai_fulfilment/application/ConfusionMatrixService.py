@@ -1,13 +1,11 @@
 import logging
 
-from ..domain.model.Model import Model
-from ..domain.model.ModelData import ModelData
-from ..domain.model.ModelMetaData import ModelMetaData
-from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
+from ..domain.model import ExplainerIdentifier
+from ..domain.model import Model, ModelData, ModelMetaData
+from ..domain.model.explainers.responseData import ConfusionMatrix
 from ..infrastructure.service.DataLoaderService import DataLoaderService
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService
 from ..infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
-from ..domain.model.explainers.responseData.ConfusionMatrix import ConfusionMatrix
 
 
 class ConfusionMatrixService:

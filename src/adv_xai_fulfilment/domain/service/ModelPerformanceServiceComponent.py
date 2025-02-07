@@ -3,14 +3,9 @@ from sklearn.metrics import roc_auc_score, recall_score, f1_score
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 from sklearn.metrics import accuracy_score, precision_score, average_precision_score
 
-from ..model.Model import Model
-from ..model.ModelData import ModelData
-from ..model.ModelMetaData import ModelMetaData
+from ..model import Model, ModelData, ModelMetaData
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
-from ..model.explainers.responseData.ModelPerformance import ModelPerformance
-from ..model.explainers.responseData.ModelPerformanceMetrics import (
-    ModelPerformanceMetrics,
-)
+from ..model.explainers.responseData import ModelPerformance, ModelPerformanceMetrics
 
 
 class ModelPerformanceServiceComponent:

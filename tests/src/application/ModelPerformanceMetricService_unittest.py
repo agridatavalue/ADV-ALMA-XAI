@@ -1,15 +1,11 @@
 import unittest
 from unittest.mock import MagicMock, patch
 
-from src.adv_xai_fulfilment.domain.model.Model import Model
-from src.adv_xai_fulfilment.domain.model.Pilot import Pilot
-from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
-from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
+from src.adv_xai_fulfilment.domain.model import ExplainerIdentifier
+from src.adv_xai_fulfilment.domain.model import Model, Pilot, ModelMetaData
+from src.adv_xai_fulfilment.domain.model.explainers.responseData import ModelPerformance
 from src.adv_xai_fulfilment.application.ModelPerformanceMetricService import (
     ModelPerformanceMetricService,
-)
-from src.adv_xai_fulfilment.domain.model.explainers.responseData.ModelPerformance import (
-    ModelPerformance,
 )
 
 

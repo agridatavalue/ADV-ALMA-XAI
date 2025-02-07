@@ -1,9 +1,9 @@
 import unittest
 
-from src.adv_xai_fulfilment.domain.model.DataType import DataType
-from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
-from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
-from src.adv_xai_fulfilment.domain.model.explainers.DataTypeModelExplainer import (
+from src.adv_xai_fulfilment.domain.model.data_type import DataType
+from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
+from src.adv_xai_fulfilment.domain.model.explainers import Explainer
+from src.adv_xai_fulfilment.domain.model.explainers.datatype_model_explainer import (
     DataTypeModelExplainer,
 )
 

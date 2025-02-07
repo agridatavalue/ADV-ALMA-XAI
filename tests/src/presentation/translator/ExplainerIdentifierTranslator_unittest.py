@@ -1,6 +1,6 @@
 import unittest
 
-from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
+from src.adv_xai_fulfilment.domain.model import ExplainerIdentifier
 from src.adv_xai_fulfilment.presentation.translator.ExplainerIdentifierTranslator import (
     ExplainerIdentifierTranslator,
 )

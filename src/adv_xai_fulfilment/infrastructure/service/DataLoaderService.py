@@ -3,9 +3,8 @@ import logging
 
 import pandas as pd
 
-from ...domain.model.ModelData import ModelData
+from ...domain.model import ModelData, ExplainerIdentifier
 from ..repository.BucketRepository import BucketRepository
-from ...domain.model.ExplainerIdentifier import ExplainerIdentifier
 
 
 class DataLoaderService:

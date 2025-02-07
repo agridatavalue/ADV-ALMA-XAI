@@ -1,9 +1,11 @@
 import unittest
 
-from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureDescription import \
-    FeatureDescription
-from src.adv_xai_fulfilment.presentation.translator.DataPresentationsOutputTranslator import \
-    DataPresentationsOutputTranslator
+from src.adv_xai_fulfilment.domain.model.explainers.responseData import (
+    FeatureDescription,
+)
+from src.adv_xai_fulfilment.presentation.translator.DataPresentationsOutputTranslator import (
+    DataPresentationsOutputTranslator,
+)
 
 
 class TestDataPresentationsOutputTranslator(unittest.TestCase):

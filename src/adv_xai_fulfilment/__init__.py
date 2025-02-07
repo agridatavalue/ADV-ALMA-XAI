@@ -6,10 +6,10 @@ from .presentation.QuestionAndFeedbackPresentation import (
 )
 
 # DOMAIN
-from .domain.model.explainers.responseData.ModelPerformance import ModelPerformance
-from .domain.model.explainers.responseData.FeatureImportance import FeatureImportance
-from .domain.model.explainers.responseData.PartialDependence import PartialDependence
-from .domain.model.explainers.responseData.FeatureDescription import FeatureDescription
-from .domain.model.explainers.responseData.ModelPerformanceMetrics import (
+from .domain.model.explainers.responseData.model_performance import ModelPerformance
+from .domain.model.explainers.responseData.feature_importance import FeatureImportance
+from .domain.model.explainers.responseData.partial_dependence import PartialDependence
+from .domain.model.explainers.responseData.feature_description import FeatureDescription
+from .domain.model.explainers.responseData.model_performance_metrics import (
     ModelPerformanceMetrics,
 )

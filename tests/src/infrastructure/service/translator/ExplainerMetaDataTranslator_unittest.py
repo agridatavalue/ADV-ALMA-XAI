@@ -1,8 +1,7 @@
 import unittest
 
-from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
-from src.adv_xai_fulfilment.domain.model.ExplainerMetaData import ExplainerMetaData
-from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureImportance import (
+from src.adv_xai_fulfilment.domain.model import ModelMetaData, ExplainerMetaData
+from src.adv_xai_fulfilment.domain.model.explainers.responseData import (
     FeatureImportance,
 )
 from src.adv_xai_fulfilment.infrastructure.service.translator.ExplainerMetaDataTranslator import (

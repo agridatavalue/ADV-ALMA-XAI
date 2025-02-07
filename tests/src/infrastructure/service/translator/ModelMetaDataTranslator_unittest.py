@@ -1,8 +1,6 @@
 import unittest
 
-from src.adv_xai_fulfilment.domain.model.DataType import DataType
-from src.adv_xai_fulfilment.domain.model.ModelCategory import ModelCategory
-from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
+from src.adv_xai_fulfilment.domain.model import DataType, ModelCategory, ModelMetaData
 from src.adv_xai_fulfilment.infrastructure.service.translator.ModelMetaDataTranslator import (
     ModelMetaDataTranslator,
 )

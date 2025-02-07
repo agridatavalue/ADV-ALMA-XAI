@@ -2,12 +2,10 @@ import os
 import unittest
 from unittest.mock import MagicMock, patch
 
-from src.adv_xai_fulfilment.domain.model.Model import Model
+from src.adv_xai_fulfilment.domain.model import Model
+from src.adv_xai_fulfilment.domain.model.machineLearningModel import KerasModel
 from src.adv_xai_fulfilment.infrastructure.service.ModelLoaderService import (
     ModelLoaderService,
-)
-from src.adv_xai_fulfilment.domain.model.machineLearningModel.KerasModel import (
-    KerasModel,
 )
 
 

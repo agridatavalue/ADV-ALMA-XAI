@@ -1,5 +1,4 @@
-from src.adv_xai_fulfilment.domain.model.Pilot import Pilot
-from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
+from src.adv_xai_fulfilment.domain.model import Pilot, ExplainerIdentifier
 
 
 class ExplainerIdentifierTranslator:

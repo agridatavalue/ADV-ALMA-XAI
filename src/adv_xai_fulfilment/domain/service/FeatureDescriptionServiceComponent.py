@@ -1,7 +1,6 @@
-from ..model.ModelMetaData import ModelMetaData
-from ..model.ExplainerIdentifier import ExplainerIdentifier
+from ..model import ModelMetaData, ExplainerIdentifier
+from ..model.explainers.responseData import FeatureDescription
 from ...infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
-from ..model.explainers.responseData.FeatureDescription import FeatureDescription
 
 
 class FeatureDescriptionServiceComponent:

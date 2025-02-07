@@ -1,14 +1,11 @@
 import logging
 
-from ..domain.model.Model import Model
 from ..infrastructure.Constants import Errors
-from ..domain.model.ModelData import ModelData
-from ..domain.model.ModelMetaData import ModelMetaData
-from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
+from ..domain.model.explainers.responseData import PartialDependence
 from ..infrastructure.service.DataLoaderService import DataLoaderService
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService
+from ..domain.model import Model, ModelData, ModelMetaData, ExplainerIdentifier
 from ..infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
-from ..domain.model.explainers.responseData.PartialDependence import PartialDependence
 
 
 class PartialDependenceService:
