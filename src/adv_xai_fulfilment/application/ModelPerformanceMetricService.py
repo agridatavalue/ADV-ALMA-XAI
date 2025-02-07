@@ -74,9 +74,8 @@ class ModelPerformanceMetricService:
         data: ModelData = self._data_loader_service.load_data(explainer_identifier)
 
         return self._mdm_service.get_metrics(
+            prediction_target=explainer_identifier.prediction_target,
+            model_metadata=model_metadata,
             model=selected_model,
             data=data,
-            prediction_target_index=model_metadata.index_of_target_name(
-                explainer_identifier.prediction_target
-            ),
         )

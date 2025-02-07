@@ -1,8 +1,11 @@
 import numpy as np
+from sklearn.metrics import roc_auc_score, recall_score, f1_score
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
+from sklearn.metrics import accuracy_score, precision_score, average_precision_score
 
 from ..model.Model import Model
 from ..model.ModelData import ModelData
+from ..model.ModelMetaData import ModelMetaData
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 from ..model.explainers.responseData.ModelPerformance import ModelPerformance
 from ..model.explainers.responseData.ModelPerformanceMetrics import (
@@ -27,7 +30,12 @@ class ModelPerformanceServiceComponent:
         return ModelPerformance(y_true=y_true, y_pred=y_pred)
 
     def get_metrics(
-        self, prediction_target_index: int, model: Model, data: ModelData
+        self,
+        *,
+        model: Model,
+        data: ModelData,
+        prediction_target: str,
+        model_metadata: ModelMetaData,
     ) -> ModelPerformanceMetrics:
         if data.is_empty or not model:
             return ModelPerformanceMetrics()
@@ -35,6 +43,20 @@ class ModelPerformanceServiceComponent:
         if data.y.empty:
             return ModelPerformanceMetrics()
 
+        prediction_target_index = model_metadata.index_of_target_name(prediction_target)
+
+        if model_metadata.is_regression:
+            return self.__get_metrics_for_regression(
+                prediction_target_index, model, data
+            )
+
+        return self.__get_metrics_for_classification(
+            prediction_target_index, model, data
+        )
+
+    def __get_metrics_for_regression(
+        self, prediction_target_index: int, model: Model, data: ModelData
+    ) -> ModelPerformanceMetrics:
         y_pred = None
         predictions = model.handler.predict(data.x)
         if isinstance(predictions, np.ndarray):
@@ -54,4 +76,23 @@ class ModelPerformanceServiceComponent:
             .add_metric("Mean Absolute Error (MAE)", mae)
             .add_metric("Root Mean Squared Error (RMSE)", np.sqrt(mse))
             .add_metric("Mean Absolute Percentage Error (MAPE)", (mae / y_true).mean())
+        )
+
+    def __get_metrics_for_classification(
+        self, prediction_target_index: int, model: Model, data: ModelData
+    ) -> ModelPerformanceMetrics:
+        y_pred = model.handler.predict(data.x)
+
+        return (
+            ModelPerformanceMetrics()
+            .add_metric("roc_auc", roc_auc_score(data.y, y_pred))
+            .add_metric("accuracy", accuracy_score(data.y, y_pred))
+            .add_metric("f1", f1_score(data.y, y_pred, average="weighted"))
+            .add_metric("recall", recall_score(data.y, y_pred, average="weighted"))
+            .add_metric(
+                "precision", precision_score(data.y, y_pred, average="weighted")
+            )
+            .add_metric(
+                "pr_auc", average_precision_score(data.y, y_pred, average="weighted")
+            )
         )
