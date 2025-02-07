@@ -1,15 +1,13 @@
 import unittest
 from unittest.mock import MagicMock
 
-from src.adv_xai_fulfilment.domain.model.Pilot import Pilot
-from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
+from src.adv_xai_fulfilment.domain.model.pilot import Pilot
+from src.adv_xai_fulfilment.domain.service import FeatureDescriptionServiceComponent
+from src.adv_xai_fulfilment.domain.model.explainer_identifier import ExplainerIdentifier
 from src.adv_xai_fulfilment.application.FeatureDescriptionService import (
     FeatureDescriptionService,
 )
-from src.adv_xai_fulfilment.domain.service.FeatureDescriptionServiceComponent import (
-    FeatureDescriptionServiceComponent,
-)
-from src.adv_xai_fulfilment.domain.model.explainers.responseData.FeatureDescription import (
+from src.adv_xai_fulfilment.domain.model.explainers.response_data import (
     FeatureDescription,
 )
 

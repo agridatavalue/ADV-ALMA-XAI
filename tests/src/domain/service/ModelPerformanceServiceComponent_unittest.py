@@ -4,18 +4,14 @@ from unittest.mock import MagicMock
 import numpy as np
 import pandas as pd
 
-from src.adv_xai_fulfilment.domain.model.ModelData import ModelData
-from src.adv_xai_fulfilment.domain.model.machineLearningModel.KerasModel import (
-    KerasModel,
-)
-from src.adv_xai_fulfilment.domain.service.ModelPerformanceServiceComponent import (
-    ModelPerformanceServiceComponent,
-)
-from src.adv_xai_fulfilment.domain.model.explainers.responseData.ModelPerformance import (
+from src.adv_xai_fulfilment.domain.model.model_data import ModelData
+from src.adv_xai_fulfilment.domain.model.machine_learning_model import KerasModel
+from src.adv_xai_fulfilment.domain.model.explainers.response_data import (
     ModelPerformance,
-)
-from src.adv_xai_fulfilment.domain.model.explainers.responseData.ModelPerformanceMetrics import (
     ModelPerformanceMetrics,
+)
+from src.adv_xai_fulfilment.domain.service.model_performance_service_component import (
+    ModelPerformanceServiceComponent,
 )
 
 

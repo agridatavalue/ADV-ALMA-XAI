@@ -1,12 +1,10 @@
 import logging
 
+from .validator import ExplainerIdentifierValidator
+from src.adv_xai_fulfilment.domain.model.questions import Feedback
 from src.adv_xai_fulfilment.application.QuestionService import QuestionService
-from src.adv_xai_fulfilment.domain.model.questions.Feedback import Feedback
-from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
-
-from .translator.FeedbackRequestTranslator import FeedbackRequestTranslator
-from .validator.ExplainerIdentifierValidator import ExplainerIdentifierValidator
-from .translator.ExplainerIdentifierTranslator import ExplainerIdentifierTranslator
+from .translator import FeedbackRequestTranslator, ExplainerIdentifierTranslator
+from src.adv_xai_fulfilment.domain.model.explainer_identifier import ExplainerIdentifier
 
 
 class QuestionAndFeedbackPresentation:
@@ -22,7 +20,9 @@ class QuestionAndFeedbackPresentation:
         self._translator = ExplainerIdentifierTranslator()
 
     def get_questions_from_metadata(self, request: dict = {}) -> list[dict]:
-        logging.info(f"called get_questions_from_metadata method with params: {request}")
+        logging.info(
+            f"called get_questions_from_metadata method with params: {request}"
+        )
         self._validator.validate_and_sanitize_questions_(request)
         expl_id: ExplainerIdentifier = self._translator.translate(request)
 

@@ -1,18 +1,16 @@
 import logging
 
-from ..domain.model.Model import Model
-from ..domain.model.ModelData import ModelData
-from ..domain.model.ModelMetaData import ModelMetaData
-from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
+from ..domain.model.model import Model
+from ..domain.model.model_data import ModelData
+from ..domain.model.model_metadata import ModelMetaData
+from ..domain.model.explainer_identifier import ExplainerIdentifier
+from ..domain.model.explainers.response_data import ModelPerformance
 from ..infrastructure.service.DataLoaderService import DataLoaderService
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService
+from ..domain.model.explainers.response_data import ModelPerformanceMetrics
 from ..infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
-from ..domain.model.explainers.responseData.ModelPerformance import ModelPerformance
-from ..domain.service.ModelPerformanceServiceComponent import (
+from ..domain.service.model_performance_service_component import (
     ModelPerformanceServiceComponent,
-)
-from ..domain.model.explainers.responseData.ModelPerformanceMetrics import (
-    ModelPerformanceMetrics,
 )
 
 

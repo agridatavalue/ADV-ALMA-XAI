@@ -1,8 +1,6 @@
-from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
-from ..domain.model.explainers.responseData.FeatureDescription import FeatureDescription
-from ..domain.service.FeatureDescriptionServiceComponent import (
-    FeatureDescriptionServiceComponent,
-)
+from ..domain.service import FeatureDescriptionServiceComponent
+from ..domain.model.explainer_identifier import ExplainerIdentifier
+from ..domain.model.explainers.response_data import FeatureDescription
 
 
 class FeatureDescriptionService:

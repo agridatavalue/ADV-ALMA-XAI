@@ -1,30 +1,28 @@
 import logging
 from dotenv import load_dotenv
 
-from ..domain.model.Model import Model
+from ..domain.model.model import Model
 from ..infrastructure.Constants import Errors
-from ..domain.model.ModelData import ModelData
-from ..domain.model.ModelMetaData import ModelMetaData
-from ..domain.model.ExplainerGuide import ExplainerGuide
-from ..domain.model.explainers.Explainer import Explainer
-from ..domain.model.ExplainerMetaData import ExplainerMetaData
-from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
-from ..domain.service.ExplainerRetriever import ExplainerRetriever
+from ..domain.model.model_data import ModelData
+from ..domain.service import ExplainerRetriever
+from ..domain.model.model_metadata import ModelMetaData
+from ..domain.model.explainer_guide import ExplainerGuide
+from ..domain.model.explainers.explainer import Explainer
+from ..domain.model.explainer_metadata import ExplainerMetaData
+from ..domain.model.explainer_identifier import ExplainerIdentifier
+from ..domain.model.explainers.response_data import FeatureImportance
 from ..infrastructure.service.DataLoaderService import DataLoaderService
+from ..domain.model.explainers.response_data import ExplainerResponseData
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService
 from ..infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
-from ..domain.model.explainers.responseData.FeatureImportance import FeatureImportance
-from ..domain.service.ModelPerformanceServiceComponent import (
+from ..domain.service.model_performance_service_component import (
     ModelPerformanceServiceComponent,
 )
-from ..domain.service.FeatureImportanceServiceComponent import (
+from ..domain.service.feature_importance_service_component import (
     FeatureImportanceServiceComponent,
 )
 from ..infrastructure.service.ExplainerRepositoryService import (
     ExplainerRepositoryService,
-)
-from ..domain.model.explainers.responseData.ExplainerResponseData import (
-    ExplainerResponseData,
 )
 
 load_dotenv()

@@ -1,8 +1,8 @@
 import numpy as np
 
-from ..domain.model.Model import Model
-from ..domain.model.ModelData import ModelData
-from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
+from ..domain.model.model import Model
+from ..domain.model.model_data import ModelData
+from ..domain.model.explainer_identifier import ExplainerIdentifier
 from ..infrastructure.service.DataLoaderService import DataLoaderService
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService
 

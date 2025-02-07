@@ -1,7 +1,6 @@
 import unittest
 
-from src.adv_xai_fulfilment.domain.model.questions.Answer import Answer
-from src.adv_xai_fulfilment.domain.model.questions.Question import Question
+from src.adv_xai_fulfilment.domain.model.questions import Answer, Question
 
 
 class TestQuestion(unittest.TestCase):

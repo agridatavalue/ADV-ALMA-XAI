@@ -4,7 +4,7 @@ from .ModelMetaDataTranslator import ModelMetaDataTranslator
 from .FeatureImportanceTranslator import FeatureImportanceTranslator
 from .FeatureDescriptionTranslator import FeatureDescriptionTranslator
 from .ModelPerformanceMetricsTranslator import ModelPerformanceMetricsTranslator
-from src.adv_xai_fulfilment.domain.model.ExplainerMetaData import ExplainerMetaData
+from src.adv_xai_fulfilment.domain.model.explainer_metadata import ExplainerMetaData
 
 
 class ExplainerMetaDataTranslator:

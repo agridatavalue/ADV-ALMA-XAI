@@ -1,24 +1,18 @@
 import logging
 
-from ..domain.model.ExplainerIdentifier import ExplainerIdentifier
+from .validator import DataPresentationValidator
+from ..domain.model.explainer_identifier import ExplainerIdentifier
+from ..domain.model.explainers.response_data import ConfusionMatrix
+from ..domain.model.explainers.response_data import FeatureImportance
+from ..domain.model.explainers.response_data import FeatureDescription
 from ..application.ConfusionMatrixService import ConfusionMatrixService
-from .validator.DataPresentationValidator import DataPresentationValidator
+from ..domain.model.explainers.response_data import ModelPerformanceMetrics
 from ..application.FeatureImportanceService import FeatureImportanceService
 from ..application.PartialDependenceService import PartialDependenceService
 from ..application.FeatureDescriptionService import FeatureDescriptionService
-from ..domain.model.explainers.responseData.ConfusionMatrix import ConfusionMatrix
-from .translator.ExplainerIdentifierTranslator import ExplainerIdentifierTranslator
 from ..application.ModelPerformanceMetricService import ModelPerformanceMetricService
-from ..domain.model.explainers.responseData.ModelPerformance import ModelPerformance
-from ..domain.model.explainers.responseData.PartialDependence import PartialDependence
-from ..domain.model.explainers.responseData.FeatureImportance import FeatureImportance
-from ..domain.model.explainers.responseData.FeatureDescription import FeatureDescription
-from ..domain.model.explainers.responseData.ModelPerformanceMetrics import (
-    ModelPerformanceMetrics,
-)
-from .translator.DataPresentationsOutputTranslator import (
-    DataPresentationsOutputTranslator,
-)
+from ..domain.model.explainers.response_data import ModelPerformance, PartialDependence
+from .translator import ExplainerIdentifierTranslator, DataPresentationsOutputTranslator
 from ..application.PlotScatterObservedPredictedService import (
     PlotScatterObservedPredictedService,
 )

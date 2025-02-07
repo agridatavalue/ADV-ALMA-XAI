@@ -2,11 +2,11 @@ import unittest
 import numpy as np
 from unittest.mock import MagicMock
 
-from src.adv_xai_fulfilment.domain.model.Model import Model
-from src.adv_xai_fulfilment.domain.model.Pilot import Pilot
-from src.adv_xai_fulfilment.domain.model.ModelData import ModelData
-from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
-from src.adv_xai_fulfilment.domain.model.ExplainerIdentifier import ExplainerIdentifier
+from src.adv_xai_fulfilment.domain.model.model import Model
+from src.adv_xai_fulfilment.domain.model.pilot import Pilot
+from src.adv_xai_fulfilment.domain.model.model_data import ModelData
+from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
+from src.adv_xai_fulfilment.domain.model.explainer_identifier import ExplainerIdentifier
 from src.adv_xai_fulfilment.application.PartialDependenceService import (
     PartialDependenceService,
 )
@@ -19,7 +19,7 @@ from src.adv_xai_fulfilment.infrastructure.service.ModelLoaderService import (
 from src.adv_xai_fulfilment.infrastructure.service.MetaDataLoaderService import (
     MetaDataLoaderService,
 )
-from src.adv_xai_fulfilment.domain.model.explainers.responseData.PartialDependence import (
+from src.adv_xai_fulfilment.domain.model.explainers.response_data import (
     PartialDependence,
 )
 

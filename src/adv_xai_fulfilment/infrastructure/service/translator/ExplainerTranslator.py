@@ -1,4 +1,4 @@
-from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
+from src.adv_xai_fulfilment.domain.model.explainers.explainer import Explainer
 
 
 class ExplainerTranslator:

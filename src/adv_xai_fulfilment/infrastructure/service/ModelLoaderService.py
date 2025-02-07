@@ -2,9 +2,9 @@ import os
 import logging
 
 from ..repository.BucketRepository import BucketRepository
-from src.adv_xai_fulfilment.domain.model.Model import Model
-from src.adv_xai_fulfilment.domain.model.ModelMetaData import ModelMetaData
-from src.adv_xai_fulfilment.domain.service.ModelTranslator import ModelTranslator
+from src.adv_xai_fulfilment.domain.model.model import Model
+from src.adv_xai_fulfilment.domain.service import ModelTranslator
+from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
 
 
 class ModelLoaderService:

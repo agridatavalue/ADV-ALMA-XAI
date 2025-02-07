@@ -1,4 +1,4 @@
-from ....domain.model.explainers.responseData.FeatureImportance import FeatureImportance
+from ....domain.model.explainers.response_data import FeatureImportance
 
 
 class FeatureImportanceTranslator:

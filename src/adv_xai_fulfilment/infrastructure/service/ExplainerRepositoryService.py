@@ -4,10 +4,10 @@ import pickle
 import logging
 
 from ..repository.BucketRepository import BucketRepository
-from ...domain.model.explainers.Explainer import Explainer
-from ...domain.model.ExplainerMetaData import ExplainerMetaData
+from ...domain.model.explainers.explainer import Explainer
+from ...domain.model.explainer_metadata import ExplainerMetaData
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
-from ...domain.model.ExplainerIdentifier import ExplainerIdentifier
+from ...domain.model.explainer_identifier import ExplainerIdentifier
 
 
 class ExplainerRepositoryService:

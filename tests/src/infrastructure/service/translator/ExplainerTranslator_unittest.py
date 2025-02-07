@@ -1,7 +1,7 @@
 import unittest
 
-from src.adv_xai_fulfilment.domain.model.ModelCategory import ModelCategory
-from src.adv_xai_fulfilment.domain.model.explainers.Explainer import Explainer
+from src.adv_xai_fulfilment.domain.model.model_category import ModelCategory
+from src.adv_xai_fulfilment.domain.model.explainers.explainer import Explainer
 from src.adv_xai_fulfilment.infrastructure.service.translator.ExplainerTranslator import (
     ExplainerTranslator,
 )

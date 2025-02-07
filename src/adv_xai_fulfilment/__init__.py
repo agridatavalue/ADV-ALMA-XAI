@@ -6,10 +6,8 @@ from .presentation.QuestionAndFeedbackPresentation import (
 )
 
 # DOMAIN
-from .domain.model.explainers.responseData.ModelPerformance import ModelPerformance
-from .domain.model.explainers.responseData.FeatureImportance import FeatureImportance
-from .domain.model.explainers.responseData.PartialDependence import PartialDependence
-from .domain.model.explainers.responseData.FeatureDescription import FeatureDescription
-from .domain.model.explainers.responseData.ModelPerformanceMetrics import (
-    ModelPerformanceMetrics,
-)
+from .domain.model.explainers.response_data import ModelPerformance
+from .domain.model.explainers.response_data import FeatureImportance
+from .domain.model.explainers.response_data import PartialDependence
+from .domain.model.explainers.response_data import FeatureDescription
+from .domain.model.explainers.response_data import ModelPerformanceMetrics
