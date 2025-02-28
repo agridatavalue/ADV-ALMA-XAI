@@ -4,7 +4,7 @@ from abc import ABC
 from ..model import Model
 from ..model_metadata import ModelMetaData
 from ..model_category import ModelCategory
-from ....infrastructure.Constants import Errors
+from ....infrastructure.constants import Errors
 from .datatype_model_explainer import DataTypeModelExplainer
 
 

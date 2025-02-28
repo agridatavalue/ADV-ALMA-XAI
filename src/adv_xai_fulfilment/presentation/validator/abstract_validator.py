@@ -1,4 +1,4 @@
-from src.adv_xai_fulfilment.infrastructure.Constants import Errors
+from src.adv_xai_fulfilment.infrastructure.constants import Errors
 
 
 class AbstractValidator:
@@ -21,4 +21,6 @@ class AbstractValidator:
         assert isinstance(prediction_target, int), Errors.PREDICTION_TARGET_NOT_INT
 
     def _validate_prediction_targets(self, prediction_targets: list[int]) -> bool:
-        assert isinstance(prediction_targets, str), Errors.PREDICTION_TARGET_INDEX_NOT_INT
+        assert isinstance(
+            prediction_targets, str
+        ), Errors.PREDICTION_TARGET_INDEX_NOT_INT

@@ -4,7 +4,7 @@ from ..model.model import Model
 from ..model.model_metadata import ModelMetaData
 from ..model.explainers.explainer import Explainer
 from ..model.explainers import all as all_class_explainers
-from src.adv_xai_fulfilment.infrastructure.Constants import Errors
+from src.adv_xai_fulfilment.infrastructure.constants import Errors
 
 POSSIBLE_FEATURE_IMPORTANCE_EXPLAINER_NAMES = [
     "TreeShapInterventionalExplainer",

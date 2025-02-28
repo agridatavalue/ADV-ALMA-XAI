@@ -2,7 +2,7 @@ import logging
 from dotenv import load_dotenv
 
 from ..domain.model.model import Model
-from ..infrastructure.Constants import Errors
+from ..infrastructure.constants import Errors
 from ..domain.model.model_data import ModelData
 from ..domain.service import ExplainerRetriever
 from ..domain.model.model_metadata import ModelMetaData

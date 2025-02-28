@@ -4,7 +4,7 @@ from ..model import Model
 from ..data_type import DataType
 from .explainer import Explainer
 from .datatype_model_explainer import DataTypeModelExplainer
-from src.adv_xai_fulfilment.infrastructure.Constants import Errors
+from src.adv_xai_fulfilment.infrastructure.constants import Errors
 
 
 class ContrastiveExplanationMethodExplainer(Explainer):

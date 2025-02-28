@@ -3,7 +3,7 @@ from alibi.explainers import TreeShap
 from ..model import Model
 from ..data_type import DataType
 from .explainer import Explainer
-from ....infrastructure.Constants import Errors
+from ....infrastructure.constants import Errors
 from .datatype_model_explainer import DataTypeModelExplainer
 
 

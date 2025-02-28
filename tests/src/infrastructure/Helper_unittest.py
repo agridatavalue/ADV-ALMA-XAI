@@ -2,7 +2,7 @@ import unittest
 from os.path import abspath
 from unittest.mock import patch
 
-from src.adv_xai_fulfilment.infrastructure.Helper import Helper
+from src.adv_xai_fulfilment.infrastructure.helper import Helper
 
 
 class TestHelper(unittest.TestCase):
@@ -16,7 +16,9 @@ class TestHelper(unittest.TestCase):
 
     def test_is_local_path_with_nonexistent_file(self):
         with patch("os.path.exists", return_value=False):
-            self.assertFalse(Helper.is_local_path("file:///path/to/nonexistent_file.txt"))
+            self.assertFalse(
+                Helper.is_local_path("file:///path/to/nonexistent_file.txt")
+            )
 
     def test_is_local_path_with_invalid_url(self):
         self.assertFalse(Helper.is_local_path("not_a_valid_url"))

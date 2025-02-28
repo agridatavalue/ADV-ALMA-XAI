@@ -1,7 +1,7 @@
 import logging
 
 from ..domain.model.model import Model
-from ..infrastructure.Constants import Errors
+from ..infrastructure.constants import Errors
 from ..domain.model.model_data import ModelData
 from ..domain.model.model_metadata import ModelMetaData
 from ..domain.model.explainer_identifier import ExplainerIdentifier

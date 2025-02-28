@@ -8,7 +8,7 @@ from ..model.model import Model
 from ..model.data_type import DataType
 from ..model.model_data import ModelData
 from ..model.model_metadata import ModelMetaData
-from src.adv_xai_fulfilment.infrastructure.Constants import Errors
+from src.adv_xai_fulfilment.infrastructure.constants import Errors
 from ..model.explainers.response_data import ModelPerformance, ModelPerformanceMetrics
 
 

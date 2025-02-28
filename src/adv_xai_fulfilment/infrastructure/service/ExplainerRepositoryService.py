@@ -7,7 +7,7 @@ from ..repository import BucketRepository
 from ...domain.model.explainers import Explainer
 from ...domain.model.explainers.explainer import Explainer
 from ...domain.model.explainer_metadata import ExplainerMetaData
-from src.adv_xai_fulfilment.infrastructure.Constants import Errors
+from src.adv_xai_fulfilment.infrastructure.constants import Errors
 from ...domain.model.explainer_identifier import ExplainerIdentifier
 
 

@@ -3,7 +3,7 @@ import os
 
 from .pilot import Pilot
 from .explainers.explainer import Explainer
-from ...infrastructure.Constants import Errors
+from ...infrastructure.constants import Errors
 from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
 
 

@@ -3,7 +3,7 @@ import json
 import logging
 
 from ..repository import BucketRepository
-from ...infrastructure.Constants import Errors
+from ..constants import Errors
 from ...domain.model.model_metadata import ModelMetaData
 from ...domain.model.explainer_metadata import ExplainerMetaData
 from ...domain.model.explainer_identifier import ExplainerIdentifier
