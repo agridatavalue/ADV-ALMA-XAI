@@ -5,7 +5,7 @@ import pandas as pd
 
 from ...domain.model.data_type import DataType
 from ...domain.model.model_data import ModelData
-from ..repository.BucketRepository import BucketRepository
+from ..repository.bucket_repository import BucketRepository
 from ...domain.model.explainer_identifier import ExplainerIdentifier
 
 

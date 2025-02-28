@@ -4,8 +4,8 @@ import pickle
 import logging
 
 from ...domain.model.explainers import Explainer
-from ..repository.BucketRepository import BucketRepository
 from ...domain.model.explainers.explainer import Explainer
+from ..repository.bucket_repository import BucketRepository
 from ...domain.model.explainer_metadata import ExplainerMetaData
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
 from ...domain.model.explainer_identifier import ExplainerIdentifier
