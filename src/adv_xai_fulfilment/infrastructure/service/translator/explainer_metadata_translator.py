@@ -33,7 +33,7 @@ class ExplainerMetaDataTranslator:
         return ExplainerMetaData(
             target_name=model_metadata.get("targetname", ""),
             heatmap_images=self._heatmap_translator.translate(
-                explainer_metadata.get("heatmap", [])
+                explainer_metadata.get("heatmaps", [])
             ),
             meta_data=self._model_metadata_translator.translate(
                 metadata.get("meta_data", {})

@@ -20,3 +20,6 @@ class Heatmap(ExplainerResponseData):
     @property
     def heatmaps(self) -> list[str]:
         return self._heatmap_filepaths
+
+    def to_dict(self) -> dict:
+        return self._heatmap_filepaths

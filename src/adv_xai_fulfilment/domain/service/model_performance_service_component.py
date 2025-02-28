@@ -45,8 +45,7 @@ class ModelPerformanceServiceComponent:
             if data.y.empty:
                 return ModelPerformanceMetrics()
         elif model_metadata.data_type == DataType.IMAGE:
-            if not data:
-                return ModelPerformanceMetrics()
+            return ModelPerformanceMetrics()
 
         prediction_target_index = model_metadata.index_of_target_name(prediction_target)
 
