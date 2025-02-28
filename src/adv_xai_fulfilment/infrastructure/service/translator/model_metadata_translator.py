@@ -1,5 +1,5 @@
 from ....domain.model.model_metadata import ModelMetaData
-from .FeatureDescriptionTranslator import FeatureDescriptionTranslator
+from .feature_description_translator import FeatureDescriptionTranslator
 
 
 class ModelMetaDataTranslator:

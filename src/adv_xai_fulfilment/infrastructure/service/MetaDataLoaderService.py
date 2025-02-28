@@ -7,8 +7,7 @@ from ...infrastructure.Constants import Errors
 from ...domain.model.model_metadata import ModelMetaData
 from ...domain.model.explainer_metadata import ExplainerMetaData
 from ...domain.model.explainer_identifier import ExplainerIdentifier
-from .translator.ModelMetaDataTranslator import ModelMetaDataTranslator
-from .translator.ExplainerMetaDataTranslator import ExplainerMetaDataTranslator
+from .translator import ModelMetaDataTranslator, ExplainerMetaDataTranslator
 
 
 class MetaDataLoaderService:

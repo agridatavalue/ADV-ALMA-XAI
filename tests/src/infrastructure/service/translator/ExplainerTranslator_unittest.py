@@ -2,9 +2,7 @@ import unittest
 
 from src.adv_xai_fulfilment.domain.model.model_category import ModelCategory
 from src.adv_xai_fulfilment.domain.model.explainers.explainer import Explainer
-from src.adv_xai_fulfilment.infrastructure.service.translator.ExplainerTranslator import (
-    ExplainerTranslator,
-)
+from src.adv_xai_fulfilment.infrastructure.service.translator import ExplainerTranslator
 
 
 class TestExplainerTranslator(unittest.TestCase):

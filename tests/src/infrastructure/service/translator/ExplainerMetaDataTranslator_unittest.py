@@ -5,7 +5,7 @@ from src.adv_xai_fulfilment.domain.model.explainer_metadata import ExplainerMeta
 from src.adv_xai_fulfilment.domain.model.explainers.response_data import (
     FeatureImportance,
 )
-from src.adv_xai_fulfilment.infrastructure.service.translator.ExplainerMetaDataTranslator import (
+from src.adv_xai_fulfilment.infrastructure.service.translator import (
     ExplainerMetaDataTranslator,
 )
 

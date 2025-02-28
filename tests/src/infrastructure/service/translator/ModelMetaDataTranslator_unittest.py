@@ -3,7 +3,7 @@ import unittest
 from src.adv_xai_fulfilment.domain.model.data_type import DataType
 from src.adv_xai_fulfilment.domain.model.model_category import ModelCategory
 from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
-from src.adv_xai_fulfilment.infrastructure.service.translator.ModelMetaDataTranslator import (
+from src.adv_xai_fulfilment.infrastructure.service.translator import (
     ModelMetaDataTranslator,
 )
 

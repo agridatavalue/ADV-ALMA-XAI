@@ -1,10 +1,10 @@
 from .heatmap_translator import HeatmapTranslator
-from .FeedbackTranslator import FeedbackTranslator
-from .ExplainerTranslator import ExplainerTranslator
-from .ModelMetaDataTranslator import ModelMetaDataTranslator
-from .FeatureImportanceTranslator import FeatureImportanceTranslator
-from .FeatureDescriptionTranslator import FeatureDescriptionTranslator
-from .ModelPerformanceMetricsTranslator import ModelPerformanceMetricsTranslator
+from .feedback_translator import FeedbackTranslator
+from .explainer_translator import ExplainerTranslator
+from .model_metadata_translator import ModelMetaDataTranslator
+from .feature_importance_translator import FeatureImportanceTranslator
+from .feature_description_translator import FeatureDescriptionTranslator
+from .model_performance_metrics_translator import ModelPerformanceMetricsTranslator
 from src.adv_xai_fulfilment.domain.model.explainer_metadata import ExplainerMetaData
 
 
