@@ -1,21 +1,21 @@
 import logging
 
 from .validator import DataPresentationValidator
-from ..application.HeatmapService import HeatmapService
+from ..application.heatmap_service import HeatmapService
 from ..domain.model.explainers.response_data import Heatmap
 from ..domain.model.explainer_identifier import ExplainerIdentifier
 from ..domain.model.explainers.response_data import ConfusionMatrix
 from ..domain.model.explainers.response_data import FeatureImportance
 from ..domain.model.explainers.response_data import FeatureDescription
-from ..application.ConfusionMatrixService import ConfusionMatrixService
+from ..application.confusion_matrix_service import ConfusionMatrixService
 from ..domain.model.explainers.response_data import ModelPerformanceMetrics
-from ..application.FeatureImportanceService import FeatureImportanceService
-from ..application.PartialDependenceService import PartialDependenceService
-from ..application.FeatureDescriptionService import FeatureDescriptionService
-from ..application.ModelPerformanceMetricService import ModelPerformanceMetricService
+from ..application.feature_importance_service import FeatureImportanceService
+from ..application.partial_dependence_service import PartialDependenceService
+from ..application.feature_description_service import FeatureDescriptionService
+from ..application.model_performance_metric_service import ModelPerformanceMetricService
 from ..domain.model.explainers.response_data import ModelPerformance, PartialDependence
 from .translator import ExplainerIdentifierTranslator, DataPresentationsOutputTranslator
-from ..application.PlotScatterObservedPredictedService import (
+from ..application.plot_scatter_observed_predicted_service import (
     PlotScatterObservedPredictedService,
 )
 

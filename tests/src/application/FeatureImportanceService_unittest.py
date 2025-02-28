@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 
 from src.adv_xai_fulfilment.domain.model.pilot import Pilot
 from src.adv_xai_fulfilment.domain.model.explainer_identifier import ExplainerIdentifier
-from src.adv_xai_fulfilment.application.FeatureImportanceService import (
+from src.adv_xai_fulfilment.application.feature_importance_service import (
     FeatureImportanceService,
 )
 from src.adv_xai_fulfilment.domain.model.explainers.response_data import (

@@ -7,7 +7,7 @@ from src.adv_xai_fulfilment.domain.model.pilot import Pilot
 from src.adv_xai_fulfilment.domain.model.model_data import ModelData
 from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.explainer_identifier import ExplainerIdentifier
-from src.adv_xai_fulfilment.application.PartialDependenceService import (
+from src.adv_xai_fulfilment.application.partial_dependence_service import (
     PartialDependenceService,
 )
 from src.adv_xai_fulfilment.infrastructure.service.DataLoaderService import (

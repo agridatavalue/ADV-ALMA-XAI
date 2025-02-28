@@ -2,7 +2,7 @@ import logging
 
 from .validator import ExplainerIdentifierValidator
 from src.adv_xai_fulfilment.domain.model.questions import Feedback
-from src.adv_xai_fulfilment.application.QuestionService import QuestionService
+from src.adv_xai_fulfilment.application.question_service import QuestionService
 from .translator import FeedbackRequestTranslator, ExplainerIdentifierTranslator
 from src.adv_xai_fulfilment.domain.model.explainer_identifier import ExplainerIdentifier
 
