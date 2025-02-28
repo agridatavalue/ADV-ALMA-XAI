@@ -1,1 +1,2 @@
+from .bucket_repository import BucketRepository
 from .heatmap_image_generator_repository import HeatmapImageGeneratorRepository

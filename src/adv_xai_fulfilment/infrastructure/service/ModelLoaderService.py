@@ -1,7 +1,7 @@
 import os
 import logging
 
-from ..repository.bucket_repository import BucketRepository
+from ..repository import BucketRepository
 from src.adv_xai_fulfilment.domain.model.model import Model
 from src.adv_xai_fulfilment.domain.service import ModelTranslator
 from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData

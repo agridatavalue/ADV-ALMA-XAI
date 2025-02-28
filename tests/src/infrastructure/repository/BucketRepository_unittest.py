@@ -2,9 +2,7 @@ import os
 import unittest
 from unittest.mock import Mock
 
-from src.adv_xai_fulfilment.infrastructure.repository.bucket_repository import (
-    BucketRepository,
-)
+from src.adv_xai_fulfilment.infrastructure.repository import BucketRepository
 
 
 class FakeMinioResponse:
