@@ -19,10 +19,11 @@ class ExplainerMetaData:
 
     def __init__(
         self,
-        metrics: ModelPerformanceMetrics,
+        *,
         meta_data: ModelMetaData,
         target_name: str,
-        possible_explainers: list[Explainer],
+        metrics: ModelPerformanceMetrics = None,
+        possible_explainers: list[Explainer] = [],
         feature_importance: FeatureImportance = None,
         feedback: list[Question] = [],
         heatmap_images: Heatmap = None,
@@ -34,6 +35,23 @@ class ExplainerMetaData:
         self._feedback = feedback or []
         self._meta_data = meta_data
         self._metrics = metrics
+
+    def detect(self, data: list) -> "ExplainerMetaData":
+        def find(data, type):
+            return next((item for item in data if isinstance(item, type)), None)
+
+        self._metrics = find(data, ModelPerformanceMetrics)
+        self._heatmap_images = find(data, Heatmap)
+        self._feature_importance = find(data, FeatureImportance)
+        self._possible_explainers = [
+            explainer
+            for sublist in data
+            if isinstance(sublist, list)
+            for explainer in sublist
+            if isinstance(explainer, Explainer)
+        ]
+
+        return self
 
     @property
     def model_metadata(self) -> ModelMetaData:
@@ -93,7 +111,9 @@ class ExplainerMetaData:
                 "explanation_method": ["Feature importance", "Model performance"],
                 "scope_of_explanation": ["Local", "Global"],
                 "vizualization type": ["barplot", "scaterplot"],
-                "heatmap": self._heatmap_images if self._heatmap_images else [],
+                "heatmaps": (
+                    self._heatmap_images.to_dict() if self._heatmap_images else []
+                ),
             },
             "compliance_and_ethical_considerations": {
                 "Rights_for_explanation": "XAI framwork caters to explain and respect the rights of individuals, coopratives and stakholders as outlined in GDPR including rights for explanation",

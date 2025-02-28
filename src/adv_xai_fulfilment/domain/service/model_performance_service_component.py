@@ -5,7 +5,6 @@ from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 from sklearn.metrics import accuracy_score, precision_score, average_precision_score
 
 from ..model.model import Model
-from ..model.data_type import DataType
 from ..model.model_data import ModelData
 from ..model.model_metadata import ModelMetaData
 from src.adv_xai_fulfilment.infrastructure.constants import Errors
@@ -38,13 +37,10 @@ class ModelPerformanceServiceComponent:
     ) -> ModelPerformanceMetrics:
         assert isinstance(model, Model), Errors.MODEL_NOT_MODEL
 
-        if model_metadata.data_type == DataType.TABULAR:
-            if data.is_empty or not model:
-                return ModelPerformanceMetrics()
+        if data.is_empty or not model:
+            return ModelPerformanceMetrics()
 
-            if data.y.empty:
-                return ModelPerformanceMetrics()
-        elif model_metadata.data_type == DataType.IMAGE:
+        if data.y.empty:
             return ModelPerformanceMetrics()
 
         prediction_target_index = model_metadata.index_of_target_name(prediction_target)
@@ -83,7 +79,7 @@ class ModelPerformanceServiceComponent:
         )
 
     def __get_metrics_for_classification(
-        self, prediction_target_index: int, model: Model, data: ModelData
+        self, _: int, model: Model, data: ModelData
     ) -> ModelPerformanceMetrics:
         y_pred = model.handler.predict(data.x)
 
