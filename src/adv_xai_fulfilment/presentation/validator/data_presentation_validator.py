@@ -2,6 +2,13 @@ from .abstract_validator import AbstractValidator
 
 
 class DataPresentationValidator(AbstractValidator):
+    def validate_and_sanitize_heatmap(self, request: dict = {}) -> dict:
+        self._validate_model(request.get("model"))
+        self._validate_pilot(request.get("pilot"))
+        self._validate_folder_data(request.get("data"))
+        self._validate_metadata(request.get("meta_data"))
+        return request
+
     def validate_and_sanitize_feature_description(self, request: dict = {}) -> dict:
         self._validate_model(request.get("model"))
         return request

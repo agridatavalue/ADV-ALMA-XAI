@@ -42,7 +42,9 @@ class Model:
     ) -> pd.DataFrame: ...
 
     def __repr__(self) -> str:
-        return 'Model(name="{}", filename="{}")'.format(self.name, self.filename)
+        return '{}(name="{}", filename="{}")'.format(
+            self.__class__.__name__, self.name, self.filename
+        )
 
     def get_confusion_matrix(self, data: ModelData) -> ConfusionMatrix:
         obj = ConfusionMatrix()

@@ -88,8 +88,8 @@ class FeatureImportanceServiceComponent:
 
         logging.info(f"Explainer feature-importance: {explainer}")
 
-        model_data: ModelData = self._data_loader_service.load_data(
-            explainer_identifier
+        model_data: ModelData = self._data_loader_service.load(
+            explainer_identifier, meta_data.data_type
         )
 
         data: pd.DataFrame = selected_model.get_feature_importance(

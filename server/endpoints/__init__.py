@@ -1,6 +1,7 @@
 from .BuildEndpoint import buildBp
 from .TargetsEndpoint import targetsBp
 from .PrepareEndpoint import prepareBp
+from .HeatmapEndpoint import heatmapBp
 from .GetAllQuestionsEndpoint import questionsBp
 from .ExplaineGuideEndpoint import explainerGuideBp
 from .PartialDependenceEndpoint import partialDepBp
@@ -19,6 +20,7 @@ routes = [
     buildBp,
     targetsBp,
     prepareBp,
+    heatmapBp,
     feedbackBp,
     questionsBp,
     partialDepBp,

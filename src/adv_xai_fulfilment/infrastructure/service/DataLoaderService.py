@@ -3,6 +3,7 @@ import logging
 
 import pandas as pd
 
+from ...domain.model.data_type import DataType
 from ...domain.model.model_data import ModelData
 from ..repository.BucketRepository import BucketRepository
 from ...domain.model.explainer_identifier import ExplainerIdentifier
@@ -20,6 +21,16 @@ class DataLoaderService:
                 "secure": os.getenv("MINIO_SECURE", "true").lower() == "true",
             }
         )
+
+    def load(
+        self, expl_id: ExplainerIdentifier, data_type: DataType = DataType.TABULAR
+    ) -> ModelData:
+        if data_type == DataType.TABULAR:
+            return self.load_data(expl_id)
+        elif data_type == DataType.IMAGE:
+            return self.load_images(expl_id)
+
+        raise ValueError(f"Data type {data_type} not supported")
 
     def load_data(self, expl_id: ExplainerIdentifier) -> ModelData:
         if not expl_id.data:
@@ -43,3 +54,28 @@ class DataLoaderService:
             setattr(data, file.replace(".csv", ""), pd.read_csv(current_file))
 
         return data
+
+    def load_images(self, expl_id: ExplainerIdentifier) -> list[ModelData]:
+        if not expl_id.data:
+            return []
+
+        logging.info(f"loading images for {str(expl_id)}")
+
+        result = []
+        for file in self._bucketRepository.listdir(
+            bucket_name=os.getenv("DATA_FOLDER_PATH"), path=expl_id.data
+        ):
+            current_file: str = expl_id.get_data_locale_filepath(file)
+            if not os.path.exists(current_file):
+                os.makedirs(os.path.dirname(current_file), exist_ok=True)
+                current_file = self._bucketRepository.download_from(
+                    bucket_name=os.getenv("DATA_FOLDER_PATH"),
+                    object_name=f"{expl_id.data}/{file}",
+                    destination_file_path=current_file,
+                )
+
+            data = ModelData()
+            data._image_path = current_file
+            result.append(data)
+
+        return result

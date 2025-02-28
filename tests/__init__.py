@@ -21,6 +21,7 @@ from .src.domain.model.ModelCategory_unittest import TestModelCategory
 from .src.domain.service.ModelTranslator_unittest import TestModelTranslator
 from .src.domain.model.ExplainerMetaData_unittest import TestExplainerMetaData
 from .src.domain.service.ExplainerRetriever_unittest import TestExplainerRetriever
+from .src.domain.model.explainers.response_data.heatmap_unittest import TestHeatmap
 from .src.domain.model.machineLearningModel.KerasModel_unittest import TestKerasModel
 
 # ----> SERVICE

@@ -51,6 +51,9 @@ class ExplainerIdentifier:
     def get_explainer_metadata_path(self) -> str:
         return f"{self.model}/{self.__sanitize_for_path(self.prediction_target)}_{self.category.lower()}/metadata.json"
 
+    def get_model_locale_filepath(self) -> str:
+        return os.path.join(os.getenv("TEMP"), self.model, self.model)
+
     def get_model_metadata_locale_filepath(self) -> str:
         return os.path.join(os.getenv("TEMP"), self.model, "metadata.json")
 

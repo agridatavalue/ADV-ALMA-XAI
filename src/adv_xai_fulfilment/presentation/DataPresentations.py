@@ -1,6 +1,8 @@
 import logging
 
 from .validator import DataPresentationValidator
+from ..application.HeatmapService import HeatmapService
+from ..domain.model.explainers.response_data import Heatmap
 from ..domain.model.explainer_identifier import ExplainerIdentifier
 from ..domain.model.explainers.response_data import ConfusionMatrix
 from ..domain.model.explainers.response_data import FeatureImportance
@@ -27,10 +29,12 @@ class DataPresentations:
     _plot_scatter_service: PlotScatterObservedPredictedService
     _output_translator: DataPresentationsOutputTranslator
     _input_translator: ExplainerIdentifierTranslator
+    _heatmap_service: HeatmapService
     _validator: DataPresentationValidator
 
     def __init__(self):
         self._validator = DataPresentationValidator()
+        self._heatmap_service = HeatmapService()
         self._input_translator = ExplainerIdentifierTranslator()
         self._output_translator = DataPresentationsOutputTranslator()
         self._plot_scatter_service = PlotScatterObservedPredictedService()
@@ -39,6 +43,12 @@ class DataPresentations:
         self._feature_importance_service = FeatureImportanceService()
         self._partial_dependence_service = PartialDependenceService()
         self._feature_description_service = FeatureDescriptionService()
+
+    def get_heatmap(self, request: dict = {}) -> Heatmap:
+        logging.info(f"called get_heatmap with params: {request}")
+        self._validator.validate_and_sanitize_heatmap(request)
+        expl_id: ExplainerIdentifier = self._input_translator.translate(request)
+        return self._heatmap_service.get_data(expl_id)
 
     def get_data_source_types(self, request: dict = {}) -> dict:
         logging.info(f"called get_data_source_types with params: {request}")

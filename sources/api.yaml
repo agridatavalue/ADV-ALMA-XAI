@@ -58,6 +58,30 @@ paths:
             tags:
                 - Explainer
 
+    /heatmap:
+        post:
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/HeatMapRequest"
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/HeatMapResponse"
+                "400":
+                    description: Invalid IDs combination supplied
+                "404":
+                    description: Pilot / Model not found
+                "500":
+                    description: Internal server error
+            tags:
+                - ModelCard
+
     /confusion-matrix:
         post:
             summary: Return the confusion matrix data
@@ -395,6 +419,38 @@ components:
             description: "Please enter token in following format: Bearer <JWT>"
             type: http
     schemas:
+        HeatMapRequest:
+            type: object
+            properties:
+                model:
+                    description: the identifier of the model file name
+                    example: "model.pkl"
+                    type: string
+                pilot:
+                    description: the identifier of the pilot
+                    example: "pilot8"
+                    type: string
+                meta_data:
+                    description: the identifier of the metadata file name
+                    example: "metadata.json"
+                    type: string
+                data:
+                    description: the identifier of the data folder name
+                    example: "crop"
+                    type: string
+            required:
+                - model
+                - pilot
+                - meta_data
+                - data
+        HeatMapResponse:
+            type: object
+            properties:
+                sources:
+                    type: array
+                    items:
+                        type: string
+
         ConfusionMatrixRequest:
             type: object
             properties:

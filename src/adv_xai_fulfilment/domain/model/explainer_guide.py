@@ -3,7 +3,7 @@ import numpy as np
 from .model_metadata import ModelMetaData
 from .explainers.response_data import FeatureImportance, FeatureDescription
 from .explainers.response_data import PartialDependence, ExplainerResponseData
-from .explainers.response_data import ModelPerformance, ModelPerformanceMetrics
+from .explainers.response_data import ModelPerformance, ModelPerformanceMetrics, Heatmap
 
 
 class ExplainerGuide:
@@ -14,7 +14,7 @@ class ExplainerGuide:
 
     def get_explainers(self) -> list[ExplainerResponseData]:
         if self._meta_data.is_image:
-            return [FeatureImportance, FeatureDescription]
+            return [Heatmap, FeatureDescription]
 
         if self._meta_data.is_tabular:
             if self._meta_data.is_classification or self._meta_data.is_regression:

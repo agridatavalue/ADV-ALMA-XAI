@@ -1,9 +1,11 @@
+from typing import Union
 import numpy as np
 from sklearn.metrics import roc_auc_score, recall_score, f1_score
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 from sklearn.metrics import accuracy_score, precision_score, average_precision_score
 
 from ..model.model import Model
+from ..model.data_type import DataType
 from ..model.model_data import ModelData
 from ..model.model_metadata import ModelMetaData
 from src.adv_xai_fulfilment.infrastructure.Constants import Errors
@@ -30,15 +32,21 @@ class ModelPerformanceServiceComponent:
         self,
         *,
         model: Model,
-        data: ModelData,
+        data: Union[ModelData, list[ModelData]],
         prediction_target: str,
         model_metadata: ModelMetaData,
     ) -> ModelPerformanceMetrics:
-        if data.is_empty or not model:
-            return ModelPerformanceMetrics()
+        assert isinstance(model, Model), Errors.MODEL_NOT_MODEL
 
-        if data.y.empty:
-            return ModelPerformanceMetrics()
+        if model_metadata.data_type == DataType.TABULAR:
+            if data.is_empty or not model:
+                return ModelPerformanceMetrics()
+
+            if data.y.empty:
+                return ModelPerformanceMetrics()
+        elif model_metadata.data_type == DataType.IMAGE:
+            if not data:
+                return ModelPerformanceMetrics()
 
         prediction_target_index = model_metadata.index_of_target_name(prediction_target)
 

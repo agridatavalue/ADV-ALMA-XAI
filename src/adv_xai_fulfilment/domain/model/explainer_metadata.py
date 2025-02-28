@@ -4,7 +4,8 @@ from .questions import Question
 from .model_metadata import ModelMetaData
 from .explainers.explainer import Explainer
 from .explainer_identifier import ExplainerIdentifier
-from .explainers.response_data import FeatureImportance, ModelPerformanceMetrics
+from .explainers.response_data import ModelPerformanceMetrics
+from .explainers.response_data import FeatureImportance, Heatmap
 
 
 class ExplainerMetaData:
@@ -12,6 +13,7 @@ class ExplainerMetaData:
     _target_name: str
     _feedback: list[Question]
     _meta_data: ModelMetaData
+    _heatmap_images: Heatmap
     _feature_importance: FeatureImportance
     _possible_explainers: list[Explainer]
 
@@ -23,9 +25,11 @@ class ExplainerMetaData:
         possible_explainers: list[Explainer],
         feature_importance: FeatureImportance = None,
         feedback: list[Question] = [],
+        heatmap_images: Heatmap = None,
     ):
         self._possible_explainers = possible_explainers
         self._feature_importance = feature_importance
+        self._heatmap_images = heatmap_images
         self._target_name = target_name
         self._feedback = feedback or []
         self._meta_data = meta_data
@@ -34,6 +38,10 @@ class ExplainerMetaData:
     @property
     def model_metadata(self) -> ModelMetaData:
         return self._meta_data
+
+    @property
+    def heatmap(self) -> Heatmap:
+        return self._heatmap_images
 
     @property
     def feature_importance(self) -> FeatureImportance:
@@ -85,6 +93,7 @@ class ExplainerMetaData:
                 "explanation_method": ["Feature importance", "Model performance"],
                 "scope_of_explanation": ["Local", "Global"],
                 "vizualization type": ["barplot", "scaterplot"],
+                "heatmap": self._heatmap_images if self._heatmap_images else [],
             },
             "compliance_and_ethical_considerations": {
                 "Rights_for_explanation": "XAI framwork caters to explain and respect the rights of individuals, coopratives and stakholders as outlined in GDPR including rights for explanation",

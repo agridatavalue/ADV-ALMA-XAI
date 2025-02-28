@@ -25,6 +25,14 @@ class BucketRepository:
             region=conf.get("region"),
         )
 
+    def listdir(self, bucket_name: str, path: str) -> list[str]:
+        return [
+            obj.object_name.replace(path + "/", "")
+            for obj in self._client.list_objects(
+                bucket_name=bucket_name, prefix=path, recursive=True
+            )
+        ]
+
     def download_from(
         self, bucket_name: str, object_name: str, destination_file_path: str = None
     ) -> str:

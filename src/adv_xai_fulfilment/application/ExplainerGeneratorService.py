@@ -8,12 +8,14 @@ from ..domain.service import ExplainerRetriever
 from ..domain.model.model_metadata import ModelMetaData
 from ..domain.model.explainer_guide import ExplainerGuide
 from ..domain.model.explainers.explainer import Explainer
+from ..domain.model.explainers.response_data import Heatmap
 from ..domain.model.explainer_metadata import ExplainerMetaData
 from ..domain.model.explainer_identifier import ExplainerIdentifier
 from ..domain.model.explainers.response_data import FeatureImportance
 from ..infrastructure.service.DataLoaderService import DataLoaderService
 from ..domain.model.explainers.response_data import ExplainerResponseData
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService
+from ..domain.service.heatmap_component_service import HeatmapComponentService
 from ..infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
 from ..domain.service.model_performance_service_component import (
     ModelPerformanceServiceComponent,
@@ -34,6 +36,7 @@ class ExplainerGeneratorService:
     _model_loader_service: ModelLoaderService
     _explainer_service: ExplainerRepositoryService
     _metadata_loader_service: MetaDataLoaderService
+    _heatmap_component_service = HeatmapComponentService
 
     _mpm_service: ModelPerformanceServiceComponent
     _fi_service_comp: FeatureImportanceServiceComponent
@@ -46,6 +49,7 @@ class ExplainerGeneratorService:
         self._metadata_loader_service = MetaDataLoaderService()
         self._fi_service_comp = FeatureImportanceServiceComponent()
         self._explainer_service = ExplainerRepositoryService()
+        self._heatmap_component_service = HeatmapComponentService()
 
     def prepare_explainer(
         self, request: ExplainerIdentifier
@@ -62,7 +66,7 @@ class ExplainerGeneratorService:
             logging.error("empty model")
             raise Errors.MODEL_NOT_MODEL
 
-        data: ModelData = self._data_loader_service.load_data(request)
+        data: ModelData = self._data_loader_service.load(request, meta_data.data_type)
 
         return meta_data, selected_model, data
 
@@ -76,6 +80,7 @@ class ExplainerGeneratorService:
         return ExplainerGuide(meta_data).get_explainers()
 
     def generate_explainer(self, request: ExplainerIdentifier) -> list[Explainer]:
+        # TODO: refactor this method
         logging.debug(f"generating the explainer for {str(request)}")
         feature_importance: FeatureImportance = self._fi_service_comp.generate_data(
             request
@@ -88,6 +93,10 @@ class ExplainerGeneratorService:
             logging.debug(
                 f"prediction target not provided, using the first target: {request.prediction_target}"
             )
+
+        genarated_images: Heatmap = Heatmap()
+        if meta_data.is_image:
+            genarated_images = self._heatmap_component_service.generate_data(request)
 
         logging.debug(
             f"selecting the matching Explainers for model {selected_model.__class__.__name__}"
@@ -120,10 +129,12 @@ class ExplainerGeneratorService:
             target_name=request.prediction_target,
             possible_explainers=created_explainers,
             metrics=self._mpm_service.get_metrics(
-                prediction_target_index=0,
+                prediction_target=request.prediction_target,
+                model_metadata=meta_data,
                 model=selected_model,
                 data=data,
             ),
+            genarated_images=genarated_images,
             feature_importance=feature_importance,
         )
 
