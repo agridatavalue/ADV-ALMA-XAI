@@ -4,13 +4,18 @@ from ..model.explainers.response_data import Heatmap
 from ..model.explainer_identifier import ExplainerIdentifier
 from ...infrastructure.service.DataLoaderService import DataLoaderService
 from ...infrastructure.repository import HeatmapImageGeneratorRepository
+from ...infrastructure.service.ExplainerRepositoryService import (
+    ExplainerRepositoryService,
+)
 
 
 class HeatmapComponentService:
     _data_loader_service: DataLoaderService
+    _explainer_repository_service: ExplainerRepositoryService
 
     def __init__(self):
         self._data_loader_service = DataLoaderService()
+        self._explainer_repository_service = ExplainerRepositoryService()
         self._heatmap_generator_repository = HeatmapImageGeneratorRepository()
 
     def generate_data(self, expl_id: ExplainerIdentifier) -> Heatmap:
@@ -20,10 +25,13 @@ class HeatmapComponentService:
         response = Heatmap()
         for current_img in images:
             logging.debug(f"Processing image {current_img.image_path}")
-            heatmap_filepath: str = self._heatmap_generator_repository.generate(
+            heatmap_locale_filepath: str = self._heatmap_generator_repository.generate(
                 current_img.image_path, expl_id.get_model_locale_filepath()
             )
-            response.add(heatmap_filepath)
+            # heatmap_filepath: str = self._explainer_repository_service.upload_file(
+            #     expl_id, heatmap_locale_filepath
+            # )
+            response.add(heatmap_locale_filepath)
 
         logging.debug(f"Generated {len(response.heatmaps)} heatmaps")
         return response

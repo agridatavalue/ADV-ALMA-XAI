@@ -1,3 +1,4 @@
+import os
 import logging
 from flask import Blueprint, request, jsonify, make_response
 
@@ -11,10 +12,13 @@ def build():
     if request.method != "POST":
         return "Not a valid request"
 
+    def prepare_path(path: str):
+        return path.replace(os.getenv("TEMP"), "")
+
     try:
         response = DataPresentations().get_heatmap(request.get_json())
         return make_response(
-            jsonify({"sources": response.heatmaps}),
+            jsonify({"sources": [prepare_path(r) for r in response.heatmaps]}),
             200,
         )
     except Exception as e:

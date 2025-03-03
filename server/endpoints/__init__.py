@@ -2,6 +2,7 @@ from .BuildEndpoint import buildBp
 from .TargetsEndpoint import targetsBp
 from .PrepareEndpoint import prepareBp
 from .HeatmapEndpoint import heatmapBp
+from .ImageViewerEndpoint import imageBp
 from .GetAllQuestionsEndpoint import questionsBp
 from .ExplaineGuideEndpoint import explainerGuideBp
 from .PartialDependenceEndpoint import partialDepBp
@@ -17,6 +18,7 @@ from .TabulateFeatureDescriptionEndpoint import featureDescriptionEndpointBp
 from .TabulateModelPerformanceMetricEndpoint import modelPerformanceMetricsBp
 
 routes = [
+    imageBp,
     buildBp,
     targetsBp,
     prepareBp,

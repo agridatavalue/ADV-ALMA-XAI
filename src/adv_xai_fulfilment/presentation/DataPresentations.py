@@ -1,3 +1,4 @@
+import os
 import logging
 
 from .validator import DataPresentationValidator
@@ -43,6 +44,21 @@ class DataPresentations:
         self._feature_importance_service = FeatureImportanceService()
         self._partial_dependence_service = PartialDependenceService()
         self._feature_description_service = FeatureDescriptionService()
+
+    def get_image(self, request: dict = {}) -> str:
+        logging.info(f"called get_image with params: {request}")
+        self._validator.validate_and_sanitize_get_image(request)
+
+        complete_filepath: str = os.path.join(
+            os.getenv("TEMP"), request.get("filename")
+        )
+        if complete_filepath == request.get("filename"):
+            complete_filepath = os.getenv("TEMP") + request.get("filename")
+
+        if not os.path.exists(complete_filepath):
+            raise FileNotFoundError(f"File not found: {request.get('filename')}")
+
+        return complete_filepath
 
     def get_heatmap(self, request: dict = {}) -> Heatmap:
         logging.info(f"called get_heatmap with params: {request}")
