@@ -57,6 +57,13 @@ class ExplainerRepositoryService:
             target_filepath=identifier.get_filename_path(explainer.file_name),
         )
 
+    def upload_file(self, identifier: ExplainerIdentifier, file_path: str) -> str:
+        return self._bucketRepository.upload_to(
+            bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
+            local_filepath=file_path,
+            target_filepath=identifier.get_explainered_data_path(file_path),
+        )
+
     def upload_metadata(
         self, expl_id: ExplainerIdentifier, metadata: ExplainerMetaData
     ) -> str:
