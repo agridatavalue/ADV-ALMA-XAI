@@ -14,7 +14,10 @@ class ExplainerGuide:
 
     def get_explainers(self) -> list[ExplainerResponseData]:
         if self._meta_data.is_image:
-            return [Heatmap, FeatureDescription]
+            list_to_return = [Heatmap()]
+            if self._meta_data.feature_descriptions:
+                list_to_return.append(FeatureDescription())
+            return list_to_return
 
         if self._meta_data.is_tabular:
             if self._meta_data.is_classification or self._meta_data.is_regression:
