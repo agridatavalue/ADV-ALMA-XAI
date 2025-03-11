@@ -829,7 +829,7 @@ components:
                         type: string
             required:
                 - model
-                - metadata
+                - meta_data
                 - pilot
         BuildResponse:
             type: object
