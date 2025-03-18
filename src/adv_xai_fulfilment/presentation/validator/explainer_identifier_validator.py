@@ -5,7 +5,6 @@ class ExplainerIdentifierValidator(AbstractValidator):
     def validate_and_sanitize_questions_(self, request: dict = {}) -> dict:
         self._validate_model(request.get("model"))
         self._validate_pilot(request.get("pilot"))
-        self._validate_metadata(request.get("meta_data"))
         self._validate_prediction_target_str(request.get("prediction_target"))
         return request
 

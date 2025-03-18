@@ -5,13 +5,11 @@ class ExplainerGeneratorValidator(AbstractValidator):
     def validate_and_sanitize_build(self, data: dict) -> dict:
         self._validate_model(data.get("model"))
         self._validate_pilot(data.get("pilot"))
-        self._validate_metadata(data.get("metadata", data.get("meta_data")))
         return data
 
     def validate_and_sanitize_prepare(self, data: dict) -> dict:
         self._validate_model(data.get("model"))
         self._validate_pilot(data.get("pilot"))
-        self._validate_metadata(data.get("metadata", data.get("meta_data")))
         return data
 
     def validate_and_sanitize_ask(self, data: dict) -> dict:
@@ -23,5 +21,4 @@ class ExplainerGeneratorValidator(AbstractValidator):
     def validate_and_sanitize_get_data(self, data: dict) -> dict:
         self._validate_model(data.get("model"))
         self._validate_pilot(data.get("pilot"))
-        self._validate_metadata(data.get("metadata", data.get("meta_data")))
         return data

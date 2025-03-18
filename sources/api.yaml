@@ -430,19 +430,9 @@ components:
                     description: the identifier of the pilot
                     example: "pilot8"
                     type: string
-                meta_data:
-                    description: the identifier of the metadata file name
-                    example: "metadata.json"
-                    type: string
-                data:
-                    description: the identifier of the data folder name
-                    example: "crop"
-                    type: string
             required:
                 - model
                 - pilot
-                - meta_data
-                - data
         HeatMapResponse:
             type: object
             properties:
@@ -462,18 +452,13 @@ components:
                     description: the identifier of the pilot
                     example: "pilot8"
                     type: string
-                meta_data:
-                    description: the identifier of the metadata file name
-                    example: "metadata.json"
-                    type: string
-                data:
-                    description: the identifier of the data folder name
-                    example: "crop"
-                    type: string
                 prediction_target:
                     description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
                     example: "Biomass"
                     type: string
+            required:
+                - model
+                - pilot
         ConfusionMatrixResponse:
             type: object
             properties:
@@ -509,14 +494,6 @@ components:
                     description: the identifier of the pilot
                     example: "pilot8"
                     type: string
-                meta_data:
-                    description: the identifier of the metadata file name
-                    example: "metadata.json"
-                    type: string
-                data:
-                    description: the identifier of the data folder name
-                    example: "crop"
-                    type: string
                 prediction_target:
                     description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
                     example: "Biomass"
@@ -526,11 +503,9 @@ components:
                     example: "NO3-N 0-30 cm start (kg/ha)"
                     type: string
             required:
-                - data
                 - model
                 - pilot
                 - feature
-                - meta_data
                 - prediction_target
         PartialDependenceResponse:
             type: object
@@ -661,14 +636,6 @@ components:
                     description: the identifier of the model file name
                     example: "model.pkl"
                     type: string
-                data:
-                    description: the identifier of the data folder name
-                    example: "crop"
-                    type: string
-                meta_data:
-                    description: the identifier of the metadata file name
-                    example: "metadata.json"
-                    type: string
                 prediction_target:
                     description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
                     example: "Biomass"
@@ -678,10 +645,8 @@ components:
                     example: "pilot8"
                     type: string
             required:
-                - data
                 - model
                 - pilot
-                - meta_data
         FeatureImportanceResponse:
             type: object
             properties:
@@ -703,10 +668,6 @@ components:
                 model:
                     description: the identifier of the model file name
                     example: "model.pkl"
-                    type: string
-                meta_data:
-                    description: the identifier of the metadata file name
-                    example: "metadata.json"
                     type: string
             required:
                 - model
@@ -736,23 +697,13 @@ components:
                     description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
                     example: "Biomass"
                     type: string
-                meta_data:
-                    description: the identifier of the metadata file name
-                    example: "metadata.json"
-                    type: string
-                data:
-                    description: the identifier of the data folder name
-                    example: "crop"
-                    type: string
                 pilot:
                     description: the identifier of the pilot
                     example: "pilot8"
                     type: string
             required:
                 - model
-                - data
                 - pilot
-                - meta_data
         ModelPerformanceMetricsResponse:
             type: array
             items:
@@ -771,22 +722,13 @@ components:
                     description: the identifier of the model file name
                     example: "model.pkl"
                     type: string
-                data:
-                    description: the identifier of the data folder name
-                    example: "crop"
-                    type: string
                 prediction_target:
                     description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
                     example: "Biomass"
                     type: string
-                meta_data:
-                    description: the identifier of the metadata file name
-                    example: "metadata.json"
-                    type: string
             required:
                 - data
                 - model
-                - meta_data
         ModelPerformanceResponse:
             type: object
             properties:
