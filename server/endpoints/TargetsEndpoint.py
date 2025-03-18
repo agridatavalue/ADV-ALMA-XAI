@@ -11,7 +11,6 @@ def TargetsEndpoint():
     if request.method != "POST":
         return "Not a valid request"
 
-    data: dict = 
     logging.info(f"called /targets api with params {data}")
     try:
         response: dict = DataPresentations().get_targets(request.get_json())

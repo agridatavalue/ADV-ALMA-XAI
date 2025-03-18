@@ -11,7 +11,6 @@ def DataDistributionEndpoint():
     if request.method != "POST":
         return "Not a valid request"
 
-    logging.info(f"called /data-distribution api with params {data}")
     try:
         response: dict = DataPresentations().get_distribution(request.get_json())
         return make_response(

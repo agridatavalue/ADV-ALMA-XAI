@@ -11,8 +11,6 @@ def FeatureAverageScoreEndpoint():
     if request.method != "POST":
         return "Not a valid request"
 
-    data: dict = 
-    logging.info(f"called /data-features-average-scores api with params {data}")
     try:
         response: dict = DataPresentations().get_features_average_scores(request.get_json())
         return make_response(
