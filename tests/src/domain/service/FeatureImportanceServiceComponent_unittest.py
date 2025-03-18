@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 
-from src.adv_xai_fulfilment.domain.model.pilot import Pilot
+from src.adv_xai_fulfilment.domain.model.partner import Partner
 from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.explainers.explainer import Explainer
 from src.adv_xai_fulfilment.domain.model.explainer_metadata import ExplainerMetaData
@@ -22,7 +22,7 @@ class TestFeatureImportanceServiceComponent(unittest.TestCase):
     def setUp(self):
         self.request = ExplainerIdentifier(
             model="test",
-            pilot=Pilot("test"),
+            partner=Partner("test"),
             prediction_target="test",
             metadata_identifier="test",
         )

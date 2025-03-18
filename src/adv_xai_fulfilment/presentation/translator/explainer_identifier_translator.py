@@ -1,4 +1,4 @@
-from src.adv_xai_fulfilment.domain.model.pilot import Pilot
+from src.adv_xai_fulfilment.domain.model.partner import Partner
 from src.adv_xai_fulfilment.domain.model.explainer_identifier import ExplainerIdentifier
 
 
@@ -9,7 +9,7 @@ class ExplainerIdentifierTranslator:
                 prediction_target=pred,
                 data=request.get("data"),
                 model=request.get("model"),
-                pilot=Pilot(request.get("pilot")),
+                partner=Partner(request.get("partner")),
                 metadata_identifier=request.get("metadata", request.get("meta_data")),
             )
             for pred in self.__get_prediction_targets(request)

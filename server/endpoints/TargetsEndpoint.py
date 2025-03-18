@@ -11,14 +11,10 @@ def TargetsEndpoint():
     if request.method != "POST":
         return "Not a valid request"
 
-    data: dict = request.get_json()
+    data: dict = 
     logging.info(f"called /targets api with params {data}")
     try:
-        response: dict = DataPresentations().get_targets(
-            model_filename=data.get("model"),
-            meta_data_filename=data.get("meta_data"),
-            pilot=data.get("pilot"),
-        )
+        response: dict = DataPresentations().get_targets(request.get_json())
         return make_response(
             jsonify(response),
             200,

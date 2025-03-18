@@ -107,7 +107,7 @@ sequenceDiagram
     deactivate QuestionService
 ```
 
--   **save_pilot_feedback** method:
+-   **save_partner_feedback** method:
 
 ```mermaid
 sequenceDiagram
@@ -160,7 +160,7 @@ src/adv_xai_fulfilment/domain/model/ExplainerMetaData.py                        
 src/adv_xai_fulfilment/domain/model/FeatureDescription.py                                     12      1    92%
 src/adv_xai_fulfilment/domain/model/Model.py                                                  19      1    95%
 src/adv_xai_fulfilment/domain/model/ModelMetaData.py                                          35      4    89%
-src/adv_xai_fulfilment/domain/model/Pilot.py                                                   9      2    78%
+src/adv_xai_fulfilment/domain/model/Partner.py                                                 9      2    78%
 src/adv_xai_fulfilment/domain/model/explainers/AleExplainer.py                                13      0   100%
 src/adv_xai_fulfilment/domain/model/explainers/AnchorsExplainer.py                            11      0   100%
 src/adv_xai_fulfilment/domain/model/explainers/CounterFactualsPrototypesExplainer.py          11      0   100%

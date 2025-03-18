@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 
-from src.adv_xai_fulfilment.domain.model.pilot import Pilot
+from src.adv_xai_fulfilment.domain.model.partner import Partner
 from src.adv_xai_fulfilment.domain.model.explainer_identifier import ExplainerIdentifier
 from src.adv_xai_fulfilment.application.feature_importance_service import (
     FeatureImportanceService,
@@ -25,7 +25,7 @@ class TestFeatureImportanceService(unittest.TestCase):
         actual = testObj.get_data(
             ExplainerIdentifier(
                 model="model",
-                pilot=Pilot("pilot"),
+                partner=Partner("partner"),
                 metadata_identifier="metadata_identifier",
                 prediction_target="prediction_target",
             )

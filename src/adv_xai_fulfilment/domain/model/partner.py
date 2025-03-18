@@ -1,4 +1,4 @@
-class Pilot:
+class Partner:
     _id: str
 
     def __init__(self, id: str):
@@ -9,4 +9,4 @@ class Pilot:
         return self._id
 
     def __repr__(self) -> str:
-        return f"Pilot(id={self.id})"
+        return f"Partner(id={self.id})"

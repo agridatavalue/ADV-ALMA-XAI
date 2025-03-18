@@ -90,8 +90,8 @@ class ExplainerGeneratorService:
         explainer_identifier: ExplainerIdentifier,
     ):
         explainer: Explainer = self._explainer_retriever.get_by_name(explainer_name)
-        pilot_data = self._model_loader_service.download_for(
-            pilot=explainer_identifier.pilot.id
+        partner_data = self._model_loader_service.download_for(
+            partner=explainer_identifier.partner.id
         )
-        explainer.train_with_pilot_data(pilot_data)
+        explainer.train_with_partner_data(partner_data)
         return explainer.ask_to_llm(request)

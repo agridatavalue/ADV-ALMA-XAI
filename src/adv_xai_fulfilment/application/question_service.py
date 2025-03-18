@@ -28,7 +28,7 @@ class QuestionService:
 
         return [q.verticalize_for(meta_data.model_metadata) for q in Question.get_all()]
 
-    def save_pilot_feedback(self, feedback: Feedback, answers: list[dict]) -> Feedback:
+    def save_partner_feedback(self, feedback: Feedback, answers: list[dict]) -> Feedback:
         if not feedback.explainer_identifier.category:
             feedback.explainer_identifier.category = "regression"
 

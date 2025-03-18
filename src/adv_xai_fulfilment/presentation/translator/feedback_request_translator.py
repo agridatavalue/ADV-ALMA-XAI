@@ -1,4 +1,4 @@
-from ...domain.model.pilot import Pilot
+from ...domain.model.partner import Partner
 from ...domain.model.questions import Answer, Question, Feedback
 from .explainer_identifier_translator import ExplainerIdentifierTranslator
 
@@ -20,7 +20,7 @@ class FeedbackRequestTranslator:
 
     def translate_request(self, request: dict) -> Feedback:
         return Feedback(
-            pilot=Pilot(request.get("pilot")),
+            partner=Partner(request.get("partner")),
             questions=[self.__translate_question(q) for q in request.get("responses")],
             explainer_identifier=self._explainer_identifier_translator.translate(
                 request=request

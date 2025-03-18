@@ -13,7 +13,7 @@ def confusion_matrix():
 
     try:
         response = DataPresentations().get_confusion_matrix(request.get_json())
-        print(">>> response", response.data)
+        
         return make_response(
             jsonify(response.to_dict()),
             200,

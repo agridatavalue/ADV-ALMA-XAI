@@ -11,7 +11,7 @@ paths:
     /build:
         post:
             summary: Build the explainer
-            description: Build explainer for a given pilot
+            description: Build explainer for a given partner
             operationId: build
             requestBody:
                 required: true
@@ -29,14 +29,14 @@ paths:
                 "400":
                     description: Invalid IDs combination supplied
                 "404":
-                    description: Pilot / Model not found
+                    description: Partner / Model not found
             tags:
                 - Explainer
 
     /prepare:
         post:
             summary: Prepare the explainer
-            description: Prepare explainer for a given pilot
+            description: Prepare explainer for a given partner
             operationId: prepare
             requestBody:
                 required: true
@@ -54,7 +54,7 @@ paths:
                 "400":
                     description: Invalid IDs combination supplied
                 "404":
-                    description: Pilot / Model not found
+                    description: Partner / Model not found
             tags:
                 - Explainer
 
@@ -76,7 +76,7 @@ paths:
                 "400":
                     description: Invalid IDs combination supplied
                 "404":
-                    description: Pilot / Model not found
+                    description: Partner / Model not found
                 "500":
                     description: Internal server error
             tags:
@@ -85,7 +85,7 @@ paths:
     /confusion-matrix:
         post:
             summary: Return the confusion matrix data
-            description: Return the confusion matrix data for a given pilot
+            description: Return the confusion matrix data for a given partner
             operationId: confusionMatrix
             requestBody:
                 required: true
@@ -103,7 +103,7 @@ paths:
                 "400":
                     description: Invalid IDs combination supplied
                 "404":
-                    description: Pilot / Model not found
+                    description: Partner / Model not found
                 "500":
                     description: Internal server error
             tags:
@@ -112,7 +112,7 @@ paths:
     /partial-dependence:
         post:
             summary: Return the partial dependence data
-            description: Return the partial dependence data for a given pilot
+            description: Return the partial dependence data for a given partner
             operationId: partialDependence
             requestBody:
                 required: true
@@ -130,7 +130,7 @@ paths:
                 "400":
                     description: Invalid IDs combination supplied
                 "404":
-                    description: Pilot / Model not found
+                    description: Partner / Model not found
                 "500":
                     description: Internal server error
             tags:
@@ -139,7 +139,7 @@ paths:
     /get-explainer-guide:
         get:
             summary: Return the explainer data
-            description: Return the explainer data for a given pilot
+            description: Return the explainer data for a given partner
             operationId: getExplainerData
             parameters:
                 - name: model
@@ -163,11 +163,11 @@ paths:
                   example: "Biomass"
                   schema:
                       type: string
-                - name: pilot
+                - name: partner
                   in: query
                   required: true
-                  description: the identifier of the pilot
-                  example: "pilot8"
+                  description: the identifier of the partner
+                  example: "inagro"
                   schema:
                       type: string
             responses:
@@ -180,14 +180,14 @@ paths:
                 "400":
                     description: Invalid IDs combination supplied
                 "404":
-                    description: Pilot / Model not found
+                    description: Partner / Model not found
             tags:
                 - Explainer
 
     /feature-importance:
         post:
             summary: Return the feature importance data
-            description: Return the feature importance data for a given pilot
+            description: Return the feature importance data for a given partner
             operationId: featureImportance
             requestBody:
                 required: true
@@ -205,7 +205,7 @@ paths:
                 "400":
                     description: Invalid IDs combination supplied
                 "404":
-                    description: Pilot / Model not found
+                    description: Partner / Model not found
                 "500":
                     description: Internal server error
             tags:
@@ -214,7 +214,7 @@ paths:
     /feature-descriptions:
         post:
             summary: Return the feature descriptions
-            description: Return the feature descriptions for a given pilot
+            description: Return the feature descriptions for a given partner
             operationId: featureDescriptions
             requestBody:
                 required: true
@@ -230,7 +230,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/FeatureDescriptionResponse"
                 "404":
-                    description: Pilot / Model not found
+                    description: Partner / Model not found
                 "500":
                     description: Internal server error
             tags:
@@ -239,7 +239,7 @@ paths:
     /model-performance-metrics:
         post:
             summary: Return the model performance metrics
-            description: Return the model performance metrics for a given pilot
+            description: Return the model performance metrics for a given partner
             operationId: modelPerformanceMetrics
             requestBody:
                 required: true
@@ -257,7 +257,7 @@ paths:
                 "400":
                     description: Invalid IDs combination supplied
                 "404":
-                    description: Pilot / Model not found
+                    description: Partner / Model not found
                 "500":
                     description: Internal server error
             tags:
@@ -266,7 +266,7 @@ paths:
     /model-performance:
         post:
             summary: Return the model performance data
-            description: Return the model performance data for a given pilot
+            description: Return the model performance data for a given partner
             operationId: modelPerformance
             requestBody:
                 required: true
@@ -284,7 +284,7 @@ paths:
                 "400":
                     description: Invalid IDs combination supplied
                 "404":
-                    description: Pilot / Model not found
+                    description: Partner / Model not found
                 "500":
                     description: Internal server error
             tags:
@@ -309,7 +309,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/AskResponse"
                 "404":
-                    description: Pilot / Explainer not found
+                    description: Partner / Explainer not found
             tags:
                 - Explainer
 
@@ -332,11 +332,11 @@ paths:
                   example: "metadata.json"
                   schema:
                       type: string
-                - name: pilot
+                - name: partner
                   in: query
                   required: true
-                  description: the identifier of the pilot
-                  example: "pilot8"
+                  description: the identifier of the partner
+                  example: "inagro"
                   schema:
                       type: string
                 - name: prediction_target
@@ -396,7 +396,7 @@ paths:
                 "400":
                     description: Invalid IDs combination supplied
                 "404":
-                    description: Pilot / Model not found
+                    description: Partner / Model not found
             tags:
                 - DataCard
 
@@ -426,13 +426,13 @@ components:
                     description: the identifier of the model file name
                     example: "model.pkl"
                     type: string
-                pilot:
-                    description: the identifier of the pilot
-                    example: "pilot8"
+                partner:
+                    description: the identifier of the partner
+                    example: "inagro"
                     type: string
             required:
                 - model
-                - pilot
+                - partner
         HeatMapResponse:
             type: object
             properties:
@@ -448,9 +448,9 @@ components:
                     description: the identifier of the model file name
                     example: "model.pkl"
                     type: string
-                pilot:
-                    description: the identifier of the pilot
-                    example: "pilot8"
+                partner:
+                    description: the identifier of the partner
+                    example: "inagro"
                     type: string
                 prediction_target:
                     description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
@@ -458,7 +458,7 @@ components:
                     type: string
             required:
                 - model
-                - pilot
+                - partner
         ConfusionMatrixResponse:
             type: object
             properties:
@@ -490,9 +490,9 @@ components:
                     description: the identifier of the model file name
                     example: "model.pkl"
                     type: string
-                pilot:
-                    description: the identifier of the pilot
-                    example: "pilot8"
+                partner:
+                    description: the identifier of the partner
+                    example: "inagro"
                     type: string
                 prediction_target:
                     description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
@@ -504,7 +504,7 @@ components:
                     type: string
             required:
                 - model
-                - pilot
+                - partner
                 - feature
                 - prediction_target
         PartialDependenceResponse:
@@ -595,9 +595,9 @@ components:
         FeedbackRequest:
             type: object
             properties:
-                pilot:
-                    description: the identifier of the pilot
-                    example: "pilot8"
+                partner:
+                    description: the identifier of the partner
+                    example: "inagro"
                     type: string
                 model:
                     description: the identifier of the model file name
@@ -619,7 +619,7 @@ components:
                             answer:
                                 type: string
             required:
-                - pilot
+                - partner
                 - model
                 - responses
                 - prediction_target
@@ -640,13 +640,13 @@ components:
                     description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
                     example: "Biomass"
                     type: string
-                pilot:
-                    description: the identifier of the pilot
-                    example: "pilot8"
+                partner:
+                    description: the identifier of the partner
+                    example: "inagro"
                     type: string
             required:
                 - model
-                - pilot
+                - partner
         FeatureImportanceResponse:
             type: object
             properties:
@@ -697,13 +697,13 @@ components:
                     description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
                     example: "Biomass"
                     type: string
-                pilot:
-                    description: the identifier of the pilot
-                    example: "pilot8"
+                partner:
+                    description: the identifier of the partner
+                    example: "inagro"
                     type: string
             required:
                 - model
-                - pilot
+                - partner
         ModelPerformanceMetricsResponse:
             type: array
             items:
@@ -756,9 +756,9 @@ components:
                     description: path for the metadata file
                     example: "metadata.json"
                     type: string
-                pilot:
-                    description: the identifier of the pilot
-                    example: "pilot8"
+                partner:
+                    description: the identifier of the partner
+                    example: "inagro"
                     type: string
                 data:
                     description: optional
@@ -772,7 +772,7 @@ components:
             required:
                 - model
                 - meta_data
-                - pilot
+                - partner
         BuildResponse:
             type: object
             properties:
@@ -799,9 +799,9 @@ components:
                     description: path for the metadata file
                     example: "metadata.json"
                     type: string
-                pilot:
-                    description: the identifier of the pilot
-                    example: "pilot8"
+                partner:
+                    description: the identifier of the partner
+                    example: "inagro"
                     type: string
                 data:
                     description: optional
@@ -815,7 +815,7 @@ components:
             required:
                 - model
                 - metadata
-                - pilot
+                - partner
         PrepareResponse:
             type: object
             properties:
@@ -833,12 +833,12 @@ components:
                     description: explainer name
                     example: "ALE"
                     type: string
-                pilot:
-                    description: the identifier of the pilot
-                    example: "pilot8"
+                partner:
+                    description: the identifier of the partner
+                    example: "inagro"
                     type: string
             required:
-                - pilot
+                - partner
                 - request
                 - explainer
         AskResponse:

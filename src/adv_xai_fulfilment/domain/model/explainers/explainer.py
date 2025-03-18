@@ -79,7 +79,7 @@ class Explainer(ABC):
     def build(self, model, data: dict):
         raise NotImplementedError("Not implemented yet.")
 
-    def train_with_pilot_data(self, pilot_data: dict) -> bool:
+    def train_with_partner_data(self, partner_data: dict) -> bool:
         return False
 
     def ask_to_llm(self, request: str) -> str:

@@ -93,7 +93,7 @@ class DataPresentations:
     def genarate_performance_scatter_plot(self, data: dict = {}) -> dict:
         data_sanitized: dict = self._validator.validate_and_sanitize_scatter(data)
         expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
-        return self._plot_scatter_service.genarate_data_for_pilot(expl_id)
+        return self._plot_scatter_service.genarate_data_for_partner(expl_id)
 
     def get_model_performance_metrics(self, data: dict = {}) -> ModelPerformanceMetrics:
         logging.info(f"called get_model_performance_metrics with params: {data}")

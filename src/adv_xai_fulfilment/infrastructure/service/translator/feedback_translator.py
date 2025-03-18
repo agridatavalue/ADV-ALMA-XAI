@@ -1,4 +1,4 @@
-from src.adv_xai_fulfilment.domain.model.pilot import Pilot
+from src.adv_xai_fulfilment.domain.model.partner import Partner
 from src.adv_xai_fulfilment.domain.model.questions import Answer, Question, Feedback
 
 
@@ -23,7 +23,7 @@ class FeedbackTranslator:
 
     def translate(self, data: dict) -> Feedback:
         return Feedback(
-            pilot=Pilot(data.get("pilot")),
+            partner=Partner(data.get("partner")),
             questions=self.__translate_questions(data.get("questions")),
         )
 

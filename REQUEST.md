@@ -2,7 +2,7 @@
 -   in bucket object, cartella explanetors dobbiamo creare gli explainer da XAI
 
     -   deve avere metadata
-    -   ogni pilot avrà la sua cartella
+    -   ogni partner avrà la sua cartella
 
 -   NUOVE FEATURES:
     -   [API] aggiungere LLM per spiegazione in linguaggio naturale dell'explainer creato

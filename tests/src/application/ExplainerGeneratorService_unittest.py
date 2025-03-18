@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 import pandas as pd
 
 from src.adv_xai_fulfilment.domain.model.model import Model
-from src.adv_xai_fulfilment.domain.model.pilot import Pilot
+from src.adv_xai_fulfilment.domain.model.partner import Partner
 from src.adv_xai_fulfilment.domain.service import ExplainerRetriever
 from src.adv_xai_fulfilment.domain.model.model_data import ModelData
 from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
@@ -60,7 +60,7 @@ class TestExplainerGeneratorService(unittest.TestCase):
         # Create a mock ExplainerIdentifier
         mock_identifier = ExplainerIdentifier(
             data="test_data",
-            pilot=Pilot("test_pilot"),
+            partner=Partner("test_partner"),
             model="test_model",
             metadata_identifier="test_metadata_identifier",
             prediction_target="target1",

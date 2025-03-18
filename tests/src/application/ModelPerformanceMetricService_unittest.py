@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import MagicMock, patch
 
 from src.adv_xai_fulfilment.domain.model.model import Model
-from src.adv_xai_fulfilment.domain.model.pilot import Pilot
+from src.adv_xai_fulfilment.domain.model.partner import Partner
 from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.explainer_identifier import ExplainerIdentifier
 from src.adv_xai_fulfilment.application.model_performance_metric_service import (
@@ -45,7 +45,7 @@ class TestModelPerformanceMetricService(unittest.TestCase):
         explainer_identifier = ExplainerIdentifier(
             data="data",
             model="mock_model",
-            pilot=Pilot("pilot"),
+            partner=Partner("partner"),
             prediction_target="target",
             metadata_identifier="test_metadata_identifier",
         )
@@ -103,7 +103,7 @@ class TestModelPerformanceMetricService(unittest.TestCase):
         explainer_identifier = ExplainerIdentifier(
             data="crop",
             model="mock_model",
-            pilot=Pilot("pilot"),
+            partner=Partner("partner"),
             prediction_target="prediction_target",
             metadata_identifier="test_metadata_identifier",
         )

@@ -1,7 +1,7 @@
 import re
 import os
 
-from .pilot import Pilot
+from .partner import Partner
 from .explainers.explainer import Explainer
 from ...infrastructure.constants import Errors
 from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
@@ -10,7 +10,7 @@ from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
 class ExplainerIdentifier:
     data: str
     model: str
-    pilot: Pilot
+    partner: Partner
 
     _metadata: ModelMetaData
     metadata_identifier: str
@@ -23,14 +23,14 @@ class ExplainerIdentifier:
         self,
         *,
         model: str,
-        pilot: Pilot,
+        partner: Partner,
         metadata_identifier: str,
         prediction_target: str,
         data: str = "",
     ):
         self.data = data
         self.model = model
-        self.pilot = pilot
+        self.partner = partner
         self.category = ""
         self._metadata = None
         self.prediction_target = prediction_target
@@ -49,10 +49,13 @@ class ExplainerIdentifier:
         self.category = metadata.model_category
 
     def get_explainer_metadata_path(self) -> str:
-        return f"{self.model}/{self.__sanitize_for_path(self.prediction_target)}_{self.category.lower()}/metadata.json"
+        return f"{os.path.basename(self.model)}/{self.__sanitize_for_path(self.prediction_target)}_{self.category.lower()}/metadata.json"
 
     def get_explainered_data_path(self, filepath: str) -> str:
-        return f"{self.model}/{self.__sanitize_for_path(self.prediction_target)}_{self.category.lower()}/{self.pilot.id.replace('/', '')}/{self.data}/{os.path.basename(filepath)}"
+        return f"{os.path.basename(self.model)}/{self.__sanitize_for_path(self.prediction_target)}_{self.category.lower()}/{self.partner.id.replace('/', '')}/{self.data}/{os.path.basename(filepath)}"
+
+    def get_filename_path(self, filename: str) -> str:
+        return f"{os.path.basename(self.model)}/{self.__sanitize_for_path(self.prediction_target)}_{self.category}/{filename}".lower()
 
     def get_model_locale_filepath(self) -> str:
         model_filename: str = os.path.basename(self.model)
@@ -66,25 +69,22 @@ class ExplainerIdentifier:
     def get_explainer_metadata_locale_filepath(self) -> str:
         model_filename: str = os.path.basename(self.model)
         return os.path.join(
-            os.getenv("TEMP"), model_filename, self.pilot.id, "metadata.json"
+            os.getenv("TEMP"), model_filename, self.partner.id, "metadata.json"
         )
 
     def get_data_locale_filepath(self, filename: str) -> str:
         assert isinstance(filename, str), "filename must be a string"
         model_filename: str = os.path.basename(self.model)
         return os.path.join(
-            os.getenv("TEMP"), model_filename, self.pilot.id, "data", filename
+            os.getenv("TEMP"), model_filename, self.partner.id, "data", filename
         )
 
     def get_explainer_locale_filepath(self, expl: Explainer) -> str:
         assert isinstance(expl, Explainer), "expl must be an instance of Explainer"
         model_filename: str = os.path.basename(self.model)
         return os.path.join(
-            os.getenv("TEMP"), model_filename, self.pilot.id, expl.file_name
+            os.getenv("TEMP"), model_filename, self.partner.id, expl.file_name
         )
-
-    def get_filename_path(self, filename: str) -> str:
-        return f"{self.model}/{self.__sanitize_for_path(self.prediction_target)}_{self.category}/{filename}".lower()
 
     def __repr__(self) -> str:
         string_to_return = f"ExplainerIdentifier(model={self.model}"

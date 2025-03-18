@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 
-from src.adv_xai_fulfilment.domain.model.pilot import Pilot
+from src.adv_xai_fulfilment.domain.model.partner import Partner
 from src.adv_xai_fulfilment.domain.service import FeatureDescriptionServiceComponent
 from src.adv_xai_fulfilment.domain.model.explainer_identifier import ExplainerIdentifier
 from src.adv_xai_fulfilment.application.feature_description_service import (
@@ -25,7 +25,7 @@ class TestFeatureDescriptionService(unittest.TestCase):
         actual = feature_description_service.get_data(
             explainer_identifier=ExplainerIdentifier(
                 model="model",
-                pilot=Pilot("pilot"),
+                partner=Partner("partner"),
                 metadata_identifier="metadata_v2.json",
                 prediction_target="prediction_target",
             )

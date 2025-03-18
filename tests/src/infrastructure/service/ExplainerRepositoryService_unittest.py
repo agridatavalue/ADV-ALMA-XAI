@@ -1,6 +1,6 @@
 import unittest
 
-from src.adv_xai_fulfilment.domain.model.pilot import Pilot
+from src.adv_xai_fulfilment.domain.model.partner import Partner
 from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.explainers.explainer import Explainer
 from src.adv_xai_fulfilment.domain.model.explainer_metadata import ExplainerMetaData
@@ -22,7 +22,7 @@ class TestExplainerRepositoryService(unittest.TestCase):
             test_obj.upload_metadata(
                 expl_id=ExplainerIdentifier(
                     model="model",
-                    pilot=Pilot("pilot_id"),
+                    partner=Partner("partner_id"),
                     prediction_target="regression",
                     metadata_identifier="metadata",
                 ),
