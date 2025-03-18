@@ -55,26 +55,32 @@ class ExplainerIdentifier:
         return f"{self.model}/{self.__sanitize_for_path(self.prediction_target)}_{self.category.lower()}/{self.pilot.id.replace('/', '')}/{self.data}/{os.path.basename(filepath)}"
 
     def get_model_locale_filepath(self) -> str:
-        return os.path.join(os.getenv("TEMP"), self.model, self.model)
+        model_filename: str = os.path.basename(self.model)
+        file_extension: str = os.path.splitext(model_filename)[1]
+        return os.path.join(os.getenv("TEMP"), model_filename, 'model' + file_extension)
 
     def get_model_metadata_locale_filepath(self) -> str:
-        return os.path.join(os.getenv("TEMP"), self.model, "metadata.json")
+        model_filename: str = os.path.basename(self.model)
+        return os.path.join(os.getenv("TEMP"), model_filename, "metadata.json")
 
     def get_explainer_metadata_locale_filepath(self) -> str:
+        model_filename: str = os.path.basename(self.model)
         return os.path.join(
-            os.getenv("TEMP"), self.model, self.pilot.id, "metadata.json"
+            os.getenv("TEMP"), model_filename, self.pilot.id, "metadata.json"
         )
 
     def get_data_locale_filepath(self, filename: str) -> str:
         assert isinstance(filename, str), "filename must be a string"
+        model_filename: str = os.path.basename(self.model)
         return os.path.join(
-            os.getenv("TEMP"), self.model, self.pilot.id, "data", filename
+            os.getenv("TEMP"), model_filename, self.pilot.id, "data", filename
         )
 
     def get_explainer_locale_filepath(self, expl: Explainer) -> str:
         assert isinstance(expl, Explainer), "expl must be an instance of Explainer"
+        model_filename: str = os.path.basename(self.model)
         return os.path.join(
-            os.getenv("TEMP"), self.model, self.pilot.id, expl.file_name
+            os.getenv("TEMP"), model_filename, self.pilot.id, expl.file_name
         )
 
     def get_filename_path(self, filename: str) -> str:
