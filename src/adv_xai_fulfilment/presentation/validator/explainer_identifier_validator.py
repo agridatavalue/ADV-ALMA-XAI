@@ -6,7 +6,7 @@ class ExplainerIdentifierValidator(AbstractValidator):
         self._validate_model(request.get("model"))
         self._validate_pilot(request.get("pilot"))
         self._validate_prediction_target_str(request.get("prediction_target"))
-        return request
+        return self._merge_with_default_values(request)
 
     def validate_and_sanitize_feedback_(self, request: dict = {}) -> dict:
         self._validate_model(request.get("model"))
@@ -17,4 +17,4 @@ class ExplainerIdentifierValidator(AbstractValidator):
         assert all(
             isinstance(response, dict) for response in request.get("responses")
         ), "Response must be a dictionary"
-        return request
+        return self._merge_with_default_values(request)
