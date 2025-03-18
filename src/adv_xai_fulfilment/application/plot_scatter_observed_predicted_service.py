@@ -18,7 +18,7 @@ class PlotScatterObservedPredictedService:
     def genarate_data_for_pilot(
         self, explainer_identifier: ExplainerIdentifier
     ) -> dict["y_observed" : np.ndarray, "y_predicted" : np.ndarray]:
-        model: Model = self.model_loader_service.load_from(explainer_identifier.model)
+        model: Model = self.model_loader_service.load_from(explainer_identifier)
 
         data: ModelData = self.data_loader_service.load_data(explainer_identifier)
 

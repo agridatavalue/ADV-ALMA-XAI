@@ -31,12 +31,6 @@ class Model:
     @staticmethod
     def supported_frameworks() -> list[str]: ...
 
-    @classmethod
-    def get_locale_filepath(cls, name: str = None) -> str:
-        if name is None and hasattr(cls, "name"):
-            name = cls.name
-        return os.path.join(os.getenv("TEMP"), name, name)
-
     def get_feature_importance(
         self, feature_names: list[FeatureDescription], shap_values: np.array
     ) -> pd.DataFrame: ...

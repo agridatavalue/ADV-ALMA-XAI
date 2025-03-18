@@ -48,9 +48,7 @@ class FeatureImportanceServiceComponent:
             explainer_identifier
         )
 
-        selected_model: Model = self._model_loader_service.load_from(
-            model_file_path=explainer_identifier.model, meta_data=meta_data
-        )
+        selected_model: Model = self._model_loader_service.load_from(explainer_identifier, meta_data)
 
         if not explainer_identifier.prediction_target:
             logging.debug(

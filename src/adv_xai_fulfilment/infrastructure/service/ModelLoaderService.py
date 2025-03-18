@@ -5,6 +5,7 @@ from ..repository import BucketRepository
 from src.adv_xai_fulfilment.domain.model.model import Model
 from src.adv_xai_fulfilment.domain.service import ModelTranslator
 from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
+from src.adv_xai_fulfilment.domain.model.explainer_identifier import ExplainerIdentifier
 
 
 class ModelLoaderService:
@@ -22,13 +23,16 @@ class ModelLoaderService:
         )
         self._model_translator = ModelTranslator()
 
-    def load_from(self, model_file_path: str, meta_data: ModelMetaData) -> Model:
-        model_local_file_path: str = Model.get_locale_filepath(model_file_path)
-        logging.debug(f"loading model from {model_file_path} to {model_file_path}")
+    def load_from(self, expl_id:ExplainerIdentifier, meta_data: ModelMetaData) -> Model:
+        assert isinstance(expl_id, ExplainerIdentifier), "expl_id must be an instance of ExplainerIdentifier"
+        assert isinstance(meta_data, ModelMetaData), "meta_data must be an instance of ModelMetaData"
+
+        model_local_file_path: str = expl_id.get_model_locale_filepath()
+        logging.debug(f"loading model from {expl_id.model} to {model_local_file_path}")
 
         if not os.path.exists(model_local_file_path):
-            model_file_path: str = self._bucketRepository.download_from(
-                object_name=model_file_path,
+            model_local_file_path: str = self._bucketRepository.download_from(
+                object_name=expl_id.model,
                 bucket_name=os.getenv("MODEL_FOLDER_PATH"),
                 destination_file_path=model_local_file_path,
             )

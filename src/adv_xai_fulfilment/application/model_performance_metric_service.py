@@ -36,9 +36,7 @@ class ModelPerformanceMetricService:
             )
             explainer_identifier.prediction_target = model_metadata.first_target_name
 
-        selected_model: Model = self._model_loader_service.load_from(
-            explainer_identifier.model, meta_data=model_metadata
-        )
+        selected_model: Model = self._model_loader_service.load_from(explainer_identifier, model_metadata)
 
         data: ModelData = self._data_loader_service.load_data(explainer_identifier)
 
@@ -65,9 +63,7 @@ class ModelPerformanceMetricService:
         if not explainer_identifier.prediction_target:
             explainer_identifier.prediction_target = model_metadata.first_target_name
 
-        selected_model: Model = self._model_loader_service.load_from(
-            explainer_identifier.model, meta_data=model_metadata
-        )
+        selected_model: Model = self._model_loader_service.load_from(explainer_identifier, model_metadata)
 
         data: ModelData = self._data_loader_service.load_data(explainer_identifier)
 
