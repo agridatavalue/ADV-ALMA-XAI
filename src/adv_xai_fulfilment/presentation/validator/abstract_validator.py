@@ -26,4 +26,4 @@ class AbstractValidator:
         ), Errors.PREDICTION_TARGET_INDEX_NOT_INT
 
     def _merge_with_default_values(self, new_values:dict) -> dict:
-        return {'meta_data':'meta_data.json', 'data':'data', **new_values}
+        return {'meta_data':'metadata.json', 'data':'data', **new_values}
