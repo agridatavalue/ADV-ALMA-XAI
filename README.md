@@ -86,6 +86,25 @@ sequenceDiagram
 
 ```
 
+-   **dynamic explanation** method:
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant ExplainerGeneratorService
+    participant ModelLoaderService
+
+    Client->>ExplainerGeneratorService: Explanation request
+    activate ExplainerGeneratorService
+    ExplainerGeneratorService->>ModelLoaderService: Get model metadata
+    activate ModelLoaderService
+    ModelLoaderService-->>ExplainerGeneratorService: Return model metadata
+    deactivate ModelLoaderService
+    ExplainerGeneratorService->>ExplainerGeneratorService: Verify proper endpoints for the received model
+    ExplainerGeneratorService-->>Client: Return possible endpoints
+    deactivate ExplainerGeneratorService
+```
+
 #### [2.3.2] QuestionService
 
 -   **generate_from_dict** method:

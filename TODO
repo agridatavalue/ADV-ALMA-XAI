@@ -1,16 +1,21 @@
-[ ] KAFKA
-    So, hi, Yannis, maybe here you can also be involved in this discussion. 
-    So we were having us demons and Alma having a discussion on, let's say, an architectural discussion on who or how should the triggering of the XAI module be done from secure Start, 
-    should we call the API of the XAI, which the swagon API directly from a flask right now we are implementing a flask.
-    Which which cheques any time there is a new object written in the main IO that.
-    We can have a procedure which will also send.
-    The URL plus metadata to the API of the XAI or we were wondering whether we should actually involve the Kafka broker and instead of directly triggering the swagger writing this information in a topic in the Kafka broker and then XAI has the responsibility of checking in the Kafka broker if there is something in your data. 
-    The difference is that if we anytime we write we would be triggering XAI then we have synchronicity between the producing of model and.
-    Very fast producing of explanation.
-    Otherwise we would have, you know this desynchronicity.
+TODOs:
+[ ] segnalare se chiamata api ma non è stata fatta la build del modello
+[ ] datagen potrebbe avere file x.csv o y.csv in maiuscolo, il servizio non deve esser case-sensitive;
 
-    Uh, here, you can actually, it's not. Uh even needed to create a topic. 
-    I mean, uh, if you decide on a topic and you publish a message, uh, on this topic, it will be created. 
-    Automatically according to the settings, yeah.
+# APPUNTI
 
-[ ] datagen potrebbe avere file x.csv o y.csv in maiuscolo, il servizio non deve esser case-sensitive
+### KAFKA
+
+So, hi, Yannis, maybe here you can also be involved in this discussion.
+So we were having us demons and Alma having a discussion on, let's say, an architectural discussion on who or how should the triggering of the XAI module be done from secure Start,
+should we call the API of the XAI, which the swagon API directly from a flask right now we are implementing a flask.
+Which which cheques any time there is a new object written in the main IO that.
+We can have a procedure which will also send.
+The URL plus metadata to the API of the XAI or we were wondering whether we should actually involve the Kafka broker and instead of directly triggering the swagger writing this information in a topic in the Kafka broker and then XAI has the responsibility of checking in the Kafka broker if there is something in your data.
+The difference is that if we anytime we write we would be triggering XAI then we have synchronicity between the producing of model and.
+Very fast producing of explanation.
+Otherwise we would have, you know this desynchronicity.
+
+Uh, here, you can actually, it's not. Uh even needed to create a topic.
+I mean, uh, if you decide on a topic and you publish a message, uh, on this topic, it will be created.
+Automatically according to the settings, yeah.
