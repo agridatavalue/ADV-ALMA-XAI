@@ -37,6 +37,7 @@ class ExplainerGeneratorPresentation:
                     metadata_identifier = data.get('meta_data'),
                 )
             )
+            logging.debug(f"setting {model_metadata.target_names} as prediction_targets")
             data['prediction_targets'] = model_metadata.target_names
 
         requests: list[ExplainerIdentifier] = self._translator.translate_many(data)

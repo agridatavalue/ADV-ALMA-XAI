@@ -70,16 +70,17 @@ class MetaDataLoaderService:
             local_filepath=file_path,
         )
 
-    def load_model_metadata(self, expl_id: ExplainerIdentifier) -> ModelMetaData:
+    def load_model_metadata(self, expl_id: ExplainerIdentifier, force_download:bool = False) -> ModelMetaData:
         assert isinstance(
             expl_id, ExplainerIdentifier
         ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
         logging.info(f"loading model metadata for {str(expl_id)}")
 
         filepath: str = expl_id.get_model_metadata_locale_filepath()
-        if not os.path.exists(filepath):
+        if not os.path.exists(filepath) or force_download:
             logging.debug(
-                f'file {filepath} not exists, downloading {os.getenv("MODEL_FOLDER_PATH")}/{expl_id.metadata_identifier}'
+                f'forced download for {os.getenv("MODEL_FOLDER_PATH")}/{expl_id.metadata_identifier}' if force_download else 
+                f'file {filepath} not exists, downloading {os.getenv("MODEL_FOLDER_PATH")}/{expl_id.metadata_identifier}' 
             )
             filepath: str = self._bucketRepository.download_from(
                 object_name=expl_id.metadata_identifier,

@@ -51,7 +51,7 @@ class ExplainerGeneratorService:
 
     def generate_explainer(self, request: ExplainerIdentifier) -> list[Explainer]:
         meta_data: ModelMetaData = self._metadata_loader_service.load_model_metadata(
-            expl_id=request
+            expl_id=request, force_download=True
         )
         request.metadata = meta_data
 
