@@ -149,16 +149,9 @@ paths:
                   example: "model.pkl"
                   schema:
                       type: string
-                - name: meta_data
-                  in: query
-                  required: true
-                  description: "the identifier of the metadata file name"
-                  example: "metadata.json"
-                  schema:
-                      type: string
                 - name: prediction_target
                   in: query
-                  required: true
+                  required: false
                   description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
                   example: "Biomass"
                   schema:
