@@ -8,17 +8,17 @@ class FeedbackTranslator:
             Answer(
                 value=item.get("value"), type=item.get("type"), text=item.get("label")
             )
-            for item in data
+            for item in data or []
         ]
 
     def __translate_questions(self, data: list[dict]) -> list[Question]:
         return [
             Question(
                 id=item.get("id"),
-                text=item.get("text"),
+                text=item.get("question"),
                 answers=self.__translate_answers(item.get("answers", [])),
             )
-            for item in data
+            for item in data or []
         ]
 
     def translate(self, data: dict) -> Feedback:
@@ -28,4 +28,4 @@ class FeedbackTranslator:
         )
 
     def translate_many(self, data: list[dict]) -> list[Feedback]:
-        return [self.translate(item) for item in data]
+        return [self.translate(item) for item in data or []]

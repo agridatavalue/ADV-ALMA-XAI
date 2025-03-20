@@ -1,6 +1,7 @@
 import os
 
-from .questions import Question
+from .partner import Partner 
+from .questions import Feedback
 from .model_metadata import ModelMetaData
 from .explainers.explainer import Explainer
 from .explainer_identifier import ExplainerIdentifier
@@ -11,7 +12,7 @@ from .explainers.response_data import FeatureImportance, Heatmap
 class ExplainerMetaData:
     _metrics: ModelPerformanceMetrics
     _target_name: str
-    _feedback: list[Question]
+    _feedbacks: list[Feedback]
     _meta_data: ModelMetaData
     _heatmap_images: Heatmap
     _feature_importance: FeatureImportance
@@ -25,14 +26,14 @@ class ExplainerMetaData:
         metrics: ModelPerformanceMetrics = None,
         possible_explainers: list[Explainer] = [],
         feature_importance: FeatureImportance = None,
-        feedback: list[Question] = [],
+        feedbacks: list[Feedback] = [],
         heatmap_images: Heatmap = None,
     ):
         self._possible_explainers = possible_explainers
         self._feature_importance = feature_importance
         self._heatmap_images = heatmap_images
         self._target_name = target_name
-        self._feedback = feedback or []
+        self._feedbacks = feedbacks
         self._meta_data = meta_data
         self._metrics = metrics
 
@@ -65,16 +66,16 @@ class ExplainerMetaData:
     def feature_importance(self) -> FeatureImportance:
         return self._feature_importance
 
-    def add_feedback(self, feedback: Question) -> "ExplainerMetaData":
-        assert isinstance(feedback, Question), "feedback must be of type Question"
-        self._feedback.append(feedback)
+    def add_feedback(self, feedback: Feedback) -> "ExplainerMetaData":
+        assert isinstance(feedback, Feedback), f"feedback must be of type Feedback, got {type(feedback)}"
+        self._feedbacks.append(feedback)
         return self
-
-    def get_file_path(self, expl_id: ExplainerIdentifier) -> str:
-        if not expl_id.category:
-            expl_id.category = "regression"
-
-        return f"{expl_id.model}/{expl_id.prediction_target}_{expl_id.category}/metadata.json".lower()
+    
+    def get_all_feedback(self, filter_by:Partner = None) -> list[Feedback]:
+        if isinstance(filter_by, Partner):
+            return [f for f in self._feedbacks if f.partner.id == filter_by.id]
+        
+        return self._feedbacks
 
     def get_locale_file_path(self, expl_id: ExplainerIdentifier) -> str:
         return os.path.join(
@@ -122,7 +123,7 @@ class ExplainerMetaData:
                 "Data_security": "",
                 "regulatory_compliance": "Compliant with GDPR and local regulations",
             },
-            "feedback_and_improvements": [f.to_dict() for f in self._feedback],
+            "feedback_and_improvements": [f.to_dict() for f in self._feedbacks],
         }
 
     def __repr__(self) -> str:

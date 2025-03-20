@@ -27,6 +27,16 @@ class QuestionService:
         )
 
         return [q.verticalize_for(meta_data.model_metadata) for q in Question.get_all()]
+    
+    def get_partner_feedback(self, expl_id: ExplainerIdentifier) -> Feedback:
+        logging.debug(f"loading metadata from {expl_id.metadata_identifier}")
+        meta_data: ExplainerMetaData = (
+            self._metadata_loader_service.load_explainer_metadata(expl_id)
+        )
+        
+        parter_feedback:list[Feedback] = meta_data.get_all_feedback(filter_by=expl_id.partner)
+        return max(parter_feedback, key=lambda feedback: feedback.creation_date, default=None)
+
 
     def save_partner_feedback(self, feedback: Feedback, answers: list[dict]) -> Feedback:
         if not feedback.explainer_identifier.category:

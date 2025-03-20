@@ -306,6 +306,44 @@ paths:
             tags:
                 - Explainer
 
+    /{partner}/feedback:
+        get:
+            summary: Return the feedback for a given partner
+            description: Return the feedback for a given partner
+            operationId: getFeedback
+            parameters:
+                - name: partner
+                  in: path
+                  required: true
+                  description: the identifier of the partner
+                  example: "inagro"
+                  schema:
+                      type: string
+                - name: model
+                  in: query
+                  required: true
+                  description: "the identifier of the model file name"
+                  example: "model.pkl"
+                  schema:
+                      type: string
+                - name: prediction_target
+                  in: query
+                  required: false
+                  description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
+                  example: "Biomass"
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/PartnerFeedbackResponse"
+                "404":
+                    description: Partner not found
+            tags:
+                - Feedback
     /feedback:
         get:
             summary: Return the list of questions based on the metadata provided
@@ -316,13 +354,6 @@ paths:
                   required: true
                   description: "the identifier of the model file name"
                   example: "model.pkl"
-                  schema:
-                      type: string
-                - name: meta_data
-                  in: query
-                  required: true
-                  description: "the identifier of the metadata file name"
-                  example: "metadata.json"
                   schema:
                       type: string
                 - name: partner
@@ -555,6 +586,7 @@ components:
                             value:
                                 type: number
             example: '{sources: [{type:"agronomic", value:3}]}'
+
         QuestionsResponse:
             type: object
             properties:
@@ -584,7 +616,35 @@ components:
                                                     type: string
                                                 value:
                                                     type: string
-
+        PartnerFeedbackResponse:
+            type: object
+            properties:
+                creation_date:
+                    type: string
+                    format: date-time
+                feedback:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            id:
+                                type: string
+                            question:
+                                type: string
+                            answers:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        type:
+                                            type: string
+                                            enum:
+                                                - radio
+                                                - string
+                                        label:
+                                            type: string
+                                        value:
+                                            type: string
         FeedbackRequest:
             type: object
             properties:

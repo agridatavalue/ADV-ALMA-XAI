@@ -38,7 +38,7 @@ class ExplainerMetaDataTranslator:
             meta_data=self._model_metadata_translator.translate(
                 metadata.get("meta_data", {})
             ),
-            feedback=self._feedback_translator.translate_many(
+            feedbacks=self._feedback_translator.translate_many(
                 metadata.get("feedback_and_improvements", [])
             ),
             possible_explainers=self._explainer_translator.translate(

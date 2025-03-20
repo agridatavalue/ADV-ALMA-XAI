@@ -37,8 +37,7 @@ class Feedback:
 
     def to_dict(self) -> dict:
         return {
-            "partner": self.partner.id,
-            "questions": [q.to_dict() for q in self.questions],
+            "feedback": [q.to_dict() for q in self.questions],
             "creation_date": self.creation_date.timestamp(),
         }
 

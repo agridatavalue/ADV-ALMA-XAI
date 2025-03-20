@@ -37,3 +37,10 @@ class QuestionAndFeedbackPresentation:
         return self._question_service.save_partner_feedback(
             feedback, answers=request.get("responses", [])
         )
+    
+    def get_provided_partner_feedback(self, request: dict = {}) -> Feedback:
+        logging.info(f"called get_provided_partner_feedback method with params: {request}")
+        sanitized_data: dict = self._validator.validate_and_sanitize_partner_feedback(request)
+        expl_id: ExplainerIdentifier = self._feedback_translator.translate_get_partner_feedback(sanitized_data)
+
+        return self._question_service.get_partner_feedback(expl_id)

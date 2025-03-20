@@ -71,15 +71,13 @@ class ExplainerRepositoryService:
             metadata, ExplainerMetaData
         ), Errors.EXPLAINER_METADATA_NOT_EXPLAINER_METADATA
 
-        os.makedirs(os.path.join(os.getenv("TEMP"), expl_id.model), exist_ok=True)
-        metadata_filename: str = os.path.join(
-            os.getenv("TEMP"), expl_id.model, "metadata.json"
-        )
+        metadata_filename: str = expl_id.get_explainer_metadata_locale_filepath()
+        os.makedirs(os.path.basename(metadata_filename), exist_ok=True)
         with open(metadata_filename, "w") as file:
             json.dump(metadata.to_dict(), file)
 
         return self._bucketRepository.upload_to(
             bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
             local_filepath=metadata_filename,
-            target_filepath=metadata.get_file_path(expl_id),
+            target_filepath=expl_id.get_explainer_metadata_path(),
         )

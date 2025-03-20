@@ -18,3 +18,8 @@ class ExplainerIdentifierValidator(AbstractValidator):
             isinstance(response, dict) for response in request.get("responses")
         ), "Response must be a dictionary"
         return self._merge_with_default_values(request)
+
+    def validate_and_sanitize_partner_feedback(self, request:dict = {}) -> dict:
+        self._validate_model(request.get("model"))
+        self._validate_partner(request.get("partner"))
+        return self._merge_with_default_values(request)

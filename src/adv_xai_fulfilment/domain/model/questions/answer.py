@@ -11,6 +11,14 @@ class Answer:
     @property
     def value(self) -> str:
         return self._value
+    
+    @property
+    def text(self) -> str:
+        return self._text
+    
+    @property
+    def type(self) -> str:
+        return self._type
 
     def to_dict(self) -> dict:
         return {"type": self._type, "label": self._text, "value": self._value}

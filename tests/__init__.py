@@ -61,6 +61,9 @@ from .src.infrastructure.service.translator.ExplainerMetaDataTranslator_unittest
 from .src.infrastructure.service.translator.FeatureDescriptionTranslator_unittest import (
     TestFeatureDescriptionTranslator,
 )
+from .src.infrastructure.service.translator.feedback_translator_unittest import (
+    TestFeedbackTranslator,
+)
 
 # PRESENTATION ----------------------------------------------------------------
 # ----> TRANSLATORS

@@ -27,9 +27,7 @@ class MetaDataLoaderService:
         self._model_metadata_translator = ModelMetaDataTranslator()
         self._explainer_metadata_translator = ExplainerMetaDataTranslator()
 
-    def load_explainer_metadata(
-        self, expl_id: ExplainerIdentifier
-    ) -> ExplainerMetaData:
+    def load_explainer_metadata(self, expl_id: ExplainerIdentifier) -> ExplainerMetaData:
         assert isinstance(
             expl_id, ExplainerIdentifier
         ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER

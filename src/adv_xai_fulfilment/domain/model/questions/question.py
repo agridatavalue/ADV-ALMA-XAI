@@ -27,6 +27,10 @@ class Question:
     @property
     def text(self) -> str:
         return self._text
+    
+    @property
+    def answers(self) -> list[Answer]:
+        return self._answers
 
     @property
     def user_has_answered(self) -> str:

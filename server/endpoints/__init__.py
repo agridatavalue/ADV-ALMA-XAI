@@ -10,6 +10,7 @@ from .GetFeedbackQuestionsEndpoint import feedbackBp
 from .DataSourceTypesEndpoint import dataSourceTypesBp
 from .ConfusionMatrixEndpoint import confusionMatrixBp
 from .DataDistributionEndpoint import dataDistributionBp
+from .GetPartnerFeedbackEndpoint import partnerFeedbackBp
 from .AskToExplainerEndpoint import askToExplainerEndpointBp
 from .PlotFeatureImportanceEndpoint import featureImportanceBp
 from .PlotModelPerformanceEndpoint import plotModelPerformanceBp
@@ -27,6 +28,7 @@ routes = [
     questionsBp,
     partialDepBp,
     explainerGuideBp,
+    partnerFeedbackBp,
     dataSourceTypesBp,
     confusionMatrixBp,
     dataDistributionBp,
