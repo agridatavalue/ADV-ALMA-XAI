@@ -13,12 +13,14 @@ from .DataDistributionEndpoint import dataDistributionBp
 from .GetPartnerFeedbackEndpoint import partnerFeedbackBp
 from .AskToExplainerEndpoint import askToExplainerEndpointBp
 from .PlotFeatureImportanceEndpoint import featureImportanceBp
+from .individual_conditional_expectations_endpoint import iceBp
 from .PlotModelPerformanceEndpoint import plotModelPerformanceBp
 from .DataFeatureAverageScoresEndpoint import featureAverageScoresBp
 from .TabulateFeatureDescriptionEndpoint import featureDescriptionEndpointBp
 from .TabulateModelPerformanceMetricEndpoint import modelPerformanceMetricsBp
 
 routes = [
+    iceBp,
     imageBp,
     buildBp,
     targetsBp,

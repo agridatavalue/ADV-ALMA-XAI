@@ -58,8 +58,36 @@ paths:
             tags:
                 - Explainer
 
+    /individual-conditional-expectations:
+        post:
+            summary: Return the ICE data
+            description: Return the ICE data for a given partner
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/ICERequest"
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ICEResponse"
+                "400":
+                    description: Invalid IDs combination supplied
+                "404":
+                    description: Partner / Model not found
+                "500":
+                    description: Internal server error
+            tags:
+                - ModelCard
+
     /heatmap:
         post:
+            summary: Return the heatmap data
+            description: Return the heatmap data for a given partner
             requestBody:
                 required: true
                 content:
@@ -134,7 +162,7 @@ paths:
                 "500":
                     description: Internal server error
             tags:
-                - DataCard
+                - ModelCard
 
     /get-explainer-guide:
         get:
@@ -443,6 +471,49 @@ components:
             description: "Please enter token in following format: Bearer <JWT>"
             type: http
     schemas:
+        ICERequest:
+            type: object
+            properties:
+                model:
+                    description: the identifier of the model file name
+                    example: "model.pkl"
+                    type: string
+                partner:
+                    description: the identifier of the partner
+                    example: "inagro"
+                    type: string
+                feature:
+                    description: the name of the feature to explain
+                    example: "NO3-N 0-30 cm start (kg/ha)"
+                    type: string
+                prediction_target:
+                    description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
+                    example: "Biomass"
+                    type: string
+            required:
+                - model
+                - partner
+                - feature
+        ICEResponse:
+            type: object
+            properties:
+                pdp_mean:
+                    type: array
+                    items:
+                        type: number
+                        format: float
+                ice_curves:
+                    type: array
+                    items:
+                        type: array
+                        items:
+                            type: number
+                            format: float
+                grid_values:
+                    type: array
+                    items:
+                        type: number
+                        format: float
         HeatMapRequest:
             type: object
             properties:

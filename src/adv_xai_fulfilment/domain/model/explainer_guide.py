@@ -3,6 +3,7 @@ import numpy as np
 from .model_metadata import ModelMetaData
 from .explainers.response_data import FeatureImportance, FeatureDescription
 from .explainers.response_data import PartialDependence, ExplainerResponseData
+from .explainers.response_data import ConfusionMatrix, IndividualConditionalExpectations
 from .explainers.response_data import ModelPerformance, ModelPerformanceMetrics, Heatmap
 
 
@@ -13,15 +14,15 @@ class ExplainerGuide:
         self._meta_data = meta_data
 
     def get_explainers(self) -> list[ExplainerResponseData]:
+        list_to_return:list[ExplainerResponseData] = []
         if self._meta_data.is_image:
-            list_to_return = [Heatmap()]
+            list_to_return.append(Heatmap())
             if self._meta_data.feature_descriptions:
                 list_to_return.append(FeatureDescription())
-            return list_to_return
 
         if self._meta_data.is_tabular:
             if self._meta_data.is_classification or self._meta_data.is_regression:
-                return [
+                list_to_return += [
                     ModelPerformance(),
                     PartialDependence(
                         feature_values=np.ndarray([], dtype=float),
@@ -32,6 +33,9 @@ class ExplainerGuide:
                     FeatureImportance(""),
                     FeatureDescription(),
                     ModelPerformanceMetrics(),
+                    IndividualConditionalExpectations(),
                 ]
+            if self._meta_data.is_classification:
+                list_to_return += [ConfusionMatrix()]
 
-        return []
+        return list_to_return

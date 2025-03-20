@@ -13,9 +13,11 @@ from ..domain.model.explainers.response_data import ModelPerformanceMetrics
 from ..application.feature_importance_service import FeatureImportanceService
 from ..application.partial_dependence_service import PartialDependenceService
 from ..application.feature_description_service import FeatureDescriptionService
-from ..application.model_performance_metric_service import ModelPerformanceMetricService
+from ..domain.model.explainers.response_data import IndividualConditionalExpectations
 from ..domain.model.explainers.response_data import ModelPerformance, PartialDependence
+from ..application.model_performance_metric_service import ModelPerformanceMetricService
 from .translator import ExplainerIdentifierTranslator, DataPresentationsOutputTranslator
+from ..application.individual_conditional_expectations_service import IndividualConditionalExpectationService
 from ..application.plot_scatter_observed_predicted_service import (
     PlotScatterObservedPredictedService,
 )
@@ -31,6 +33,7 @@ class DataPresentations:
     _output_translator: DataPresentationsOutputTranslator
     _input_translator: ExplainerIdentifierTranslator
     _heatmap_service: HeatmapService
+    _ice_service: IndividualConditionalExpectationService
     _validator: DataPresentationValidator
 
     def __init__(self):
@@ -44,6 +47,14 @@ class DataPresentations:
         self._feature_importance_service = FeatureImportanceService()
         self._partial_dependence_service = PartialDependenceService()
         self._feature_description_service = FeatureDescriptionService()
+        self._ice_service = IndividualConditionalExpectationService()
+
+    def get_individual_conditional_expectations(self, request: dict = {}) -> IndividualConditionalExpectations:
+        logging.info(f"called get_individual_conditional_expectations with params: {request}")
+        data_sanitized = self._validator.validate_and_sanitize_individual_conditional_expectations(request)
+        expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
+
+        return self._ice_service.get_data(expl_id, data_sanitized.get("feature"))
 
     def get_image(self, request: dict = {}) -> str:
         logging.info(f"called get_image with params: {request}")
@@ -116,9 +127,7 @@ class DataPresentations:
         data_sanitized = self._validator.validate_and_sanitize_partial_dependence(data)
         expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
 
-        return self._partial_dependence_service.get_data(
-            expl_id, data_sanitized.get("feature")
-        )
+        return self._partial_dependence_service.get_data(expl_id, data_sanitized.get("feature"))
 
     def get_confusion_matrix(self, data: dict = {}) -> ConfusionMatrix:
         logging.info(f"called get_confusion_matrix with params: {data}")

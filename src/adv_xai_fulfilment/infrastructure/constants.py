@@ -1,5 +1,6 @@
 class Errors:
     PARTNER_NOT_STRING = TypeError("partner must be a string")
+    FEATURE_NOT_STRING = TypeError("feature must be a string")
     MODEL_FILENAME_NOT_STRING = TypeError("model_filename must be a string")
     METADATA_FILENAME_NOT_STRING = TypeError("metadata_filename must be a string")
     DATA_FOLDER_NOT_STRING = TypeError("data folder must be a string")

@@ -5,6 +5,9 @@ class AbstractValidator:
     def _validate_partner(self, partner: str) -> bool:
         assert isinstance(partner, str), Errors.PARTNER_NOT_STRING
 
+    def _validate_feature(self, feature: str) -> bool:
+        assert isinstance(feature, str), Errors.FEATURE_NOT_STRING
+
     def _validate_folder_data(self, data: str) -> bool:
         assert isinstance(data, str), Errors.DATA_FOLDER_NOT_STRING
 

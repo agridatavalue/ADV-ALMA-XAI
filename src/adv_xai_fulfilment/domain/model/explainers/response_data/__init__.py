@@ -6,6 +6,7 @@ from .model_performance_metrics import ModelPerformanceMetrics
 from .model_performance import ModelPerformance
 from .partial_dependence import PartialDependence
 from .heatmap import Heatmap
+from .individual_conditional_expectations import IndividualConditionalExpectations
 
 __all__ = [
     "Heatmap",
@@ -16,4 +17,5 @@ __all__ = [
     "ModelPerformanceMetrics",
     "ModelPerformance",
     "PartialDependence",
+    "IndividualConditionalExpectations",
 ]

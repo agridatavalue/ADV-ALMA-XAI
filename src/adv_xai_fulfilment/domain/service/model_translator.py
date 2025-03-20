@@ -1,7 +1,9 @@
 import logging
 
 from ..model.model import Model
-from ..model.machine_learning_model import KerasModel, TorchModel, ScikitLearnModel
+from ..model.machine_learning_model.keras_model import KerasModel
+from ..model.machine_learning_model.torch_model import TorchModel
+from ..model.machine_learning_model.scikitlearn_model import ScikitLearnModel
 
 
 class ModelTranslator:
