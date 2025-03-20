@@ -823,9 +823,10 @@ components:
                     items:
                         type: string
             required:
+                - data
                 - model
-                - meta_data
                 - partner
+                - meta_data
         BuildResponse:
             type: object
             properties:
