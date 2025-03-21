@@ -1,9 +1,9 @@
 import unittest
 
 from src.adv_xai_fulfilment.domain.service import ModelTranslator
-from src.adv_xai_fulfilment.domain.model.machine_learning_model import KerasModel
-from src.adv_xai_fulfilment.domain.model.machine_learning_model import TorchModel
-from src.adv_xai_fulfilment.domain.model.machine_learning_model import ScikitLearnModel
+from src.adv_xai_fulfilment.domain.model.machine_learning_model.keras_model import KerasModel
+from src.adv_xai_fulfilment.domain.model.machine_learning_model.torch_model import TorchModel
+from src.adv_xai_fulfilment.domain.model.machine_learning_model.scikitlearn_model import ScikitLearnModel
 
 
 class SilentKerasModel(KerasModel):

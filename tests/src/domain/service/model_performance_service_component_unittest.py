@@ -6,7 +6,7 @@ import pandas as pd
 
 from src.adv_xai_fulfilment.domain.model.model_data import ModelData
 from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
-from src.adv_xai_fulfilment.domain.model.machine_learning_model import KerasModel
+from src.adv_xai_fulfilment.domain.model.machine_learning_model.keras_model import KerasModel
 from src.adv_xai_fulfilment.domain.model.explainers.response_data import (
     ModelPerformance,
     ModelPerformanceMetrics,

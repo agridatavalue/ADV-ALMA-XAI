@@ -1,10 +1,11 @@
 import unittest
 
-from alibi.explainers import ALE
+import numpy as np
+from shap import KernelExplainer
 
-from src.adv_xai_fulfilment.domain.model.explainers import AleExplainer
 from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
-from src.adv_xai_fulfilment.domain.model.machine_learning_model import KerasModel
+from src.adv_xai_fulfilment.domain.model.explainers import KernelExplainerExplainer
+from src.adv_xai_fulfilment.domain.model.machine_learning_model.keras_model import KerasModel
 
 
 class SilentKerasModel(KerasModel):
@@ -12,9 +13,9 @@ class SilentKerasModel(KerasModel):
         return self
 
 
-class TestAleExplainer(unittest.TestCase):
+class TestKernelExplainerExplainer(unittest.TestCase):
     def setUp(self):
-        self.testObj = AleExplainer()
+        self.testObj = KernelExplainerExplainer()
 
     def test_build(self):
         self.testObj.meta_data = None
@@ -28,17 +29,19 @@ class TestAleExplainer(unittest.TestCase):
                 framework="framework",
                 model_type="BlackBox",
                 target_names=[],
-                feature_names=[],
                 subject_name="subject_name",
                 model_category="Regression",
+                feature_names=[],
                 feature_descriptions=[],
             )
         )
         self.testObj.build(
             SilentKerasModel(
                 filename="test",
-                handler=type("MockHandler", (object,), {"predict": lambda self, x: x}),
+                handler=type(
+                    "MockHandler", (object,), {"predict": lambda self: np.array([0])}
+                ),
             ),
-            None,
+            {"x": np.array([[0]])},
         )
-        self.assertIsInstance(self.testObj.build_result, ALE)
+        self.assertIsInstance(self.testObj.build_result, KernelExplainer)

@@ -1,64 +1,64 @@
 # APPLICATION -----------------------------------------------------------------
-from .src.application.PartialDependenceService_unittest import (
+from .src.application.partial_dependence_service_unittest import (
     TestPartialDependenceService,
 )
-from .src.application.FeatureImportanceService_unittest import (
+from .src.application.feature_importance_service_unittest import (
     TestFeatureImportanceService,
 )
 # from .src.application.ExplainerGeneratorService_unittest import (
 #     TestExplainerGeneratorService,
 # )
-from .src.application.FeatureDescriptionService_unittest import (
+from .src.application.feature_description_service_unittest import (
     TestFeatureDescriptionService,
 )
-from .src.application.ModelPerformanceMetricService_unittest import (
+from .src.application.model_performance_metric_service_unittest import (
     TestModelPerformanceMetricService,
 )
 
 # DOMAIN ----------------------------------------------------------------------
-from .src.domain.model.Question_unittest import TestQuestion
-from .src.domain.model.ModelCategory_unittest import TestModelCategory
-from .src.domain.service.ModelTranslator_unittest import TestModelTranslator
-from .src.domain.model.ExplainerMetaData_unittest import TestExplainerMetaData
-from .src.domain.service.ExplainerRetriever_unittest import TestExplainerRetriever
+from .src.domain.model.question_unittest import TestQuestion
+from .src.domain.model.model_category_unittest import TestModelCategory
+from .src.domain.service.model_translator_unittest import TestModelTranslator
+from .src.domain.model.explainer_meta_data_unittest import TestExplainerMetaData
+from .src.domain.service.explainer_retriever_unittest import TestExplainerRetriever
 from .src.domain.model.explainers.response_data.heatmap_unittest import TestHeatmap
-from .src.domain.model.machineLearningModel.KerasModel_unittest import TestKerasModel
+from .src.domain.model.machineLearningModel.keras_model_unittest import TestKerasModel
 
 # ----> SERVICE
-from .src.domain.service.ModelPerformanceServiceComponent_unittest import (
+from .src.domain.service.model_performance_service_component_unittest import (
     TestModelPerformanceServiceComponent,
 )
-from .src.domain.service.FeatureImportanceServiceComponent_unittest import (
+from .src.domain.service.feature_importance_service_component_unittest import (
     TestFeatureImportanceServiceComponent,
 )
 
 # ----> EXPLAINERS
-from .src.domain.model.explainers.Explainer_unittest import TestExplainer
-from .src.domain.model.explainers.AleExplainer_unittest import TestAleExplainer
-from .src.domain.model.explainers.KernelExplainerExplainer_unittest import (
+from .src.domain.model.explainers.explainer_unittest import TestExplainer
+from .src.domain.model.explainers.ale_explainer_unittest import TestAleExplainer
+from .src.domain.model.explainers.kernel_explainer_explainer_unittest import (
     TestKernelExplainerExplainer,
 )
 
 
 # INFRASTRUCTURE --------------------------------------------------------------
-from .src.infrastructure.Helper_unittest import TestHelper
-from .src.infrastructure.service.DataLoaderService_unittest import TestDataLoaderService
-from .src.infrastructure.repository.BucketRepository_unittest import (
+from .src.infrastructure.helper_unittest import TestHelper
+from .src.infrastructure.service.data_loader_service_unittest import TestDataLoaderService
+from .src.infrastructure.repository.bucket_repository_unittest import (
     TestBucketRepository,
 )
-from .src.infrastructure.service.ExplainerRepositoryService_unittest import (
+from .src.infrastructure.service.explainer_repository_service_unittest import (
     TestExplainerRepositoryService,
 )
-from .src.infrastructure.service.ModelLoaderService_unittest import (
+from .src.infrastructure.service.model_loader_service_unittest import (
     ModelLoaderServiceTest,
 )
-from .src.infrastructure.service.translator.ModelMetaDataTranslator_unittest import (
+from .src.infrastructure.service.translator.model_metadata_translator_unittest import (
     TestModelMetaDataTranslator,
 )
-from .src.infrastructure.service.translator.ExplainerMetaDataTranslator_unittest import (
+from .src.infrastructure.service.translator.explainer_metadata_translator_unittest import (
     TestExplainerMetaDataTranslator,
 )
-from .src.infrastructure.service.translator.FeatureDescriptionTranslator_unittest import (
+from .src.infrastructure.service.translator.feature_description_translator_unittest import (
     TestFeatureDescriptionTranslator,
 )
 from .src.infrastructure.service.translator.feedback_translator_unittest import (
@@ -68,12 +68,12 @@ from .src.infrastructure.service.translator.feedback_translator_unittest import 
 # PRESENTATION ----------------------------------------------------------------
 # ----> TRANSLATORS
 
-from .src.presentation.translator.FeedbackRequestTranslator_unittest import (
+from .src.presentation.translator.feedback_request_translator_unittest import (
     TestFeedbackRequestTranslator,
 )
-from .src.presentation.translator.ExplainerIdentifierTranslator_unittest import (
+from .src.presentation.translator.explainer_identifier_translator_unittest import (
     TestExplainerIdentifierTranslator,
 )
-from .src.presentation.translator.DataPresentationsOutputTranslator_unittest import (
+from .src.presentation.translator.data_presentations_output_translator_unittest import (
     TestDataPresentationsOutputTranslator,
 )

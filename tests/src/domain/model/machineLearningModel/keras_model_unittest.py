@@ -3,10 +3,8 @@ import unittest
 import numpy as np
 import pandas as pd
 
-from src.adv_xai_fulfilment.domain.model.machine_learning_model import KerasModel
-from src.adv_xai_fulfilment.domain.model.explainers.response_data import (
-    FeatureDescription,
-)
+from src.adv_xai_fulfilment.domain.model.explainers.response_data import FeatureDescription
+from src.adv_xai_fulfilment.domain.model.machine_learning_model.keras_model import KerasModel
 
 
 class SilentKerasModel(KerasModel):
