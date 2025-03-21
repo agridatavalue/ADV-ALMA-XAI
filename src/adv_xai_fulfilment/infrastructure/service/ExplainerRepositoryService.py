@@ -71,13 +71,14 @@ class ExplainerRepositoryService:
             metadata, ExplainerMetaData
         ), Errors.EXPLAINER_METADATA_NOT_EXPLAINER_METADATA
 
-        metadata_filename: str = expl_id.get_explainer_metadata_locale_filepath()
-        os.makedirs(os.path.basename(metadata_filename), exist_ok=True)
-        with open(metadata_filename, "w") as file:
+        metadata_filepath: str = expl_id.get_explainer_metadata_locale_filepath()
+        os.makedirs(os.path.basename(metadata_filepath), exist_ok=True)
+        logging.debug(f"uploading metadata to {metadata_filepath}")
+        with open(metadata_filepath, "w") as file:
             json.dump(metadata.to_dict(), file)
 
         return self._bucketRepository.upload_to(
             bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
-            local_filepath=metadata_filename,
+            local_filepath=metadata_filepath,
             target_filepath=expl_id.get_explainer_metadata_path(),
         )
