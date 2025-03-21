@@ -1,4 +1,4 @@
-FROM python:3.11
+FROM python:3.9
 RUN mkdir -p /home/adv_xai
 ENV ENV_HOME /home/adv_xai
 WORKDIR $ENV_HOME
