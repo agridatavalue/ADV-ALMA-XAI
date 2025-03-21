@@ -1,7 +1,7 @@
 # PRESENTATION
-from .presentation.DataPresentations import DataPresentations
-from .presentation.ExplainerGeneratorPresentation import ExplainerGeneratorPresentation
-from .presentation.QuestionAndFeedbackPresentation import (
+from .presentation.data_presentations import DataPresentations
+from .presentation.explainer_generator_presentation import ExplainerGeneratorPresentation
+from .presentation.question_and_feedback_presentation import (
     QuestionAndFeedbackPresentation,
 )
 
