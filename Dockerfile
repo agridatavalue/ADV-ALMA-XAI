@@ -1,24 +1,14 @@
-FROM continuumio/miniconda3:23.10.0-1
+FROM python:3.9
 
-# Workdir.
-ENV HOME=/home/adv_xai
-WORKDIR $HOME
+WORKDIR /app
 
-# Copy requirements.
-COPY requirements.txt $HOME
+# Install dependencies
+COPY requirements.txt .
+RUN pip install --upgrade pip setuptools wheel && pip install --no-cache-dir -r requirements.txt
 
-# Create environment
-RUN pip3 install -r requirements.txt \
- && pip3 install waitress \
- && addgroup --system app \
- && adduser --system --no-create-home --group app \
- && chown -R app:app $HOME && chmod -R 755 $HOME \
- && chown -R app:app $HOME
-
-COPY . $HOME
+# Copy application files
+COPY . .
 RUN chmod +x "./entrypoint.sh"
-
-USER app
 
 EXPOSE 8000 8505
 ENTRYPOINT ["./entrypoint.sh"]
