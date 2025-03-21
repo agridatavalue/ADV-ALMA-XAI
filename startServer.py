@@ -5,7 +5,7 @@ import argparse
 from dotenv import load_dotenv
 from os.path import dirname
 
-from server.Server import ServiceServer
+from server.server import ServiceServer
 
 load_dotenv()
 
