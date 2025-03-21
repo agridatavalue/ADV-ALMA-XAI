@@ -1,4 +1,5 @@
 TODOs:
+[ ] fare accesso a bucket con keycloack
 [ ] segnalare se chiamata api ma non è stata fatta la build del modello
 [ ] datagen potrebbe avere file x.csv o y.csv in maiuscolo, il servizio non deve esser case-sensitive;
 
