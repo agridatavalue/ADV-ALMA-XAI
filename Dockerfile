@@ -12,6 +12,9 @@ RUN pip install --upgrade pip setuptools wheel \
 RUN addgroup --system app \
     && adduser --system --no-create-home --group app
 
+# install cv2 dependencies
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+
 # Copy application files
 COPY . .
 
