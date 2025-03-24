@@ -36,12 +36,13 @@ spec:
                             secretKeyRef:
                                 name: minio-keys-secret
                                 key: MINIO_SECRET_KEY
-
-                     - name: DATA_FOLDER_PATH
-                       value: "datagen"
-                     - name: MODEL_FOLDER_PATH
-                       value: "models"
-                     - name: EXPLAINER_FOLDER_PATH
-                       value: "explanators"
-                     - name: SERVER_PORT
-                       value: "8505"
+                      - name: DATA_FOLDER_PATH
+                        value: "datagen"
+                      - name: MODEL_FOLDER_PATH
+                        value: "models"
+                      - name: EXPLAINER_FOLDER_PATH
+                        value: "explanators"
+                      - name: SERVER_PORT
+                        value: "8505"
+                      - name: TEMP
+                        value: "/app/data_temp"

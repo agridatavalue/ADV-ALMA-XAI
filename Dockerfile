@@ -8,7 +8,10 @@ RUN pip install --upgrade pip setuptools wheel && pip install --no-cache-dir -r 
 
 # Copy application files
 COPY . .
+
 RUN chmod +x "./entrypoint.sh"
+
+VOLUME ["/app/data_temp"]
 
 EXPOSE 8000 8505
 ENTRYPOINT ["./entrypoint.sh"]
