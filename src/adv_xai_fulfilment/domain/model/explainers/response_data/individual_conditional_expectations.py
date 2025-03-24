@@ -9,9 +9,9 @@ class IndividualConditionalExpectations(ExplainerResponseData):
 
     def __init__(self,
         *,
-        pdp_mean: np.ndarray,
-        ice_curves: np.ndarray,
-        grid_values: np.ndarray,
+        pdp_mean: np.ndarray = np.ndarray([]),
+        ice_curves: np.ndarray = np.ndarray([]),
+        grid_values: np.ndarray = np.ndarray([]),
     ):
         super().__init__('individual-conditional-expectations')
         self.pdp_mean = pdp_mean
