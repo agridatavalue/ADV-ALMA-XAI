@@ -4,12 +4,25 @@ WORKDIR /app
 
 # Install dependencies
 COPY requirements.txt .
-RUN pip install --upgrade pip setuptools wheel && pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip setuptools wheel \
+    && pip install --no-cache-dir -r requirements.txt \
+    && pip install waitress  # Add this if needed
+
+# User management for security
+RUN addgroup --system app \
+    && adduser --system --no-create-home --group app
 
 # Copy application files
 COPY . .
 
+# Set permissions
+RUN chown -R app:app /app && chmod -R 755 /app
+
+# Ensure entrypoint script is executable
 RUN chmod +x "./entrypoint.sh"
+
+# Use non-root user
+USER app
 
 VOLUME ["/app/data_temp"]
 
