@@ -850,9 +850,14 @@ components:
                     description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
                     example: "Biomass"
                     type: string
+                partner:
+                    description: the identifier of the partner
+                    example: "inagro"
+                    type: string
             required:
                 - data
                 - model
+                - partner
         ModelPerformanceResponse:
             type: object
             properties:

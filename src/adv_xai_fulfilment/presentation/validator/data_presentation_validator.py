@@ -29,6 +29,7 @@ class DataPresentationValidator(AbstractValidator):
 
     def validate_and_sanitize_model_performance(self, request: dict = {}) -> dict:
         self._validate_model(request.get("model"))
+        self._validate_partner(request.get("partner"))
         return self._merge_with_default_values(request)
 
     def validate_and_sanitize_model_performance_metrics(
