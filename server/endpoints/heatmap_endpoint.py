@@ -13,8 +13,10 @@ def build():
     if request.method != "POST":
         return "Not a valid request"
 
-    def prepare_path(path: str):
-        return path.replace(os.getenv("TEMP"), "")
+    def prepare_path(path: str) -> str:
+        """Change the path from a full path to an endpoint path"""
+        partial_path = path.replace(os.getenv("TEMP"), "")
+        return partial_path.replace("data/", 'image?filename=')
 
     try:
         response = ModelDataPresentations().get_heatmap(request.get_json())
