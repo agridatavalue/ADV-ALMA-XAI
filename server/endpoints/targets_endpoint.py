@@ -1,7 +1,7 @@
 import logging
 from flask import Blueprint, request, jsonify, make_response
 
-from src.adv_xai_fulfilment import DataPresentations
+from src.adv_xai_fulfilment import ModelDataPresentations
 
 targetsBp = Blueprint("targets", __name__)
 
@@ -13,7 +13,7 @@ def TargetsEndpoint():
 
     logging.info(f"called /targets api with params {data}")
     try:
-        response: dict = DataPresentations().get_targets(request.get_json())
+        response: dict = ModelDataPresentations().get_targets(request.get_json())
         return make_response(
             jsonify(response),
             200,

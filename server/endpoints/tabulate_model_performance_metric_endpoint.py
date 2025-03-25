@@ -1,7 +1,7 @@
 import logging
 from flask import Blueprint, request, jsonify, make_response
 
-from src.adv_xai_fulfilment import DataPresentations
+from src.adv_xai_fulfilment import ModelDataPresentations
 
 modelPerformanceMetricsBp = Blueprint("model-performance-metrics", __name__)
 
@@ -12,7 +12,7 @@ def TabulateModelPerformanceMetricsEndpoint():
         return "Not a valid request"
 
     try:
-        response = DataPresentations().get_model_performance_metrics(request.get_json())
+        response = ModelDataPresentations().get_model_performance_metrics(request.get_json())
         return make_response(
             jsonify(
                 [{"key": k, "value": response.metrics[k]} for k in response.metrics]

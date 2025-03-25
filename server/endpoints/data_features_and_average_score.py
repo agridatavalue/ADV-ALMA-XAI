@@ -1,7 +1,7 @@
 import logging
 from flask import Blueprint, request, jsonify, make_response
 
-from src.adv_xai_fulfilment import DataPresentations
+from src.adv_xai_fulfilment import ModelDataPresentations
 
 dataFeaturesAvarageScoreBp = Blueprint("data-features-and-average-score", __name__)
 
@@ -12,7 +12,7 @@ def data_feature_and_average_score():
         return "Not a valid request"
 
     try:
-        response = DataPresentations().get_data_features_and_average_score(request.get_json())
+        response = ModelDataPresentations().get_data_features_and_average_score(request.get_json())
         return make_response(jsonify(
             [
                 {

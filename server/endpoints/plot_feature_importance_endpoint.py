@@ -1,7 +1,7 @@
 import logging
 from flask import Blueprint, request, jsonify, make_response
 
-from src.adv_xai_fulfilment import DataPresentations
+from src.adv_xai_fulfilment import ModelDataPresentations
 
 featureImportanceBp = Blueprint("feature-importance", __name__)
 
@@ -12,7 +12,7 @@ def featureimportance():
         return "Not a valid request"
 
     try:
-        response = DataPresentations().get_feature_importance(request.get_json())
+        response = ModelDataPresentations().get_feature_importance(request.get_json())
 
         return make_response(
             jsonify(

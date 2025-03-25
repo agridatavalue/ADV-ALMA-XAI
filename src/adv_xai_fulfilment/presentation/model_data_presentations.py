@@ -24,7 +24,7 @@ from ..application.plot_scatter_observed_predicted_service import (
 )
 
 
-class DataPresentations:
+class ModelDataPresentations:
     _feature_importance_service: FeatureImportanceService
     _feature_description_service: FeatureDescriptionService
     _partial_dependence_service: PartialDependenceService
@@ -88,16 +88,6 @@ class DataPresentations:
         self._validator.validate_and_sanitize_heatmap(request)
         expl_id: ExplainerIdentifier = self._input_translator.translate(request)
         return self._heatmap_service.get_data(expl_id)
-
-    def get_data_source_types(self, request: dict = {}) -> dict:
-        logging.info(f"called get_data_source_types with params: {request}")
-        self._validator.validate_and_sanitize_data_source_types(request)
-        expl_id: ExplainerIdentifier = self._input_translator.translate(request)
-
-        descriptions: list[FeatureDescription] = (
-            self._feature_description_service.get_data(expl_id)
-        )
-        return self._output_translator.translate_data_source_types(descriptions)
 
     def get_feature_description(self, request: dict = {}) -> list[FeatureDescription]:
         logging.info(f"called get_feature_description with params: {request}")

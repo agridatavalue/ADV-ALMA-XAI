@@ -2,7 +2,7 @@ import os
 import logging
 from flask import Blueprint, request, jsonify, make_response
 
-from src.adv_xai_fulfilment import DataPresentations
+from src.adv_xai_fulfilment import ModelDataPresentations
 
 heatmapBp = Blueprint("heatmap", __name__)
 
@@ -16,7 +16,7 @@ def build():
         return path.replace(os.getenv("TEMP"), "")
 
     try:
-        response = DataPresentations().get_heatmap(request.get_json())
+        response = ModelDataPresentations().get_heatmap(request.get_json())
         return make_response(
             jsonify({"sources": [prepare_path(r) for r in response.heatmaps]}),
             200,

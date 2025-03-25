@@ -1,7 +1,7 @@
 import logging
 from flask import Blueprint, request, jsonify, make_response
 
-from src.adv_xai_fulfilment import DataPresentations
+from src.adv_xai_fulfilment import ModelDataPresentations
 
 
 iceBp = Blueprint("ice", __name__)
@@ -13,7 +13,7 @@ def ice():
         return "Not a valid request"
 
     try:
-        response = DataPresentations().get_individual_conditional_expectations(request.get_json())
+        response = ModelDataPresentations().get_individual_conditional_expectations(request.get_json())
 
         return make_response(jsonify(response.to_dict()), 200)
     except Exception as e:

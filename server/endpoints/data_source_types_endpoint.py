@@ -1,7 +1,7 @@
 import logging
 from flask import Blueprint, request, jsonify, make_response
 
-from src.adv_xai_fulfilment import DataPresentations
+from src.adv_xai_fulfilment import DataCardPresentations
 
 dataSourceTypesBp = Blueprint("data-source-types", __name__)
 
@@ -12,7 +12,7 @@ def DataSourceTypesEndpoint():
         return "Not a valid request"
 
     try:
-        response: dict = DataPresentations().get_data_source_types(request.args)
+        response: dict = DataCardPresentations().get_data_source_types(request.args)
 
         return make_response(
             jsonify(response),

@@ -1,7 +1,7 @@
 import logging
 from flask import Blueprint, jsonify, make_response, request
 
-from src.adv_xai_fulfilment import DataPresentations, FeatureDescription
+from src.adv_xai_fulfilment import ModelDataPresentations, FeatureDescription
 
 featureDescriptionEndpointBp = Blueprint("feature_description", __name__)
 
@@ -13,7 +13,7 @@ def FeatureDescriptionsEndpoint():
 
     try:
         response: list[FeatureDescription] = (
-            DataPresentations().get_feature_description(request.get_json())
+            ModelDataPresentations().get_feature_description(request.get_json())
         )
         return make_response(
             jsonify(

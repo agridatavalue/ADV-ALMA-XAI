@@ -1,7 +1,7 @@
 import logging
 from flask import Blueprint, request, jsonify, make_response
 
-from src.adv_xai_fulfilment import DataPresentations
+from src.adv_xai_fulfilment import DataCardPresentations
 
 dataDistributionBp = Blueprint("data-distribution", __name__)
 
@@ -12,7 +12,7 @@ def DataDistributionEndpoint():
         return "Not a valid request"
 
     try:
-        response: dict = DataPresentations().get_distribution(request.get_json())
+        response: dict = DataCardPresentations().get_data_distribution(request.get_json())
         return make_response(
             jsonify(response),
             200,

@@ -1,7 +1,7 @@
 import logging
 from flask import Blueprint, request, jsonify, make_response
 
-from src.adv_xai_fulfilment import DataPresentations
+from src.adv_xai_fulfilment import ModelDataPresentations
 
 plotModelPerformanceBp = Blueprint("model-performance", __name__)
 
@@ -12,7 +12,7 @@ def plotModelPerformanceEndpoint():
         return "Not a valid request"
 
     try:
-        response = DataPresentations().genarate_model_performance(request.get_json())
+        response = ModelDataPresentations().genarate_model_performance(request.get_json())
         return make_response(
             jsonify(
                 {
