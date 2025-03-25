@@ -1,5 +1,6 @@
 # PRESENTATION
-from .presentation.data_presentations import DataPresentations
+from .presentation.data_card_presentation import DataCardPresentations
+from .presentation.model_data_presentations import ModelDataPresentations
 from .presentation.explainer_generator_presentation import ExplainerGeneratorPresentation
 from .presentation.question_and_feedback_presentation import (
     QuestionAndFeedbackPresentation,

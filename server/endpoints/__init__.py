@@ -1,6 +1,5 @@
 from .build_endpoint import buildBp
 from .targets_endpoint import targetsBp
-from .prepare_endpoint import prepareBp
 from .heatmap_endpoint import heatmapBp
 from .image_viewer_endpoint import imageBp
 from .get_all_questions_endpoint import questionsBp
@@ -24,7 +23,6 @@ routes = [
     imageBp,
     buildBp,
     targetsBp,
-    prepareBp,
     heatmapBp,
     feedbackBp,
     questionsBp,
