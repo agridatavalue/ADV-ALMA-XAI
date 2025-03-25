@@ -1,10 +1,11 @@
-import logging
 from flask import Blueprint, request, jsonify, make_response
 
+from logger import get_logger
 from src.adv_xai_fulfilment import QuestionAndFeedbackPresentation
 
 feedbackBp = Blueprint("feedback", __name__)
 
+logger = get_logger()
 
 @feedbackBp.route("/feedback", methods=["POST"])
 def get_feedback():
@@ -20,5 +21,5 @@ def get_feedback():
             200,
         )
     except Exception as e:
-        logging.error(f"error while saving the feedback: {e}")
+        logger.error(f"error while saving the feedback: {e}")
         return make_response(jsonify({"status": str(e)}), 500)

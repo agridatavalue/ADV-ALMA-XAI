@@ -1,5 +1,4 @@
-import logging
-
+from logger import get_logger
 from ...domain.model.model import Model
 from ...domain.model.data_type import DataType
 from ...domain.model.model_data import ModelData
@@ -22,6 +21,7 @@ from ...domain.model.explainers.response_data.explainer_response_data import (
     ExplainerResponseData,
 )
 
+logger = get_logger()
 
 class TabularGeneratorService(AbstractGeneratorService):
     _explainer_retriever: ExplainerRetriever
@@ -47,14 +47,14 @@ class TabularGeneratorService(AbstractGeneratorService):
         selected_model: Model,
         data: ModelData,
     ) -> list[any]:
-        logging.debug(f"generating tabular explainers for {str(request)}")
+        logger.debug(f"generating tabular explainers for {str(request)}")
         feature_importance: FeatureImportance = self._fi_service_comp.generate_data(
             request
         )
 
         if not request.prediction_target:
             request.prediction_target = meta_data.first_target_name
-            logging.debug(
+            logger.debug(
                 f"prediction target not provided, using the first target: {request.prediction_target}"
             )
 
@@ -65,19 +65,19 @@ class TabularGeneratorService(AbstractGeneratorService):
             data=data,
         )
 
-        logging.debug(
+        logger.debug(
             f"selecting the matching Explainers for model {selected_model.__class__.__name__}"
         )
         possible_explainers: list[Explainer] = self._explainer_retriever.get_by_data(
             selected_model, meta_data
         )
-        logging.info(
+        logger.info(
             f"found {len(possible_explainers)} explainers: {possible_explainers}"
         )
 
         created_explainers: list[Explainer] = []
         for explainer in possible_explainers:
-            logging.debug(
+            logger.debug(
                 f"creating {explainer.name} explainer for target {request.prediction_target}"
             )
             try:
@@ -87,7 +87,7 @@ class TabularGeneratorService(AbstractGeneratorService):
                 )
                 created_explainers.append(explainer)
             except Exception as e:
-                logging.error(
+                logger.error(
                     f"error building the explainer {explainer.name}: {str(e)}"
                 )
 

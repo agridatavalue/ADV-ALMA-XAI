@@ -1,10 +1,11 @@
-import logging
 from flask import Blueprint, request, jsonify, make_response
 
+from logger import get_logger
 from src.adv_xai_fulfilment import ModelDataPresentations
 
 dataFeaturesAvarageScoreBp = Blueprint("data-features-and-average-score", __name__)
 
+logger = get_logger()
 
 @dataFeaturesAvarageScoreBp.route("/data-features-and-average-score", methods=["POST"])
 def data_feature_and_average_score():
@@ -23,5 +24,5 @@ def data_feature_and_average_score():
             200
         )
     except Exception as e:
-        logging.error(f"error while data-features-and-average-score: {e}")
+        logger.error(f"error while data-features-and-average-score: {e}")
         return make_response(jsonify({"status": str(e)}), 500)

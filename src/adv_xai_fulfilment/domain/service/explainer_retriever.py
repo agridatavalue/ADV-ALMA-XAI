@@ -1,5 +1,4 @@
-import logging
-
+from logger import get_logger
 from ..model.model import Model
 from ..model.model_metadata import ModelMetaData
 from ..model.explainers.explainer import Explainer
@@ -13,12 +12,13 @@ POSSIBLE_FEATURE_IMPORTANCE_EXPLAINER_NAMES = [
     "KernelSHAP",
 ]
 
+logger = get_logger()
 
 class ExplainerRetriever:
     _all_explainers_available: list[Explainer]
 
     def __init__(self, class_explainers: list[Explainer] = all_class_explainers):
-        logging.debug("creating all Explainers")
+        logger.debug("creating all Explainers")
         self._all_explainers_available = [c() for c in class_explainers]
 
     def get_by_data(
@@ -29,7 +29,7 @@ class ExplainerRetriever:
         ), "meta_data is not ModelMetaData instance"
         assert isinstance(selected_model, Model), Errors.MODEL_NOT_MODEL
 
-        logging.debug(
+        logger.debug(
             "searching for explainer for this metadata:"
             f"model_type: {meta_data.model_type}, "
             f"model_category: {meta_data.model_category}, "

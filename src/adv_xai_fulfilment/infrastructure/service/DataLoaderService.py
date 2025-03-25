@@ -1,13 +1,13 @@
 import os
-import logging
-
 import pandas as pd
 
+from logger import get_logger
 from ..repository import BucketRepository
 from ...domain.model.data_type import DataType
 from ...domain.model.model_data import ModelData
 from ...domain.model.explainer_identifier import ExplainerIdentifier
 
+logger = get_logger()
 
 class DataLoaderService:
     _bucketRepository: BucketRepository
@@ -36,14 +36,14 @@ class DataLoaderService:
         if not expl_id.data:
             return None
 
-        logging.info(f"loading data for {str(expl_id)}")
+        logger.info(f"loading data for {str(expl_id)}")
 
         data = ModelData()
         for file in ["x.csv", "y.csv"]:
             current_file = expl_id.get_data_locale_filepath(file)
             os.makedirs(os.path.dirname(current_file), exist_ok=True)
             if not os.path.exists(current_file):
-                logging.debug(
+                logger.debug(
                     f"file {current_file} does not exist, downloading from {os.getenv('DATA_FOLDER_PATH')}"
                 )
                 self._bucketRepository.download_from(
@@ -59,7 +59,7 @@ class DataLoaderService:
         if not expl_id.data:
             return []
 
-        logging.info(f"loading images for {str(expl_id)}")
+        logger.info(f"loading images for {str(expl_id)}")
 
         result = []
         for file in self._bucketRepository.listdir(

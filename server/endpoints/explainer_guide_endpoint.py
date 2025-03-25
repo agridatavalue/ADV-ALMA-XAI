@@ -1,10 +1,11 @@
-import logging
 from flask import Blueprint, request, jsonify, make_response
 
+from logger import get_logger
 from src.adv_xai_fulfilment import ExplainerGeneratorPresentation
 
 explainerGuideBp = Blueprint("explainer_guide", __name__)
 
+logger = get_logger()
 
 @explainerGuideBp.route("/get-explainer-guide", methods=["GET"])
 def get_explainer_data_endpoint():
@@ -27,5 +28,5 @@ def get_explainer_data_endpoint():
             200,
         )
     except Exception as e:
-        logging.error(f"error while get-explainer-guide the explainers: {e}")
+        logger.error(f"error while get-explainer-guide the explainers: {e}")
         return make_response(jsonify({"status": str(e)}), 500)

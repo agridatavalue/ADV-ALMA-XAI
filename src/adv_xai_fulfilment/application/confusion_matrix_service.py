@@ -1,5 +1,4 @@
-import logging
-
+from logger import get_logger
 from ..domain.model.model import Model
 from ..domain.model.model_data import ModelData
 from ..domain.model.model_metadata import ModelMetaData
@@ -9,6 +8,7 @@ from ..infrastructure.service.DataLoaderService import DataLoaderService
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService
 from ..infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
 
+logger = get_logger()
 
 class ConfusionMatrixService:
     _data_loader_service: DataLoaderService
@@ -25,7 +25,7 @@ class ConfusionMatrixService:
             self._metadata_loader_service.load_model_metadata(explainer_identifier)
         )
         if not explainer_identifier.prediction_target:
-            logging.debug(
+            logger.debug(
                 f"empty prediction target, setting default as {model_metadata.first_target_name}"
             )
             explainer_identifier.prediction_target = model_metadata.first_target_name

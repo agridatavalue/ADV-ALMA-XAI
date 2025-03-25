@@ -1,6 +1,4 @@
-import logging
-from dotenv import load_dotenv
-
+from logger import get_logger
 from ..domain.model.model import Model
 from ..infrastructure.constants import Errors
 from ..domain.model.model_data import ModelData
@@ -21,7 +19,7 @@ from ..domain.model.explainers.response_data.explainer_response_data import (
     ExplainerResponseData,
 )
 
-load_dotenv()
+logger = get_logger()
 
 
 class ExplainerGeneratorService:
@@ -43,7 +41,7 @@ class ExplainerGeneratorService:
     def describe_explainer(
         self, request: ExplainerIdentifier
     ) -> list[ExplainerResponseData]:
-        logging.debug(f"downloading meta_data {request.metadata_identifier}")
+        logger.debug(f"downloading meta_data {request.metadata_identifier}")
         meta_data: ModelMetaData = self._metadata_loader_service.load_model_metadata(
             expl_id=request
         )
@@ -57,7 +55,7 @@ class ExplainerGeneratorService:
 
         selected_model: Model = self._model_loader_service.load_from(request, meta_data)
         if not selected_model.is_ok():
-            logging.error("empty model")
+            logger.error("empty model")
             raise Errors.MODEL_NOT_MODEL
 
         data: ModelData = self._data_loader_service.load(request, meta_data.data_type)
@@ -76,7 +74,7 @@ class ExplainerGeneratorService:
             target_name=request.prediction_target,
         ).detect(data=results)
 
-        logging.debug("uploading the explainer metadata")
+        logger.debug("uploading the explainer metadata")
         self._metadata_loader_service.upload_explainer_metadata(
             metadata=expl_metadata, expl_id=request
         )

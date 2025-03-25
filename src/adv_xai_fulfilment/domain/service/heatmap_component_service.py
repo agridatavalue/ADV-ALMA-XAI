@@ -1,4 +1,4 @@
-import logging
+from logger import get_logger
 from ..model.model_data import ModelData
 from ..model.explainers.response_data import Heatmap
 from ..model.explainer_identifier import ExplainerIdentifier
@@ -8,6 +8,7 @@ from ...infrastructure.service.ExplainerRepositoryService import (
     ExplainerRepositoryService,
 )
 
+logger = get_logger()
 
 class HeatmapComponentService:
     _data_loader_service: DataLoaderService
@@ -20,11 +21,11 @@ class HeatmapComponentService:
 
     def generate_data(self, expl_id: ExplainerIdentifier) -> Heatmap:
         images: list[ModelData] = self._data_loader_service.load_images(expl_id)
-        logging.debug(f"Loaded {len(images)} images")
+        logger.debug(f"Loaded {len(images)} images")
 
         response = Heatmap()
         for current_img in images:
-            logging.debug(f"Processing image {current_img.image_path}")
+            logger.debug(f"Processing image {current_img.image_path}")
             heatmap_locale_filepath: str = self._heatmap_generator_repository.generate(
                 current_img.image_path, expl_id.get_model_locale_filepath()
             )
@@ -33,5 +34,5 @@ class HeatmapComponentService:
             # )
             response.add(heatmap_locale_filepath)
 
-        logging.debug(f"Generated {len(response.heatmaps)} heatmaps")
+        logger.debug(f"Generated {len(response.heatmaps)} heatmaps")
         return response

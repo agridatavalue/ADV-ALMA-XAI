@@ -1,5 +1,4 @@
-import logging
-
+from logger import get_logger
 from ..domain.model.model import Model
 from ..domain.model.model_data import ModelData
 from ..domain.model.model_metadata import ModelMetaData
@@ -13,6 +12,7 @@ from ..domain.service.model_performance_service_component import (
     ModelPerformanceServiceComponent,
 )
 
+logger = get_logger()
 
 class ModelPerformanceMetricService:
     _data_loader_service: DataLoaderService
@@ -31,7 +31,7 @@ class ModelPerformanceMetricService:
             self._metadata_loader_service.load_model_metadata(explainer_identifier)
         )
         if not explainer_identifier.prediction_target:
-            logging.debug(
+            logger.debug(
                 f"empty prediction target, setting default as {model_metadata.first_target_name}"
             )
             explainer_identifier.prediction_target = model_metadata.first_target_name
@@ -43,7 +43,7 @@ class ModelPerformanceMetricService:
         pred_target_index = model_metadata.index_of_target_name(
             explainer_identifier.prediction_target
         )
-        logging.debug(
+        logger.debug(
             f"index {pred_target_index} for target {explainer_identifier.prediction_target}"
         )
         mp: ModelPerformance = self._mdm_service.get_data(

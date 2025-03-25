@@ -1,14 +1,16 @@
 import os
 import json
-import logging
 
-from ..repository import BucketRepository
+
+from logger import get_logger
 from ..constants import Errors
+from ..repository import BucketRepository
 from ...domain.model.model_metadata import ModelMetaData
 from ...domain.model.explainer_metadata import ExplainerMetaData
 from ...domain.model.explainer_identifier import ExplainerIdentifier
 from .translator import ModelMetaDataTranslator, ExplainerMetaDataTranslator
 
+logger = get_logger()
 
 class MetaDataLoaderService:
     _bucketRepository: BucketRepository
@@ -34,7 +36,7 @@ class MetaDataLoaderService:
 
         file: str = expl_id.get_explainer_metadata_locale_filepath()
         if not os.path.exists(file):
-            logging.debug(
+            logger.debug(
                 f"file {file} does not exist, downloading {expl_id.get_explainer_metadata_path()} from {os.getenv('EXPLAINER_FOLDER_PATH')}"
             )
             file: str = self._bucketRepository.download_from(
@@ -72,11 +74,11 @@ class MetaDataLoaderService:
         assert isinstance(
             expl_id, ExplainerIdentifier
         ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
-        logging.info(f"loading model metadata for {str(expl_id)}")
+        logger.info(f"loading model metadata for {str(expl_id)}")
 
         filepath: str = expl_id.get_model_metadata_locale_filepath()
         if not os.path.exists(filepath) or force_download:
-            logging.debug(
+            logger.debug(
                 f'forced download for {os.getenv("MODEL_FOLDER_PATH")}/{expl_id.metadata_identifier}' if force_download else 
                 f'file {filepath} not exists, downloading {os.getenv("MODEL_FOLDER_PATH")}/{expl_id.metadata_identifier}' 
             )

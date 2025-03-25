@@ -1,10 +1,11 @@
-import logging
 from flask import Blueprint, request, jsonify, make_response
 
+from logger import get_logger
 from src.adv_xai_fulfilment import ModelDataPresentations
 
 featureImportanceBp = Blueprint("feature-importance", __name__)
 
+logger = get_logger()
 
 @featureImportanceBp.route("/feature-importance", methods=["POST"])
 def featureimportance():
@@ -25,5 +26,5 @@ def featureimportance():
             200,
         )
     except Exception as e:
-        logging.error(f"error while featureimportance: {e}")
+        logger.error(f"error while featureimportance: {e}")
         return make_response(jsonify({"status": str(e)}), 500)

@@ -1,10 +1,11 @@
-import logging
 from flask import Blueprint, request, jsonify, make_response
 
+from logger import get_logger
 from src.adv_xai_fulfilment import ModelDataPresentations
 
 plotModelPerformanceBp = Blueprint("model-performance", __name__)
 
+logger = get_logger()
 
 @plotModelPerformanceBp.route("/model-performance", methods=["POST"])
 def plotModelPerformanceEndpoint():
@@ -24,5 +25,5 @@ def plotModelPerformanceEndpoint():
             200,
         )
     except Exception as e:
-        logging.error(f"error while model-performance: {e}")
+        logger.error(f"error while model-performance: {e}")
         return make_response(jsonify({"status": str(e)}), 500)

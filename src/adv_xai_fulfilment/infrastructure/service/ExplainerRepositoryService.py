@@ -1,8 +1,8 @@
 import os
 import json
 import pickle
-import logging
 
+from logger import get_logger
 from ..repository import BucketRepository
 from ...domain.model.explainers import Explainer
 from ...domain.model.explainers.explainer import Explainer
@@ -10,6 +10,7 @@ from ...domain.model.explainer_metadata import ExplainerMetaData
 from src.adv_xai_fulfilment.infrastructure.constants import Errors
 from ...domain.model.explainer_identifier import ExplainerIdentifier
 
+logger = get_logger()
 
 class ExplainerRepositoryService:
     _bucketRepository: BucketRepository
@@ -28,7 +29,7 @@ class ExplainerRepositoryService:
         explainer: Explainer,
         explainer_identifier: ExplainerIdentifier,
     ) -> str:
-        logging.debug(f"loading explainer {explainer.name}")
+        logger.debug(f"loading explainer {explainer.name}")
         destination_file_path: str = explainer_identifier.get_explainer_locale_filepath(
             explainer
         )
@@ -43,7 +44,7 @@ class ExplainerRepositoryService:
 
     def upload_to(self, explainer: Explainer, identifier: ExplainerIdentifier) -> str:
         assert isinstance(explainer, Explainer), Errors.EXPLAINER_NOT_EXPLAINER
-        logging.debug(f"uploading the explainer {explainer.name}")
+        logger.debug(f"uploading the explainer {explainer.name}")
 
         locale_explainer_path: str = identifier.get_explainer_locale_filepath(explainer)
 
@@ -73,7 +74,7 @@ class ExplainerRepositoryService:
 
         metadata_filepath: str = expl_id.get_explainer_metadata_locale_filepath()
         os.makedirs(os.path.basename(metadata_filepath), exist_ok=True)
-        logging.debug(f"uploading metadata to {metadata_filepath}")
+        logger.debug(f"uploading metadata to {metadata_filepath}")
         with open(metadata_filepath, "w") as file:
             json.dump(metadata.to_dict(), file)
 

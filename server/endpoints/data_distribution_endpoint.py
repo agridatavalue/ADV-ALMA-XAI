@@ -1,10 +1,11 @@
-import logging
 from flask import Blueprint, request, jsonify, make_response
 
+from logger import get_logger
 from src.adv_xai_fulfilment import DataCardPresentations
 
 dataDistributionBp = Blueprint("data-distribution", __name__)
 
+logger = get_logger()
 
 @dataDistributionBp.route("/data-distribution", methods=["POST"])
 def DataDistributionEndpoint():
@@ -18,5 +19,5 @@ def DataDistributionEndpoint():
             200,
         )
     except Exception as e:
-        logging.error(f"error while data-distribution: {e}")
+        logger.error(f"error while data-distribution: {e}")
         return make_response(jsonify({"status": str(e)}), 500)

@@ -1,5 +1,4 @@
-import logging
-
+from logger import get_logger
 from src.adv_xai_fulfilment.domain.model.questions import Question, Feedback
 from ..infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
 from src.adv_xai_fulfilment.domain.model.explainer_metadata import ExplainerMetaData
@@ -8,6 +7,7 @@ from src.adv_xai_fulfilment.infrastructure.service.ExplainerRepositoryService im
     ExplainerRepositoryService,
 )
 
+logger = get_logger()
 
 class QuestionService:
     _metadata_loader_service: MetaDataLoaderService
@@ -21,7 +21,7 @@ class QuestionService:
         if not expl_id.category:
             expl_id.category = "regression"
 
-        logging.debug(f"loading metadata from {expl_id.metadata_identifier}")
+        logger.debug(f"loading metadata from {expl_id.metadata_identifier}")
         meta_data: ExplainerMetaData = (
             self._metadata_loader_service.load_explainer_metadata(expl_id)
         )
@@ -29,7 +29,7 @@ class QuestionService:
         return [q.verticalize_for(meta_data.model_metadata) for q in Question.get_all()]
     
     def get_partner_feedback(self, expl_id: ExplainerIdentifier) -> Feedback:
-        logging.debug(f"loading metadata from {expl_id.metadata_identifier}")
+        logger.debug(f"loading metadata from {expl_id.metadata_identifier}")
         meta_data: ExplainerMetaData = (
             self._metadata_loader_service.load_explainer_metadata(expl_id)
         )
@@ -42,7 +42,7 @@ class QuestionService:
         if not feedback.explainer_identifier.category:
             feedback.explainer_identifier.category = "regression"
 
-        logging.debug(f"loading metadata from {feedback.explainer_identifier.metadata}")
+        logger.debug(f"loading metadata from {feedback.explainer_identifier.metadata}")
         meta_data: ExplainerMetaData = (
             self._metadata_loader_service.load_explainer_metadata(
                 feedback.explainer_identifier

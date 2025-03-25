@@ -1,10 +1,11 @@
-import logging
 from flask import Blueprint, jsonify, make_response, request
 
+from logger import get_logger
 from src.adv_xai_fulfilment import ModelDataPresentations, FeatureDescription
 
 featureDescriptionEndpointBp = Blueprint("feature_description", __name__)
 
+logger = get_logger()
 
 @featureDescriptionEndpointBp.route("/feature-descriptions", methods=["POST"])
 def FeatureDescriptionsEndpoint():
@@ -25,5 +26,5 @@ def FeatureDescriptionsEndpoint():
             200,
         )
     except Exception as e:
-        logging.error(f"error while featureDescriptions: {e}")
+        logger.error(f"error while featureDescriptions: {e}")
         return make_response(jsonify({"status": str(e)}), 500)

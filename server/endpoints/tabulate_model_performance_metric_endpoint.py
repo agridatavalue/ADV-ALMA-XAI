@@ -1,10 +1,11 @@
-import logging
 from flask import Blueprint, request, jsonify, make_response
 
+from logger import get_logger
 from src.adv_xai_fulfilment import ModelDataPresentations
 
 modelPerformanceMetricsBp = Blueprint("model-performance-metrics", __name__)
 
+logger = get_logger()
 
 @modelPerformanceMetricsBp.route("/model-performance-metrics", methods=["POST"])
 def TabulateModelPerformanceMetricsEndpoint():
@@ -20,5 +21,5 @@ def TabulateModelPerformanceMetricsEndpoint():
             200,
         )
     except Exception as e:
-        logging.error(f"error while model-performance-metrics: {e}")
+        logger.error(f"error while model-performance-metrics: {e}")
         return make_response(jsonify({"status": str(e)}), 500)

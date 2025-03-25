@@ -1,10 +1,12 @@
 import cv2
 import uuid
-import logging
 import numpy as np
 import matplotlib.pyplot as plt
 from YOLOv8_Explainer import yolov8_heatmap
 
+from logger import get_logger
+
+logger = get_logger()
 
 class HeatmapImageGeneratorRepository:
     def generate(self, image_path: str, model_path: str) -> str:
@@ -26,13 +28,13 @@ class HeatmapImageGeneratorRepository:
             show_box=True,
             renormalize=False,
         )
-        logging.debug("Heatmap generator initialized successfully.")  # Debugging
+        logger.debug("Heatmap generator initialized successfully.")  # Debugging
 
         # Generate heatmap using process method
-        logging.debug("Generating heatmap...")
+        logger.debug("Generating heatmap...")
         heatmap_image = heatmap_generator.process(image_path)
 
-        logging.debug("Heatmap generated successfully!")
+        logger.debug("Heatmap generated successfully!")
         # Convert PIL Image to numpy array
         heatmap = np.array(heatmap_image)
 
@@ -70,5 +72,5 @@ class HeatmapImageGeneratorRepository:
         )
         heatmap_image.save(heatmap_image_path)
 
-        logging.debug("Heatmap generated successfully!")
+        logger.debug("Heatmap generated successfully!")
         return heatmap_image_path

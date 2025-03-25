@@ -1,7 +1,7 @@
-import logging
 import numpy as np
 import pandas as pd
 
+from logger import get_logger
 from ..model.model import Model
 from ..model.model_data import ModelData
 from ..model.model_metadata import ModelMetaData
@@ -17,6 +17,7 @@ from ...infrastructure.service.ExplainerRepositoryService import (
     ExplainerRepositoryService,
 )
 
+logger = get_logger()
 
 class FeatureImportanceServiceComponent:
     _data_loader_service: DataLoaderService
@@ -43,7 +44,7 @@ class FeatureImportanceServiceComponent:
     def generate_data(
         self, explainer_identifier: ExplainerIdentifier
     ) -> FeatureImportance:
-        logging.info(f"Generating feature importance for {explainer_identifier}")
+        logger.info(f"Generating feature importance for {explainer_identifier}")
         meta_data: ModelMetaData = self._metadata_loader_service.load_model_metadata(
             explainer_identifier
         )
@@ -51,17 +52,17 @@ class FeatureImportanceServiceComponent:
         selected_model: Model = self._model_loader_service.load_from(explainer_identifier, meta_data)
 
         if not explainer_identifier.prediction_target:
-            logging.debug(
+            logger.debug(
                 "No prediction target provided, setting {meta_data.first_target_name}"
             )
             explainer_identifier.prediction_target = meta_data.first_target_name
 
-        logging.debug(f"Prediction target: {explainer_identifier.prediction_target}")
+        logger.debug(f"Prediction target: {explainer_identifier.prediction_target}")
 
         explainer = None
         explainer_identifier.category = meta_data.model_category
         for expl in self._explainer_retriever.get_for_feature_importance():
-            logging.debug(f"Trying explainer: {expl}")
+            logger.debug(f"Trying explainer: {expl}")
             try:
                 path: str = self._explainer_repository_service.download_from(
                     explainer_identifier=explainer_identifier,
@@ -71,20 +72,20 @@ class FeatureImportanceServiceComponent:
                 explainer = expl
 
             except Exception as e:
-                logging.error(
+                logger.error(
                     f"Error downloading explainer: {e.message if hasattr(e, 'message') else str(e)}"
                 )
                 continue
 
         if not explainer:
-            logging.error("No explainer found for feature importance")
+            logger.error("No explainer found for feature importance")
             return FeatureImportance(
                 feature=[],
                 importance=[],
                 prediction_target=explainer_identifier.prediction_target,
             )
 
-        logging.info(f"Explainer feature-importance: {explainer}")
+        logger.info(f"Explainer feature-importance: {explainer}")
 
         model_data: ModelData = self._data_loader_service.load(
             explainer_identifier, meta_data.data_type

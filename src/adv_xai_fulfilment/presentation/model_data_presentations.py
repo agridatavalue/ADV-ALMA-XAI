@@ -1,6 +1,4 @@
-import os
-import logging
-
+from logger import get_logger
 from .validator import DataPresentationValidator
 from ..application.heatmap_service import HeatmapService
 from ..domain.model.explainers.response_data import Heatmap
@@ -23,6 +21,7 @@ from ..application.plot_scatter_observed_predicted_service import (
     PlotScatterObservedPredictedService,
 )
 
+logger = get_logger()
 
 class ModelDataPresentations:
     _feature_importance_service: FeatureImportanceService
@@ -54,7 +53,7 @@ class ModelDataPresentations:
         self._ice_service = IndividualConditionalExpectationService()
 
     def get_data_features_and_average_score(self, request: dict = {}) -> DataFeaturesAndAverageScore:
-        logging.info(f"called get_data_features_and_average_score with params: {request}")
+        logger.info(f"called get_data_features_and_average_score with params: {request}")
         data_sanitized = self._validator.validate_and_sanitize_data_features_and_average_score(
             request
         )
@@ -62,42 +61,27 @@ class ModelDataPresentations:
         return self._dfas_service.get_data(expl_id)
 
     def get_individual_conditional_expectations(self, request: dict = {}) -> IndividualConditionalExpectations:
-        logging.info(f"called get_individual_conditional_expectations with params: {request}")
+        logger.info(f"called get_individual_conditional_expectations with params: {request}")
         data_sanitized = self._validator.validate_and_sanitize_individual_conditional_expectations(request)
         expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
 
         return self._ice_service.get_data(expl_id, data_sanitized.get("feature"))
 
-    def get_image(self, request: dict = {}) -> str:
-        logging.info(f"called get_image with params: {request}")
-        self._validator.validate_and_sanitize_get_image(request)
-
-        complete_filepath: str = os.path.join(
-            os.getenv("TEMP"), request.get("filename")
-        )
-        if complete_filepath == request.get("filename"):
-            complete_filepath = os.getenv("TEMP") + request.get("filename")
-
-        if not os.path.exists(complete_filepath):
-            raise FileNotFoundError(f"File not found: {request.get('filename')}")
-
-        return complete_filepath
-
     def get_heatmap(self, request: dict = {}) -> Heatmap:
-        logging.info(f"called get_heatmap with params: {request}")
+        logger.info(f"called get_heatmap with params: {request}")
         self._validator.validate_and_sanitize_heatmap(request)
         expl_id: ExplainerIdentifier = self._input_translator.translate(request)
         return self._heatmap_service.get_data(expl_id)
 
     def get_feature_description(self, request: dict = {}) -> list[FeatureDescription]:
-        logging.info(f"called get_feature_description with params: {request}")
+        logger.info(f"called get_feature_description with params: {request}")
         self._validator.validate_and_sanitize_feature_description(request)
         expl_id: ExplainerIdentifier = self._input_translator.translate(request)
 
         return self._feature_description_service.get_data(expl_id)
 
     def get_feature_importance(self, request: dict = {}) -> FeatureImportance:
-        logging.info(f"called get_feature_importance with params: {request}")
+        logger.info(f"called get_feature_importance with params: {request}")
         self._validator.validate_and_sanitize_feature_importance(request)
         expl_id: ExplainerIdentifier = self._input_translator.translate(request)
 
@@ -109,7 +93,7 @@ class ModelDataPresentations:
         return self._plot_scatter_service.genarate_data_for_partner(expl_id)
 
     def get_model_performance_metrics(self, data: dict = {}) -> ModelPerformanceMetrics:
-        logging.info(f"called get_model_performance_metrics with params: {data}")
+        logger.info(f"called get_model_performance_metrics with params: {data}")
         data_sanitized: dict = (
             self._validator.validate_and_sanitize_model_performance_metrics(data)
         )
@@ -118,21 +102,21 @@ class ModelDataPresentations:
         return self._model_performance_service.get_metrics(expl_id)
 
     def genarate_model_performance(self, data: dict = {}) -> ModelPerformance:
-        logging.info(f"called genarate_model_performance with params: {data}")
+        logger.info(f"called genarate_model_performance with params: {data}")
         data_sanitized = self._validator.validate_and_sanitize_model_performance(data)
         expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
 
         return self._model_performance_service.get_data(expl_id)
 
     def get_partial_dependence(self, data: dict = {}) -> PartialDependence:
-        logging.info(f"called get_partial_dependence with params: {data}")
+        logger.info(f"called get_partial_dependence with params: {data}")
         data_sanitized = self._validator.validate_and_sanitize_partial_dependence(data)
         expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
 
         return self._partial_dependence_service.get_data(expl_id, data_sanitized.get("feature"))
 
     def get_confusion_matrix(self, data: dict = {}) -> ConfusionMatrix:
-        logging.info(f"called get_confusion_matrix with params: {data}")
+        logger.info(f"called get_confusion_matrix with params: {data}")
         data_sanitized = self._validator.validate_and_sanitize_confusion_matrix(data)
         expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
         return self._confusion_matrix_service.get_data(expl_id)

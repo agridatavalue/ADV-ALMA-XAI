@@ -1,5 +1,4 @@
-import logging
-
+from logger import get_logger
 from ..domain.model.model import Model
 from ..infrastructure.constants import Errors
 from ..domain.model.model_data import ModelData
@@ -9,6 +8,8 @@ from ..infrastructure.service.DataLoaderService import DataLoaderService
 from ..infrastructure.service.ModelLoaderService import ModelLoaderService
 from ..infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
 from ..domain.model.explainers.response_data import IndividualConditionalExpectations
+
+logger = get_logger()
 
 class IndividualConditionalExpectationService:
     _data_loader_service: DataLoaderService
@@ -21,19 +22,19 @@ class IndividualConditionalExpectationService:
         self._metadata_loader_service = MetaDataLoaderService()
 
     def get_data(self, request:ExplainerIdentifier, feature: str) -> IndividualConditionalExpectations:
-        logging.debug(f"downloading meta_data {request.metadata_identifier}")
+        logger.debug(f"downloading meta_data {request.metadata_identifier}")
         meta_data: ModelMetaData = self._metadata_loader_service.load_model_metadata(
             expl_id=request
         )
         request.metadata = meta_data
 
-        logging.debug(f"downloading model {request.model}")
+        logger.debug(f"downloading model {request.model}")
         selected_model: Model = self._model_loader_service.load_from(request, meta_data)
         if not selected_model.is_ok():
-            logging.error("empty model")
+            logger.error("empty model")
             raise Errors.MODEL_NOT_MODEL
 
-        logging.debug(f"downloading {request.data} data if present")
+        logger.debug(f"downloading {request.data} data if present")
         data: ModelData = self._data_loader_service.load_data(request)
 
         if feature not in meta_data.feature_names:

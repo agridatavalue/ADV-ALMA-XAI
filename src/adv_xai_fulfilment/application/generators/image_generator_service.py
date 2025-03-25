@@ -1,5 +1,4 @@
-import logging
-
+from logger import get_logger
 from ...domain.model.model import Model
 from ...domain.model.data_type import DataType
 from ...domain.model.model_data import ModelData
@@ -8,6 +7,7 @@ from .abstract_generator_service import AbstractGeneratorService
 from ...domain.model.explainer_identifier import ExplainerIdentifier
 from ...domain.service.heatmap_component_service import HeatmapComponentService
 
+logger = get_logger()
 
 class ImageGeneratorService(AbstractGeneratorService):
     _heatmap_component_service = HeatmapComponentService
@@ -27,5 +27,5 @@ class ImageGeneratorService(AbstractGeneratorService):
         selected_model: Model,
         data: ModelData,
     ) -> list[any]:
-        logging.debug(f"generating image explainers for {str(request)}")
+        logger.debug(f"generating image explainers for {str(request)}")
         return [self._heatmap_component_service.generate_data(request)]
