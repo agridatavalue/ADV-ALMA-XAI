@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
     title: ADV
     description: "TEST"
-    version: 0.0.6
+    version: 0.0.7
     contact:
         name: "Mirko Colageo"
         email: m.colageo@almaviva.it
@@ -57,6 +57,33 @@ paths:
                     description: Partner / Model not found
             tags:
                 - Explainer
+
+    /data-features-and-average-score:
+        post:
+            summary: Return the data feature and average score of testing data
+            description: Return the data feature and average score of testing data
+            operationId: dataFeatureAndAverageScore
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/DataFeaturesAndAverageScoreRequest"
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DataFeaturesAndAverageScoreResponse"
+                "400":
+                    description: Invalid IDs combination supplied
+                "404":
+                    description: Partner / Model not found
+                "500":
+                    description: Internal server error
+            tags:
+                - ModelCard
 
     /individual-conditional-expectations:
         post:
@@ -471,6 +498,31 @@ components:
             description: "Please enter token in following format: Bearer <JWT>"
             type: http
     schemas:
+        DataFeaturesAndAverageScoreRequest:
+            type: object
+            properties:
+                partner:
+                    description: the identifier of the partner
+                    example: "inagro"
+                    type: string
+                model:
+                    description: the identifier of the model file name
+                    example: "model.pkl"
+                    type: string
+            required:
+                - model
+                - partner
+        DataFeaturesAndAverageScoreResponse:
+            type: array
+            items:
+                type: object
+                properties:
+                    feature:
+                        type: string
+                    average_score:
+                        type: number
+                        format: float
+
         ICERequest:
             type: object
             properties:
@@ -514,6 +566,7 @@ components:
                     items:
                         type: number
                         format: float
+
         HeatMapRequest:
             type: object
             properties:

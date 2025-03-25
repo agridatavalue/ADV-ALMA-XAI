@@ -15,7 +15,7 @@ from .ask_to_explainer_endpoint import askToExplainerEndpointBp
 from .plot_feature_importance_endpoint import featureImportanceBp
 from .individual_conditional_expectations_endpoint import iceBp
 from .plot_model_performance_endpoint import plotModelPerformanceBp
-from .data_feature_average_scores_endpoint import featureAverageScoresBp
+from .data_features_and_average_score import dataFeaturesAvarageScoreBp
 from .tabulate_feature_description_endpoint import featureDescriptionEndpointBp
 from .tabulate_model_performance_metric_endpoint import modelPerformanceMetricsBp
 
@@ -36,8 +36,8 @@ routes = [
     dataDistributionBp,
     featureImportanceBp,
     plotModelPerformanceBp,
-    featureAverageScoresBp,
     askToExplainerEndpointBp,
     modelPerformanceMetricsBp,
+    dataFeaturesAvarageScoreBp,
     featureDescriptionEndpointBp,
 ]

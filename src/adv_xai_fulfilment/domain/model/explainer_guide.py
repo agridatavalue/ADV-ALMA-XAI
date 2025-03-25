@@ -1,6 +1,7 @@
 import numpy as np
 
 from .model_metadata import ModelMetaData
+from .explainers.response_data import DataFeaturesAndAverageScore
 from .explainers.response_data import FeatureImportance, FeatureDescription
 from .explainers.response_data import PartialDependence, ExplainerResponseData
 from .explainers.response_data import ConfusionMatrix, IndividualConditionalExpectations
@@ -33,6 +34,7 @@ class ExplainerGuide:
                     FeatureImportance(""),
                     FeatureDescription(),
                     ModelPerformanceMetrics(),
+                    DataFeaturesAndAverageScore(),
                     IndividualConditionalExpectations(),
                 ]
             if self._meta_data.is_classification:
