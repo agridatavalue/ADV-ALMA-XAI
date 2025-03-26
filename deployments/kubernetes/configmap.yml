@@ -1,11 +1,12 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: xai-fulfillment
-  namespace: agridatavalue
+    name: xai-fulfillment
+    namespace: agridatavalue
 data:
-  DATA_FOLDER_PATH: "datagen"
-  MODEL_FOLDER_PATH: "models"
-  EXPLAINER_FOLDER_PATH: "explanators"
-  SERVER_PORT: "8505"
-  MINIO_ENDPOINT: "securestore:9000"
+    DATA_FOLDER_PATH: "datagen"
+    MODEL_FOLDER_PATH: "models"
+    EXPLAINER_FOLDER_PATH: "explanators"
+    SERVER_PORT: "8505"
+    MINIO_ENDPOINT: "securestore:9000"
+    TEMP: "/app/data_temp"
