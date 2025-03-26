@@ -48,10 +48,6 @@ class TabularGeneratorService(AbstractGeneratorService):
         data: ModelData,
     ) -> list[any]:
         logger.debug(f"generating tabular explainers for {str(request)}")
-        feature_importance: FeatureImportance = self._fi_service_comp.generate_data(
-            request
-        )
-
         if not request.prediction_target:
             request.prediction_target = meta_data.first_target_name
             logger.debug(
@@ -90,5 +86,9 @@ class TabularGeneratorService(AbstractGeneratorService):
                 logger.error(
                     f"error building the explainer {explainer.name}: {str(e)}"
                 )
+        
+        feature_importance: FeatureImportance = self._fi_service_comp.generate_data(
+            request
+        )
 
         return [feature_importance] + created_explainers + [metrics]

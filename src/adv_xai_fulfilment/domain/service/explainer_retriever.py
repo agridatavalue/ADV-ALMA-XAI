@@ -6,7 +6,7 @@ from ..model.explainers import all as all_class_explainers
 from src.adv_xai_fulfilment.infrastructure.constants import Errors
 
 POSSIBLE_FEATURE_IMPORTANCE_EXPLAINER_NAMES = [
-    "TreeShapInterventionalExplainer",
+    "TreeSHAPinterventional",
     "KernelExplainer",
     "DeepExplainer",
     "KernelSHAP",
@@ -30,7 +30,7 @@ class ExplainerRetriever:
         assert isinstance(selected_model, Model), Errors.MODEL_NOT_MODEL
 
         logger.debug(
-            "searching for explainer for this metadata:"
+            "searching for explainer for this metadata: "
             f"model_type: {meta_data.model_type}, "
             f"model_category: {meta_data.model_category}, "
             f"data_type: {meta_data.data_type}"

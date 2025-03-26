@@ -72,8 +72,8 @@ class FeatureImportanceServiceComponent:
                 explainer = expl
 
             except Exception as e:
-                logger.error(
-                    f"Error downloading explainer: {e.message if hasattr(e, 'message') else str(e)}"
+                logger.warning(
+                    f"Error downloading explainer {expl}: {e.message if hasattr(e, 'message') else str(e)}"
                 )
                 continue
 
