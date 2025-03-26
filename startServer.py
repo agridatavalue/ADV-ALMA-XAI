@@ -15,7 +15,7 @@ def main():
     parser.add_argument(
         "-LEVEL",
         "-l",
-        choices=["INFO", "DEBUG", "INFO"],
+        choices=["INFO", "DEBUG"],
         default="INFO",
         required=False,
     )
