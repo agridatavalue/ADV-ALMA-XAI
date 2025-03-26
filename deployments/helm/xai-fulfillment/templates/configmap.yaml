@@ -10,4 +10,4 @@ data:
   SERVER_PORT: "8000"
   MINIO_ENDPOINT: "securestore:9000"
   MINIO_SECURE: "false"
-  TEMP: "/app/data_temp"
+  TEMP: "/app/data_temp/"
