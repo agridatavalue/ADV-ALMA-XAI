@@ -2,6 +2,11 @@ from .abstract_validator import AbstractValidator
 
 
 class DataPresentationValidator(AbstractValidator):
+    def validate_and_sanitize_data_distribution(self, request: dict = {}) -> dict:
+        self._validate_model(request.get("model"))
+        self._validate_partner(request.get("partner"))
+        return self._merge_with_default_values(request)
+    
     def validate_and_sanitize_data_features_and_average_score(self, request: dict = {}) -> dict:
         self._validate_model(request.get("model"))
         self._validate_partner(request.get("partner"))
@@ -15,6 +20,7 @@ class DataPresentationValidator(AbstractValidator):
     
     def validate_and_sanitize_get_image(self, request: dict = {}) -> dict:
         assert isinstance(request.get("filename"), str), "filename must be provided"
+        self._validate_model(request.get("model"))
         self._validate_partner(request.get("partner"))
         return self._merge_with_default_values(request)
 

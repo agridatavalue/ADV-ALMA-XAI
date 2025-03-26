@@ -12,7 +12,6 @@ paths:
         post:
             summary: Build the explainer
             description: Build explainer for a given partner
-            operationId: build
             requestBody:
                 required: true
                 content:
@@ -33,36 +32,36 @@ paths:
             tags:
                 - Explainer
 
-    /prepare:
+    /data-distribution:
         post:
-            summary: Prepare the explainer
-            description: Prepare explainer for a given partner
-            operationId: prepare
+            summary: Return the data distribution
+            description: Return the data distribution for a given partner
             requestBody:
                 required: true
                 content:
                     application/json:
                         schema:
-                            $ref: "#/components/schemas/PrepareRequest"
+                            $ref: "#/components/schemas/DataDistributionRequest"
             responses:
                 "200":
                     description: successful operation
                     content:
                         application/json:
                             schema:
-                                $ref: "#/components/schemas/PrepareResponse"
+                                $ref: "#/components/schemas/DataDistributionResponse"
                 "400":
                     description: Invalid IDs combination supplied
                 "404":
                     description: Partner / Model not found
+                "500":
+                    description: Internal server error
             tags:
-                - Explainer
+                - DataCard
 
     /data-features-and-average-score:
         post:
             summary: Return the data feature and average score of testing data
             description: Return the data feature and average score of testing data
-            operationId: dataFeatureAndAverageScore
             requestBody:
                 required: true
                 content:
@@ -141,7 +140,6 @@ paths:
         post:
             summary: Return the confusion matrix data
             description: Return the confusion matrix data for a given partner
-            operationId: confusionMatrix
             requestBody:
                 required: true
                 content:
@@ -168,7 +166,6 @@ paths:
         post:
             summary: Return the partial dependence data
             description: Return the partial dependence data for a given partner
-            operationId: partialDependence
             requestBody:
                 required: true
                 content:
@@ -195,7 +192,6 @@ paths:
         get:
             summary: Return the explainer data
             description: Return the explainer data for a given partner
-            operationId: getExplainerData
             parameters:
                 - name: model
                   in: query
@@ -236,7 +232,6 @@ paths:
         post:
             summary: Return the feature importance data
             description: Return the feature importance data for a given partner
-            operationId: featureImportance
             requestBody:
                 required: true
                 content:
@@ -263,7 +258,6 @@ paths:
         post:
             summary: Return the feature descriptions
             description: Return the feature descriptions for a given partner
-            operationId: featureDescriptions
             requestBody:
                 required: true
                 content:
@@ -288,7 +282,6 @@ paths:
         post:
             summary: Return the model performance metrics
             description: Return the model performance metrics for a given partner
-            operationId: modelPerformanceMetrics
             requestBody:
                 required: true
                 content:
@@ -315,7 +308,6 @@ paths:
         post:
             summary: Return the model performance data
             description: Return the model performance data for a given partner
-            operationId: modelPerformance
             requestBody:
                 required: true
                 content:
@@ -338,11 +330,25 @@ paths:
             tags:
                 - ModelCard
 
-    /ask:
+    /{model}/{partner}/ask:
         post:
             summary: Ask something to the explainer
             description: Returns an explaination string
-            operationId: ask
+            parameters:
+                - name: model
+                  in: path
+                  required: true
+                  description: the identifier of the model file name
+                  example: "model.pkl"
+                  schema:
+                      type: string
+                - name: partner
+                  in: path
+                  required: true
+                  description: the identifier of the partner
+                  example: "inagro"
+                  schema:
+                      type: string
             requestBody:
                 required: true
                 content:
@@ -359,13 +365,12 @@ paths:
                 "404":
                     description: Partner / Explainer not found
             tags:
-                - Explainer
+                - AskCard
 
     /{partner}/feedback:
         get:
             summary: Return the feedback for a given partner
             description: Return the feedback for a given partner
-            operationId: getFeedback
             parameters:
                 - name: partner
                   in: path
@@ -456,7 +461,6 @@ paths:
         get:
             summary: returns the list of data source types
             description: returns the list of data source types
-            operationId: data-source-types
             parameters:
                 - name: model
                   in: query
@@ -479,6 +483,47 @@ paths:
             tags:
                 - DataCard
 
+    /{model}/{partner}/image:
+        get:
+            summary: Return the image
+            description: Return the image for a given partner
+            parameters:
+                - name: model
+                  in: path
+                  required: true
+                  description: the identifier of the model file name
+                  example: "model.pkl"
+                  schema:
+                      type: string
+                - name: partner
+                  in: path
+                  required: true
+                  description: the identifier of the partner
+                  example: "inagro"
+                  schema:
+                      type: string
+                - name: filename
+                  in: query
+                  required: true
+                  description: the file name of the image
+                  example: "image.png"
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        image/png:
+                            schema:
+                                type: string
+                                format: binary
+                "400":
+                    description: Invalid IDs combination supplied
+                "404":
+                    description: Partner / Model not found
+            tags:
+                - Helpers
+
 tags:
     - name: Explainer
       description: Operations related to the explainer
@@ -488,6 +533,10 @@ tags:
       description: Endpoints returning data for model card
     - name: Feedback
       description: Endpoints returning data for feedback handling
+    - name: AskCard
+      description: Endpoints returning text explainations
+    - name: Helpers
+      description: Helper endpoints
 
 servers: []
 components:
@@ -498,6 +547,27 @@ components:
             description: "Please enter token in following format: Bearer <JWT>"
             type: http
     schemas:
+        DataDistributionRequest:
+            type: object
+            properties:
+                model:
+                    description: the identifier of the model file name
+                    example: "model.pkl"
+                    type: string
+                partner:
+                    description: the identifier of the partner
+                    example: "inagro"
+                    type: string
+            required:
+                - model
+                - partner
+        DataDistributionResponse:
+            type: object
+            properties:
+                mario:
+                    type: number
+                    format: float
+
         DataFeaturesAndAverageScoreRequest:
             type: object
             properties:
@@ -971,40 +1041,6 @@ components:
                                 type: string
                                 example: ale.pkl
 
-        PrepareRequest:
-            type: object
-            properties:
-                model:
-                    description: path for the ML model file
-                    example: "model.pkl"
-                    type: string
-                meta_data:
-                    description: path for the metadata file
-                    example: "metadata.json"
-                    type: string
-                partner:
-                    description: the identifier of the partner
-                    example: "inagro"
-                    type: string
-                data:
-                    description: optional
-                    type: string
-                prediction_targets:
-                    description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
-                    example: ["Biomass"]
-                    type: array
-                    items:
-                        type: string
-            required:
-                - model
-                - metadata
-                - partner
-        PrepareResponse:
-            type: object
-            properties:
-                status:
-                    type: string
-
         AskRequest:
             type: object
             properties:
@@ -1012,18 +1048,8 @@ components:
                     description: request to ask to the explainer
                     example: ""
                     type: string
-                explainer:
-                    description: explainer name
-                    example: "ALE"
-                    type: string
-                partner:
-                    description: the identifier of the partner
-                    example: "inagro"
-                    type: string
             required:
-                - partner
                 - request
-                - explainer
         AskResponse:
             type: object
             properties:
