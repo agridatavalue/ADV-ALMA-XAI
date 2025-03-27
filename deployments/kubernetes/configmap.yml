@@ -9,3 +9,4 @@ data:
   EXPLAINER_FOLDER_PATH: "explanators"
   SERVER_PORT: "8505"
   MINIO_ENDPOINT: "securestore:9000"
+  TEMP: "/app/data_temp/"
