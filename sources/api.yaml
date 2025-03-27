@@ -558,15 +558,27 @@ components:
                     description: the identifier of the partner
                     example: "partner1"
                     type: string
+                bin_size:
+                    description: intervals that group target data into ranges for visualization
+                    example: 50
+                    default: 30
+                    type: number
             required:
                 - model
                 - partner
         DataDistributionResponse:
             type: object
             properties:
-                mario:
-                    type: number
-                    format: float
+                x_axis_values:
+                    type: array
+                    items:
+                        type: number
+                        format: float
+                y_axis_values:
+                    type: array
+                    items:
+                        type: number
+                        format: float
 
         DataFeaturesAndAverageScoreRequest:
             type: object

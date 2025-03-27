@@ -13,11 +13,8 @@ def DataDistributionEndpoint():
         return "Not a valid request"
 
     try:
-        response: dict = DataCardPresentations().get_data_distribution(request.get_json())
-        return make_response(
-            jsonify(response),
-            200,
-        )
+        response = DataCardPresentations().get_data_distribution(request.get_json())
+        return make_response(jsonify(response.to_dict()), 200)
     except Exception as e:
         logger.error(f"error while data-distribution: {e}")
         return make_response(jsonify({"status": str(e)}), 500)

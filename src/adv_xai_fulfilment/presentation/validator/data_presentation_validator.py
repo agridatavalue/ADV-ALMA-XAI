@@ -5,7 +5,7 @@ class DataPresentationValidator(AbstractValidator):
     def validate_and_sanitize_data_distribution(self, request: dict = {}) -> dict:
         self._validate_model(request.get("model"))
         self._validate_partner(request.get("partner"))
-        return self._merge_with_default_values(request)
+        return self._merge_with_default_values({'bin_size': 30, **request})
     
     def validate_and_sanitize_data_features_and_average_score(self, request: dict = {}) -> dict:
         self._validate_model(request.get("model"))
