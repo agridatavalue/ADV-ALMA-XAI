@@ -29,8 +29,8 @@ class DataCardPresentations:
 
     def get_targets(self, request: dict = {}) -> Targets:
         logger.info(f"called get_targets with params: {request}")
-        self._validator.validate_and_sanitize_targets(request)
-        expl_id: ExplainerIdentifier = self._input_translator.translate(request)
+        data_sanitized = self._validator.validate_and_sanitize_targets(request)
+        expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
         return self._targets_service.get_data(expl_id)
 
     def get_data_distribution(self, request: dict = {}) -> DataDistribution:

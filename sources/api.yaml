@@ -588,10 +588,21 @@ components:
         TargetsResponse:
             type: object
             properties:
-                targets:
+                y_real:
                     type: array
                     items:
-                        type: string
+                        type: number
+                        format: float
+                x_real:
+                    type: array
+                    items:
+                        type: number
+                        format: float
+                y_predicted:
+                    type: array
+                    items:
+                        type: number
+                        format: float
 
         DataDistributionRequest:
             type: object
