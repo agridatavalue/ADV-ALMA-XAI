@@ -2,7 +2,7 @@ from alibi.explainers import GradientSimilarity
 
 from ..data_type import DataType
 from .explainer import Explainer
-from ....infrastructure.constants import Errors
+from ..model_data import ModelData
 from .datatype_model_explainer import DataTypeModelExplainer
 
 
@@ -23,8 +23,7 @@ class SimilarityExplanationsExplainer(Explainer):
             ],
         )
 
-    def build(self, model, data:dict):
-        assert isinstance(data, dict), Errors.DATA_NOT_DICT
-        self.build_result = GradientSimilarity(model.handler.predict, data)
+    def build(self, model, data: ModelData):
+        self.build_result = GradientSimilarity(model.handler.predict, data.y)
 
 

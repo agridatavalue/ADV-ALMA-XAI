@@ -3,8 +3,8 @@ from explainerdashboard import RegressionExplainer as DashRegressionExplainer
 
 from ..data_type import DataType
 from .explainer import Explainer
+from ..model_data import ModelData
 from .datatype_model_explainer import DataTypeModelExplainer
-from src.adv_xai_fulfilment.infrastructure.constants import Errors
 
 
 class RegressionExplainer(Explainer):
@@ -22,6 +22,5 @@ class RegressionExplainer(Explainer):
             ],
         )
 
-    def build(self, model, data: dict):
-        assert isinstance(data, dict), Errors.DATA_NOT_DICT
-        self.build_result = DashRegressionExplainer(model, data.get("x"), data.get("y"))
+    def build(self, model, data: ModelData):
+        self.build_result = DashRegressionExplainer(model, data.x, data.y)

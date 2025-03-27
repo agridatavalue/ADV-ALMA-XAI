@@ -9,6 +9,7 @@ class ModelData:
     def __init__(self):
         self._x = None
         self._y = None
+        self._image_path = ''
 
     @property
     def x(self) -> pd.DataFrame:

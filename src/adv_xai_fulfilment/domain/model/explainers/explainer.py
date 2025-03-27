@@ -2,6 +2,7 @@ import pickle
 from abc import ABC
 
 from ..model import Model
+from ..model_data import ModelData
 from ..model_metadata import ModelMetaData
 from ..model_category import ModelCategory
 from ....infrastructure.constants import Errors
@@ -76,7 +77,7 @@ class Explainer(ABC):
         self.meta_data = meta_data
         return self
 
-    def build(self, model, data: dict):
+    def build(self, model, data: ModelData):
         raise NotImplementedError("Not implemented yet.")
 
     def train_with_partner_data(self, partner_data: dict) -> bool:

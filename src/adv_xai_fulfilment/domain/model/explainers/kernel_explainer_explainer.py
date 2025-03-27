@@ -3,8 +3,8 @@ from shap import KernelExplainer
 
 from ..data_type import DataType
 from .explainer import Explainer
+from ..model_data import ModelData
 from .datatype_model_explainer import DataTypeModelExplainer
-from src.adv_xai_fulfilment.infrastructure.constants import Errors
 
 
 class KernelExplainerExplainer(Explainer):
@@ -25,6 +25,5 @@ class KernelExplainerExplainer(Explainer):
     def get_shap_values(self, x_test: np.array) -> np.array:
         return self.build_result.shap_values(x_test)
 
-    def build(self, model, data: dict):
-        assert isinstance(data, dict), Errors.DATA_NOT_DICT
-        self.build_result = KernelExplainer(model.handler.predict, data.get("x"))
+    def build(self, model, data: ModelData):
+        self.build_result = KernelExplainer(model.handler.predict, data.x)

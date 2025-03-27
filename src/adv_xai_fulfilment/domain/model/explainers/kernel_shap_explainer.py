@@ -2,7 +2,7 @@ from alibi.explainers import KernelShap
 
 from ..data_type import DataType
 from .explainer import Explainer
-from ....infrastructure.constants import Errors
+from ..model_data import ModelData
 from .datatype_model_explainer import DataTypeModelExplainer
 
 
@@ -21,7 +21,6 @@ class KernelSHAPExplainer(Explainer):
             ],
         )
 
-    def build(self, model, data: dict):
-        assert isinstance(data, dict), Errors.DATA_NOT_DICT
-        self.build_result = KernelShap(model.handler.predict, data.get("x"))
+    def build(self, model, data: ModelData):
+        self.build_result = KernelShap(model.handler.predict, data.x)
 
