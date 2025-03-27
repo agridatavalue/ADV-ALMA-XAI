@@ -1,4 +1,5 @@
 from .heatmap import Heatmap
+from .targets import Targets
 from .confusion_matrix import ConfusionMatrix
 from .data_distribution import DataDistribution
 from .model_performance import ModelPerformance
@@ -12,6 +13,7 @@ from .individual_conditional_expectations import IndividualConditionalExpectatio
 
 __all__ = [
     "Heatmap",
+    "Targets",
     "ConfusionMatrix",
     "DataDistribution",
     "ModelPerformance",

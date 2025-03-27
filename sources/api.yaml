@@ -32,6 +32,30 @@ paths:
             tags:
                 - Explainer
 
+    /targets:
+        post:
+            summary: Return the list of targets
+            description: Return the list of targets for a given partner
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/TargetsRequest"
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/TargetsResponse"
+                "404":
+                    description: Partner / Model not found
+                "500":
+                    description: Internal server error
+            tags:
+                - DataCard
+
     /data-distribution:
         post:
             summary: Return the data distribution
@@ -547,6 +571,28 @@ components:
             description: "Please enter token in following format: Bearer <JWT>"
             type: http
     schemas:
+        TargetsRequest:
+            type: object
+            properties:
+                model:
+                    description: the identifier of the model file name
+                    example: "model.pkl"
+                    type: string
+                partner:
+                    description: the identifier of the partner
+                    example: "partner1"
+                    type: string
+            required:
+                - model
+                - partner
+        TargetsResponse:
+            type: object
+            properties:
+                targets:
+                    type: array
+                    items:
+                        type: string
+
         DataDistributionRequest:
             type: object
             properties:

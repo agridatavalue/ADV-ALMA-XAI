@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, make_response
 
 from logger import get_logger
-from src.adv_xai_fulfilment import ModelDataPresentations
+from src.adv_xai_fulfilment import DataCardPresentations
 
 targetsBp = Blueprint("targets", __name__)
 
@@ -12,13 +12,10 @@ def TargetsEndpoint():
     if request.method != "POST":
         return "Not a valid request"
 
-    logger.info(f"called /targets api with params {data}")
     try:
-        response: dict = ModelDataPresentations().get_targets(request.get_json())
-        return make_response(
-            jsonify(response),
-            200,
-        )
+        response = DataCardPresentations().get_targets(request.get_json())
+        return make_response(jsonify(response.to_dict()), 200)
+    
     except Exception as e:
         logger.error(f"error while targets: {e}")
         return make_response(jsonify({"status": str(e)}), 500)

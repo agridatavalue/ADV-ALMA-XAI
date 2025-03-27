@@ -17,6 +17,13 @@ class FeatureImportance(ExplainerResponseData):
         self.importance = importance
         self.prediction_target = prediction_target
 
+    def get_most_important(self) -> str:
+        if not self.feature or not self.importance:
+            return ""
+
+        max_index = self.importance.index(max(self.importance))
+        return self.feature[max_index]
+
     def to_dict(self) -> dict:
         return {
             "feature": self.feature,
