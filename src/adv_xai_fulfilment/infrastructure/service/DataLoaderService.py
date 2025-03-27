@@ -36,10 +36,12 @@ class DataLoaderService:
         if not expl_id.data:
             return None
 
-        logger.info(f"loading data for {str(expl_id)}")
+        logger.debug(f"loading data for {str(expl_id)}")
 
         data = ModelData()
-        for file in ["x.csv", "y.csv"]:
+        for file in self._bucketRepository.listdir(
+            bucket_name=os.getenv("DATA_FOLDER_PATH"), path=expl_id.data
+        ):
             current_file = expl_id.get_data_locale_filepath(file)
             os.makedirs(os.path.dirname(current_file), exist_ok=True)
             if not os.path.exists(current_file):

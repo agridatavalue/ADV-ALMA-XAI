@@ -29,6 +29,7 @@ class HeatmapComponentService:
             heatmap_locale_filepath: str = self._heatmap_generator_repository.generate(
                 current_img.image_path, expl_id.get_model_locale_filepath()
             )
+            # TODO: Implement upload to minio
             # heatmap_filepath: str = self._explainer_repository_service.upload_file(
             #     expl_id, heatmap_locale_filepath
             # )

@@ -29,7 +29,7 @@ class BucketRepository:
         return [
             obj.object_name.replace(path + "/", "")
             for obj in self._client.list_objects(
-                bucket_name=bucket_name, prefix=path, recursive=True
+                bucket_name=bucket_name, prefix=path+'/', recursive=True
             )
         ]
 
