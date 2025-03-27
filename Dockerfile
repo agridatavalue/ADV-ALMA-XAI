@@ -28,6 +28,7 @@ RUN chmod +x "./entrypoint.sh"
 USER app
 
 VOLUME ["/app/data_temp"]
+RUN mkdir -p /app/data_temp && chown -R app:app /app/data_temp
 
 EXPOSE 8000 8505
 ENTRYPOINT ["./entrypoint.sh"]
