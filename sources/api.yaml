@@ -211,7 +211,7 @@ paths:
                   in: query
                   required: true
                   description: the identifier of the partner
-                  example: "inagro"
+                  example: "partner1"
                   schema:
                       type: string
             responses:
@@ -346,7 +346,7 @@ paths:
                   in: path
                   required: true
                   description: the identifier of the partner
-                  example: "inagro"
+                  example: "partner1"
                   schema:
                       type: string
             requestBody:
@@ -376,7 +376,7 @@ paths:
                   in: path
                   required: true
                   description: the identifier of the partner
-                  example: "inagro"
+                  example: "partner1"
                   schema:
                       type: string
                 - name: model
@@ -420,7 +420,7 @@ paths:
                   in: query
                   required: true
                   description: the identifier of the partner
-                  example: "inagro"
+                  example: "partner1"
                   schema:
                       type: string
                 - name: prediction_target
@@ -499,7 +499,7 @@ paths:
                   in: path
                   required: true
                   description: the identifier of the partner
-                  example: "inagro"
+                  example: "partner1"
                   schema:
                       type: string
                 - name: filename
@@ -556,7 +556,7 @@ components:
                     type: string
                 partner:
                     description: the identifier of the partner
-                    example: "inagro"
+                    example: "partner1"
                     type: string
             required:
                 - model
@@ -573,7 +573,7 @@ components:
             properties:
                 partner:
                     description: the identifier of the partner
-                    example: "inagro"
+                    example: "partner1"
                     type: string
                 model:
                     description: the identifier of the model file name
@@ -602,7 +602,7 @@ components:
                     type: string
                 partner:
                     description: the identifier of the partner
-                    example: "inagro"
+                    example: "partner1"
                     type: string
                 feature:
                     description: the name of the feature to explain
@@ -646,7 +646,7 @@ components:
                     type: string
                 partner:
                     description: the identifier of the partner
-                    example: "inagro"
+                    example: "partner1"
                     type: string
             required:
                 - model
@@ -668,7 +668,7 @@ components:
                     type: string
                 partner:
                     description: the identifier of the partner
-                    example: "inagro"
+                    example: "partner1"
                     type: string
                 prediction_target:
                     description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
@@ -710,7 +710,7 @@ components:
                     type: string
                 partner:
                     description: the identifier of the partner
-                    example: "inagro"
+                    example: "partner1"
                     type: string
                 prediction_target:
                     description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
@@ -844,7 +844,7 @@ components:
             properties:
                 partner:
                     description: the identifier of the partner
-                    example: "inagro"
+                    example: "partner1"
                     type: string
                 model:
                     description: the identifier of the model file name
@@ -889,7 +889,7 @@ components:
                     type: string
                 partner:
                     description: the identifier of the partner
-                    example: "inagro"
+                    example: "partner1"
                     type: string
             required:
                 - model
@@ -946,7 +946,7 @@ components:
                     type: string
                 partner:
                     description: the identifier of the partner
-                    example: "inagro"
+                    example: "partner1"
                     type: string
             required:
                 - model
@@ -975,7 +975,7 @@ components:
                     type: string
                 partner:
                     description: the identifier of the partner
-                    example: "inagro"
+                    example: "partner1"
                     type: string
             required:
                 - data
@@ -1010,7 +1010,7 @@ components:
                     type: string
                 partner:
                     description: the identifier of the partner
-                    example: "inagro"
+                    example: "partner1"
                     type: string
                 data:
                     description: optional

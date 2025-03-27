@@ -48,14 +48,17 @@ class ExplainerIdentifier:
         self._metadata = metadata
         self.category = metadata.model_category
 
+    def _get_base_path(self) -> str:
+        return f"{os.path.basename(self.model)}/{self.__sanitize_for_path(self.prediction_target)}_{self.category.lower()}/{self.partner.id.replace('/', '')}"
+
     def get_explainer_metadata_path(self) -> str:
-        return f"{os.path.basename(self.model)}/{self.__sanitize_for_path(self.prediction_target)}_{self.category.lower()}/metadata.json"
+        return f"{self._get_base_path()}/metadata.json"
 
-    def get_explainered_data_path(self, filepath: str) -> str:
-        return f"{os.path.basename(self.model)}/{self.__sanitize_for_path(self.prediction_target)}_{self.category.lower()}/{self.partner.id.replace('/', '')}/{self.data}/{os.path.basename(filepath)}"
+    def get_explainer_data_path(self, filepath: str) -> str:
+        return f"{self._get_base_path()}/{self.data}/{os.path.basename(filepath)}"
 
-    def get_filename_path(self, filename: str) -> str:
-        return f"{os.path.basename(self.model)}/{self.__sanitize_for_path(self.prediction_target)}_{self.category}/{filename}".lower()
+    def get_explainer_file_path(self, filename: str) -> str:
+        return f"{self._get_base_path()}/{filename}".lower()
 
     def get_model_locale_filepath(self) -> str:
         model_filename: str = os.path.basename(self.model)

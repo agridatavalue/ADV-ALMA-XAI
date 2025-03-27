@@ -29,7 +29,7 @@ class ExplainerRepositoryService:
         explainer: Explainer,
         explainer_identifier: ExplainerIdentifier,
     ) -> str:
-        logger.debug(f"loading explainer {explainer.name} place in {explainer_identifier.get_filename_path(explainer.file_name)}")
+        logger.debug(f"loading explainer {explainer.name} place in {explainer_identifier.get_explainer_file_path(explainer.file_name)}")
         destination_file_path: str = explainer_identifier.get_explainer_locale_filepath(
             explainer
         )
@@ -37,7 +37,7 @@ class ExplainerRepositoryService:
         if not os.path.exists(destination_file_path):
             self._bucketRepository.download_from(
                 bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
-                object_name=explainer_identifier.get_filename_path(explainer.file_name),
+                object_name=explainer_identifier.get_explainer_file_path(explainer.file_name),
                 destination_file_path=destination_file_path,
             )
         return destination_file_path if os.path.exists(destination_file_path) else ""
@@ -55,14 +55,14 @@ class ExplainerRepositoryService:
         return self._bucketRepository.upload_to(
             bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
             local_filepath=locale_explainer_path,
-            target_filepath=identifier.get_filename_path(explainer.file_name),
+            target_filepath=identifier.get_explainer_file_path(explainer.file_name),
         )
 
     def upload_file(self, identifier: ExplainerIdentifier, file_path: str) -> str:
         return self._bucketRepository.upload_to(
             bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
             local_filepath=file_path,
-            target_filepath=identifier.get_explainered_data_path(file_path),
+            target_filepath=identifier.get_explainer_data_path(file_path),
         )
 
     def upload_metadata(
