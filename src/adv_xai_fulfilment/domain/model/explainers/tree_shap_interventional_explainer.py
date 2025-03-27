@@ -1,3 +1,4 @@
+import numpy as np
 from alibi.explainers import TreeShap
 
 from ..model import Model
@@ -27,3 +28,8 @@ class TreeShapInterventionalExplainer(Explainer):
         self.build_result = TreeShap(
             model.handler, feature_names=self.meta_data.feature_names
         )
+
+    def get_shap_values(self, x_test):
+        self.build_result.fit(x_test)
+        shap = self.build_result.explain(x_test)
+        return np.array(shap.shap_values)

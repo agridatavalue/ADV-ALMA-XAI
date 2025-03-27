@@ -1,8 +1,8 @@
 from alibi.explainers import KernelShap
 
-from ..model import Model
 from ..data_type import DataType
 from .explainer import Explainer
+from ....infrastructure.constants import Errors
 from .datatype_model_explainer import DataTypeModelExplainer
 
 
@@ -21,5 +21,7 @@ class KernelSHAPExplainer(Explainer):
             ],
         )
 
-    def can_match_with(self, model: Model, meta_data: dict) -> bool:
-        return False
+    def build(self, model, data: dict):
+        assert isinstance(data, dict), Errors.DATA_NOT_DICT
+        self.build_result = KernelShap(model.handler.predict, data.get("x"))
+

@@ -30,9 +30,22 @@ class Model:
     @staticmethod
     def supported_frameworks() -> list[str]: ...
 
-    def get_feature_importance(
-        self, feature_names: list[FeatureDescription], shap_values: np.array
-    ) -> pd.DataFrame: ...
+    def get_feature_importance(self, feature_names: list[FeatureDescription], shap_values: np.array) -> pd.DataFrame:
+        shap_values = np.squeeze(shap_values)
+        if shap_values.ndim != 2:
+            raise ValueError(f"Expected shap_values to be 2D, but got shape {shap_values.shape}")
+
+        mean_abs_shap_values = np.mean(np.abs(shap_values), axis=0) 
+        
+        if len(feature_names) != len(mean_abs_shap_values):
+            raise ValueError(
+                f"Mismatch: {len(feature_names)} feature names but {len(mean_abs_shap_values)} importance values"
+            )
+
+        return pd.DataFrame({
+            "Feature": [f.name for f in feature_names],
+            "Importance": mean_abs_shap_values.flatten(),
+        }).sort_values(by="Importance", ascending=False).reset_index(drop=True)
 
     def __repr__(self) -> str:
         return '{}(name="{}", filename="{}")'.format(

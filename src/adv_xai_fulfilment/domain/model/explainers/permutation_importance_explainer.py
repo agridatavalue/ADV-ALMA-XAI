@@ -1,9 +1,8 @@
 from alibi.explainers import PermutationImportance
 
-from ..model import Model
 from ..data_type import DataType
 from .explainer import Explainer
-from ..model_metadata import ModelMetaData
+from ....infrastructure.constants import Errors
 from .datatype_model_explainer import DataTypeModelExplainer
 
 
@@ -22,5 +21,6 @@ class PermutationImportanceExplainer(Explainer):
             ],
         )
 
-    def can_match_with(self, model: Model, meta_data: ModelMetaData) -> bool:
-        return False
+    def build(self, model, data:dict):
+        assert isinstance(data, dict), Errors.DATA_NOT_DICT
+        self.build_result = PermutationImportance(model.handler.predict, data)
