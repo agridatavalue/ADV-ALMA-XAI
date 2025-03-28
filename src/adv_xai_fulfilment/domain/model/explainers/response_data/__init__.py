@@ -1,6 +1,7 @@
 from .heatmap import Heatmap
 from .targets import Targets
 from .confusion_matrix import ConfusionMatrix
+from .class_label_sizes import ClassLabelSizes
 from .data_distribution import DataDistribution
 from .model_performance import ModelPerformance
 from .feature_importance import FeatureImportance
@@ -14,6 +15,7 @@ from .individual_conditional_expectations import IndividualConditionalExpectatio
 __all__ = [
     "Heatmap",
     "Targets",
+    "ClassLabelSizes",
     "ConfusionMatrix",
     "DataDistribution",
     "ModelPerformance",

@@ -32,6 +32,30 @@ paths:
             tags:
                 - Explainer
 
+    /classification-class-label-sizes:
+        post:
+            summary: Return the classification class label sizes
+            description: Return the classification class label sizes for a given partner
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/ClassificationClassLabelSizesRequest"
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ClassificationClassLabelSizesResponse"
+                "404":
+                    description: Partner / Model not found
+                "500":
+                    description: Internal server error
+            tags:
+                - ModelCard
+
     /targets:
         post:
             summary: Return the list of targets
@@ -571,6 +595,54 @@ components:
             description: "Please enter token in following format: Bearer <JWT>"
             type: http
     schemas:
+        ClassificationClassLabelSizesRequest:
+            type: object
+            properties:
+                model:
+                    description: the identifier of the model file name
+                    example: "model.pkl"
+                    type: string
+                partner:
+                    description: the identifier of the partner
+                    example: "partner1"
+                    type: string
+            required:
+                - model
+                - partner
+        ClassificationClassLabelSizesResponse:
+            type: object
+            properties:
+                above_cutoff:
+                    type: object
+                    properties:
+                        class_label_0:
+                            type: number
+                            format: float
+                        class_label_1:
+                            type: number
+                            format: float
+                    example: { "class_label_0": 0.5, "class_label_1": 0.5 }
+                below_cutoff:
+                    type: object
+                    properties:
+                        class_label_0:
+                            type: number
+                            format: float
+                        class_label_1:
+                            type: number
+                            format: float
+                    example: { "class_label_0": 0.5, "class_label_1": 0.5 }
+                total:
+                    type: object
+                    properties:
+                        class_label_0:
+                            type: number
+                            format: float
+                        class_label_1:
+                            type: number
+                            format: float
+                    example: { "class_label_0": 0.5, "class_label_1": 0.5 }
+
         TargetsRequest:
             type: object
             properties:
