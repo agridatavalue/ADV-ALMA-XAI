@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "xai-fulfillment.fullname" . }}
-  namespace: {{ .Release.Namespace }}
+    name: { { include "xai-fulfillment.fullname" . } }
+    namespace: { { .Release.Namespace } }
 data:
-  DATA_FOLDER_PATH: "datagen"
-  MODEL_FOLDER_PATH: "models"
-  EXPLAINER_FOLDER_PATH: "explanators"
-  SERVER_PORT: "8000"
-  MINIO_ENDPOINT: "securestore:9000"
-  MINIO_SECURE: "false"
-  TEMP: "/app/data_temp/"
+    DATA_FOLDER_PATH: "datagen"
+    MODEL_FOLDER_PATH: "models"
+    EXPLAINER_FOLDER_PATH: "explanators"
+    SERVER_PORT: "8000"
+    MINIO_ENDPOINT: "securestore-api.platform.agridatavalue.eu"
+    MINIO_SECURE: "false"
+    TEMP: "/app/data_temp/"
