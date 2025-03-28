@@ -32,5 +32,5 @@ class TreeShapInterventionalExplainer(Explainer):
 
     def get_shap_values(self, x_test):
         self.build_result.fit(x_test)
-        shap = self.build_result.explain(x_test)
+        shap = self.build_result.explain(x_test, check_additivity=False)
         return np.array(shap.shap_values)
