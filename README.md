@@ -264,6 +264,14 @@ the debug server will be accessible with swagger at the endpoint `http://localho
 push on agridatavalue gitlab
 create the tag
 
+### Helpers
+
+```bash
+kubectl logs xai-fulfillment-644ff95ddc-tbnpq
+kubectl exec -it xai-fulfillment-644ff95ddc-tbnpq -- /bin/bash
+
+```
+
 ---
 
 Contact: <m.colageo@almaviva.it>
