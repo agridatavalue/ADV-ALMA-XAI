@@ -267,6 +267,7 @@ create the tag
 ### Helpers
 
 ```bash
+export KUBECONFIG=~/.kube/agridatavalue.kubeconfig
 kubectl logs xai-fulfillment-644ff95ddc-tbnpq
 kubectl exec -it xai-fulfillment-644ff95ddc-tbnpq -- /bin/bash
 
