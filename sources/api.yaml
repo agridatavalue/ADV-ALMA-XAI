@@ -697,21 +697,21 @@ components:
                     properties:
                         0:
                             type: number
-                            format: float
+                            format: integer
                         1:
                             type: number
-                            format: float
-                    example: { 0: 0.5, 1: 0.5 }
+                            format: integer
+                    example: { 0: 13, 1: 40 }
                 predicted:
                     type: object
                     properties:
                         0:
                             type: number
-                            format: float
+                            format: integer
                         1:
                             type: number
-                            format: float
-                    example: { 0: 0.5, 1: 0.5 }
+                            format: integer
+                    example: { 0: 5, 1: 52 }
 
         PartialDependenceRequest:
             type: object
