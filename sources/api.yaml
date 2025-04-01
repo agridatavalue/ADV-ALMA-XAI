@@ -32,6 +32,32 @@ paths:
             tags:
                 - Explainer
 
+    /lift-curve:
+        post:
+            summary: Return the lift curve data
+            description: Return the lift curve data for a given partner
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/LiftCurveRequest"
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/LiftCurveResponse"
+                "400":
+                    description: Invalid IDs combination supplied
+                "404":
+                    description: Partner / Model not found
+                "500":
+                    description: Internal server error
+            tags:
+                - ModelCard
+
     /classification-class-label-sizes:
         post:
             summary: Return the classification class label sizes
@@ -595,6 +621,38 @@ components:
             description: "Please enter token in following format: Bearer <JWT>"
             type: http
     schemas:
+        LiftCurveRequest:
+            type: object
+            properties:
+                model:
+                    description: the identifier of the model file name
+                    example: "model.pkl"
+                    type: string
+                partner:
+                    description: the identifier of the partner
+                    example: "partner1"
+                    type: string
+            required:
+                - model
+                - partner
+        LiftCurveResponse:
+            type: object
+            properties:
+                lift_curve_data:
+                    type: array
+                    items:
+                        type: number
+                        format: float
+                cumulative_positives_model:
+                    type: array
+                    items:
+                        type: number
+                        format: float
+                cumulative_positives_random:
+                    type: array
+                    items:
+                        type: number
+                        format: float
         ClassificationClassLabelSizesRequest:
             type: object
             properties:

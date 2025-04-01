@@ -2,6 +2,7 @@ from .build_endpoint import buildBp
 from .targets_endpoint import targetsBp
 from .heatmap_endpoint import heatmapBp
 from .image_viewer_endpoint import imageBp
+from .lift_curve_endpoint import liftcurveBp
 from .get_all_questions_endpoint import questionsBp
 from .partial_dependence_endpoint import partialDepBp
 from .explainer_guide_endpoint import explainerGuideBp
@@ -26,6 +27,7 @@ routes = [
     targetsBp,
     heatmapBp,
     feedbackBp,
+    liftcurveBp,
     questionsBp,
     labelSizesBp,
     partialDepBp,
