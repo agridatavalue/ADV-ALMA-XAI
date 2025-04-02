@@ -264,6 +264,15 @@ the debug server will be accessible with swagger at the endpoint `http://localho
 push on agridatavalue gitlab
 create the tag
 
+### Helpers
+
+```bash
+export KUBECONFIG=~/.kube/agridatavalue.kubeconfig
+kubectl -n agridatavalue logs -f deployments/xai-fulfillment
+kubectl exec -it deployments/xai-fulfillment -- /bin/bash
+
+```
+
 ---
 
 Contact: <m.colageo@almaviva.it>

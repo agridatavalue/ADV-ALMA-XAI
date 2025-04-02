@@ -45,7 +45,8 @@ class DataLoaderService:
             files = self._bucketRepository.listdir(
                 bucket_name=os.getenv("DATA_FOLDER_PATH"), path=expl_id.data
             )
-
+        
+        logger.debug(f"files to load: {files}")
         for file in files:
             current_file = expl_id.get_data_locale_filepath(file)
             os.makedirs(os.path.dirname(current_file), exist_ok=True)

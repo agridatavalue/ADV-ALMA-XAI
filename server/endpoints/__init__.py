@@ -2,9 +2,11 @@ from .build_endpoint import buildBp
 from .targets_endpoint import targetsBp
 from .heatmap_endpoint import heatmapBp
 from .image_viewer_endpoint import imageBp
+from .lift_curve_endpoint import liftcurveBp
 from .get_all_questions_endpoint import questionsBp
-from .explainer_guide_endpoint import explainerGuideBp
 from .partial_dependence_endpoint import partialDepBp
+from .explainer_guide_endpoint import explainerGuideBp
+from .classification_plot_endpoint import labelSizesBp
 from .get_feedback_questions_endpoint import feedbackBp
 from .data_source_types_endpoint import dataSourceTypesBp
 from .confusion_matrix_endpoint import confusionMatrixBp
@@ -25,7 +27,9 @@ routes = [
     targetsBp,
     heatmapBp,
     feedbackBp,
+    liftcurveBp,
     questionsBp,
+    labelSizesBp,
     partialDepBp,
     explainerGuideBp,
     partnerFeedbackBp,

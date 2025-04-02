@@ -1,15 +1,17 @@
 from logger import get_logger
 from .validator import DataPresentationValidator
 from ..application.heatmap_service import HeatmapService
-from ..domain.model.explainers.response_data import Heatmap
+from ..application.lift_curve_service import LiftCurveService
 from ..domain.model.explainer_identifier import ExplainerIdentifier
-from ..domain.model.explainers.response_data import ConfusionMatrix
 from ..domain.model.explainers.response_data import FeatureImportance
 from ..domain.model.explainers.response_data import FeatureDescription
 from ..application.confusion_matrix_service import ConfusionMatrixService
+from ..application.class_label_sizes_service import ClassLabelSizesService
 from ..domain.model.explainers.response_data import ModelPerformanceMetrics
+from ..domain.model.explainers.response_data import Heatmap, ClassLabelSizes
 from ..application.feature_importance_service import FeatureImportanceService
 from ..application.partial_dependence_service import PartialDependenceService
+from ..domain.model.explainers.response_data import ConfusionMatrix, LiftCurve
 from ..application.feature_description_service import FeatureDescriptionService
 from ..domain.model.explainers.response_data import IndividualConditionalExpectations
 from ..application.model_performance_metric_service import ModelPerformanceMetricService
@@ -35,12 +37,15 @@ class ModelDataPresentations:
     _heatmap_service: HeatmapService
     _dfas_service: DataFeaturesAverageScoreService
     _ice_service: IndividualConditionalExpectationService
+    _lift_curve_service = LiftCurveService
+    _cls_service: ClassLabelSizesService
 
     _validator: DataPresentationValidator
 
     def __init__(self):
         self._validator = DataPresentationValidator()
         self._heatmap_service = HeatmapService()
+        self._cls_service = ClassLabelSizesService()
         self._dfas_service = DataFeaturesAverageScoreService()
         self._input_translator = ExplainerIdentifierTranslator()
         self._output_translator = DataPresentationsOutputTranslator()
@@ -51,6 +56,19 @@ class ModelDataPresentations:
         self._partial_dependence_service = PartialDependenceService()
         self._feature_description_service = FeatureDescriptionService()
         self._ice_service = IndividualConditionalExpectationService()
+        self._lift_curve_service = LiftCurveService()
+
+    def get_lift_curve(self, request: dict = {}) -> LiftCurve:
+        logger.info(f"called get_lift_curve with params: {request}")
+        data_sanitized = self._validator.validate_and_sanitize_lift_curve(request)
+        expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
+        return self._lift_curve_service.get_data(expl_id)
+
+    def get_class_label_sizes(self, request: dict = {}) -> ClassLabelSizes:
+        logger.info(f"called get_class_label_sizes with params: {request}")
+        data_sanitized = self._validator.validate_and_sanitize_class_label_sizes(request)
+        expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
+        return self._cls_service.get_data(expl_id)
 
     def get_data_features_and_average_score(self, request: dict = {}) -> DataFeaturesAndAverageScore:
         logger.info(f"called get_data_features_and_average_score with params: {request}")
