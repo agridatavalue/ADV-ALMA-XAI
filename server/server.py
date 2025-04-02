@@ -46,12 +46,12 @@ class ServiceServer:
         assert isinstance(conf, dict), "Bad argument to setConfiguration method"
         self._conf = {**conf, **(self._conf or {})}
 
-    def run(self, host: str, port: int, isDebugMode: bool = False):
-        if isDebugMode:
+    def run(self, host: str, port: int, isDevMode: bool = False):
+        if isDevMode:
             self.app.run(
                 host=host,
                 port=port,
-                debug=isDebugMode,
+                debug=isDevMode,
             )
         else:
             serve(self.app, host=host, port=port, threads=1)
