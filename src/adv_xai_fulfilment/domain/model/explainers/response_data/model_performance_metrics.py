@@ -1,3 +1,5 @@
+import math
+
 from .explainer_response_data import ExplainerResponseData
 
 
@@ -12,7 +14,7 @@ class ModelPerformanceMetrics(ExplainerResponseData):
         assert isinstance(name, str), "Metric name must be a string."
         assert isinstance(value, (int, float)), "Metric value must be a numeric type."
 
-        self.metrics[name] = value
+        self.metrics[name] = value if not math.isinf(value) else None
         return self
 
     def has_metrics(self) -> bool:
