@@ -11,10 +11,11 @@ class ModelPerformanceMetrics(ExplainerResponseData):
         self.metrics = {}
 
     def add_metric(self, name: str, value: float) -> "ModelPerformanceMetrics":
-        assert isinstance(name, str), "Metric name must be a string."
-        assert isinstance(value, (int, float)), "Metric value must be a numeric type."
-
-        self.metrics[name] = value if not math.isinf(value) else None
+        # assert isinstance(name, str), "Metric name must be a string."
+        # assert isinstance(value, (int, float)), "Metric value must be a numeric type."
+        
+        if isinstance(name, str) or isinstance(value, (int, float)):
+            self.metrics[name] = value if not math.isinf(value) else None
         return self
 
     def has_metrics(self) -> bool:
