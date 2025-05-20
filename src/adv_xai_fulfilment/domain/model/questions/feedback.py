@@ -8,7 +8,7 @@ from ..explainer_identifier import ExplainerIdentifier
 class Feedback:
     partner: Partner
     questions: list[Question]
-    creation_date: datetime
+    _creation_date: datetime
     _explainer_identifier: ExplainerIdentifier
 
     def __init__(
@@ -19,12 +19,20 @@ class Feedback:
     ):
         self.partner = partner
         self.questions = questions or []
-        self.creation_date = datetime.now()
+        self._creation_date = datetime.now()
         self._explainer_identifier = explainer_identifier
 
     @property
     def explainer_identifier(self) -> ExplainerIdentifier:
         return self._explainer_identifier
+    
+    @property
+    def creation_date(self) -> datetime:
+        return self._creation_date
+    
+    @creation_date.setter
+    def creation_date(self, value: datetime):
+        self._creation_date = value or self._creation_date
 
     def set_questions(self, questions: list[Question]) -> "Feedback":
         assert isinstance(questions, list), "questions must be a list"
@@ -37,6 +45,7 @@ class Feedback:
 
     def to_dict(self) -> dict:
         return {
+            "partner": self.partner.id,
             "feedback": [q.to_dict() for q in self.questions],
             "creation_date": self.creation_date.timestamp(),
         }

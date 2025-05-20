@@ -28,11 +28,11 @@ class QuestionAndFeedbackPresentation:
 
         return [q.to_dict() for q in self._question_service.generate_from_dict(expl_id)]
 
-    def get_partner_feedback_from(self, request: dict = {}) -> bool:
-        logger.info(f"called get_user_feedback_from method with params: {request}")
-        self._validator.validate_and_sanitize_feedback_(request)
+    def get_partner_feedback_from(self, request: dict = {}) -> Feedback:
+        logger.info(f"called get_partner_feedback_from method with params: {request}")
+        sanitized_data: dict = self._validator.validate_and_sanitize_feedback_(request)
 
-        feedback: Feedback = self._feedback_translator.translate_request(request)
+        feedback: Feedback = self._feedback_translator.translate_request(sanitized_data)
 
         return self._question_service.save_partner_feedback(
             feedback, answers=request.get("responses", [])

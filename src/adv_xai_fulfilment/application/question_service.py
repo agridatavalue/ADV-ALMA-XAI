@@ -1,8 +1,11 @@
 from logger import get_logger
+
 from src.adv_xai_fulfilment.domain.model.questions import Question, Feedback
 from ..infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
+from ..domain.model.questions.model_feedback_container import ModelFeedbackContainer
 from src.adv_xai_fulfilment.domain.model.explainer_metadata import ExplainerMetaData
 from src.adv_xai_fulfilment.domain.model.explainer_identifier import ExplainerIdentifier
+from src.adv_xai_fulfilment.infrastructure.repository.feedback_repository import FeedbackRepository
 from src.adv_xai_fulfilment.infrastructure.service.ExplainerRepositoryService import (
     ExplainerRepositoryService,
 )
@@ -10,10 +13,12 @@ from src.adv_xai_fulfilment.infrastructure.service.ExplainerRepositoryService im
 logger = get_logger()
 
 class QuestionService:
+    _feedback_repository: FeedbackRepository
     _metadata_loader_service: MetaDataLoaderService
     _explainer_repository_service: ExplainerRepositoryService
 
     def __init__(self):
+        self._feedback_repository = FeedbackRepository()
         self._metadata_loader_service = MetaDataLoaderService()
         self._explainer_repository_service = ExplainerRepositoryService()
 
@@ -39,17 +44,14 @@ class QuestionService:
 
 
     def save_partner_feedback(self, feedback: Feedback, answers: list[dict]) -> Feedback:
+        logger.debug(f"saving feedback {feedback}")
+
         if not feedback.explainer_identifier.category:
             feedback.explainer_identifier.category = "regression"
 
-        logger.debug(f"loading metadata from {feedback.explainer_identifier.metadata}")
-        meta_data: ExplainerMetaData = (
-            self._metadata_loader_service.load_explainer_metadata(
-                feedback.explainer_identifier
-            )
+        feedback_container: ModelFeedbackContainer = self._feedback_repository.load(
+            feedback.explainer_identifier
         )
-        meta_data.add_feedback(feedback)
-        self._explainer_repository_service.upload_metadata(
-            feedback.explainer_identifier, meta_data
-        )
+        feedback_container.add_feedback(feedback)
+        self._feedback_repository.store(feedback_container)
         return feedback

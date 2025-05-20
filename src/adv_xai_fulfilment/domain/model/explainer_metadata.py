@@ -79,7 +79,7 @@ class ExplainerMetaData:
 
     def get_locale_file_path(self, expl_id: ExplainerIdentifier) -> str:
         return os.path.join(
-            os.getenv("TEMP"), expl_id.model, expl_id.partner.id, "metadata.json"
+            os.getenv("TEMP", '/tmp'), expl_id.model, expl_id.partner.id, "metadata.json"
         )
 
     def to_dict(self) -> dict:

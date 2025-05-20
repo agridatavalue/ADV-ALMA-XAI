@@ -1,8 +1,9 @@
 TODOs:
+[ ] ogni modello deve avere un feedback file dove ogni partner può dare più di un feedback
+
 [ ] fare accesso a bucket con keycloack
 [ ] segnalare se chiamata api ma non è stata fatta la build del modello e partner
 [ ] utilizzo pickle files to explain
-[ ] capire se i feedback si devono riferire solo alla parte XAI oppure se AI e XAI
 [ ] processo di notifica feedback tramite kafka, cosa scatena il feedback dell’utente finale
 [ ] stato sviluppo integrazione FDML/XAI tramite kafka àwip al 24/03, manca topic kafka
 

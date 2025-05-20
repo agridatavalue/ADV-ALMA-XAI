@@ -13,7 +13,7 @@ def get_feedback():
         return "Not a valid request"
 
     try:
-        response: bool = QuestionAndFeedbackPresentation().get_partner_feedback_from(
+        response = QuestionAndFeedbackPresentation().get_partner_feedback_from(
             request.get_json()
         )
         return make_response(

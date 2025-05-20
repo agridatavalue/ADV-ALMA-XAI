@@ -36,6 +36,8 @@ class ExplainerIdentifier:
         self.prediction_target = prediction_target
         self.metadata_identifier = metadata_identifier
 
+        self._basepath = os.getenv("TEMP", "/tmp")
+
     @property
     def metadata(self) -> ModelMetaData:
         return self._metadata
@@ -59,34 +61,39 @@ class ExplainerIdentifier:
 
     def get_explainer_file_path(self, filename: str) -> str:
         return f"{self._get_base_path()}/{filename}".lower()
+    
+    def get_feedback_file_locale_path(self) -> str:
+        return os.path.join(
+            self._basepath, os.path.basename(self.model), "feedback.json"
+        )
 
     def get_model_locale_filepath(self) -> str:
         model_filename: str = os.path.basename(self.model)
         file_extension: str = os.path.splitext(model_filename)[1]
-        return os.path.join(os.getenv("TEMP"), model_filename, 'model' + file_extension)
+        return os.path.join(self._basepath, model_filename, 'model' + file_extension)
 
     def get_model_metadata_locale_filepath(self) -> str:
         model_filename: str = os.path.basename(self.model)
-        return os.path.join(os.getenv("TEMP"), model_filename, "metadata.json")
+        return os.path.join(self._basepath, model_filename, "metadata.json")
 
     def get_explainer_metadata_locale_filepath(self) -> str:
         model_filename: str = os.path.basename(self.model)
         return os.path.join(
-            os.getenv("TEMP"), model_filename, self.partner.id, "metadata.json"
+            self._basepath, model_filename, self.partner.id, "metadata.json"
         )
 
     def get_data_locale_filepath(self, filename: str) -> str:
         assert isinstance(filename, str), "filename must be a string"
         model_filename: str = os.path.basename(self.model)
         return os.path.join(
-            os.getenv("TEMP"), model_filename, self.partner.id, "data", filename
+            self._basepath, model_filename, self.partner.id, "data", filename
         )
 
     def get_explainer_locale_filepath(self, expl: Explainer) -> str:
         assert isinstance(expl, Explainer), "expl must be an instance of Explainer"
         model_filename: str = os.path.basename(self.model)
         return os.path.join(
-            os.getenv("TEMP"), model_filename, self.partner.id, expl.file_name
+            self._basepath, model_filename, self.partner.id, expl.file_name
         )
 
     def __repr__(self) -> str:
