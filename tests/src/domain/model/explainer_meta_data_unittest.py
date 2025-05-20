@@ -51,7 +51,7 @@ class TestExplainerMetaData(unittest.TestCase):
             Question(
                 id="1",
                 text="text",
-                answers=[Answer.create_radio_answer("text", "value")],
+                possible_answers=[Answer.create_radio_answer("text", "value")],
             )
         )
 

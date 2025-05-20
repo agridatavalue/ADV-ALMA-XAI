@@ -8,17 +8,17 @@ class Question:
     _id: str
     _text: str
     _template_text: str
-    _answers: list[Answer]
+    _possible_answers: list[Answer]
     _user_answer: Answer
 
     def __init__(
-        self, id: str, text: str, answers: list[Answer], template_text: str = ""
+        self, id: str, text: str, possible_answers: list[Answer], template_text: str = ""
     ):
         self._id = id
         self._text = text
-        self._answers = answers
         self._user_answer = None
         self._template_text = template_text
+        self._possible_answers = possible_answers
 
     @property
     def id(self) -> str:
@@ -29,22 +29,22 @@ class Question:
         return self._text
     
     @property
-    def answers(self) -> list[Answer]:
-        return self._answers
+    def possible_answers(self) -> list[Answer]:
+        return self._possible_answers
 
     @property
     def user_has_answered(self) -> str:
         return self._user_answer.value if self._user_answer else ""
 
     @user_has_answered.setter
-    def user_has_answered(self, value: str) -> bool:
-        self._user_answer = next((a for a in self._answers if a.value == value), None)
+    def user_has_answered(self, value: str):
+        self._user_answer = next((a for a in self._possible_answers if a.value == value), None)
 
     def to_dict(self) -> dict:
         return {
             "id": self._id,
             "question": self._text,
-            "answers": [a.to_dict() for a in self._answers],
+            "feedback": self._user_answer.value if self._user_answer else "",
         }
 
     def verticalize_for(self, data: dict) -> "Question":
@@ -86,7 +86,7 @@ class Question:
             return [
                 Question(
                     **d,
-                    answers=[
+                    possible_answers=[
                         Answer.create_radio_answer("Agree", "agree"),
                         Answer.create_radio_answer("Neutral", "neutral"),
                         Answer.create_radio_answer("Disagree", "disagree"),

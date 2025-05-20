@@ -15,7 +15,7 @@ class TestQuestion(unittest.TestCase):
             id="1",
             text="From the explanation, I know how the software tool/algorithm works.",
             template_text="From the explanation, I know how the software algorithm {action} {subjectname} {targetname}.",
-            answers=[],
+            possible_answers=[],
         )
         self.assertEqual(
             testObj.verticalize_for(
@@ -31,7 +31,7 @@ class TestQuestion(unittest.TestCase):
         testObj = Question(
             id="1",
             text="From the explanation, I know how the software tool/algorithm works.",
-            answers=[],
+            possible_answers=[],
         )
         self.assertEqual(
             testObj.verticalize_for(None).text,
@@ -42,7 +42,7 @@ class TestQuestion(unittest.TestCase):
         testObj = Question(
             id="1",
             text="From the explanation, I know how the software tool/algorithm works.",
-            answers=[],
+            possible_answers=[],
         )
 
         self.assertEqual(
@@ -58,7 +58,7 @@ class TestQuestion(unittest.TestCase):
         testObj = Question(
             id="1",
             text="From the explanation, I know how the software tool/algorithm works.",
-            answers=[Answer("radio", "text", "value")],
+            possible_answers=[Answer("radio", "text", "value")],
         )
 
         testObj.user_has_answered = "value"

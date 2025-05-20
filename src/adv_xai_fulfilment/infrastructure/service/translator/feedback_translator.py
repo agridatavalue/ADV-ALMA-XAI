@@ -16,7 +16,7 @@ class FeedbackTranslator:
             Question(
                 id=item.get("id"),
                 text=item.get("question"),
-                answers=self.__translate_answers(item.get("answers", [])),
+                possible_answers=self.__translate_answers(item.get("answers", [])),
             )
             for item in data or []
         ]

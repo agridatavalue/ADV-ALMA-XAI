@@ -14,7 +14,7 @@ class FeedbackRequestTranslator:
         question = Question(
             id=data.get("id"),
             text=data.get("text"),
-            answers=[Answer(value=data.get("answer"), type=None, text=None)],
+            possible_answers=[Answer(value=data.get("answer"), type="", text="")],
         )
         question.user_has_answered = data.get("answer")
         return question
