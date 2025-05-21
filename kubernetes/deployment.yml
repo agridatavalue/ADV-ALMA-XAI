@@ -21,21 +21,21 @@ spec:
                         protocol: TCP
                         name: http
                   env:
-                      - name: MINIO_ENDPOINT
+                      - name: SECURE_STORE_ENDPOINT
                         valueFrom:
                             secretKeyRef:
                                 name: minio-keys-secret
-                                key: MINIO_ENDPOINT
-                      - name: MINIO_ACCESS_KEY
+                                key: SECURE_STORE_ENDPOINT
+                      - name: SECURE_STORE_ACCESS_KEY
                         valueFrom:
                             secretKeyRef:
                                 name: minio-keys-secret
-                                key: MINIO_ACCESS_KEY
-                      - name: MINIO_SECRET_KEY
+                                key: SECURE_STORE_ACCESS_KEY
+                      - name: SECURE_STORE_SECRET_KEY
                         valueFrom:
                             secretKeyRef:
                                 name: minio-keys-secret
-                                key: MINIO_SECRET_KEY
+                                key: SECURE_STORE_SECRET_KEY
                       - name: DATA_FOLDER_PATH
                         value: "datagen"
                       - name: MODEL_FOLDER_PATH

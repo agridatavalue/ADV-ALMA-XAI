@@ -15,9 +15,9 @@ class DataLoaderService:
     def __init__(self):
         self._bucketRepository = BucketRepository(
             {
-                "endpoint": os.getenv("MINIO_ENDPOINT"),
-                "access_key": os.getenv("MINIO_ACCESS_KEY"),
-                "secret_key": os.getenv("MINIO_SECRET_KEY"),
+                "endpoint": os.getenv("SECURE_STORE_ENDPOINT"),
+                "access_key": os.getenv("SECURE_STORE_ACCESS_KEY"),
+                "secret_key": os.getenv("SECURE_STORE_SECRET_KEY"),
                 "secure": os.getenv("MINIO_SECURE", "true").lower() == "true",
             }
         )

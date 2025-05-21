@@ -51,9 +51,9 @@ class TestExplainerGeneratorService(unittest.TestCase):
         mock_getenv.side_effect = lambda key, default=None: {
             "DATA_FOLDER_PATH": "/data/folder",
             "EXPLAINER_FOLDER_PATH": "/explainer/folder",
-            "MINIO_ENDPOINT": "test",
-            "MINIO_ACCESS_KEY": "test",
-            "MINIO_SECRET_KEY": "test",
+            "SECURE_STORE_ENDPOINT": "test",
+            "SECURE_STORE_ACCESS_KEY": "test",
+            "SECURE_STORE_SECRET_KEY": "test",
             "MINIO_SECURE": "true",
         }.get(key, default)
 
