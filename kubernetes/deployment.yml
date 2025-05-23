@@ -36,6 +36,21 @@ spec:
                             secretKeyRef:
                                 name: minio-keys-secret
                                 key: SECURE_STORE_SECRET_KEY
+                      - name: STORE_ENDPOINT
+                        valueFrom:
+                            secretKeyRef:
+                                name: minio-keys-secret
+                                key: STORE_ENDPOINT
+                      - name: STORE_ACCESS_KEY
+                        valueFrom:
+                            secretKeyRef:
+                                name: minio-keys-secret
+                                key: STORE_ACCESS_KEY
+                      - name: STORE_SECRET_KEY
+                        valueFrom:
+                            secretKeyRef:
+                                name: minio-keys-secret
+                                key: STORE_SECRET_KEY
                       - name: DATA_FOLDER_PATH
                         value: "datagen"
                       - name: MODEL_FOLDER_PATH

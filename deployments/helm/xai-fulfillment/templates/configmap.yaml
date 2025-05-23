@@ -9,5 +9,6 @@ data:
     EXPLAINER_FOLDER_PATH: "explanators"
     SERVER_PORT: "8000"
     SECURE_STORE_ENDPOINT: "securestore-api.platform.agridatavalue.eu"
+    STORE_ENDPOINT: "minio.store.platform.agridatavalue.eu"
     MINIO_SECURE: "true"
     TEMP: "/app/data_temp/"
