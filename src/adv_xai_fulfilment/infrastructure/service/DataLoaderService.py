@@ -43,7 +43,7 @@ class DataLoaderService:
             files = os.listdir(expl_id.get_data_locale_filepath(''))
         else:
             files = self._bucketRepository.listdir(
-                bucket_name=os.getenv("DATA_FOLDER_PATH"), path=expl_id.data
+                bucket_name=os.getenv("DATA_FOLDER_PATH", ''), path=expl_id.data
             )
         
         logger.debug(f"files to load: {files}")
@@ -55,7 +55,7 @@ class DataLoaderService:
                     f"file {current_file} does not exist, downloading from {os.getenv('DATA_FOLDER_PATH')}"
                 )
                 self._bucketRepository.download_from(
-                    bucket_name=os.getenv("DATA_FOLDER_PATH"),
+                    bucket_name=os.getenv("DATA_FOLDER_PATH", ''),
                     object_name=f"{expl_id.data}/{file}",
                     destination_file_path=current_file,
                 )
@@ -71,13 +71,13 @@ class DataLoaderService:
 
         result = []
         for file in self._bucketRepository.listdir(
-            bucket_name=os.getenv("DATA_FOLDER_PATH"), path=expl_id.data
+            bucket_name=os.getenv("DATA_FOLDER_PATH", ''), path=expl_id.data
         ):
             current_file: str = expl_id.get_data_locale_filepath(file)
             if not os.path.exists(current_file):
                 os.makedirs(os.path.dirname(current_file), exist_ok=True)
                 current_file = self._bucketRepository.download_from(
-                    bucket_name=os.getenv("DATA_FOLDER_PATH"),
+                    bucket_name=os.getenv("DATA_FOLDER_PATH", ''),
                     object_name=f"{expl_id.data}/{file}",
                     destination_file_path=current_file,
                 )
