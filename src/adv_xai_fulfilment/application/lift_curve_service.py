@@ -22,7 +22,7 @@ class LiftCurveService:
         self._model_loader_service = ModelLoaderService()
         self._metadata_loader_service = MetaDataLoaderService()
 
-    def get_data(self, expl_id:ExplainerIdentifier) -> LiftCurve:
+    def get_data(self, expl_id: ExplainerIdentifier) -> LiftCurve:
         data: ModelData = self._data_loader_service.load_data(expl_id)
 
         model_metadata: ModelMetaData = (

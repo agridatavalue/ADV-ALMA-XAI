@@ -37,7 +37,7 @@ class DataCardPresentations:
         logger.info(f"called get_data_distribution with params: {request}")
         data_sanitized = self._validator.validate_and_sanitize_data_distribution(request)
         expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
-        return self._data_distr_service.get_data(expl_id, data_sanitized.get('bin_size'))
+        return self._data_distr_service.get_data(expl_id, data_sanitized.get("bin_size", ""))
 
     def get_data_source_types(self, request: dict = {}) -> dict:
         logger.info(f"called get_data_source_types with params: {request}")

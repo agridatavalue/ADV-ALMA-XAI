@@ -21,7 +21,7 @@ class HelpersPresentation:
         data_sanitized: dict = self._validator.validate_and_sanitize_get_image(request)
         expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
 
-        complete_filepath: str = expl_id.get_data_locale_filepath(data_sanitized.get("filename"))
+        complete_filepath: str = expl_id.get_data_locale_filepath(data_sanitized.get("filename", ""))
         if not os.path.exists(complete_filepath):
             raise FileNotFoundError(f"File not found: {request.get('filename')}")
 

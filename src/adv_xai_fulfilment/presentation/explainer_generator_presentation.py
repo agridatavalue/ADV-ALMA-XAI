@@ -31,10 +31,10 @@ class ExplainerGeneratorPresentation:
             model_metadata: ModelMetaData = self._metadata_loader_service.load_model_metadata(
                 expl_id=ExplainerIdentifier(
                     prediction_target = "",
-                    data = data.get("data"),
-                    model = data.get("model"),
-                    partner = Partner(data.get("partner")),
-                    metadata_identifier = data.get('meta_data'),
+                    data = data.get("data", ""),
+                    model = data.get("model", ""),
+                    partner = Partner(data.get("partner", "")),
+                    metadata_identifier = data.get("meta_data", ""),
                 )
             )
             logger.debug(f"setting {model_metadata.target_names} as prediction_targets")
@@ -60,7 +60,7 @@ class ExplainerGeneratorPresentation:
 
         logger.info(f"Ask to Explainer: {str(expl_id)}")
         return self._build_service.ask_to_explainer(
-            request=data.get("request"),
-            explainer_name=data.get("explainer"),
+            request=data.get("request", ""),
+            explainer_name=data.get("explainer", ""),
             explainer_identifier=expl_id,
         )

@@ -62,7 +62,7 @@ class ModelDataPresentations:
         logger.info(f"called get_lift_curve with params: {request}")
         data_sanitized = self._validator.validate_and_sanitize_lift_curve(request)
         expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
-        return self._lift_curve_service.get_data(expl_id)
+        return self._lift_curve_service.get_data(expl_id=expl_id)
 
     def get_class_label_sizes(self, request: dict = {}) -> ClassLabelSizes:
         logger.info(f"called get_class_label_sizes with params: {request}")
@@ -83,7 +83,7 @@ class ModelDataPresentations:
         data_sanitized = self._validator.validate_and_sanitize_individual_conditional_expectations(request)
         expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
 
-        return self._ice_service.get_data(expl_id, data_sanitized.get("feature"))
+        return self._ice_service.get_data(expl_id, data_sanitized.get("feature", ""))
 
     def get_heatmap(self, request: dict = {}) -> Heatmap:
         logger.info(f"called get_heatmap with params: {request}")
@@ -131,7 +131,7 @@ class ModelDataPresentations:
         data_sanitized = self._validator.validate_and_sanitize_partial_dependence(data)
         expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
 
-        return self._partial_dependence_service.get_data(expl_id, data_sanitized.get("feature"))
+        return self._partial_dependence_service.get_data(expl_id, data_sanitized.get("feature", ""))
 
     def get_confusion_matrix(self, data: dict = {}) -> ConfusionMatrix:
         logger.info(f"called get_confusion_matrix with params: {data}")
