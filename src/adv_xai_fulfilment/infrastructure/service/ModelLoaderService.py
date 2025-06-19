@@ -34,7 +34,7 @@ class ModelLoaderService:
         if not os.path.exists(model_local_file_path):
             model_local_file_path: str = self._bucketRepository.download_from(
                 object_name=expl_id.model,
-                bucket_name=os.getenv("MODEL_FOLDER_PATH"),
+                bucket_name=os.getenv("MODEL_FOLDER_PATH", ""),
                 destination_file_path=model_local_file_path,
             )
 

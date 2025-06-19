@@ -28,7 +28,7 @@ class ExplainerGeneratorService:
     _metadata_loader_service: MetaDataLoaderService
     _fi_service_comp: FeatureImportanceServiceComponent
 
-    _generators: dict[str:AbstractGeneratorService] = {
+    _generators: dict[str, type[AbstractGeneratorService]] = {
         g.handled_type(): g() for g in generators
     }
 

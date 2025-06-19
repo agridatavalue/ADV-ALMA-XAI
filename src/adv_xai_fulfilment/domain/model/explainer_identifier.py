@@ -62,6 +62,7 @@ class ExplainerIdentifier:
     def get_explainer_file_path(self, filename: str) -> str:
         return f"{self._get_base_path()}/{filename}".lower()
     
+    # LOCALE ---------------------------------------------------------------
     def get_feedback_file_locale_path(self) -> str:
         return os.path.join(
             self._basepath, os.path.basename(self.model), "feedback.json"
@@ -95,6 +96,7 @@ class ExplainerIdentifier:
         return os.path.join(
             self._basepath, model_filename, self.partner.id, expl.file_name
         )
+    # ------------------------------------------------------------------------
 
     def __repr__(self) -> str:
         string_to_return = f"ExplainerIdentifier(model={self.model}"

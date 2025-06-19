@@ -41,7 +41,7 @@ class MetaDataLoaderService:
             )
             file: str = self._bucketRepository.download_from(
                 object_name=expl_id.get_explainer_metadata_path(),
-                bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
+                bucket_name=os.getenv("EXPLAINER_FOLDER_PATH", ""),
                 destination_file_path=file,
             )
 
@@ -65,7 +65,7 @@ class MetaDataLoaderService:
             json.dump(metadata.to_dict(), json_file)
 
         return self._bucketRepository.upload_to(
-            bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
+            bucket_name=os.getenv("EXPLAINER_FOLDER_PATH", ""),
             target_filepath=expl_id.get_explainer_metadata_path(),
             local_filepath=file_path,
         )
@@ -79,12 +79,12 @@ class MetaDataLoaderService:
         filepath: str = expl_id.get_model_metadata_locale_filepath()
         if not os.path.exists(filepath) or force_download:
             logger.debug(
-                f'forced download for {os.getenv("MODEL_FOLDER_PATH")}/{expl_id.metadata_identifier}' if force_download else 
+                f'forced download for {os.getenv("MODEL_FOLDER_PATH", "")}/{expl_id.metadata_identifier}' if force_download else 
                 f'file {filepath} not exists, downloading {os.getenv("MODEL_FOLDER_PATH")}/{expl_id.metadata_identifier}' 
             )
             filepath: str = self._bucketRepository.download_from(
                 object_name=expl_id.metadata_identifier,
-                bucket_name=os.getenv("MODEL_FOLDER_PATH"),
+                bucket_name=os.getenv("MODEL_FOLDER_PATH", ""),
                 destination_file_path=filepath,
             )
 
