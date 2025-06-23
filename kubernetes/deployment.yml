@@ -52,11 +52,11 @@ spec:
                                 name: minio-keys-secret
                                 key: STORE_SECRET_KEY
                       - name: DATA_FOLDER_PATH
-                        value: "datagen"
+                        value: "agridatavalue/ai_flows"
                       - name: MODEL_FOLDER_PATH
-                        value: "models"
+                        value: "agridatavalue/ai_flows"
                       - name: EXPLAINER_FOLDER_PATH
-                        value: "explanators"
+                        value: "agridatavalue/ai_flows"
                       - name: SERVER_PORT
                         value: "8505"
                       - name: TEMP
