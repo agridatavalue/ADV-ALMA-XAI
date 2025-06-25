@@ -4,9 +4,9 @@ metadata:
     name: {{ include "xai-fulfillment.fullname" . }}
     namespace: {{ .Release.Namespace }}
 data:
-    DATA_FOLDER_PATH: "agridatavalue/ai_flows"
-    MODEL_FOLDER_PATH: "agridatavalue/ai_flows"
-    EXPLAINER_FOLDER_PATH: "agridatavalue/ai_flows"
+    DATA_FOLDER_PATH: "agridatavalue"
+    MODEL_FOLDER_PATH: "agridatavalue"
+    EXPLAINER_FOLDER_PATH: "agridatavalue"
     SERVER_PORT: "8000"
     SECURE_STORE_ENDPOINT: "securestore-api.platform.agridatavalue.eu"
     STORE_ENDPOINT: "minio.store.platform.agridatavalue.eu"

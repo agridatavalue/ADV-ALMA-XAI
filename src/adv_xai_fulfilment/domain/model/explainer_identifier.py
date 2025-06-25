@@ -51,7 +51,11 @@ class ExplainerIdentifier:
         self.category = metadata.model_category
 
     def _get_base_path(self) -> str:
-        return f"{os.path.basename(self.model)}/{self.__sanitize_for_path(self.prediction_target)}_{self.category.lower()}/{self.partner.id.replace('/', '')}"
+        model_name = os.path.basename(self.model)
+        prediction = self.__sanitize_for_path(self.prediction_target)
+        category = self.category.lower()
+        partner_id = self.partner.id.replace('/', '')
+        return f"ai_flows/{model_name}/{prediction}_{category}/{partner_id}"
 
     def get_explainer_metadata_path(self) -> str:
         return f"{self._get_base_path()}/metadata.json"
