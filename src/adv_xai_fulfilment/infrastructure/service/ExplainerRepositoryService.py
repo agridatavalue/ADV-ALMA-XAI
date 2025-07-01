@@ -36,7 +36,7 @@ class ExplainerRepositoryService:
 
         if not os.path.exists(destination_file_path):
             self._bucketRepository.download_from(
-                bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
+                bucket_name=os.getenv("EXPLAINER_FOLDER_PATH", ""),
                 object_name=explainer_identifier.get_explainer_file_path(explainer.file_name),
                 destination_file_path=destination_file_path,
             )
@@ -53,14 +53,14 @@ class ExplainerRepositoryService:
             pickle.dump(explainer.build_result, file)
 
         return self._bucketRepository.upload_to(
-            bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
+            bucket_name=os.getenv("EXPLAINER_FOLDER_PATH", ""),
             local_filepath=locale_explainer_path,
             target_filepath=identifier.get_explainer_file_path(explainer.file_name),
         )
 
     def upload_file(self, identifier: ExplainerIdentifier, file_path: str) -> str:
         return self._bucketRepository.upload_to(
-            bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
+            bucket_name=os.getenv("EXPLAINER_FOLDER_PATH", ""),
             local_filepath=file_path,
             target_filepath=identifier.get_explainer_data_path(file_path),
         )
@@ -79,7 +79,7 @@ class ExplainerRepositoryService:
             json.dump(metadata.to_dict(), file)
 
         return self._bucketRepository.upload_to(
-            bucket_name=os.getenv("EXPLAINER_FOLDER_PATH"),
+            bucket_name=os.getenv("EXPLAINER_FOLDER_PATH", ""),
             local_filepath=metadata_filepath,
             target_filepath=expl_id.get_explainer_metadata_path(),
         )

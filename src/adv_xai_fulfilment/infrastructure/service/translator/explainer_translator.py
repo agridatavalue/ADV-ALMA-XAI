@@ -17,7 +17,7 @@ class ExplainerTranslator:
             Explainer(
                 name=e.get("name", ""),
                 type=e.get("type", []),
-                category=e.get("category", []),
+                categories=e.get("category", []),
                 explanations=e.get("explanations", ""),
                 is_distributed=e.get("is_distributed", False),
                 train_set_required=e.get("train_set_required", False),

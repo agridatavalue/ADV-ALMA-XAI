@@ -18,7 +18,7 @@ class BucketRepository:
             - region     [string] (Optional)
         """
         self._client = Minio(
-            endpoint=conf.get("endpoint"),
+            endpoint=conf.get("endpoint", ""),
             access_key=conf.get("access_key"),
             secret_key=conf.get("secret_key"),
             secure=conf.get("secure", True),

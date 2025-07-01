@@ -7,10 +7,10 @@ class ExplainerIdentifierTranslator:
         return [
             ExplainerIdentifier(
                 prediction_target=pred,
-                data=request.get("data"),
-                model=request.get("model"),
-                partner=Partner(request.get("partner")),
-                metadata_identifier=request.get("metadata", request.get("meta_data")),
+                data=request.get("data", ""),
+                model=request.get("model", ""),
+                partner=Partner(request.get("partner", "")),
+                metadata_identifier=request.get("metadata", request.get("meta_data", "")),
             )
             for pred in self.__get_prediction_targets(request)
         ]
@@ -20,9 +20,9 @@ class ExplainerIdentifierTranslator:
 
     def __get_prediction_targets(self, request: dict) -> list[str]:
         if request.get("prediction_target"):
-            return [request.get("prediction_target")]
+            return [request.get("prediction_target", "")]
 
         if request.get("prediction_targets"):
-            return request.get("prediction_targets")
+            return request.get("prediction_targets", "")
 
         return [""]

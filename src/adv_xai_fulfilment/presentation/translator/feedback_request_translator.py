@@ -12,17 +12,17 @@ class FeedbackRequestTranslator:
 
     def __translate_question(self, data: dict) -> Question:
         question = Question(
-            id=data.get("id"),
-            text=data.get("text"),
-            possible_answers=[Answer(value=data.get("answer"), type="", text="")],
+            id=data.get("id", ""),
+            text=data.get("text", ""),
+            possible_answers=[Answer(value=data.get("answer", ""), type="", text="")],
         )
-        question.user_has_answered = data.get("answer")
+        question.user_has_answered = data.get("answer", "")
         return question
 
     def translate_request(self, request: dict) -> Feedback:
         return Feedback(
-            partner=Partner(request.get("partner")),
-            questions=[self.__translate_question(q) for q in request.get("responses")],
+            partner=Partner(request.get("partner", "")),
+            questions=[self.__translate_question(q) for q in request.get("responses", [])],
             explainer_identifier=self._explainer_identifier_translator.translate(
                 request=request
             ),
@@ -30,8 +30,8 @@ class FeedbackRequestTranslator:
     
     def translate_get_partner_feedback(self, request: dict) -> ExplainerIdentifier:
         return ExplainerIdentifier(
-            model=request.get("model"),
-            partner=Partner(request.get("partner")),
-            metadata_identifier=request.get("meta_data"),
-            prediction_target=request.get("prediction_target"),
+            model=request.get("model", ""),
+            partner=Partner(request.get("partner", "")),
+            metadata_identifier=request.get("meta_data", ""),
+            prediction_target=request.get("prediction_target", ""),
         )

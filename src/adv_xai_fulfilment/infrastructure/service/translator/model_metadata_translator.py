@@ -10,14 +10,14 @@ class ModelMetaDataTranslator:
 
     def translate(self, data: dict) -> ModelMetaData:
         return ModelMetaData(
-            data_type=data.get("datatype"),
+            data_type=data.get("datatype", ""),
             algorithm=data.get("algorithm", "cnn"),
             framework=data.get("framework", "keras"),
-            model_type=data.get("modeltype"),
-            target_names=data.get("targetnames"),
-            subject_name=data.get("Subjectname"),
-            model_category=data.get("modelcategory"),
-            feature_names=data.get("featurenames"),
+            model_type=data.get("modeltype", ""),
+            target_names=data.get("targetnames", ""),
+            subject_name=data.get("Subjectname", ""),
+            model_category=data.get("modelcategory", ""),
+            feature_names=data.get("featurenames", ""),
             feature_descriptions=self._feature_translator.translate(
                 data.get("feature_descriptions", {})
             ),
