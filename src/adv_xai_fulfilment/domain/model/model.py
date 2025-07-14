@@ -2,12 +2,17 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import confusion_matrix
 
+from logger import get_logger
+
 from .model_data import ModelData
 from .explainers.response_data import PartialDependence
 from .explainers.response_data import FeatureDescription
 from .machine_learning_model.executors import PartialDependenceExecutor
 from .machine_learning_model.executors import IndividualConditionalExpectationsExecutor
 from .explainers.response_data import ConfusionMatrix, IndividualConditionalExpectations
+
+
+logger = get_logger()
 
 class Model:
     name: str
@@ -33,11 +38,13 @@ class Model:
     def get_feature_importance(self, feature_names: list[FeatureDescription], shap_values: np.array) -> pd.DataFrame:
         shap_values = np.squeeze(shap_values)
         if shap_values.ndim != 2:
+            logger.error(f'SHAP values are: {str(shap_values)}')
             raise ValueError(f"Expected shap_values to be 2D, but got shape {shap_values.shape}")
 
         mean_abs_shap_values = np.mean(np.abs(shap_values), axis=0) 
         
         if len(feature_names) != len(mean_abs_shap_values):
+            logger.error(f"Feature names: {len(feature_names)}, SHAP values: {len(mean_abs_shap_values)}")
             raise ValueError(
                 f"Mismatch: {len(feature_names)} feature names but {len(mean_abs_shap_values)} importance values"
             )
