@@ -1,7 +1,10 @@
 import os
 import shutil
-
 from minio import Minio
+
+from logger import get_logger
+
+logger = get_logger()
 
 
 class BucketRepository:
@@ -26,6 +29,12 @@ class BucketRepository:
         )
 
     def listdir(self, bucket_name: str, path: str) -> list[str]:
+        logger.debug(f"Listing objects in bucket '{bucket_name}' at path '{path}'")
+        objects = self._client.list_objects(
+            bucket_name=bucket_name, prefix=path + '/', recursive=True
+        )
+        logger.debug(f"Objects found: {objects}")
+        logger.debug([obj.object_name.replace(path + "/", "") for obj in objects])
         return [
             obj.object_name.replace(path + "/", "")
             for obj in self._client.list_objects(
