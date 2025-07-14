@@ -8,6 +8,7 @@ from ...domain.model.model_metadata import ModelMetaData
 from .abstract_generator_service import AbstractGeneratorService
 from ...domain.model.explainer_identifier import ExplainerIdentifier
 from ...domain.model.explainers.response_data import FeatureImportance
+from ...domain.model.explainers.response_data import ModelPerformanceMetrics
 from ...infrastructure.service.ExplainerRepositoryService import (
     ExplainerRepositoryService,
 )
@@ -16,9 +17,6 @@ from ...domain.service.model_performance_service_component import (
 )
 from ...domain.service.feature_importance_service_component import (
     FeatureImportanceServiceComponent,
-)
-from ...domain.model.explainers.response_data.explainer_response_data import (
-    ExplainerResponseData,
 )
 
 logger = get_logger()
@@ -36,8 +34,9 @@ class TabularGeneratorService(AbstractGeneratorService):
         self._explainer_retriever = ExplainerRetriever()
         self._explainer_service = ExplainerRepositoryService()
 
+    @staticmethod
     def handled_type() -> DataType:
-        return DataType.TABULAR
+        return getattr(DataType, 'TABULAR')
 
     def generate(
         self,
@@ -46,7 +45,7 @@ class TabularGeneratorService(AbstractGeneratorService):
         meta_data: ModelMetaData,
         selected_model: Model,
         data: ModelData,
-    ) -> list[any]:
+    ) -> list:
         logger.debug(f"generating tabular explainers for {str(request)}")
         if not request.prediction_target:
             request.prediction_target = meta_data.first_target_name
@@ -54,7 +53,7 @@ class TabularGeneratorService(AbstractGeneratorService):
                 f"prediction target not provided, using the first target: {request.prediction_target}"
             )
 
-        metrics = self._mpm_service.get_metrics(
+        metrics:ModelPerformanceMetrics = self._mpm_service.get_metrics(
             prediction_target=request.prediction_target,
             model_metadata=meta_data,
             model=selected_model,

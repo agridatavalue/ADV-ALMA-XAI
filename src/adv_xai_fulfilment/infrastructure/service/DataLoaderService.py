@@ -39,12 +39,9 @@ class DataLoaderService:
         logger.debug(f"loading data for {str(expl_id)}")
 
         data = ModelData()
-        if os.path.exists(expl_id.get_data_locale_filepath('')):
-            files = os.listdir(expl_id.get_data_locale_filepath(''))
-        else:
-            files = self._bucketRepository.listdir(
-                bucket_name=os.getenv("DATA_FOLDER_PATH", ''), path=expl_id.data
-            )
+        files = self._bucketRepository.listdir(
+            bucket_name=os.getenv("DATA_FOLDER_PATH", ''), path=expl_id.data
+        )
         
         logger.debug(f"files to load: {files}")
         for file in files:
@@ -59,7 +56,8 @@ class DataLoaderService:
                     object_name=f"{expl_id.data}/{file}",
                     destination_file_path=current_file,
                 )
-            setattr(data, file.replace(".csv", ""), pd.read_csv(current_file))
+            file_extension = os.path.splitext(file)[1].lower()
+            setattr(data, file.replace(file_extension, ""), pd.read_csv(current_file))
 
         return data
 
