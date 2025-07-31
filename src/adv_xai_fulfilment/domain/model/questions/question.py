@@ -45,6 +45,11 @@ class Question:
             "id": self._id,
             "question": self._text,
             "feedback": self._user_answer.value if self._user_answer else "",
+            "answers": {
+                "type": "radio",
+                "values": [ 
+                    { "label": a.text, "value": a.value } for a in self._possible_answers]
+            },
         }
 
     def verticalize_for(self, data: dict) -> "Question":
