@@ -30,14 +30,14 @@ class BucketRepository:
 
     def listdir(self, bucket_name: str, path: str) -> list[str]:
         return [
-            obj.object_name.replace(path + "/", "")
+            (obj.object_name or "").replace(path + "/", "")
             for obj in self._client.list_objects(
                 bucket_name=bucket_name.rstrip('/'), prefix=path+'/', recursive=True
             ) if obj
         ]
 
     def download_from(
-        self, bucket_name: str, object_name: str, destination_file_path: str = None
+        self, bucket_name: str, object_name: str, destination_file_path: str = ""
     ) -> str:
         if not destination_file_path:
             destination_file_path = object_name

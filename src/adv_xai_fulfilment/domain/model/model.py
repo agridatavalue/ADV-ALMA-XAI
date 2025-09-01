@@ -31,6 +31,11 @@ class Model:
 
     def is_ok(self) -> bool:
         return self.handler is not None
+    
+    def calculate_y(self, x: pd.DataFrame, feature_names: list[str]) -> pd.DataFrame:
+        if not self.is_ok():
+            raise ValueError("Model handler is not set or model is not loaded properly")
+        return pd.DataFrame(self.handler.predict(x), columns=feature_names)
 
     @staticmethod
     def supported_frameworks() -> list[str]: ...

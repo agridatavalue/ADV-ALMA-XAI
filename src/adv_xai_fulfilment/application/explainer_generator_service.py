@@ -59,6 +59,10 @@ class ExplainerGeneratorService:
             raise Errors.MODEL_NOT_MODEL
 
         data: ModelData = self._data_loader_service.load(request, meta_data.data_type)
+        if data.y_is_empty():
+            logger.warning("y is empty, calculating y")
+            data.y = selected_model.calculate_y(data.x, feature_names=meta_data.feature_names)
+            logger.info(f"Calculated y: {data.y.head()}")
 
         results: list[ExplainerResponseData] = self._generators[
             meta_data.data_type

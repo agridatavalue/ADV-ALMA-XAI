@@ -7,7 +7,7 @@ class ExplainerIdentifierTranslator:
         return [
             ExplainerIdentifier(
                 prediction_target=pred,
-                data=request.get("data", ""),
+                data=request.get("data_for_predict", ""),
                 model=request.get("model", ""),
                 partner=Partner(request.get("partner", "")),
                 metadata_identifier=request.get("metadata", request.get("meta_data", "")),

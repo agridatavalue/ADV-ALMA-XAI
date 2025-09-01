@@ -1212,8 +1212,11 @@ components:
                     description: the identifier of the partner
                     example: "partner1"
                     type: string
-                data:
-                    description: optional
+                data_for_predict:
+                    description: the folder identifier of the data source to use for prediction
+                    type: string
+                data_for_train:
+                    description: the folder identifier of the data source to use for training
                     type: string
                 prediction_targets:
                     description: the name of the field target to explain the model, in case of null value it will be used the first target described in meta_data
@@ -1222,10 +1225,11 @@ components:
                     items:
                         type: string
             required:
-                - data
                 - model
                 - partner
                 - meta_data
+                - data_for_train
+                - data_for_predict
         BuildResponse:
             type: object
             properties:

@@ -26,6 +26,9 @@ class ModelData:
     @y.setter
     def y(self, y: pd.DataFrame):
         self._y = y
+        
+    def y_is_empty(self) -> bool:
+        return self._y is None or self._y.empty
 
     @property
     def image_path(self) -> str:

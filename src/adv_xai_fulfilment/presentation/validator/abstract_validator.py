@@ -12,11 +12,6 @@ class AbstractValidator:
             raise TypeError(Errors.FEATURE_NOT_STRING)
         return True
 
-    def _validate_folder_data(self, data: str) -> bool:
-        if not isinstance(data, str):
-            raise TypeError(Errors.DATA_FOLDER_NOT_STRING)
-        return True
-
     def _validate_model(self, model: str) -> bool:
         if not isinstance(model, str):
             raise TypeError(Errors.MODEL_FILENAME_NOT_STRING)

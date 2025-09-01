@@ -31,7 +31,7 @@ class ExplainerGeneratorPresentation:
             model_metadata: ModelMetaData = self._metadata_loader_service.load_model_metadata(
                 expl_id=ExplainerIdentifier(
                     prediction_target = "",
-                    data = data.get("data", ""),
+                    data = data.get("data_for_predict", ""),
                     model = data.get("model", ""),
                     partner = Partner(data.get("partner", "")),
                     metadata_identifier = data.get("meta_data", ""),

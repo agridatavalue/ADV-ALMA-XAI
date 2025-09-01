@@ -57,7 +57,10 @@ class DataLoaderService:
                     destination_file_path=current_file,
                 )
             file_extension = os.path.splitext(file)[1].lower()
-            setattr(data, file.replace(file_extension, ""), pd.read_csv(current_file))
+            if file.lower() in ["data.csv"]:
+                data.x = pd.read_csv(current_file)
+            else:
+                setattr(data, file.replace(file_extension, ""), pd.read_csv(current_file))
 
         return data
 
