@@ -21,5 +21,9 @@ def TabulateModelPerformanceMetricsEndpoint():
             200,
         )
     except Exception as e:
-        logger.error(f"error while model-performance-metrics: {e}")
+        logger.error(f"error while model-performance-metrics: %s - %s", 
+            type(e).__name__, 
+            str(e),
+            exc_info=True
+        )
         return make_response(jsonify({"status": str(e)}), 500)

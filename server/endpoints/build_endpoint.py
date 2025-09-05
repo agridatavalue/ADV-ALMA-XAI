@@ -24,5 +24,10 @@ def build():
             200,
         )
     except Exception as e:
-        logger.error(f"error while building the explainers: {e}")
+        logger.error(
+            "Error while building the explainers: %s - %s", 
+            type(e).__name__, 
+            str(e),
+            exc_info=True
+        )
         return make_response(jsonify({"status": str(e)}), 500)

@@ -22,5 +22,9 @@ def AskToExplainerEndpoint(model: str, partner: str):
             200,
         )
     except Exception as e:
-        logger.error(f"error while asking to the explainers: {e}")
+        logger.error(f"error while asking to the explainers: %s - %s", 
+            type(e).__name__, 
+            str(e),
+            exc_info=True
+        )
         return make_response(jsonify({"status": str(e)}), 500)

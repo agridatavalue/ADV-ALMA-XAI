@@ -24,5 +24,9 @@ def data_feature_and_average_score():
             200
         )
     except Exception as e:
-        logger.error(f"error while data-features-and-average-score: {e}")
+        logger.error(f"error while data-features-and-average-score: %s - %s", 
+            type(e).__name__, 
+            str(e),
+            exc_info=True
+        )
         return make_response(jsonify({"status": str(e)}), 500)

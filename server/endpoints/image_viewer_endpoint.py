@@ -20,5 +20,9 @@ def get_image(model: str, partner: str):
         return send_file(response, mimetype="image/jpeg")
 
     except Exception as e:
-        logger.error(f"error while getting image: {e}")
+        logger.error(f"error while getting image: %s - %s", 
+            type(e).__name__, 
+            str(e),
+            exc_info=True
+        )
         return make_response(jsonify({"status": str(e)}), 500)

@@ -21,5 +21,9 @@ def get_feedback():
             200,
         )
     except Exception as e:
-        logger.error(f"error while saving the feedback: {e}")
+        logger.error(f"error while saving the feedback: %s - %s", 
+            type(e).__name__, 
+            str(e),
+            exc_info=True
+        )
         return make_response(jsonify({"status": str(e)}), 500)

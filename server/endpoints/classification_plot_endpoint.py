@@ -17,5 +17,9 @@ def build():
         return make_response(jsonify(response.to_dict()), 200)
     
     except Exception as e:
-        logger.error(f"error while classification-class-label-sizes: {e}")
+        logger.error(f"error while classification-class-label-sizes: %s - %s", 
+            type(e).__name__, 
+            str(e),
+            exc_info=True
+        )
         return make_response(jsonify({"status": str(e)}), 500)
