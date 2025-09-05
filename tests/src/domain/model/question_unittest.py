@@ -49,8 +49,9 @@ class TestQuestion(unittest.TestCase):
             testObj.to_dict(),
             {
                 "id": "1",
+                'feedback': '',
                 "question": "From the explanation, I know how the software tool/algorithm works.",
-                "answers": [],
+                "answers": {"type": "radio", "values": []},
             },
         )
 

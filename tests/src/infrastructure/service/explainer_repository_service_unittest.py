@@ -1,3 +1,4 @@
+import os
 import unittest
 
 from src.adv_xai_fulfilment.domain.model.partner import Partner
@@ -17,6 +18,11 @@ class TestExplainerRepositoryService(unittest.TestCase):
     def test_upload_metadata(self):
         test_obj = ExplainerRepositoryService()
         test_obj._bucketRepository.upload_to = lambda *args, **kwargs: "path"
+        
+        PATH_TO_METADATA_FILE = "data_temp/model/partner_id/metadata.json"
+        os.makedirs(os.path.dirname(PATH_TO_METADATA_FILE), exist_ok=True)
+        with open(PATH_TO_METADATA_FILE, "w") as f:
+            f.write("{}")
 
         self.assertEqual(
             test_obj.upload_metadata(
@@ -44,3 +50,6 @@ class TestExplainerRepositoryService(unittest.TestCase):
             ),
             "path",
         )
+        
+        os.remove(PATH_TO_METADATA_FILE)
+        os.rmdir(os.path.dirname(PATH_TO_METADATA_FILE))

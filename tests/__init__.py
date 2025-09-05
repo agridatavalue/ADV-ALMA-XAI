@@ -77,3 +77,6 @@ from .src.presentation.translator.explainer_identifier_translator_unittest impor
 from .src.presentation.translator.data_presentations_output_translator_unittest import (
     TestDataPresentationsOutputTranslator,
 )
+from .src.presentation.validator.explainer_generator_validator_unittest import (
+    TestExplainerGeneratorValidator,
+)

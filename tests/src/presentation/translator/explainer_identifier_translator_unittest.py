@@ -11,8 +11,8 @@ class TestExplainerIdentifierTranslator(unittest.TestCase):
     def test_translate(self):
         result = self.testObj.translate(
             {
-                "data": "data",
                 "model": "model",
+                "data_for_predict": "data",
                 "prediction_target": "prediction_target",
             }
         )
@@ -25,7 +25,7 @@ class TestExplainerIdentifierTranslator(unittest.TestCase):
     def test_translate_many_without_target(self):
         result = self.testObj.translate_many(
             {
-                "data": "data",
+                "data_for_predict": "data",
                 "model": "model",
             }
         )
@@ -39,8 +39,8 @@ class TestExplainerIdentifierTranslator(unittest.TestCase):
     def test_translate_many_with_multiple_targets(self):
         result = self.testObj.translate_many(
             {
-                "data": "data",
                 "model": "model",
+                "data_for_predict": "data",
                 "prediction_targets": [
                     "prediction_target_1",
                     "prediction_target_2",

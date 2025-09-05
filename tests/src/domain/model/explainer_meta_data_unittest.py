@@ -48,11 +48,7 @@ class TestExplainerMetaData(unittest.TestCase):
             feature_importance=FeatureImportance("feature"),
         )
         meta_data.add_feedback(
-            Question(
-                id="1",
-                text="text",
-                possible_answers=[Answer.create_radio_answer("text", "value")],
-            )
+            Feedback(partner=Partner('name'))
         )
 
         actual = meta_data.to_dict()

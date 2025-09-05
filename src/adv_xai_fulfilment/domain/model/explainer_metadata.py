@@ -67,7 +67,9 @@ class ExplainerMetaData:
         return self._feature_importance
 
     def add_feedback(self, feedback: Feedback) -> "ExplainerMetaData":
-        assert isinstance(feedback, Feedback), f"feedback must be of type Feedback, got {type(feedback)}"
+        if not isinstance(feedback, Feedback):
+            raise ValueError(f"feedback must be of type Feedback, got {type(feedback)}")
+        
         self._feedbacks.append(feedback)
         return self
     

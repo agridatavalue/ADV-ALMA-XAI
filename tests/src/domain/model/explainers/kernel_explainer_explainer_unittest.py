@@ -1,8 +1,10 @@
 import unittest
 
 import numpy as np
+import pandas as pd
 from shap import KernelExplainer
 
+from src.adv_xai_fulfilment.domain.model.model_data import ModelData
 from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.explainers import KernelExplainerExplainer
 from src.adv_xai_fulfilment.domain.model.machine_learning_model.keras_model import KerasModel
@@ -35,6 +37,10 @@ class TestKernelExplainerExplainer(unittest.TestCase):
                 feature_descriptions=[],
             )
         )
+        
+        model_data = ModelData()
+        model_data.x = pd.DataFrame(np.array([[0, 0], [1, 1]]))
+        
         self.testObj.build(
             SilentKerasModel(
                 filename="test",
@@ -42,6 +48,6 @@ class TestKernelExplainerExplainer(unittest.TestCase):
                     "MockHandler", (object,), {"predict": lambda self: np.array([0])}
                 ),
             ),
-            {"x": np.array([[0]])},
+            model_data
         )
         self.assertIsInstance(self.testObj.build_result, KernelExplainer)

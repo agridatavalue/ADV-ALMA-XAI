@@ -46,11 +46,12 @@ class TestModelPerformanceServiceComponent(unittest.TestCase):
         testObj = ModelPerformanceServiceComponent()
 
         model_data = ModelData()
-        model_data.x = pd.DataFrame({"target": [1, 2, 3]})
-        model_data.y = pd.DataFrame({"target": [1, 2, 3]})
+        model_data.x_predict = pd.DataFrame({"target": [1, 2, 3]})
+        model_data.y_predict = pd.DataFrame({"target": [1, 2, 3]})
 
         model_metadata = MagicMock(spec=ModelMetaData)
         model_metadata.is_regression = True
+        model_metadata.feature_names = ["target"]
 
         actual = testObj.get_metrics(
             data=model_data,

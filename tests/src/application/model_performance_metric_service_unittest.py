@@ -16,16 +16,16 @@ from src.adv_xai_fulfilment.domain.model.explainers.response_data import (
 class TestModelPerformanceMetricService(unittest.TestCase):
     @patch("os.getenv", return_value="/mock/temp")
     @patch(
-        "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.ModelPerformanceServiceComponent"
+        "src.adv_xai_fulfilment.application.model_performance_metric_service.ModelPerformanceServiceComponent"
     )
     @patch(
-        "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.ModelLoaderService"
+        "src.adv_xai_fulfilment.application.model_performance_metric_service.ModelLoaderService"
     )
     @patch(
-        "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.DataLoaderService"
+        "src.adv_xai_fulfilment.application.model_performance_metric_service.DataLoaderService"
     )
     @patch(
-        "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.MetaDataLoaderService"
+        "src.adv_xai_fulfilment.application.model_performance_metric_service.MetaDataLoaderService"
     )
     def test_get_data(
         self,
@@ -74,16 +74,16 @@ class TestModelPerformanceMetricService(unittest.TestCase):
 
     @patch("os.getenv", return_value="/mock/temp")
     @patch(
-        "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.DataLoaderService"
+        "src.adv_xai_fulfilment.application.model_performance_metric_service.DataLoaderService"
     )
     @patch(
-        "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.ModelLoaderService"
+        "src.adv_xai_fulfilment.application.model_performance_metric_service.ModelLoaderService"
     )
     @patch(
-        "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.ModelPerformanceServiceComponent"
+        "src.adv_xai_fulfilment.application.model_performance_metric_service.ModelPerformanceServiceComponent"
     )
     @patch(
-        "src.adv_xai_fulfilment.application.ModelPerformanceMetricService.MetaDataLoaderService"
+        "src.adv_xai_fulfilment.application.model_performance_metric_service.MetaDataLoaderService"
     )
     def test_get_metrics(
         self,
