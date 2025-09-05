@@ -16,4 +16,7 @@ class FeatureDescriptionServiceComponent:
         meta_data: ModelMetaData = self._metadata_loader_service.load_model_metadata(
             expl_id=explainer_identifier
         )
-        return meta_data.feature_descriptions
+        if meta_data.feature_descriptions:
+            return meta_data.feature_descriptions
+        
+        return [FeatureDescription(name=f) for f in meta_data.feature_names]

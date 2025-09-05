@@ -10,6 +10,7 @@ class ExplainerIdentifierTranslator:
                 data=request.get("data_for_predict", ""),
                 model=request.get("model", ""),
                 partner=Partner(request.get("partner", "")),
+                data_for_training=request.get("data_for_train", ""),
                 metadata_identifier=request.get("metadata", request.get("meta_data", "")),
             )
             for pred in self.__get_prediction_targets(request)

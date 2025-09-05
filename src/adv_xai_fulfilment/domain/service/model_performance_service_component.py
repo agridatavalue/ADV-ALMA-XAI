@@ -1,5 +1,6 @@
 from typing import Union
 import numpy as np
+from logger import get_logger
 from sklearn.metrics import roc_auc_score, recall_score, f1_score
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 from sklearn.metrics import accuracy_score, precision_score, average_precision_score
@@ -9,6 +10,8 @@ from ..model.model_data import ModelData
 from ..model.model_metadata import ModelMetaData
 from src.adv_xai_fulfilment.infrastructure.constants import Errors
 from ..model.explainers.response_data import ModelPerformance, ModelPerformanceMetrics
+
+logger = get_logger()
 
 
 class ModelPerformanceServiceComponent:
@@ -35,37 +38,51 @@ class ModelPerformanceServiceComponent:
         prediction_target: str,
         model_metadata: ModelMetaData,
     ) -> ModelPerformanceMetrics:
-        assert isinstance(model, Model), Errors.MODEL_NOT_MODEL
-
-        if data.is_empty or not model:
+        if not isinstance(model_metadata, ModelMetaData):
+            raise ValueError(Errors.MODEL_NOT_MODEL)
+        
+        if not model:
             return ModelPerformanceMetrics()
 
-        if data.y.empty:
+        if data.is_empty if isinstance(data, ModelData) else all(d.is_empty for d in data):
+            return ModelPerformanceMetrics()
+
+        if data.y_predict_is_empty() if isinstance(data, ModelData) else all(
+            d.y_predict_is_empty() for d in data
+        ):
             return ModelPerformanceMetrics()
 
         prediction_target_index = model_metadata.index_of_target_name(prediction_target)
 
         if model_metadata.is_regression:
+            logger.debug("Calculating regression metrics")
             return self.__get_metrics_for_regression(
-                prediction_target_index, model, data
+                prediction_target=prediction_target, 
+                model=model, 
+                data=data, 
+                model_metadata=model_metadata
             )
 
+        logger.debug("Calculating classification metrics")
         return self.__get_metrics_for_classification(
             prediction_target_index, model, data
         )
 
     def __get_metrics_for_regression(
-        self, prediction_target_index: int, model: Model, data: ModelData
+        self, prediction_target: str, model: Model, data: ModelData, model_metadata: ModelMetaData
     ) -> ModelPerformanceMetrics:
+        feature_names = model_metadata.feature_names
+        
         y_pred = None
-        predictions = model.handler.predict(data.x)
-        if isinstance(predictions, np.ndarray):
-            if len(predictions.shape) == 2:  # 2D array
-                y_pred = [y[prediction_target_index] for y in predictions]
-            elif len(predictions.shape) == 1:  # 1D array
-                y_pred = predictions
-        y_true = data.y.iloc[:, 0]
-
+        data.predicted_y_train = model.handler.predict(data.x_train[feature_names])
+        if isinstance(data.predicted_y_train, np.ndarray):
+            prediction_target_index = model_metadata.index_of_target_name(prediction_target)
+            if len(data.predicted_y_train.shape) == 2:  # 2D array
+                y_pred = [y[prediction_target_index] for y in data.predicted_y_train]
+            elif len(data.predicted_y_train.shape) == 1:  # 1D array
+                y_pred = data.predicted_y_train
+        y_true = data.x_train[prediction_target].to_list()
+        
         mse = mean_squared_error(y_true, y_pred)
         mae = mean_absolute_error(y_true, y_pred)
 

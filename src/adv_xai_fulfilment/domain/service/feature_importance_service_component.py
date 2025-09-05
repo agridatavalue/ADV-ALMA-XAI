@@ -72,9 +72,7 @@ class FeatureImportanceServiceComponent:
                 explainer = expl
 
             except Exception as e:
-                logger.warning(
-                    f"Error downloading explainer {expl}: {e.message if hasattr(e, 'message') else str(e)}"
-                )
+                logger.warning(f"Error downloading explainer {expl}: {e}", exc_info=True)
                 continue
 
         if not explainer:
@@ -95,7 +93,9 @@ class FeatureImportanceServiceComponent:
             feature_names=self._feature_description_service.get_data(
                 explainer_identifier
             ),
-            shap_values=explainer.get_shap_values(x_test=np.array(model_data.x)),
+            shap_values=explainer.get_shap_values(
+                x_test=np.array(model_data.x_train[meta_data.feature_names])
+            ),
         )
         return self.__prepare_data(
             data=data,

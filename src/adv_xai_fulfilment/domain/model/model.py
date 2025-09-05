@@ -32,10 +32,15 @@ class Model:
     def is_ok(self) -> bool:
         return self.handler is not None
     
-    def calculate_y(self, x: pd.DataFrame, feature_names: list[str]) -> pd.DataFrame:
+    def calculate_y(self, x: pd.DataFrame, feature_names: list[str], target_name: str) -> pd.DataFrame:
         if not self.is_ok():
             raise ValueError("Model handler is not set or model is not loaded properly")
-        return pd.DataFrame(self.handler.predict(x), columns=feature_names)
+        
+        if not target_name:
+            target_name = feature_names[0] if feature_names else "target"
+        
+        filtered_x = x[feature_names] if feature_names else x
+        return pd.DataFrame(self.handler.predict(filtered_x), columns=[target_name])
 
     @staticmethod
     def supported_frameworks() -> list[str]: ...
@@ -50,9 +55,7 @@ class Model:
         
         if len(feature_names) != len(mean_abs_shap_values):
             logger.error(f"Feature names: {len(feature_names)}, SHAP values: {len(mean_abs_shap_values)}")
-            raise ValueError(
-                f"Mismatch: {len(feature_names)} feature names but {len(mean_abs_shap_values)} importance values"
-            )
+            return pd.DataFrame({ "Feature": [], "Importance": [] })
 
         return pd.DataFrame({
             "Feature": [f.name for f in feature_names],

@@ -83,7 +83,7 @@ class TabularGeneratorService(AbstractGeneratorService):
                 created_explainers.append(explainer)
             except Exception as e:
                 logger.error(
-                    f"error building the explainer {explainer.name}: {str(e)}"
+                    f"error building the explainer {explainer.name}: {str(e)}", exc_info=True
                 )
         
         feature_importance: FeatureImportance = self._fi_service_comp.generate_data(

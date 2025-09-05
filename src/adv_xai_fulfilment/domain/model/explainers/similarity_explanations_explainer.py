@@ -24,6 +24,6 @@ class SimilarityExplanationsExplainer(Explainer):
         )
 
     def build(self, model, data: ModelData):
-        self.build_result = GradientSimilarity(model.handler.predict, data.y)
+        self.build_result = GradientSimilarity(model.handler.predict, data.y_train)
 
 

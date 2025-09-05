@@ -1,3 +1,5 @@
+from typing import Optional
+
 import re
 import os
 
@@ -8,11 +10,12 @@ from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
 
 
 class ExplainerIdentifier:
-    data: str
+    data: str # data for prediction
+    data_for_training: str # data for training
     model: str
     partner: Partner
 
-    _metadata: ModelMetaData
+    _metadata: Optional[ModelMetaData]
     metadata_identifier: str
 
     prediction_target: str
@@ -27,19 +30,21 @@ class ExplainerIdentifier:
         metadata_identifier: str,
         prediction_target: str,
         data: str = "",
+        data_for_training: str = "",
     ):
         self.data = data
         self.model = model
         self.partner = partner
         self.category = ""
         self._metadata = None
+        self.data_for_training = data_for_training  
         self.prediction_target = prediction_target
         self.metadata_identifier = metadata_identifier
 
         self._basepath = os.getenv("TEMP", "/tmp")
 
     @property
-    def metadata(self) -> ModelMetaData:
+    def metadata(self) -> Optional[ModelMetaData]:
         return self._metadata
 
     @metadata.setter

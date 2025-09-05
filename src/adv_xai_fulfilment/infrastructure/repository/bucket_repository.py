@@ -35,6 +35,15 @@ class BucketRepository:
                 bucket_name=bucket_name.rstrip('/'), prefix=path+'/', recursive=True
             ) if obj
         ]
+        
+    def is_directory(self, bucket_name: str, path: str) -> bool:
+        objects = self._client.list_objects(
+            bucket_name=bucket_name.rstrip('/'), prefix=path+'/', recursive=True
+        )
+        for obj in objects:
+            if obj and (obj.object_name or "") != path.rstrip('/'):
+                return True
+        return False
 
     def download_from(
         self, bucket_name: str, object_name: str, destination_file_path: str = ""
@@ -51,6 +60,17 @@ class BucketRepository:
         if destination_file_path and os.path.dirname(destination_file_path):
             os.makedirs(os.path.dirname(destination_file_path), exist_ok=True)
         return shutil.move(res.object_name, destination_file_path)
+    
+    def download_file_from(self, bucket_name: str, object_name: str, destination_file_path: str) -> str:
+        if destination_file_path and os.path.dirname(destination_file_path):
+            os.makedirs(os.path.dirname(destination_file_path), exist_ok=True)
+            
+        self._client.fget_object(
+            bucket_name=bucket_name,
+            object_name=object_name,
+            file_path=destination_file_path,
+        )
+        return destination_file_path
 
     def upload_to(
         self, bucket_name: str, target_filepath: str, local_filepath: str
