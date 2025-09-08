@@ -46,6 +46,7 @@ class Model:
     def supported_frameworks() -> list[str]: ...
 
     def get_feature_importance(self, feature_names: list[FeatureDescription], shap_values: np.array) -> pd.DataFrame:
+        logger.debug(f"feature_names: {feature_names}, shap_values shape: {shap_values.shape}")
         shap_values = np.squeeze(shap_values)
         if shap_values.ndim != 2:
             logger.error(f'SHAP values are: {str(shap_values)}')

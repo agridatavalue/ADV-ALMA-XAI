@@ -17,6 +17,8 @@ class FeatureDescriptionServiceComponent:
             expl_id=explainer_identifier
         )
         if meta_data.feature_descriptions:
-            return meta_data.feature_descriptions
-        
+            return [
+                f for f in meta_data.feature_descriptions if f.name in meta_data.feature_names
+            ]
+
         return [FeatureDescription(name=f) for f in meta_data.feature_names]
