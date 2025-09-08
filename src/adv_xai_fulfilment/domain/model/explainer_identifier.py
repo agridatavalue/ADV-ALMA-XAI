@@ -49,9 +49,9 @@ class ExplainerIdentifier:
 
     @metadata.setter
     def metadata(self, metadata: ModelMetaData):
-        assert isinstance(
-            metadata, ModelMetaData
-        ), Errors.METADATA_NOT_INSTANCE_OF_MODEL_METADATA
+        if not isinstance(metadata, ModelMetaData):
+            raise ValueError(Errors.METADATA_NOT_INSTANCE_OF_MODEL_METADATA)
+        
         self._metadata = metadata
         self.category = metadata.model_category
 
@@ -93,14 +93,18 @@ class ExplainerIdentifier:
         )
 
     def get_data_locale_filepath(self, filename: str) -> str:
-        assert isinstance(filename, str), "filename must be a string"
+        if not isinstance(filename, str):
+            raise ValueError("filename must be a string")
+        
         model_filename: str = os.path.basename(self.model)
         return os.path.join(
             self._basepath, model_filename, self.partner.id, "data", filename
         )
 
     def get_explainer_locale_filepath(self, expl: Explainer) -> str:
-        assert isinstance(expl, Explainer), "expl must be an instance of Explainer"
+        if not isinstance(expl, Explainer):
+            raise ValueError("expl must be an instance of Explainer")
+    
         model_filename: str = os.path.basename(self.model)
         return os.path.join(
             self._basepath, model_filename, self.partner.id, expl.file_name

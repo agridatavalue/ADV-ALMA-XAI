@@ -43,7 +43,9 @@ class ServiceServer:
         self._conf = {"FOLDER_PATH": FOLDER_PATH}
 
     def setConfiguration(self, conf: dict):
-        assert isinstance(conf, dict), "Bad argument to setConfiguration method"
+        if not isinstance(conf, dict):
+            raise ValueError("Bad argument to setConfiguration method")
+        
         self._conf = {**conf, **(self._conf or {})}
 
     def run(self, host: str, port: int, isDevMode: bool = False):

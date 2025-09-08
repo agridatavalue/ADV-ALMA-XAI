@@ -37,5 +37,5 @@ class AbstractValidator:
             raise TypeError(Errors.PREDICTION_TARGETS_NOT_LIST)
         return True
 
-    def _merge_with_default_values(self, new_values:dict) -> dict:
-        return {'meta_data':'metadata.json', 'data':'data', **new_values}
+    def _merge_with_default_values(self, new_values: dict) -> dict:
+        return {'meta_data':'metadata.json', 'data_for_predict':'data', **new_values}

@@ -24,10 +24,11 @@ class ExplainerRetriever:
     def get_by_data(
         self, selected_model: Model, meta_data: ModelMetaData
     ) -> list[Explainer]:
-        assert isinstance(
-            meta_data, ModelMetaData
-        ), "meta_data is not ModelMetaData instance"
-        assert isinstance(selected_model, Model), Errors.MODEL_NOT_MODEL
+        if not isinstance(meta_data, ModelMetaData):
+            raise ValueError("meta_data is not ModelMetaData instance")
+        
+        if not isinstance(selected_model, Model):
+            raise ValueError(Errors.MODEL_NOT_MODEL)
 
         logger.debug(
             "searching for explainer for this metadata: "

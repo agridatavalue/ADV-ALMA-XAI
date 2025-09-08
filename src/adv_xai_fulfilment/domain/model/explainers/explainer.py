@@ -53,7 +53,9 @@ class Explainer(ABC):
         return f"{self.name}.pkl"
 
     def load(self, path: str):
-        assert (path or "").endswith(".pkl"), Errors.PATH_NOT_PICKLE
+        if not (path or "").endswith(".pkl"):
+            raise ValueError(Errors.PATH_NOT_PICKLE)
+        
         with open(path, "rb") as file:
             self.build_result = pickle.load(file)
 

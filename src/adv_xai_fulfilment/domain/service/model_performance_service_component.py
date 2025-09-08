@@ -1,4 +1,5 @@
 from typing import Union
+
 import numpy as np
 from logger import get_logger
 from sklearn.metrics import roc_auc_score, recall_score, f1_score
@@ -19,7 +20,8 @@ class ModelPerformanceServiceComponent:
     def get_data(
         self, model: Model, data: ModelData, prediction_target_index: int = 0
     ) -> ModelPerformance:
-        assert isinstance(data, ModelData), Errors.MODEL_DATA_NOT_MODEL_DATA_TYPE
+        if not isinstance(data, ModelData):
+            raise ValueError(Errors.MODEL_DATA_NOT_MODEL_DATA_TYPE)
 
         y_true = data.get_y_for_prediction_target(prediction_target_index).to_list()
         predictions = model.handler.predict(data.x)
