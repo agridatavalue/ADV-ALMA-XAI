@@ -109,7 +109,7 @@ class ExplainerIdentifier:
 
     def __repr__(self) -> str:
         string_to_return = f"ExplainerIdentifier(model={self.model}"
-        for attr in ["category", "data", "metadata_identifier", "prediction_target"]:
+        for attr in ["category", "data", "data_for_training", "metadata_identifier", "prediction_target"]:
             if getattr(self, attr):
                 string_to_return += f", {attr}={getattr(self, attr)}"
         return string_to_return + ")"

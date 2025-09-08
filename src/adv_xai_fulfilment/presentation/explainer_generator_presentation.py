@@ -25,9 +25,9 @@ class ExplainerGeneratorPresentation:
 
     def build(self, data: dict = {}) -> list[Explainer]:
         logger.info(f"called build with params: {data}")
-        self._validator.validate_and_sanitize_build(data)
+        data_sanitized = self._validator.validate_and_sanitize_build(data)
 
-        if not data.get('prediction_targets'):
+        if not data_sanitized.get('prediction_targets'):
             model_metadata: ModelMetaData = self._metadata_loader_service.load_model_metadata(
                 expl_id=ExplainerIdentifier(
                     prediction_target = "",
@@ -40,7 +40,7 @@ class ExplainerGeneratorPresentation:
             logger.debug(f"setting {model_metadata.target_names} as prediction_targets")
             data['prediction_targets'] = model_metadata.target_names
 
-        requests: list[ExplainerIdentifier] = self._translator.translate_many(data)
+        requests: list[ExplainerIdentifier] = self._translator.translate_many(data_sanitized)
 
         explainers: list[list[Explainer]] = [
             self._build_service.generate_explainer(request) for request in requests
