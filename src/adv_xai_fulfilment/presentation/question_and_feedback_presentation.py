@@ -23,8 +23,8 @@ class QuestionAndFeedbackPresentation:
         logger.info(
             f"called get_questions_from_metadata method with params: {request}"
         )
-        self._validator.validate_and_sanitize_questions_(request)
-        expl_id: ExplainerIdentifier = self._translator.translate(request)
+        data_sanitized = self._validator.validate_and_sanitize_questions_(request)
+        expl_id: ExplainerIdentifier = self._translator.translate(data_sanitized)
 
         return [q.to_dict() for q in self._question_service.generate_from_dict(expl_id)]
 

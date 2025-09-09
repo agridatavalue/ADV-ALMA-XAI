@@ -31,7 +31,7 @@ class ExplainerGeneratorValidator(AbstractValidator):
     def validate_and_sanitize_get_data(self, data: dict) -> dict:
         self._validate_model(data.get("model", ""))
         self._validate_partner(data.get("partner", ""))
-        return data
+        return self._merge_with_default_values(data)
     
     def __handle_path_and_url(self, path: str) -> str:
         if path.startswith("http://") or path.startswith("https://"):

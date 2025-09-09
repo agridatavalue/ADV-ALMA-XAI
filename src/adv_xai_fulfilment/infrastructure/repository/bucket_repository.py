@@ -48,6 +48,10 @@ class BucketRepository:
     def download_from(
         self, bucket_name: str, object_name: str, destination_file_path: str = ""
     ) -> str:
+        if not object_name:
+            raise ValueError("object_name must be provided")
+        
+        logger.debug(f"Downloading {object_name} from bucket {bucket_name}")
         if not destination_file_path:
             destination_file_path = object_name
 

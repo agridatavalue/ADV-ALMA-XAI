@@ -49,14 +49,14 @@ class ExplainerGeneratorPresentation:
 
     def get_explainer_guide(self, data: dict = {}) -> list[ExplainerResponseData]:
         logger.info(f"called get_explainer_data with params: {data}")
-        self._validator.validate_and_sanitize_get_data(data)
-        expl_id: ExplainerIdentifier = self._translator.translate(data)
+        data_sanitized = self._validator.validate_and_sanitize_get_data(data)
+        expl_id: ExplainerIdentifier = self._translator.translate(data_sanitized)
         return self._build_service.describe_explainer(request=expl_id)
 
     def ask_to_explainer(self, data: dict = {}):
         logger.info(f"called ask_to_explainer with params: {data}")
-        self._validator.validate_and_sanitize_ask(data)
-        expl_id: ExplainerIdentifier = self._translator.translate(data)
+        data_sanitized = self._validator.validate_and_sanitize_ask(data)
+        expl_id: ExplainerIdentifier = self._translator.translate(data_sanitized)
 
         logger.info(f"Ask to Explainer: {str(expl_id)}")
         return self._build_service.ask_to_explainer(
