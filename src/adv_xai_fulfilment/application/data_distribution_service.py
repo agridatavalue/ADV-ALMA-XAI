@@ -4,8 +4,8 @@ from ..domain.model.model_data import ModelData
 from ..domain.model.model_metadata import ModelMetaData
 from ..domain.model.explainer_identifier import ExplainerIdentifier
 from ..domain.model.explainers.response_data import DataDistribution
-from ..infrastructure.service.DataLoaderService import DataLoaderService
-from ..infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
+from ..infrastructure.service.data_loader_service import DataLoaderService
+from ..infrastructure.service.metadata_loader_service import MetaDataLoaderService
 
 class DataDistrubutionService:
     _data_loader_service: DataLoaderService

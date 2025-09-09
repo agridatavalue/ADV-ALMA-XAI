@@ -2,7 +2,7 @@ import unittest
 
 from dotenv import load_dotenv
 
-from src.adv_xai_fulfilment.infrastructure.service.DataLoaderService import \
+from src.adv_xai_fulfilment.infrastructure.service.data_loader_service import \
     DataLoaderService
 
 load_dotenv()

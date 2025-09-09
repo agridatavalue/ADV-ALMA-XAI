@@ -1,7 +1,7 @@
 from ..domain.model.explainers.response_data import Heatmap
 from ..domain.model.explainer_metadata import ExplainerMetaData
 from ..domain.model.explainer_identifier import ExplainerIdentifier
-from ..infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
+from ..infrastructure.service.metadata_loader_service import MetaDataLoaderService
 
 
 class HeatmapService:

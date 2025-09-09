@@ -6,7 +6,7 @@ from src.adv_xai_fulfilment.domain.model.model import Model
 from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.explainer_identifier import ExplainerIdentifier
 from src.adv_xai_fulfilment.domain.model.machine_learning_model.keras_model import KerasModel
-from src.adv_xai_fulfilment.infrastructure.service.ModelLoaderService import ModelLoaderService
+from src.adv_xai_fulfilment.infrastructure.service.model_loader_service import ModelLoaderService
 
 
 class SilentKerasModel(KerasModel):

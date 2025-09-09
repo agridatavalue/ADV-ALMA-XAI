@@ -4,10 +4,10 @@ from ..domain.model.model_data import ModelData
 from ..domain.model.model_metadata import ModelMetaData
 from ..domain.model.explainer_identifier import ExplainerIdentifier
 from ..domain.model.explainers.response_data import ModelPerformance
-from ..infrastructure.service.DataLoaderService import DataLoaderService
-from ..infrastructure.service.ModelLoaderService import ModelLoaderService
+from ..infrastructure.service.data_loader_service import DataLoaderService
+from ..infrastructure.service.model_loader_service import ModelLoaderService
 from ..domain.model.explainers.response_data import ModelPerformanceMetrics
-from ..infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
+from ..infrastructure.service.metadata_loader_service import MetaDataLoaderService
 from ..domain.service.model_performance_service_component import (
     ModelPerformanceServiceComponent,
 )

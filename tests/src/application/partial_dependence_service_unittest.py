@@ -10,13 +10,13 @@ from src.adv_xai_fulfilment.domain.model.explainer_identifier import ExplainerId
 from src.adv_xai_fulfilment.application.partial_dependence_service import (
     PartialDependenceService,
 )
-from src.adv_xai_fulfilment.infrastructure.service.DataLoaderService import (
+from src.adv_xai_fulfilment.infrastructure.service.data_loader_service import (
     DataLoaderService,
 )
-from src.adv_xai_fulfilment.infrastructure.service.ModelLoaderService import (
+from src.adv_xai_fulfilment.infrastructure.service.model_loader_service import (
     ModelLoaderService,
 )
-from src.adv_xai_fulfilment.infrastructure.service.MetaDataLoaderService import (
+from src.adv_xai_fulfilment.infrastructure.service.metadata_loader_service import (
     MetaDataLoaderService,
 )
 from src.adv_xai_fulfilment.domain.model.explainers.response_data import (

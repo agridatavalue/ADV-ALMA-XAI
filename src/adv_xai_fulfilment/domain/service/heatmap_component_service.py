@@ -2,9 +2,9 @@ from logger import get_logger
 from ..model.model_data import ModelData
 from ..model.explainers.response_data import Heatmap
 from ..model.explainer_identifier import ExplainerIdentifier
-from ...infrastructure.service.DataLoaderService import DataLoaderService
+from ...infrastructure.service.data_loader_service import DataLoaderService
 from ...infrastructure.repository import HeatmapImageGeneratorRepository
-from ...infrastructure.service.ExplainerRepositoryService import (
+from ...infrastructure.service.explainer_repository_service import (
     ExplainerRepositoryService,
 )
 

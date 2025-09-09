@@ -17,19 +17,19 @@ from src.adv_xai_fulfilment.application.ExplainerGeneratorService import (
 from src.adv_xai_fulfilment.domain.model.explainers.response_data import (
     FeatureImportance,
 )
-from src.adv_xai_fulfilment.infrastructure.service.DataLoaderService import (
+from src.adv_xai_fulfilment.infrastructure.service.data_loader_service import (
     DataLoaderService,
 )
-from src.adv_xai_fulfilment.infrastructure.service.ModelLoaderService import (
+from src.adv_xai_fulfilment.infrastructure.service.model_loader_service import (
     ModelLoaderService,
 )
-from src.adv_xai_fulfilment.infrastructure.service.MetaDataLoaderService import (
+from src.adv_xai_fulfilment.infrastructure.service.metadata_loader_service import (
     MetaDataLoaderService,
 )
 from src.adv_xai_fulfilment.domain.service.model_performance_service_component import (
     ModelPerformanceServiceComponent,
 )
-from src.adv_xai_fulfilment.infrastructure.service.ExplainerRepositoryService import (
+from src.adv_xai_fulfilment.infrastructure.service.explainer_repository_service import (
     ExplainerRepositoryService,
 )
 from src.adv_xai_fulfilment.domain.service.feature_importance_service_component import (

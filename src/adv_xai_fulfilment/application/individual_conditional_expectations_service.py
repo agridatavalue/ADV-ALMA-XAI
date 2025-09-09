@@ -4,9 +4,9 @@ from ..infrastructure.constants import Errors
 from ..domain.model.model_data import ModelData
 from ..domain.model.model_metadata import ModelMetaData
 from ..domain.model.explainer_identifier import ExplainerIdentifier
-from ..infrastructure.service.DataLoaderService import DataLoaderService
-from ..infrastructure.service.ModelLoaderService import ModelLoaderService
-from ..infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
+from ..infrastructure.service.data_loader_service import DataLoaderService
+from ..infrastructure.service.model_loader_service import ModelLoaderService
+from ..infrastructure.service.metadata_loader_service import MetaDataLoaderService
 from ..domain.model.explainers.response_data import IndividualConditionalExpectations
 
 logger = get_logger()

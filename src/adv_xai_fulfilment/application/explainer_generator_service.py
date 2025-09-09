@@ -8,10 +8,10 @@ from ..domain.model.explainers.explainer import Explainer
 from .generators import AbstractGeneratorService, generators
 from ..domain.model.explainer_metadata import ExplainerMetaData
 from ..domain.model.explainer_identifier import ExplainerIdentifier
-from ..infrastructure.service.DataLoaderService import DataLoaderService
+from ..infrastructure.service.data_loader_service import DataLoaderService
 from ..domain.model.explainers.response_data import ExplainerResponseData
-from ..infrastructure.service.ModelLoaderService import ModelLoaderService
-from ..infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
+from ..infrastructure.service.model_loader_service import ModelLoaderService
+from ..infrastructure.service.metadata_loader_service import MetaDataLoaderService
 from ..domain.service.feature_importance_service_component import (
     FeatureImportanceServiceComponent,
 )

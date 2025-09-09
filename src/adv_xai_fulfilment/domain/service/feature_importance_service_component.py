@@ -9,11 +9,11 @@ from .explainer_retriever import ExplainerRetriever
 from ..model.explainer_metadata import ExplainerMetaData
 from ..model.explainer_identifier import ExplainerIdentifier
 from ..model.explainers.response_data import FeatureImportance
-from ...infrastructure.service.DataLoaderService import DataLoaderService
-from ...infrastructure.service.ModelLoaderService import ModelLoaderService
-from ...infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
+from ...infrastructure.service.data_loader_service import DataLoaderService
+from ...infrastructure.service.model_loader_service import ModelLoaderService
+from ...infrastructure.service.metadata_loader_service import MetaDataLoaderService
 from .feature_description_service_component import FeatureDescriptionServiceComponent
-from ...infrastructure.service.ExplainerRepositoryService import (
+from ...infrastructure.service.explainer_repository_service import (
     ExplainerRepositoryService,
 )
 

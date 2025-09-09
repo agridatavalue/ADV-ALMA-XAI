@@ -9,7 +9,7 @@ from .abstract_generator_service import AbstractGeneratorService
 from ...domain.model.explainer_identifier import ExplainerIdentifier
 from ...domain.model.explainers.response_data import FeatureImportance
 from ...domain.model.explainers.response_data import ModelPerformanceMetrics
-from ...infrastructure.service.ExplainerRepositoryService import (
+from ...infrastructure.service.explainer_repository_service import (
     ExplainerRepositoryService,
 )
 from ...domain.service.model_performance_service_component import (

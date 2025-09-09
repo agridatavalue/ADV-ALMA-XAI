@@ -6,7 +6,7 @@ from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.explainers.explainer import Explainer
 from src.adv_xai_fulfilment.domain.model.explainer_metadata import ExplainerMetaData
 from src.adv_xai_fulfilment.domain.model.explainer_identifier import ExplainerIdentifier
-from src.adv_xai_fulfilment.infrastructure.service.ExplainerRepositoryService import (
+from src.adv_xai_fulfilment.infrastructure.service.explainer_repository_service import (
     ExplainerRepositoryService,
 )
 from src.adv_xai_fulfilment.domain.model.explainers.response_data import (

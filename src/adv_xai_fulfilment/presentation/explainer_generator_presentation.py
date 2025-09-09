@@ -7,7 +7,7 @@ from ..domain.model.explainers.explainer import Explainer
 from ..domain.model.explainer_identifier import ExplainerIdentifier
 from ..domain.model.explainers.response_data import ExplainerResponseData
 from ..application.explainer_generator_service import ExplainerGeneratorService
-from ..infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
+from ..infrastructure.service.metadata_loader_service import MetaDataLoaderService
 
 logger = get_logger()
 

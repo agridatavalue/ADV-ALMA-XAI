@@ -1,12 +1,12 @@
 from logger import get_logger
 
 from src.adv_xai_fulfilment.domain.model.questions import Question, Feedback
-from ..infrastructure.service.MetaDataLoaderService import MetaDataLoaderService
+from ..infrastructure.service.metadata_loader_service import MetaDataLoaderService
 from ..domain.model.questions.model_feedback_container import ModelFeedbackContainer
 from src.adv_xai_fulfilment.domain.model.explainer_metadata import ExplainerMetaData
 from src.adv_xai_fulfilment.domain.model.explainer_identifier import ExplainerIdentifier
 from src.adv_xai_fulfilment.infrastructure.repository.feedback_repository import FeedbackRepository
-from src.adv_xai_fulfilment.infrastructure.service.ExplainerRepositoryService import (
+from src.adv_xai_fulfilment.infrastructure.service.explainer_repository_service import (
     ExplainerRepositoryService,
 )
 

@@ -9,7 +9,7 @@ from src.adv_xai_fulfilment.domain.model.explainer_identifier import ExplainerId
 from src.adv_xai_fulfilment.domain.model.explainers.response_data import (
     FeatureImportance,
 )
-from src.adv_xai_fulfilment.infrastructure.service.MetaDataLoaderService import (
+from src.adv_xai_fulfilment.infrastructure.service.metadata_loader_service import (
     MetaDataLoaderService,
 )
 from src.adv_xai_fulfilment.domain.service.feature_importance_service_component import (
