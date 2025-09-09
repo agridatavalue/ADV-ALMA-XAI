@@ -38,4 +38,9 @@ class AbstractValidator:
         return True
 
     def _merge_with_default_values(self, new_values: dict) -> dict:
-        return {'meta_data':'metadata.json', 'data_for_predict':'data', **new_values}
+        return {
+            'data_for_train': 'data_train', 
+            'data_for_predict': 'data', 
+            'meta_data': 'metadata.json', 
+            **new_values
+        }

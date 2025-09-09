@@ -24,7 +24,7 @@ class ModelPerformanceServiceComponent:
             raise ValueError(Errors.MODEL_DATA_NOT_MODEL_DATA_TYPE)
 
         y_true = data.get_y_for_prediction_target(prediction_target_index).to_list()
-        predictions = model.handler.predict(data.x)
+        predictions = model.handler.predict(data.x_train)
         if predictions.ndim == 1:  # 1D array
             y_pred = [float(y) for y in predictions]
         else:  # 2D array

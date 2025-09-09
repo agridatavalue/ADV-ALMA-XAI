@@ -97,8 +97,19 @@ class ExplainerIdentifier:
             raise ValueError("filename must be a string")
         
         model_filename: str = os.path.basename(self.model)
+        
         return os.path.join(
-            self._basepath, model_filename, self.partner.id, "data", filename
+            self._basepath, model_filename, self.partner.id, "data", filename if filename != "data" else ""
+        )
+        
+    def get_data_for_training_locale_filepath(self, filename: str) -> str:
+        if not isinstance(filename, str):
+            raise ValueError("filename must be a string")
+        
+        model_filename: str = os.path.basename(self.model)
+        
+        return os.path.join(
+            self._basepath, model_filename, self.partner.id, "data_for_train", filename if filename != "data_train" else ""
         )
 
     def get_explainer_locale_filepath(self, expl: Explainer) -> str:

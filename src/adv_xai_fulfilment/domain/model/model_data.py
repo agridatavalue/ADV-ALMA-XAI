@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 class ModelData:
     _x_predict: pd.DataFrame
     _y_predict: pd.DataFrame
@@ -71,8 +70,11 @@ class ModelData:
         assert isinstance(image, str)
         self._image_path = image
 
-    def get_y_for_prediction_target(self, target: str) -> pd.DataFrame:
+    def get_y_for_prediction_target(self, target: int) -> pd.Series:
+        if self._y_predict is None or self._y_predict.empty:
+            return pd.Series(dtype=float)
         return self._y_predict.iloc[:, target]
+
     
     def y_predict_is_empty(self) -> bool:
         return self._y_predict is None or self._y_predict.empty
@@ -87,6 +89,21 @@ class ModelData:
     def __repr__(self) -> str:
         return f"ModelData(predict_x={self._x_predict}, predict_y={self._y_predict}, image_path={self._image_path})"
 
+    # --------------------------------------------------------------
+    
+    def remove_columns_not_in_model(self, feature_names: list[str]) -> "ModelData":
+        if self._x_predict is not None and not self._x_predict.empty:
+            cols_to_remove = [col for col in self._x_predict.columns if col not in feature_names]
+            if cols_to_remove:
+                self._x_predict = self._x_predict.drop(columns=cols_to_remove)
+        
+        if self._x_train is not None and not self._x_train.empty:
+            cols_to_remove = [col for col in self._x_train.columns if col not in feature_names]
+            if cols_to_remove:
+                self._x_train = self._x_train.drop(columns=cols_to_remove)
+        
+        return self
+    
     # --------------------------------------------------------------
     
     @property
