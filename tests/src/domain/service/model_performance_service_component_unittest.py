@@ -46,6 +46,8 @@ class TestModelPerformanceServiceComponent(unittest.TestCase):
         testObj = ModelPerformanceServiceComponent()
 
         model_data = ModelData()
+        model_data.x_train = pd.DataFrame({"target": [1, 2, 3]})
+        model_data.y_train = pd.DataFrame({"target": [1, 2, 3]})
         model_data.x_predict = pd.DataFrame({"target": [1, 2, 3]})
         model_data.y_predict = pd.DataFrame({"target": [1, 2, 3]})
 

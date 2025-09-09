@@ -59,10 +59,10 @@ class ModelPerformanceServiceComponent:
         if model_metadata.is_regression:
             logger.debug("Calculating regression metrics")
             return self.__get_metrics_for_regression(
-                prediction_target=prediction_target, 
-                model=model, 
                 data=data, 
-                model_metadata=model_metadata
+                model=model, 
+                model_metadata=model_metadata,
+                prediction_target=prediction_target, 
             )
 
         logger.debug("Calculating classification metrics")

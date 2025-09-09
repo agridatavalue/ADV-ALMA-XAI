@@ -54,6 +54,7 @@ class TestModelPerformanceMetricService(unittest.TestCase):
         mock_data_loader.load_model_metadata.return_value = mock_model_metadata
         mock_model_metadata.first_target_name = "default_target"
         mock_model_metadata.index_of_target_name.return_value = 0
+        mock_model_metadata.feature_names = ["feature1", "feature2", "feature3"]
         mock_mpm_service.get_data.return_value = ModelPerformance(
             target="target", y_true=[], y_pred=[]
         )
