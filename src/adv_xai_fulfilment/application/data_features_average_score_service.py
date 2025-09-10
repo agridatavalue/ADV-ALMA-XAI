@@ -19,8 +19,7 @@ class DataFeaturesAverageScoreService:
         )
         
         data: ModelData = self._data_loader_service.load_data(expl_id)
-        data.remove_columns_not_in_model(meta_data.feature_names)
-        
+        data.calculate_x_predict_and_x_train(meta_data.feature_names, meta_data.target_names[0])
 
         to_ret = DataFeaturesAndAverageScore()
         for f, v in data.x.mean().to_dict().items():

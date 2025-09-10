@@ -34,10 +34,7 @@ class DataLoaderService:
 
         raise ValueError(f"Data type {data_type} not supported")
 
-    def load_data(self, expl_id: ExplainerIdentifier) -> Optional[ModelData]:
-        if not expl_id.data:
-            return
-
+    def load_data(self, expl_id: ExplainerIdentifier) -> ModelData:
         logger.debug(f"loading data for {str(expl_id)}")
         bucket_name = os.getenv("DATA_FOLDER_PATH", '')
         
@@ -88,7 +85,7 @@ class DataLoaderService:
                 
             file_extension = os.path.splitext(file)[1].lower()
             if file.lower() in ["data.csv"]:
-                data.x_train = pd.read_csv(current_file)
+                data.data_train = pd.read_csv(current_file)
             else:
                 setattr(data, file.replace(file_extension, "")+'_train', pd.read_csv(current_file))
 
@@ -136,7 +133,7 @@ class DataLoaderService:
                 
             file_extension = os.path.splitext(file)[1].lower()
             if file.lower() in ["data.csv"]:
-                data.x_predict = pd.read_csv(current_file)
+                data.data_predict = pd.read_csv(current_file)
             else:
                 setattr(data, file.replace(file_extension, "")+'_predict', pd.read_csv(current_file))
 

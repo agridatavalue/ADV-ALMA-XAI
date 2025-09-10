@@ -24,14 +24,14 @@ class TargetsService:
         model_metadata: ModelMetaData = (
             self._metadata_loader_service.load_model_metadata(expl_id)
         )
-        data.remove_columns_not_in_model(model_metadata.feature_names)
+        data.calculate_x_predict_and_x_train(model_metadata.feature_names, model_metadata.target_names[0])
         
         selected_model: Model = self._model_loader_service.load_from(expl_id, model_metadata)
 
         meta_data: ExplainerMetaData = (
             self._metadata_loader_service.load_explainer_metadata(expl_id)
         )
-        feature:str = meta_data.feature_importance.get_most_important()
+        feature: str = meta_data.feature_importance.get_most_important()
 
-        predicted_y = selected_model.handler.predict(data.x)
-        return Targets().set_x(data.x[feature]).set_y(real=data.y, predicted=predicted_y)
+        predicted_y = selected_model.handler.predict(data.x_train)
+        return Targets().set_x(data.x_train[feature]).set_y(real=data.y_train, predicted=predicted_y)

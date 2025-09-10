@@ -1,11 +1,15 @@
 import pandas as pd
 
 class ModelData:
-    _x_predict: pd.DataFrame
-    _y_predict: pd.DataFrame
+    _x_predict: pd.DataFrame # comes from data csv file
+    _y_predict: pd.DataFrame # calculate with model and x_predict
     
-    _x_train: pd.DataFrame
+    _x_train: pd.DataFrame # comes from data csv file
     _y_train: pd.DataFrame
+    
+    data_train: pd.DataFrame
+    data_predict: pd.DataFrame
+    
     _predicted_y_train: pd.DataFrame
     _image_path: str
 
@@ -16,6 +20,9 @@ class ModelData:
         self._y_predict = None
         self._predicted_y_train = None
         self._image_path = ''
+        
+        self.data_train = pd.DataFrame()
+        self.data_predict = pd.DataFrame()
     
     # --------------------------------------------------------------
     @property
@@ -91,16 +98,17 @@ class ModelData:
 
     # --------------------------------------------------------------
     
-    def remove_columns_not_in_model(self, feature_names: list[str]) -> "ModelData":
-        if self._x_predict is not None and not self._x_predict.empty:
-            cols_to_remove = [col for col in self._x_predict.columns if col not in feature_names]
+    def calculate_x_predict_and_x_train(self, feature_names: list[str], target_name: str = "") -> "ModelData":
+        if self.data_predict is not None and not self.data_predict.empty:
+            cols_to_remove = [col for col in self.data_predict.columns if col not in feature_names]
             if cols_to_remove:
-                self._x_predict = self._x_predict.drop(columns=cols_to_remove)
+                self._x_predict = self.data_predict.drop(columns=cols_to_remove)
         
-        if self._x_train is not None and not self._x_train.empty:
-            cols_to_remove = [col for col in self._x_train.columns if col not in feature_names]
+        if self.data_train is not None and not self.data_train.empty:
+            self._y_train = self.data_train[target_name] if target_name in self.data_train.columns else self.data_train
+            cols_to_remove = [col for col in self.data_train.columns if col not in feature_names]
             if cols_to_remove:
-                self._x_train = self._x_train.drop(columns=cols_to_remove)
+                self._x_train = self.data_train.drop(columns=cols_to_remove)
         
         return self
     
