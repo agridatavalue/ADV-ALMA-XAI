@@ -24,6 +24,8 @@ class TargetsService:
         model_metadata: ModelMetaData = (
             self._metadata_loader_service.load_model_metadata(expl_id)
         )
+        data.remove_columns_not_in_model(model_metadata.feature_names)
+        
         selected_model: Model = self._model_loader_service.load_from(expl_id, model_metadata)
 
         meta_data: ExplainerMetaData = (

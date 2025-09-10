@@ -36,6 +36,7 @@ class PartialDependenceService:
 
         logger.debug(f"downloading {request.data} data if present")
         data: ModelData = self._data_loader_service.load_data(request)
+        data.remove_columns_not_in_model(meta_data.feature_names)
 
         if feature not in meta_data.feature_names:
             raise Exception(f"Feature {feature} not found in the model")
