@@ -37,7 +37,7 @@ class IndividualConditionalExpectationService:
         logger.debug(f"downloading {request.data} data if present")
         data: ModelData = self._data_loader_service.load_data(request)
 
-        data.calculate_x_predict_and_x_train(meta_data.feature_names, meta_data.target_names[0])
+        data.calculate_x_and_y_predict_and_x_and_y_train(meta_data.feature_names, meta_data.target_names[0])
         
         if feature not in meta_data.feature_names:
             raise Exception(f"Feature {feature} not found in the model")

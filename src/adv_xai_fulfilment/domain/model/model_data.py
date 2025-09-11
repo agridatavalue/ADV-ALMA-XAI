@@ -98,7 +98,7 @@ class ModelData:
 
     # --------------------------------------------------------------
     
-    def calculate_x_predict_and_x_train(self, feature_names: list[str], target_name: str = "") -> "ModelData":
+    def calculate_x_and_y_predict_and_x_and_y_train(self, feature_names: list[str], target_name: str = "") -> "ModelData":
         if self.data_predict is not None and not self.data_predict.empty:
             cols_to_remove = [col for col in self.data_predict.columns if col not in feature_names]
             if cols_to_remove:

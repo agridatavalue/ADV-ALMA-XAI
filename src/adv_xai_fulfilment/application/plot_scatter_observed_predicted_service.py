@@ -29,7 +29,7 @@ class PlotScatterObservedPredictedService:
         model: Model = self.model_loader_service.load_from(explainer_identifier)
 
         data: ModelData = self.data_loader_service.load_data(explainer_identifier)
-        data.calculate_x_predict_and_x_train(meta_data.feature_names, meta_data.target_names[0])
+        data.calculate_x_and_y_predict_and_x_and_y_train(meta_data.feature_names, meta_data.target_names[0])
         
         X_test = np.array(data.x_predict)
         y_test = np.array(data.y_predict)

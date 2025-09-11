@@ -24,7 +24,7 @@ class TargetsService:
         model_metadata: ModelMetaData = (
             self._metadata_loader_service.load_model_metadata(expl_id)
         )
-        data.calculate_x_predict_and_x_train(model_metadata.feature_names, model_metadata.target_names[0])
+        data.calculate_x_and_y_predict_and_x_and_y_train(model_metadata.feature_names, model_metadata.target_names[0])
         
         selected_model: Model = self._model_loader_service.load_from(expl_id, model_metadata)
 

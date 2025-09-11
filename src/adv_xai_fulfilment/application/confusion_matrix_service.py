@@ -35,6 +35,6 @@ class ConfusionMatrixService:
         )
 
         data: ModelData = self._data_loader_service.load_data(explainer_identifier)
-        data.calculate_x_predict_and_x_train(model_metadata.feature_names, model_metadata.target_names[0])
+        data.calculate_x_and_y_predict_and_x_and_y_train(model_metadata.feature_names, model_metadata.target_names[0])
 
         return selected_model.get_confusion_matrix(data)
