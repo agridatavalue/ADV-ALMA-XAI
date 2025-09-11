@@ -47,14 +47,11 @@ class ModelPerformanceServiceComponent:
             raise ValueError(Errors.MODEL_NOT_MODEL)
         
         if not model:
+            logger.warning("No model provided")
             return ModelPerformanceMetrics()
 
         if data.is_empty if isinstance(data, ModelData) else all(d.is_empty for d in data):
-            return ModelPerformanceMetrics()
-
-        if data.y_predict_is_empty() if isinstance(data, ModelData) else all(
-            d.y_predict_is_empty() for d in data
-        ):
+            logger.warning("No data provided")
             return ModelPerformanceMetrics()
 
         prediction_target_index = model_metadata.index_of_target_name(prediction_target)
@@ -79,14 +76,14 @@ class ModelPerformanceServiceComponent:
         feature_names = model_metadata.feature_names
         
         y_pred = None
-        data.predicted_y_train = model.handler.predict(data.x_train[feature_names])
+        data.predicted_y_train = model.handler.predict(data.data_train[feature_names])
         if isinstance(data.predicted_y_train, np.ndarray):
             prediction_target_index = model_metadata.index_of_target_name(prediction_target)
             if len(data.predicted_y_train.shape) == 2:  # 2D array
                 y_pred = [y[prediction_target_index] for y in data.predicted_y_train]
             elif len(data.predicted_y_train.shape) == 1:  # 1D array
                 y_pred = data.predicted_y_train
-        y_true = data.x_train[prediction_target].to_list()
+        y_true = data.data_train[prediction_target].to_list()
         
         mse = mean_squared_error(y_true, y_pred)
         mae = mean_absolute_error(y_true, y_pred)
@@ -103,7 +100,7 @@ class ModelPerformanceServiceComponent:
     def __get_metrics_for_classification(
         self, _: int, model: Model, data: ModelData
     ) -> ModelPerformanceMetrics:
-        y_pred = model.handler.predict(data.x)
+        y_pred = model.handler.predict(data.x_predict)
 
         return (
             ModelPerformanceMetrics()

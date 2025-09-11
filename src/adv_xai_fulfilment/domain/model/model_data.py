@@ -91,7 +91,7 @@ class ModelData:
     
     @property
     def is_empty(self) -> bool:
-        return self._x_predict is None or self._y_predict is None or self._x_predict.empty or self._y_predict.empty
+        return self.data_predict is None or self.data_train is None or (self.data_predict.empty and self.data_train.empty)
 
     def __repr__(self) -> str:
         return f"ModelData(predict_x={self._x_predict}, predict_y={self._y_predict}, image_path={self._image_path})"
