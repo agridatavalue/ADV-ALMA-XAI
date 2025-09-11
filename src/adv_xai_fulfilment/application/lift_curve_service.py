@@ -1,44 +1,17 @@
 import numpy as np
 
-from logger import get_logger
-from ..domain.model.model import Model
-from ..domain.model.model_data import ModelData
-from ..domain.model.model_metadata import ModelMetaData
+from .abstract_model_service import AbstractModelService
 from ..domain.model.explainers.response_data import LiftCurve
 from ..domain.model.explainer_identifier import ExplainerIdentifier
-from ..infrastructure.service.data_loader_service import DataLoaderService
-from ..infrastructure.service.model_loader_service import ModelLoaderService
-from ..infrastructure.service.metadata_loader_service import MetaDataLoaderService
 
-logger = get_logger()
 
-class LiftCurveService:
-    _data_loader_service: DataLoaderService
-    _model_loader_service: ModelLoaderService
-    _metadata_loader_service: MetaDataLoaderService
-
-    def __init__(self):
-        self._data_loader_service = DataLoaderService()
-        self._model_loader_service = ModelLoaderService()
-        self._metadata_loader_service = MetaDataLoaderService()
+class LiftCurveService(AbstractModelService):
 
     def get_data(self, expl_id: ExplainerIdentifier) -> LiftCurve:
-        data: ModelData = self._data_loader_service.load_data(expl_id)
+        context = self.get_context(expl_id)
+        data = context.model_data
 
-        model_metadata: ModelMetaData = (
-            self._metadata_loader_service.load_model_metadata(expl_id)
-        )
-        if not expl_id.prediction_target:
-            logger.debug(
-                f"empty prediction target, setting default as {model_metadata.first_target_name}"
-            )
-            expl_id.prediction_target = model_metadata.first_target_name
-        
-        selected_model: Model = self._model_loader_service.load_from(
-            expl_id, meta_data=model_metadata
-        )
-
-        y_pred_prob = selected_model.handler.predict_proba(data.x)
+        y_pred_prob = context.model.handler.predict_proba(data.x)
         if y_pred_prob.ndim == 2:
             y_pred_prob = y_pred_prob[:, 1]
 

@@ -12,7 +12,4 @@ class FeatureDescriptionService:
     def get_data(
         self, explainer_identifier: ExplainerIdentifier
     ) -> list[FeatureDescription]:
-        if not explainer_identifier.metadata_identifier:
-            explainer_identifier.metadata_identifier = "metadata_v2.json"
-
         return self._feature_description_service.get_data(explainer_identifier)
