@@ -30,12 +30,14 @@ class TestModelPerformanceServiceComponent(unittest.TestCase):
         testObj = ModelPerformanceServiceComponent()
 
         model_data = ModelData()
-        model_data.x = pd.DataFrame({"target": [1, 2, 3]})
-        model_data.y = pd.DataFrame({"target": [1, 2, 3]})
+        model_data.x_predict = pd.DataFrame({"target": [1, 2, 3]})
+        model_data.y_predict = pd.DataFrame({"target": [1, 2, 3]})
+        model_data.data_train = pd.DataFrame({"target": [1, 2, 3]})
 
         actual = testObj.get_data(
             data=model_data,
             model=SilentKerasModel(filename="test"),
+            prediction_target="target",
             prediction_target_index=0,
         )
         self.assertIsInstance(actual, ModelPerformance)
@@ -50,6 +52,7 @@ class TestModelPerformanceServiceComponent(unittest.TestCase):
         model_data.y_train = pd.DataFrame({"target": [1, 2, 3]})
         model_data.x_predict = pd.DataFrame({"target": [1, 2, 3]})
         model_data.y_predict = pd.DataFrame({"target": [1, 2, 3]})
+        model_data.data_train = pd.DataFrame({"target": [1, 2, 3]})
 
         model_metadata = MagicMock(spec=ModelMetaData)
         model_metadata.is_regression = True

@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import Optional
 
 from logger import get_logger
 from ..domain.model.model import Model
@@ -18,10 +19,15 @@ class AbstractModelService(ABC):
     _model_loader_service: ModelLoaderService
     _metadata_loader_service: MetaDataLoaderService
     
-    def __init__(self):
-        self._data_loader_service = DataLoaderService()
-        self._model_loader_service = ModelLoaderService()
-        self._metadata_loader_service = MetaDataLoaderService()
+    def __init__(
+        self, 
+        data_loader_service: Optional[DataLoaderService] = None, 
+        model_loader_service: Optional[ModelLoaderService] = None, 
+        metadata_loader_service: Optional[MetaDataLoaderService] = None
+    ):
+        self._data_loader_service = data_loader_service or DataLoaderService()
+        self._model_loader_service = model_loader_service or ModelLoaderService()
+        self._metadata_loader_service = metadata_loader_service or MetaDataLoaderService()
         
     def get_context(self, explainer_identifier: ExplainerIdentifier) -> ModelContext:
         if not explainer_identifier:

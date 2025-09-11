@@ -57,6 +57,7 @@ class TestPartialDependenceService(unittest.TestCase):
             subject_name="subject_name",
             model_category="regression",
             feature_names=["feature"],
+            target_names=["target"]
         )
 
         testObj = PartialDependenceService()

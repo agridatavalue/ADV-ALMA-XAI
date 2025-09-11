@@ -18,7 +18,7 @@ logger = get_logger()
 class ModelPerformanceServiceComponent:
 
     def get_data(
-        self, model: Model, data: ModelData, prediction_target_index: int = 0, prediction_target: str = ""
+        self, model: Model, data: ModelData, prediction_target: str, prediction_target_index: int = 0
     ) -> ModelPerformance:
         if not isinstance(data, ModelData):
             raise ValueError(Errors.MODEL_DATA_NOT_MODEL_DATA_TYPE)
