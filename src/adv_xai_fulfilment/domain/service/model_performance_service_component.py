@@ -18,19 +18,22 @@ logger = get_logger()
 class ModelPerformanceServiceComponent:
 
     def get_data(
-        self, model: Model, data: ModelData, prediction_target_index: int = 0
+        self, model: Model, data: ModelData, prediction_target_index: int = 0, prediction_target: str = ""
     ) -> ModelPerformance:
         if not isinstance(data, ModelData):
             raise ValueError(Errors.MODEL_DATA_NOT_MODEL_DATA_TYPE)
 
-        y_true = data.get_y_for_prediction_target(prediction_target_index).to_list()
         predictions = model.handler.predict(data.x_train)
         if predictions.ndim == 1:  # 1D array
             y_pred = [float(y) for y in predictions]
         else:  # 2D array
             y_pred = [float(y[prediction_target_index]) for y in predictions]
 
-        return ModelPerformance(y_true=y_true, y_pred=y_pred)
+        return ModelPerformance(
+            y_pred = y_pred, 
+            target = prediction_target,
+            y_true = data.data_train[prediction_target].to_list(), 
+        )
 
     def get_metrics(
         self,

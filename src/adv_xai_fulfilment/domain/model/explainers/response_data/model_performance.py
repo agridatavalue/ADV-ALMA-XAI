@@ -13,6 +13,13 @@ class ModelPerformance(ExplainerResponseData):
         self.target = target
         self.y_true = y_true
         self.y_pred = y_pred
+        
+    def to_dict(self) -> dict:
+        return {
+            "target": self.target,
+            "actual": self.y_true,
+            "predictions": self.y_pred,
+        }
 
     def __repr__(self) -> str:
         str_to_return = f"{self.__class__.__name__}("

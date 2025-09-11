@@ -14,16 +14,7 @@ def plotModelPerformanceEndpoint():
 
     try:
         response = ModelDataPresentations().genarate_model_performance(request.get_json())
-        return make_response(
-            jsonify(
-                {
-                    "target": response.target,
-                    "actual": response.y_true,
-                    "predictions": response.y_pred,
-                }
-            ),
-            200,
-        )
+        return make_response(jsonify(response.to_dict()), 200)
     except Exception as e:
         logger.error(f"error while model-performance: %s - %s", 
             type(e).__name__, 

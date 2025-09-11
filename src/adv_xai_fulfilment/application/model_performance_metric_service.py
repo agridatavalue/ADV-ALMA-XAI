@@ -47,14 +47,13 @@ class ModelPerformanceMetricService:
         logger.debug(
             f"index {pred_target_index} for target {explainer_identifier.prediction_target}"
         )
-        mp: ModelPerformance = self._mdm_service.get_data(
+        return self._mdm_service.get_data(
             data=data,
             model=selected_model,
             prediction_target_index=pred_target_index,
+            prediction_target=explainer_identifier.prediction_target,
         )
-        mp.target = explainer_identifier.prediction_target
-        return mp
-
+        
     def get_metrics(
         self, explainer_identifier: ExplainerIdentifier
     ) -> ModelPerformanceMetrics:
