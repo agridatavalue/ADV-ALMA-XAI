@@ -1,8 +1,6 @@
 from logger import get_logger
-from ..domain.model.model import Model
-from ..infrastructure.constants import Errors
-from ..domain.model.model_data import ModelData
 from ..domain.model.model_metadata import ModelMetaData
+from .abstract_model_service import AbstractModelService
 from ..domain.model.explainer_guide import ExplainerGuide
 from ..domain.model.explainers.explainer import Explainer
 from .generators import AbstractGeneratorService, generators
@@ -22,7 +20,7 @@ from ..domain.model.explainers.response_data.explainer_response_data import (
 logger = get_logger()
 
 
-class ExplainerGeneratorService:
+class ExplainerGeneratorService(AbstractModelService):
     _data_loader_service: DataLoaderService
     _model_loader_service: ModelLoaderService
     _metadata_loader_service: MetaDataLoaderService
@@ -48,37 +46,23 @@ class ExplainerGeneratorService:
         return ExplainerGuide(meta_data).get_explainers()
 
     def generate_explainer(self, request: ExplainerIdentifier) -> list[Explainer]:
-        meta_data: ModelMetaData = self._metadata_loader_service.load_model_metadata(
-            expl_id=request, force_download=True
-        )
-        request.metadata = meta_data
-
-        selected_model: Model = self._model_loader_service.load_from(request, meta_data)
-        if not selected_model.is_ok():
-            logger.error("empty model")
-            raise Errors.MODEL_NOT_MODEL
-
-        data: ModelData = self._data_loader_service.load(request, meta_data.data_type)
-        if data and data.y_predict_is_empty():
-            logger.warning(f"y_predict is empty, calculating with {meta_data.feature_names}")
-            data.y_predict = selected_model.calculate_y(
-                data.x_predict, 
-                feature_names=meta_data.feature_names, 
+        context = self.get_context(request)
+        
+        if context.model_data and context.model_data.y_predict_is_empty():
+            logger.warning(f"y_predict is empty, calculating with {context.model_metadata.feature_names}")
+            context.model_data.y_predict = context.model.calculate_y(
+                context.model_data.x_predict, 
+                feature_names=context.model_metadata.feature_names, 
                 target_name=request.prediction_target
             )
-            logger.info(f"Calculated y_predict: {data.y_predict}")
+            logger.info(f"Calculated y_predict: {context.model_data.y_predict}")
 
         results: list[ExplainerResponseData] = self._generators[
-            meta_data.data_type
-        ].generate(
-            request=request,
-            meta_data=meta_data,
-            selected_model=selected_model,
-            data=data,
-        )
+            context.model_metadata.data_type
+        ].generate(context=context)
 
         expl_metadata = ExplainerMetaData(
-            meta_data=meta_data,
+            meta_data=context.model_metadata,
             target_name=request.prediction_target,
         ).detect(data=results)
 
