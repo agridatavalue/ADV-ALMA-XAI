@@ -17,6 +17,7 @@ from .src.application.model_performance_metric_service_unittest import (
 
 # DOMAIN ----------------------------------------------------------------------
 from .src.domain.model.question_unittest import TestQuestion
+from .src.domain.model.algorithm_unittest import AlgorithmTestCase
 from .src.domain.model.model_category_unittest import TestModelCategory
 from .src.domain.service.model_translator_unittest import TestModelTranslator
 from .src.domain.model.explainer_meta_data_unittest import TestExplainerMetaData
