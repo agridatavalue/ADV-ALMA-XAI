@@ -5,6 +5,8 @@ class AbstractValidator:
     def _validate_partner(self, partner: str) -> bool:
         if not isinstance(partner, str):
             raise TypeError(Errors.PARTNER_NOT_STRING)
+        if not partner:
+            raise ValueError(Errors.PARTNER_NOT_EMPTY)
         return True
 
     def _validate_feature(self, feature: str) -> bool:
