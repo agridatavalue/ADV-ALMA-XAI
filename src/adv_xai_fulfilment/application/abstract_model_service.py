@@ -57,4 +57,5 @@ class AbstractModelService(ABC):
             model = selected_model,
             model_data = data,
             model_metadata = model_metadata,
+            identifier = explainer_identifier
         )
