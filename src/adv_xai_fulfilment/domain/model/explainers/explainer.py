@@ -1,5 +1,6 @@
 import pickle
 from abc import ABC
+from typing import Optional
 
 from ..model import Model
 from ..model_data import ModelData
@@ -19,8 +20,9 @@ class Explainer(ABC):
     has_categorical_features: bool
     data_type_explainers: list[DataTypeModelExplainer]
 
-    meta_data: ModelMetaData
-    build_result: any
+    meta_data: Optional[ModelMetaData]
+    build_result: Optional[object]
+    
 
     def __init__(
         self,
