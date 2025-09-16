@@ -60,6 +60,7 @@ class TestModelPerformanceMetricService(unittest.TestCase):
             model=mock_model,
             model_data=mock_model_data,
             model_metadata=mock_model_metadata,
+            identifier=explainer_identifier
         )
 
         service = ModelPerformanceMetricService(

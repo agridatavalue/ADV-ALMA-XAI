@@ -1,5 +1,9 @@
 import pandas as pd
 
+from logger import get_logger
+
+logger = get_logger()
+
 class ModelData:
     _x_predict: pd.DataFrame # comes from data csv file
     _y_predict: pd.DataFrame # calculate with model and x_predict
@@ -102,12 +106,14 @@ class ModelData:
         if self.data_predict is not None and not self.data_predict.empty:
             cols_to_remove = [col for col in self.data_predict.columns if col not in feature_names]
             if cols_to_remove:
+                logger.debug(f"predict - Removing columns not in feature names: {cols_to_remove}")
                 self._x_predict = self.data_predict.drop(columns=cols_to_remove)
         
         if self.data_train is not None and not self.data_train.empty:
             self._y_train = self.data_train[target_name] if target_name in self.data_train.columns else self.data_train
             cols_to_remove = [col for col in self.data_train.columns if col not in feature_names]
             if cols_to_remove:
+                logger.debug(f"train - Removing columns not in feature names: {cols_to_remove}")
                 self._x_train = self.data_train.drop(columns=cols_to_remove)
         
         return self

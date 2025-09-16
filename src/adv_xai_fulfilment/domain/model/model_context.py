@@ -10,3 +10,4 @@ class ModelContext:
     model: Model
     model_data: ModelData
     model_metadata: ModelMetaData
+    identifier: ExplainerIdentifier
