@@ -10,7 +10,7 @@ class PermutationImportanceExplainer(Explainer):
     def __init__(self):
         super().__init__(
             name="PermutationImportance",
-            type=["BlackBox"],
+            type=["BlackBox", "Whitebox"],
             categories=["Classification", "Regression"],
             explanations="global",
             is_distributed=False,

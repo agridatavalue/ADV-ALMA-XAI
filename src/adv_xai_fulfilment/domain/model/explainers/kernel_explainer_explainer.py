@@ -11,7 +11,7 @@ class KernelExplainerExplainer(Explainer):
     def __init__(self):
         super().__init__(
             name="KernelExplainer",
-            type=["BlackBox"],
+            type=["BlackBox", "WhiteBox"],
             categories=["Classification", "Regression"],
             explanations="both",
             is_distributed=True,
@@ -26,4 +26,5 @@ class KernelExplainerExplainer(Explainer):
         return self.build_result.shap_values(x_test)
 
     def build(self, model, data: ModelData):
-        self.build_result = KernelExplainer(model.handler.predict, data.x)
+        self.build_result = KernelExplainer(model.handler.predict, data.x_predict)
+        

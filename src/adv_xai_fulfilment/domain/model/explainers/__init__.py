@@ -13,6 +13,7 @@ from .similarity_explanations_explainer import SimilarityExplanationsExplainer
 from .tree_shap_interventional_explainer import TreeShapInterventionalExplainer
 from .partial_dependence_variance_explainer import PartialDependenceVarianceExplainer
 from .counter_factuals_prototypes_explainer import CounterFactualsPrototypesExplainer
+from .sklearn_permutation_importance_explainer import SklearnPermutationImportanceExplainer
 
 from .explainer import Explainer
 
@@ -32,6 +33,7 @@ all = [
     TreeShapInterventionalExplainer,
     PartialDependenceVarianceExplainer,
     CounterFactualsPrototypesExplainer,
+    SklearnPermutationImportanceExplainer,
 ]
 
 __all__ = all + [Explainer]
