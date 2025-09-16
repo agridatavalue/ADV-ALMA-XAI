@@ -61,7 +61,7 @@ class DataLoaderService:
                     object_name=expl_id.data_for_training,
                     destination_file_path=local_filepath,
                 )
-            data.x_train = pd.read_csv(local_filepath)
+            data.data_train = pd.read_csv(local_filepath)
             return data
         
         # passed train data is a folder path, load all files in the folder  
@@ -84,7 +84,7 @@ class DataLoaderService:
                 )
                 
             file_extension = os.path.splitext(file)[1].lower()
-            if file.lower() in ["data.csv"]:
+            if file.lower()[:-4] == ".csv":
                 data.data_train = pd.read_csv(current_file)
             else:
                 setattr(data, file.replace(file_extension, "")+'_train', pd.read_csv(current_file))
@@ -109,7 +109,7 @@ class DataLoaderService:
                     object_name=expl_id.data,
                     destination_file_path=local_filepath,
                 )
-            data.x_predict = pd.read_csv(local_filepath)
+            data.data_predict = pd.read_csv(local_filepath)
             return data
         
         # passed data is a folder path, load all files in the folder  
