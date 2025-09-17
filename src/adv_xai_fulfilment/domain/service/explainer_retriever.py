@@ -1,5 +1,6 @@
 from logger import get_logger
 from ..model.model import Model
+from ..model.algorithm import Algorithm
 from ..model.model_metadata import ModelMetaData
 from ..model.explainers.explainer import Explainer
 from ..model.explainers import all as all_class_explainers
@@ -9,6 +10,11 @@ POSSIBLE_FEATURE_IMPORTANCE_EXPLAINER_NAMES = [
     "TreeSHAPinterventional",
     "KernelExplainer",
     "DeepExplainer",
+    "KernelSHAP",
+]
+
+POSSIBLE_KNN_FEATURE_IMPORTANCE_EXPLAINER_NAMES = [
+    "KernelExplainer",
     "KernelSHAP",
 ]
 
@@ -49,9 +55,18 @@ class ExplainerRetriever:
             expl for expl in self._all_explainers_available if expl.name == name
         )
 
-    def get_for_feature_importance(self) -> list[Explainer]:
-        return [
+    def get_for_feature_importance(self, algorithm: str) -> list[Explainer]:
+        feature_importance_explainers = [
             e
             for e in self._all_explainers_available
             if e.name in POSSIBLE_FEATURE_IMPORTANCE_EXPLAINER_NAMES
         ]
+        
+        if Algorithm.from_string(algorithm) == Algorithm.KNN:
+            return [
+                e 
+                for e in feature_importance_explainers 
+                if e.name in POSSIBLE_KNN_FEATURE_IMPORTANCE_EXPLAINER_NAMES
+            ]
+        
+        return feature_importance_explainers

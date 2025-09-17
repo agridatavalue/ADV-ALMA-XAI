@@ -1,11 +1,12 @@
 import pandas as pd
+from typing import Optional
 
 from logger import get_logger
 
 logger = get_logger()
 
 class ModelData:
-    _x_predict: pd.DataFrame # comes from data csv file
+    _x_predict: pd.DataFrame # comes from data csv file (test data)
     _y_predict: pd.DataFrame # calculate with model and x_predict
     
     _x_train: pd.DataFrame # comes from data csv file
@@ -85,8 +86,24 @@ class ModelData:
         if self._y_predict is None or self._y_predict.empty:
             return pd.Series(dtype=float)
         return self._y_predict.iloc[:, target]
-
     
+    def is_target_column_in_y_predict(
+        self, 
+        *,
+        target: str = "",
+        prediction_target_index: Optional[int] = None
+    ) -> bool:
+        if not target and prediction_target_index is None:
+            raise ValueError("Either target or prediction_target_index must be provided")
+        
+        if self._y_predict is None or self._y_predict.empty:
+            return False
+        
+        if prediction_target_index is not None:
+            return prediction_target_index < self._y_predict.shape[1]
+        
+        return target in self._y_predict.columns
+
     def y_predict_is_empty(self) -> bool:
         return self._y_predict is None or self._y_predict.empty
     

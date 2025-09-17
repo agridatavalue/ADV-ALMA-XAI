@@ -98,20 +98,23 @@ class ModelPerformanceServiceComponent:
         )
 
     def __get_metrics_for_classification(
-        self, _: int, model: Model, data: ModelData
+        self, prediction_target_index: int, model: Model, data: ModelData
     ) -> ModelPerformanceMetrics:
-        y_pred = model.handler.predict(data.x_predict)
+        if data.is_target_column_in_y_predict(prediction_target_index=prediction_target_index):
+            data.y_predict = model.handler.predict(data.x_predict)
+        
+        y_train_predicted = model.handler.predict(data.x_train)
 
         return (
             ModelPerformanceMetrics()
-            .add_metric("roc_auc", roc_auc_score(data.y, y_pred))
-            .add_metric("accuracy", accuracy_score(data.y, y_pred))
-            .add_metric("f1", f1_score(data.y, y_pred, average="weighted"))
-            .add_metric("recall", recall_score(data.y, y_pred, average="weighted"))
+            .add_metric("roc_auc", roc_auc_score(data.y_train, y_train_predicted))
+            .add_metric("accuracy", accuracy_score(data.y_train, y_train_predicted))
+            .add_metric("f1", f1_score(data.y_train, y_train_predicted, average="weighted"))
+            .add_metric("recall", recall_score(data.y_train, y_train_predicted, average="weighted"))
             .add_metric(
-                "precision", precision_score(data.y, y_pred, average="weighted")
+                "precision", precision_score(data.y_train, y_train_predicted, average="weighted")
             )
             .add_metric(
-                "pr_auc", average_precision_score(data.y, y_pred, average="weighted")
+                "pr_auc", average_precision_score(data.y_train, y_train_predicted, average="weighted")
             )
         )
