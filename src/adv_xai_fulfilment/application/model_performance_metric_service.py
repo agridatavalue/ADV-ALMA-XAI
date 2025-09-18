@@ -40,8 +40,6 @@ class ModelPerformanceMetricService(AbstractModelService):
         )
         return self._mdm_service.get_data(
             data = context.model_data,
-            model = context.model,
-            prediction_target_index = pred_target_index,
             prediction_target = explainer_identifier.prediction_target,
         )
         
@@ -49,7 +47,6 @@ class ModelPerformanceMetricService(AbstractModelService):
         context = self.get_context(explainer_identifier)
         
         return self._mdm_service.get_metrics(
-            prediction_target = explainer_identifier.prediction_target,
             model_metadata = context.model_metadata,
             model = context.model,
             data = context.model_data,

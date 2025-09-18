@@ -17,20 +17,12 @@ logger = get_logger()
 
 class ModelPerformanceServiceComponent:
 
-    def get_data(
-        self, model: Model, data: ModelData, prediction_target: str, prediction_target_index: int = 0
-    ) -> ModelPerformance:
+    def get_data(self, data: ModelData, prediction_target: str) -> ModelPerformance:
         if not isinstance(data, ModelData):
             raise ValueError(Errors.MODEL_DATA_NOT_MODEL_DATA_TYPE)
 
-        predictions = model.handler.predict(data.x_train)
-        if predictions.ndim == 1:  # 1D array
-            y_pred = [float(y) for y in predictions]
-        else:  # 2D array
-            y_pred = [float(y[prediction_target_index]) for y in predictions]
-
         return ModelPerformance(
-            y_pred = y_pred, 
+            y_pred = data.y_predict.tolist(), 
             target = prediction_target,
             y_true = data.data_train[prediction_target].to_list(), 
         )
@@ -40,7 +32,6 @@ class ModelPerformanceServiceComponent:
         *,
         model: Model,
         data: Union[ModelData, list[ModelData]],
-        prediction_target: str,
         model_metadata: ModelMetaData,
     ) -> ModelPerformanceMetrics:
         if not isinstance(model_metadata, ModelMetaData):
@@ -54,67 +45,37 @@ class ModelPerformanceServiceComponent:
             logger.warning("No data provided")
             return ModelPerformanceMetrics()
 
-        prediction_target_index = model_metadata.index_of_target_name(prediction_target)
-
         if model_metadata.is_regression:
             logger.debug("Calculating regression metrics")
-            return self.__get_metrics_for_regression(
-                data=data, 
-                model=model, 
-                model_metadata=model_metadata,
-                prediction_target=prediction_target, 
-            )
+            return self.__get_metrics_for_regression(data)
 
         logger.debug("Calculating classification metrics")
-        return self.__get_metrics_for_classification(
-            prediction_target_index, model, data
-        )
+        return self.__get_metrics_for_classification(data)
 
-    def __get_metrics_for_regression(
-        self, prediction_target: str, model: Model, data: ModelData, model_metadata: ModelMetaData
-    ) -> ModelPerformanceMetrics:
-        feature_names = model_metadata.feature_names
-        
-        y_pred = None
-        data.predicted_y_train = model.handler.predict(data.data_train[feature_names])
-        if isinstance(data.predicted_y_train, np.ndarray):
-            prediction_target_index = model_metadata.index_of_target_name(prediction_target)
-            if len(data.predicted_y_train.shape) == 2:  # 2D array
-                y_pred = [y[prediction_target_index] for y in data.predicted_y_train]
-            elif len(data.predicted_y_train.shape) == 1:  # 1D array
-                y_pred = data.predicted_y_train
-        y_true = data.data_train[prediction_target].to_list()
-        
-        mse = mean_squared_error(y_true, y_pred)
-        mae = mean_absolute_error(y_true, y_pred)
+    def __get_metrics_for_regression(self, data: ModelData) -> ModelPerformanceMetrics:
+        mse = mean_squared_error(data.y_test, data.y_predict)
+        mae = mean_absolute_error(data.y_test, data.y_predict)
 
         return (
             ModelPerformanceMetrics()
             .add_metric("Mean Squared Error (MSE)", mse)
-            .add_metric("R-Squared (R²)", r2_score(y_true, y_pred))
+            .add_metric("R-Squared (R²)", r2_score(data.y_test, data.y_predict))
             .add_metric("Mean Absolute Error (MAE)", mae)
             .add_metric("Root Mean Squared Error (RMSE)", np.sqrt(mse))
-            .add_metric("Mean Absolute Percentage Error (MAPE)", (mae / y_true).mean())
+            .add_metric("Mean Absolute Percentage Error (MAPE)", (mae / data.y_test).mean())
         )
 
-    def __get_metrics_for_classification(
-        self, prediction_target_index: int, model: Model, data: ModelData
-    ) -> ModelPerformanceMetrics:
-        if data.is_target_column_in_y_predict(prediction_target_index=prediction_target_index):
-            data.y_predict = model.handler.predict(data.x_predict)
-        
-        y_train_predicted = model.handler.predict(data.x_train)
-
+    def __get_metrics_for_classification(self, data: ModelData) -> ModelPerformanceMetrics:
         return (
             ModelPerformanceMetrics()
-            .add_metric("roc_auc", roc_auc_score(data.y_train, y_train_predicted))
-            .add_metric("accuracy", accuracy_score(data.y_train, y_train_predicted))
-            .add_metric("f1", f1_score(data.y_train, y_train_predicted, average="weighted"))
-            .add_metric("recall", recall_score(data.y_train, y_train_predicted, average="weighted"))
+            .add_metric("roc_auc", roc_auc_score(data.y_test, data.y_predict))
+            .add_metric("accuracy", accuracy_score(data.y_test, data.y_predict))
+            .add_metric("f1", f1_score(data.y_test, data.y_predict, average="weighted"))
+            .add_metric("recall", recall_score(data.y_test, data.y_predict, average="weighted"))
             .add_metric(
-                "precision", precision_score(data.y_train, y_train_predicted, average="weighted")
+                "precision", precision_score(data.y_test, data.y_predict, average="weighted")
             )
             .add_metric(
-                "pr_auc", average_precision_score(data.y_train, y_train_predicted, average="weighted")
+                "pr_auc", average_precision_score(data.y_test, data.y_predict, average="weighted")
             )
         )

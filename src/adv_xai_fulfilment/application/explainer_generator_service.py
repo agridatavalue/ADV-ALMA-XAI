@@ -48,15 +48,6 @@ class ExplainerGeneratorService(AbstractModelService):
     def generate_explainer(self, request: ExplainerIdentifier) -> list[Explainer]:
         context = self.get_context(request)
         
-        if context.model_data and context.model_data.y_predict_is_empty():
-            logger.warning(f"y_predict is empty, calculating with {context.model_metadata.feature_names}")
-            context.model_data.y_predict = context.model.calculate_y(
-                context.model_data.x_predict, 
-                feature_names=context.model_metadata.feature_names, 
-                target_name=request.prediction_target
-            )
-            logger.info(f"Calculated y_predict: {context.model_data.y_predict}")
-
         results: list[ExplainerResponseData] = self._generators[
             context.model_metadata.data_type
         ].generate(context=context)

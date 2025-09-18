@@ -61,7 +61,6 @@ class TestModelPerformanceServiceComponent(unittest.TestCase):
         actual = testObj.get_metrics(
             data=model_data,
             model_metadata=model_metadata,
-            prediction_target="target",
             model=SilentKerasModel(filename="test"),
         )
 

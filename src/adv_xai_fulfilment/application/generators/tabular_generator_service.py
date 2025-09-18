@@ -40,7 +40,6 @@ class TabularGeneratorService(AbstractGeneratorService):
         logger.debug(f"generating tabular explainers for {str(context.identifier)}")
         
         metrics: ModelPerformanceMetrics = self._mpm_service.get_metrics(
-            prediction_target = context.identifier.prediction_target,
             model_metadata = context.model_metadata,
             model = context.model,
             data = context.model_data,

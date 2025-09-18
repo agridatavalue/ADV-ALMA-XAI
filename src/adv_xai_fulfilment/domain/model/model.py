@@ -32,16 +32,6 @@ class Model:
     def is_ok(self) -> bool:
         return self.handler is not None
     
-    def calculate_y(self, x: pd.DataFrame, feature_names: list[str], target_name: str) -> pd.DataFrame:
-        if not self.is_ok():
-            raise ValueError("Model handler is not set or model is not loaded properly")
-        
-        if not target_name:
-            target_name = feature_names[0] if feature_names else "target"
-        
-        filtered_x = x[feature_names] if feature_names else x
-        return pd.DataFrame(self.handler.predict(filtered_x), columns=[target_name])
-
     @staticmethod
     def supported_frameworks() -> list[str]: ...
 
@@ -70,7 +60,7 @@ class Model:
 
     def get_confusion_matrix(self, data: ModelData) -> ConfusionMatrix:
         obj = ConfusionMatrix()
-        obj.data = confusion_matrix(data.y, self.handler.predict(data.x))
+        obj.data = confusion_matrix(data.y_test, data.y_predict)
         return obj
 
     def get_partial_dependence(self, X: pd.DataFrame, feature: str) -> PartialDependence:

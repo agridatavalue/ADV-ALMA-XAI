@@ -51,7 +51,11 @@ class AbstractModelService(ABC):
             raise Errors.MODEL_NOT_MODEL
 
         data: ModelData = self._data_loader_service.load_data(explainer_identifier)
-        data.calculate_x_and_y_predict_and_x_and_y_train(model_metadata.feature_names, model_metadata.target_names[0])
+        data.calculate_x_and_y_predict_and_x_and_y_train(
+            model = selected_model, 
+            target_name = model_metadata.target_names[0],
+            feature_names = model_metadata.feature_names, 
+        )
 
         return ModelContext(
             model = selected_model,

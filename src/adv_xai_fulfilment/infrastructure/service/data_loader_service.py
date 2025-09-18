@@ -84,7 +84,7 @@ class DataLoaderService:
                 )
                 
             file_extension = os.path.splitext(file)[1].lower()
-            if file.lower()[:-4] == ".csv":
+            if file_extension == ".csv":
                 data.data_train = pd.read_csv(current_file)
             else:
                 setattr(data, file.replace(file_extension, "")+'_train', pd.read_csv(current_file))
