@@ -5,7 +5,7 @@ from ..domain.model.explainers.response_data import IndividualConditionalExpecta
 
 class IndividualConditionalExpectationService(AbstractModelService):
 
-    def get_data(self, request:ExplainerIdentifier, feature: str) -> IndividualConditionalExpectations:
+    def get_data(self, request: ExplainerIdentifier, feature: str) -> IndividualConditionalExpectations:
         context = self.get_context(request)
         
         if feature not in context.model_metadata.feature_names:

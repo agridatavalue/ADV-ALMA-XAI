@@ -1,2 +1,6 @@
-[ ] disable tree shap explainers only to tree models
+[ ] enable tree shap explainers only to tree models
+[ ] check if we accept image upload
 [ ] improve test coverage
+
+Teme:
+[ ] ICE plot - ask if we have to pass prediction data or test data;
