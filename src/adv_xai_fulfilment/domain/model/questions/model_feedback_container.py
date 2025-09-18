@@ -1,3 +1,4 @@
+from ..partner import Partner
 from .feedback import Feedback
 
 class ModelFeedbackContainer:
@@ -18,6 +19,9 @@ class ModelFeedbackContainer:
 
         self._feedback.append(feedback)
         return self
+    
+    def get_feedback_for_partner(self, partner: Partner) -> list[Feedback]:
+        return [f for f in self._feedback if f.explainer_identifier.partner == partner]
     
     def to_dict(self) -> dict:
         return {

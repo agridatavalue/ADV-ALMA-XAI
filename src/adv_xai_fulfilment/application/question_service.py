@@ -35,13 +35,13 @@ class QuestionService:
     
     def get_partner_feedback(self, expl_id: ExplainerIdentifier) -> Feedback:
         logger.debug(f"loading metadata from {expl_id.metadata_identifier}")
-        meta_data: ExplainerMetaData = (
-            self._metadata_loader_service.load_explainer_metadata(expl_id)
-        )
         
-        parter_feedback:list[Feedback] = meta_data.get_all_feedback(filter_by=expl_id.partner)
-        return max(parter_feedback, key=lambda feedback: feedback.creation_date, default=None)
+        feedback_container: ModelFeedbackContainer = self._feedback_repository.load(
+            expl_id
+        )
 
+        partner_feedback: list[Feedback] = feedback_container.get_feedback_for_partner(expl_id.partner)
+        return max(partner_feedback, key=lambda feedback: feedback.creation_date, default=None)
 
     def save_partner_feedback(self, feedback: Feedback, answers: list[dict]) -> Feedback:
         logger.debug(f"saving feedback {feedback}")
