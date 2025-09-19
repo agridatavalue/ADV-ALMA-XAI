@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
-from typing import Optional
 from sklearn.model_selection import train_test_split
 
 
 from logger import get_logger
+from .model_category import ModelCategory
 
 logger = get_logger()
 
@@ -114,7 +114,8 @@ class ModelData:
         self, 
         model: "Model",
         feature_names: list[str], 
-        target_name: str = ""
+        model_category: ModelCategory,
+        target_name: str = "",
     ) -> "ModelData":
         if self.data_predict is not None and not self.data_predict.empty:            
             cols_to_remove = [col for col in self.data_predict.columns if col not in feature_names]
@@ -127,7 +128,10 @@ class ModelData:
             cols_to_remove = [col for col in self.data_train.columns if col not in feature_names]
             X = self.data_train.drop(columns=cols_to_remove)
             y = self.data_train[target_name]
-            _, X_test, _, y_test = train_test_split(X, y, test_size=0.25, stratify=y, random_state=42)
+            if ModelCategory.is_classification(str(model_category)):
+                _, X_test, _, y_test = train_test_split(X, y, test_size=0.25, stratify=y, random_state=42)
+            else:
+                _, X_test, _, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
             self._y_test = y_test
             self._y_predict = model.handler.predict(X_test)
             
