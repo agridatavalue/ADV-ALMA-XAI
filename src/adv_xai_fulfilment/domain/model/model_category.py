@@ -17,3 +17,11 @@ class ModelCategory:
             return ModelCategory.OBJECT_DETECTION
 
         raise ValueError(f"unknown model category: {category}")
+    
+    @staticmethod
+    def is_classification(category: str) -> bool:
+        return category == ModelCategory.CLASSIFICATION
+    
+    @staticmethod
+    def is_regression(category: str) -> bool:
+        return category == ModelCategory.REGRESSION

@@ -12,3 +12,11 @@ class TestModelCategory(unittest.TestCase):
             ModelCategory.from_string("REGRESSION"), ModelCategory.REGRESSION
         )
         self.assertRaises(ValueError, ModelCategory.from_string, "unknown")
+        
+    def test_is_classification(self):
+        self.assertTrue(ModelCategory.is_classification("CLASSIFICATION"))
+        self.assertFalse(ModelCategory.is_classification("REGRESSION"))
+        
+    def test_is_regression(self):
+        self.assertTrue(ModelCategory.is_regression("REGRESSION"))
+        self.assertFalse(ModelCategory.is_regression("CLASSIFICATION"))
