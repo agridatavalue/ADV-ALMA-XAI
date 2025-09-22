@@ -56,7 +56,9 @@ class ServiceServer:
                 debug=isDevMode,
             )
         else:
-            serve(self.app, host=host, port=port, threads=1)
+            number_of_threads = os.getenv("SERVER_THREADS", '')
+            threads = int(number_of_threads) if number_of_threads.isdigit() else 1
+            serve(self.app, host=host, port=port, threads=threads)
 
     def _prepareSwaggerContent(self, folderPath: str) -> str:
         swaggerContent = ""
