@@ -4,6 +4,7 @@ metadata:
     name: {{ include "xai-fulfillment.fullname" . }}
     namespace: {{ .Release.Namespace }}
 data:
+    SERVER_THREADS: "2"
     DATA_FOLDER_PATH: "agridatavalue"
     MODEL_FOLDER_PATH: "agridatavalue"
     EXPLAINER_FOLDER_PATH: "agridatavalue"

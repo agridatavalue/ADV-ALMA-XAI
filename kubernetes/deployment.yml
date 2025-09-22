@@ -53,6 +53,8 @@ spec:
                                 key: STORE_SECRET_KEY
                       - name: DATA_FOLDER_PATH
                         value: "agridatavalue"
+                      - name: SERVER_THREADS
+                        value: "2"
                       - name: MODEL_FOLDER_PATH
                         value: "agridatavalue"
                       - name: EXPLAINER_FOLDER_PATH
