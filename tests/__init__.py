@@ -16,6 +16,7 @@ from .src.application.model_performance_metric_service_unittest import (
 )
 
 # DOMAIN ----------------------------------------------------------------------
+from .src.domain.model.partner_unittest import TestPartner
 from .src.domain.model.question_unittest import TestQuestion
 from .src.domain.model.algorithm_unittest import AlgorithmTestCase
 from .src.domain.model.model_category_unittest import TestModelCategory
@@ -24,6 +25,7 @@ from .src.domain.model.explainer_meta_data_unittest import TestExplainerMetaData
 from .src.domain.service.explainer_retriever_unittest import TestExplainerRetriever
 from .src.domain.model.explainers.response_data.heatmap_unittest import TestHeatmap
 from .src.domain.model.machineLearningModel.keras_model_unittest import TestKerasModel
+from .src.domain.model.questions.model_feedback_container_unittest import TestModelFeedbackContainer
 
 # ----> SERVICE
 from .src.domain.service.model_performance_service_component_unittest import (

@@ -21,7 +21,7 @@ class ModelFeedbackContainer:
         return self
     
     def get_feedback_for_partner(self, partner: Partner) -> list[Feedback]:
-        return [f for f in self._feedback if f.explainer_identifier.partner == partner]
+        return [f for f in self._feedback if f.explainer_identifier.partner.is_equal(partner)]
     
     def to_dict(self) -> dict:
         return {
