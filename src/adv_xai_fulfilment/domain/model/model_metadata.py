@@ -14,6 +14,7 @@ class ModelMetaData:
     model_type: str
     input_shape: list[int]
     subject_name: str
+    _is_federated: bool
     _target_names: list[str]
     feature_names: list[str]
     model_category: ModelCategory
@@ -31,6 +32,7 @@ class ModelMetaData:
         n_classes: Optional[int] = None,
         input_shape: list[int] = [],
         target_names: list[str] = [],
+        is_federated: bool = False,
         feature_names: list[str] = [],
         architectures: list[ModelMetaDataLayer] = [],
         feature_descriptions: list[FeatureDescription] = [],
@@ -42,11 +44,21 @@ class ModelMetaData:
         self.model_type = model_type
         self.input_shape = input_shape if isinstance(input_shape, list) else []
         self.subject_name = subject_name
+        self._is_federated = is_federated or False
         self._target_names = target_names
         self.feature_names = feature_names
         self._architectures = architectures
         self.model_category = ModelCategory.from_string(model_category)
         self.feature_descriptions = feature_descriptions
+    
+    @property
+    def is_federated(self) -> bool:
+        return self._is_federated if self._is_federated is not None else False
+    
+    @property
+    def is_deep_learning(self) -> bool:
+        deep_learning_algorithms = ['cnn', 'rnn', 'lstm', 'transformer', 'yolov8']
+        return self.algorithm.lower() in deep_learning_algorithms
 
     @property
     def is_tabular(self) -> bool:

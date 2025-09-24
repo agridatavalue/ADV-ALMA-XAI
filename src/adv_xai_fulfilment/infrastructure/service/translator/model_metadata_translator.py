@@ -47,6 +47,7 @@ class ModelMetaDataTranslator:
             framework=data.get("framework", "torch"),
             model_type=data.get("modeltype", ""),
             input_shape=self._translate_input_shape(architectures.get("input_shape", [])),
+            is_federated=data.get("is_federated", False),
             target_names=data.get("targetnames", ""),
             subject_name=data.get("Subjectname", ""),
             model_category=data.get("modelcategory", ""),
