@@ -15,7 +15,8 @@ logger = get_logger()
 class FeedbackFileToFeedbackContainerTranslator:
 
     def translate(self, explainer_identifier: ExplainerIdentifier) -> ModelFeedbackContainer:
-        assert isinstance(explainer_identifier, ExplainerIdentifier), "explainer_identifier must be an instance of ExplainerIdentifier"
+        if not isinstance(explainer_identifier, ExplainerIdentifier):
+            raise TypeError("explainer_identifier must be an instance of ExplainerIdentifier")
 
         container = ModelFeedbackContainer(explainer_identifier.get_feedback_file_locale_path())
         if not path.exists(container.get_filepath()):
@@ -32,13 +33,14 @@ class FeedbackFileToFeedbackContainerTranslator:
         return container
 
     def _translate_feedback(self, feedback_data: dict, explainer_identifier: ExplainerIdentifier) -> Feedback:
-        assert isinstance(feedback_data, dict), "feedback_data must be a dictionary"
+        if not isinstance(feedback_data, dict):
+            raise TypeError("feedback_data must be a dictionary")
 
         feedback = Feedback(
-            partner = Partner(feedback_data.get('partner', "")),
+            partner = Partner(feedback_data.get("partner", "")),
             questions = [
                 self._translate_question(q)
-                for q in feedback_data.get('feedback', [])
+                for q in feedback_data.get("feedback", [])
             ],
             explainer_identifier = explainer_identifier,
         )

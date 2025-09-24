@@ -1,3 +1,4 @@
+import os
 import json
 from logger import get_logger
 
@@ -23,6 +24,7 @@ class FeedbackRepository:
 
     def store(self, feedback_container: ModelFeedbackContainer) -> bool:
         logger.debug(f"storing feedback file to {feedback_container.get_filepath()}")
+        os.makedirs(os.path.dirname(feedback_container.get_filepath()), exist_ok=True)
 
         with open(feedback_container.get_filepath(), "w") as file:
             json.dump(feedback_container.to_dict(), file, indent=4)

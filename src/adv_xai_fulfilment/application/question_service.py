@@ -1,3 +1,4 @@
+from typing import Optional
 from logger import get_logger
 
 from src.adv_xai_fulfilment.domain.model.questions import Question, Feedback
@@ -33,7 +34,7 @@ class QuestionService:
 
         return [q.verticalize_for(meta_data.model_metadata) for q in Question.get_all()]
     
-    def get_partner_feedback(self, expl_id: ExplainerIdentifier) -> Feedback:
+    def get_partner_feedback(self, expl_id: ExplainerIdentifier) -> Optional[Feedback]:
         logger.debug(f"loading metadata from {expl_id.metadata_identifier}")
         
         feedback_container: ModelFeedbackContainer = self._feedback_repository.load(
