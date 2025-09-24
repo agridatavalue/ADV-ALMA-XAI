@@ -111,6 +111,7 @@ class TestModelPerformanceMetricService(unittest.TestCase):
         response = ModelContext(
             model=mock_model,
             model_data=mock_model_data,
+            identifier=explainer_identifier,
             model_metadata=mock_model_metadata,
         )
 

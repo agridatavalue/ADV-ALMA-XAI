@@ -1,5 +1,8 @@
+from typing import Optional
+
 from .data_type import DataType
 from .model_category import ModelCategory
+from .model_metadata_layer import ModelMetaDataLayer
 from .explainers.response_data import FeatureDescription
 
 
@@ -7,11 +10,14 @@ class ModelMetaData:
     data_type: DataType
     framework: str
     algorithm: str
+    n_classes: Optional[int]
     model_type: str
+    input_shape: list[int]
     subject_name: str
     _target_names: list[str]
     feature_names: list[str]
     model_category: ModelCategory
+    _architectures: list[ModelMetaDataLayer]
     feature_descriptions: list[FeatureDescription]
 
     def __init__(
@@ -22,17 +28,23 @@ class ModelMetaData:
         model_type: str,
         subject_name: str,
         model_category: str,
+        n_classes: Optional[int] = None,
+        input_shape: list[int] = [],
         target_names: list[str] = [],
         feature_names: list[str] = [],
+        architectures: list[ModelMetaDataLayer] = [],
         feature_descriptions: list[FeatureDescription] = [],
     ):
+        self.n_classes = n_classes if isinstance(n_classes, int) else None
         self.data_type = DataType.from_string(data_type)
         self.framework = framework
         self.algorithm = algorithm
         self.model_type = model_type
+        self.input_shape = input_shape if isinstance(input_shape, list) else []
         self.subject_name = subject_name
         self._target_names = target_names
         self.feature_names = feature_names
+        self._architectures = architectures
         self.model_category = ModelCategory.from_string(model_category)
         self.feature_descriptions = feature_descriptions
 
@@ -51,7 +63,11 @@ class ModelMetaData:
     @property
     def is_classification(self) -> bool:
         return self.model_category == ModelCategory.CLASSIFICATION
-
+    
+    @property
+    def architectures(self) -> list[ModelMetaDataLayer]:
+        return self._architectures or []
+    
     def to_dict(self) -> dict:
         return {
             "data_type": str(self.data_type),
@@ -76,7 +92,7 @@ class ModelMetaData:
 
     @property
     def first_target_name(self) -> str:
-        return self._target_names[0] if self._target_names else None
+        return self._target_names[0] if self._target_names else ''
 
     def __repr__(self) -> str:
         return f"ModelMetaData({self.to_dict})"

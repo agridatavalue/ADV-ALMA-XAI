@@ -31,14 +31,12 @@ class TestModelPerformanceServiceComponent(unittest.TestCase):
 
         model_data = ModelData()
         model_data.x_predict = pd.DataFrame({"target": [1, 2, 3]})
-        model_data.y_predict = pd.DataFrame({"target": [1, 2, 3]})
+        model_data.y_predict = np.ndarray([2, 4, 6])
         model_data.data_train = pd.DataFrame({"target": [1, 2, 3]})
 
         actual = testObj.get_data(
             data=model_data,
-            model=SilentKerasModel(filename="test"),
             prediction_target="target",
-            prediction_target_index=0,
         )
         self.assertIsInstance(actual, ModelPerformance)
         self.assertEqual(actual.y_pred, [2.0, 4.0, 6.0])
@@ -51,7 +49,7 @@ class TestModelPerformanceServiceComponent(unittest.TestCase):
         model_data.x_train = pd.DataFrame({"target": [1, 2, 3]})
         model_data.y_train = pd.DataFrame({"target": [1, 2, 3]})
         model_data.x_predict = pd.DataFrame({"target": [1, 2, 3]})
-        model_data.y_predict = pd.DataFrame({"target": [1, 2, 3]})
+        model_data.y_predict = np.ndarray([2, 4, 6])
         model_data.data_train = pd.DataFrame({"target": [1, 2, 3]})
 
         model_metadata = MagicMock(spec=ModelMetaData)
