@@ -7,14 +7,17 @@ from logger import get_logger
 from ..repository import BucketRepository
 from ...domain.model.data_type import DataType
 from ...domain.model.model_data import ModelData
+from ..repository.file_reader_repository import FileReaderRepository
 from ...domain.model.explainer_identifier import ExplainerIdentifier
 
 logger = get_logger()
 
 class DataLoaderService:
     _bucketRepository: BucketRepository
+    _file_reader_repository: FileReaderRepository 
 
     def __init__(self):
+        self._file_reader_repository = FileReaderRepository()
         self._bucketRepository = BucketRepository(
             {
                 "endpoint": os.getenv("STORE_ENDPOINT"),
@@ -48,7 +51,10 @@ class DataLoaderService:
         if os.path.exists(local_filepath):
             passed_folder_path: bool = os.path.isdir(local_filepath)
         else:
-            passed_folder_path: bool = self._bucketRepository.is_directory(bucket_name=bucket_name, path=expl_id.data_for_training)
+            passed_folder_path: bool = self._bucketRepository.is_directory(
+                bucket_name=bucket_name, 
+                path=expl_id.data_for_training
+            )
 
         if not passed_folder_path:
             logger.debug(f"train data is a single file {expl_id.data_for_training}")
@@ -61,7 +67,7 @@ class DataLoaderService:
                     object_name=expl_id.data_for_training,
                     destination_file_path=local_filepath,
                 )
-            data.data_train = pd.read_csv(local_filepath)
+            data.data_train = self._file_reader_repository.read(local_filepath)
             return data
         
         # passed train data is a folder path, load all files in the folder  
@@ -85,9 +91,13 @@ class DataLoaderService:
                 
             file_extension = os.path.splitext(file)[1].lower()
             if file_extension == ".csv":
-                data.data_train = pd.read_csv(current_file)
+                data.data_train = self._file_reader_repository.read(current_file)
             else:
-                setattr(data, file.replace(file_extension, "")+'_train', pd.read_csv(current_file))
+                setattr(
+                    data, 
+                    file.replace(file_extension, "")+'_train', 
+                    self._file_reader_repository.read(current_file)
+                )
 
         return data
 
@@ -109,7 +119,7 @@ class DataLoaderService:
                     object_name=expl_id.data,
                     destination_file_path=local_filepath,
                 )
-            data.data_predict = pd.read_csv(local_filepath)
+            data.data_predict = self._file_reader_repository.read(local_filepath)
             return data
         
         # passed data is a folder path, load all files in the folder  
@@ -133,9 +143,13 @@ class DataLoaderService:
                 
             file_extension = os.path.splitext(file)[1].lower()
             if file.lower() in ["data.csv"]:
-                data.data_predict = pd.read_csv(current_file)
+                data.data_predict = self._file_reader_repository.read(current_file)
             else:
-                setattr(data, file.replace(file_extension, "")+'_predict', pd.read_csv(current_file))
+                setattr(
+                    data, 
+                    file.replace(file_extension, "")+'_predict', 
+                    self._file_reader_repository.read(current_file)
+                )
 
         return data
 
