@@ -1,13 +1,14 @@
-from typing import Optional
-
 import re
 import os
+from typing import Optional
 
 from .partner import Partner
 from .explainers.explainer import Explainer
 from ...infrastructure.constants import Errors
 from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
 
+
+BASE_PATH = "ai_flows/"
 
 class ExplainerIdentifier:
     data: str # data for prediction
@@ -60,7 +61,7 @@ class ExplainerIdentifier:
         prediction = self.__sanitize_for_path(self.prediction_target)
         category = self.category.lower()
         partner_id = self.partner.id.replace('/', '')
-        return f"ai_flows/{model_name}/{prediction}_{category}/{partner_id}"
+        return f"{BASE_PATH}{model_name}/{prediction}_{category}/{partner_id}"
 
     def get_explainer_metadata_path(self) -> str:
         return f"{self._get_base_path()}/metadata.json"
@@ -69,7 +70,8 @@ class ExplainerIdentifier:
         return f"{self._get_base_path()}/{self.data}/{os.path.basename(filepath)}"
 
     def get_explainer_file_path(self, filename: str) -> str:
-        return f"{self._get_base_path()}/{filename}".lower()
+        base_path = self._get_base_path().replace(BASE_PATH, "explainers/")
+        return f"{base_path}/{filename}".lower()
     
     # LOCALE ---------------------------------------------------------------
     def get_feedback_file_locale_path(self) -> str:

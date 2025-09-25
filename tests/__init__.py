@@ -22,6 +22,7 @@ from .src.domain.model.algorithm_unittest import AlgorithmTestCase
 from .src.domain.model.model_category_unittest import TestModelCategory
 from .src.domain.service.model_translator_unittest import TestModelTranslator
 from .src.domain.model.explainer_meta_data_unittest import TestExplainerMetaData
+from .src.domain.model.explainer_identifier_unittest import TestExplainerIdentifier
 from .src.domain.service.explainer_retriever_unittest import TestExplainerRetriever
 from .src.domain.model.explainers.response_data.heatmap_unittest import TestHeatmap
 from .src.domain.model.machineLearningModel.keras_model_unittest import TestKerasModel
