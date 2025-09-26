@@ -1,6 +1,5 @@
-from typing import Optional
-
 import os
+from typing import Optional
 
 from logger import get_logger
 from ..repository import BucketRepository

@@ -32,13 +32,17 @@ class BucketRepository:
         return [
             (obj.object_name or "").replace(path + "/", "")
             for obj in self._client.list_objects(
-                bucket_name=bucket_name.rstrip('/'), prefix=path+'/', recursive=True
+                bucket_name = bucket_name.rstrip('/'), 
+                prefix = path+'/' if not path.endswith('/') else path, 
+                recursive = True
             ) if obj
         ]
         
     def is_directory(self, bucket_name: str, path: str) -> bool:
         objects = self._client.list_objects(
-            bucket_name=bucket_name.rstrip('/'), prefix=path+'/', recursive=True
+            bucket_name = bucket_name.rstrip('/'), 
+            prefix = path+'/' if not path.endswith('/') else path, 
+            recursive = True
         )
         for obj in objects:
             if obj and (obj.object_name or "") != path.rstrip('/'):
