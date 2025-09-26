@@ -91,9 +91,11 @@ class DataLoaderService:
             if file_extension == ".csv":
                 data.data_train = self._file_reader_repository.read(current_file)
             else:
+                attribute_name = file.replace(file_extension, "")+('_train' if not '_train' in file else '')
+                logger.debug(f"assigning to attribute {attribute_name} the data from file {file}")
                 setattr(
                     data, 
-                    file.replace(file_extension, "")+'_train', 
+                    attribute_name, 
                     self._file_reader_repository.read(current_file)
                 )
 
@@ -143,9 +145,11 @@ class DataLoaderService:
             if file.lower() in ["data.csv"]:
                 data.data_predict = self._file_reader_repository.read(current_file)
             else:
+                attribute_name = (file.replace(file_extension, "").replace('test', '').replace('_', '')+'_predict').lower()
+                logger.debug(f"assigning to attribute {attribute_name} the data from file {file}")
                 setattr(
                     data, 
-                    file.replace(file_extension, "")+'_predict', 
+                    attribute_name, 
                     self._file_reader_repository.read(current_file)
                 )
 
