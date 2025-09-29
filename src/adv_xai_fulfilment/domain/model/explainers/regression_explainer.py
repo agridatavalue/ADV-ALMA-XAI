@@ -23,4 +23,4 @@ class RegressionExplainer(Explainer):
         )
 
     def build(self, model, data: ModelData):
-        self.build_result = DashRegressionExplainer(model, data.x, data.y)
+        self.build_result = DashRegressionExplainer(model, data.x_predict, data.y_predict)

@@ -22,4 +22,4 @@ class PartialDependenceVarianceExplainer(Explainer):
         )
 
     def build(self, model, data: ModelData):
-        self.build_result = PartialDependenceVariance(model.handler.predict, data.y)
+        self.build_result = PartialDependenceVariance(model.handler.predict, data.y_predict)

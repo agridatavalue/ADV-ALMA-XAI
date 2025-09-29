@@ -73,8 +73,8 @@ class TestExplainerGeneratorService(unittest.TestCase):
         mock_model.filename = "mock_model.pkl"
 
         model_data = ModelData()
-        model_data.x = pd.DataFrame()
-        model_data.y = pd.DataFrame()
+        model_data.x_predict = pd.DataFrame()
+        model_data.y_predict = pd.DataFrame()
         mock_data_loader_service = MagicMock(spec=DataLoaderService)
         mock_data_loader_service.load_data.return_value = model_data
 

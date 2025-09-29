@@ -39,7 +39,7 @@ class TestKernelExplainerExplainer(unittest.TestCase):
         )
         
         model_data = ModelData()
-        model_data.x = pd.DataFrame(np.array([[0, 0], [1, 1]]))
+        model_data.x_predict = pd.DataFrame(np.array([[0, 0], [1, 1]]))
         
         self.testObj.build(
             SilentKerasModel(
