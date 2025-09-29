@@ -34,7 +34,8 @@ class ExplainerGeneratorValidator(AbstractValidator):
         return self._merge_with_default_values(data)
     
     def __handle_path_and_url(self, path: str) -> str:
+        validated_path = path
         if path.startswith("http://") or path.startswith("https://"):
-            return path.split(f"{os.getenv('STORE_ENDPOINT')}/{os.getenv('EXPLAINER_FOLDER_PATH')}/")[-1]
+            validated_path = path.split(f"{os.getenv('STORE_ENDPOINT')}/{os.getenv('EXPLAINER_FOLDER_PATH')}/")[-1]
     
-        return path
+        return validated_path if validated_path[-1] != "/" else validated_path[:-1]
