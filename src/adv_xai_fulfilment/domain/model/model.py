@@ -16,7 +16,7 @@ logger = get_logger()
 
 class Model:
     name: str
-    handler: any
+    handler: object
     filename: str
 
     def __init__(self, filename: str, handler: object = None, name: str = ""):
@@ -28,6 +28,9 @@ class Model:
             self.load(filename)
 
     def load(self, path: str) -> "Model": ...
+    
+    def predict(self, X):
+        raise NotImplementedError
 
     def is_ok(self) -> bool:
         return self.handler is not None

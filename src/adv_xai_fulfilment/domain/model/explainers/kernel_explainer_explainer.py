@@ -26,5 +26,5 @@ class KernelExplainerExplainer(Explainer):
         return self.build_result.shap_values(x_test)
 
     def build(self, model, data: ModelData):
-        self.build_result = KernelExplainer(model.handler.predict, data.x_predict)
+        self.build_result = KernelExplainer(model.predict, data.x_predict)
         

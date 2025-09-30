@@ -11,7 +11,7 @@ class LiftCurveService(AbstractModelService):
         context = self.get_context(expl_id)
         data = context.model_data
 
-        y_pred_prob = context.model.handler.predict_proba(data.x_predict)
+        y_pred_prob = context.model.predict_proba(data.x_predict)
         if y_pred_prob.ndim == 2:
             y_pred_prob = y_pred_prob[:, 1]
 

@@ -36,7 +36,7 @@ class PartialDependenceExecutor:
         for value in tqdm(feature_values, desc=f"Processing {feature}"):
             X_temp = X.copy()
             X_temp[:, feature_idx] = value
-            pred = model.handler.predict(X_temp)
+            pred = model.predict(X_temp)
             predictions.append(np.mean(pred))
 
         return PartialDependence(

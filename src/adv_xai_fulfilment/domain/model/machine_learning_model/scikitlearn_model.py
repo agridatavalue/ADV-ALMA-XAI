@@ -16,3 +16,6 @@ class ScikitLearnModel(Model):
     @staticmethod
     def supported_frameworks() -> list[str]:
         return ["scikit", "scikit-learn", "sci-kit-learn", "sklearn", "scikitlearn"]
+    
+    def predict(self, X):
+        return self.handler.predict(X)

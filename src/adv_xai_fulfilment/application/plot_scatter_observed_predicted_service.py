@@ -13,4 +13,4 @@ class PlotScatterObservedPredictedService(AbstractModelService):
         X_test = np.array(context.model_data.x_predict)
         y_test = np.array(context.model_data.y_predict)
 
-        return {"y_observed": y_test, "y_predicted": context.model.handler.predict(X_test)}
+        return {"y_observed": y_test, "y_predicted": context.model.predict(X_test)}

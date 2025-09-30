@@ -15,5 +15,5 @@ class TargetsService(AbstractModelService):
             context.model_data.x_train[feature]
         ).set_y(
             real = context.model_data.y_train, 
-            predicted = context.model.handler.predict(context.model_data.x_train)
+            predicted = context.model.predict(context.model_data.x_train)
         )

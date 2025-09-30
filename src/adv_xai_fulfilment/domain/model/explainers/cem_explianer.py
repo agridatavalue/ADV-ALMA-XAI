@@ -30,7 +30,7 @@ class ContrastiveExplanationMethodExplainer(Explainer):
             raise Errors.METADATA_NOT_INSTANCE_OF_MODEL_METADATA
 
         self.build_result = CEM(
-            model.handler.predict,
+            model.predict,
             feature_names=self.meta_data.feature_names,
             target_names=self.meta_data.target_names,
         )

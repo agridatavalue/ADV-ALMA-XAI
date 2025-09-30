@@ -15,6 +15,9 @@ class KerasModel(Model):
     @staticmethod
     def supported_frameworks() -> list[str]:
         return ["keras", "tensorflow", "tensorflow-keras"]
+    
+    def predict(self, X):
+        return self.handler.predict(X)
 
     def get_feature_importance(
         self, feature_names: list[FeatureDescription], shap_values: np.array
