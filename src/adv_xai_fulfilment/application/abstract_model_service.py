@@ -50,13 +50,22 @@ class AbstractModelService(ABC):
             logger.error(f"empty model {explainer_identifier.model}")
             raise Errors.MODEL_NOT_MODEL
 
-        data: ModelData = self._data_loader_service.load_data(explainer_identifier)
-        data.calculate_x_and_y_predict_and_x_and_y_train(
-            model = selected_model, 
-            target_name = model_metadata.target_names[0],
-            feature_names = model_metadata.feature_names, 
-            model_category = model_metadata.model_category
+        data: ModelData = self._data_loader_service.load_data(
+            explainer_identifier, 
+            algorithm=model_metadata.algorithm
         )
+        if model_metadata.is_federated and model_metadata.is_deep_learning:
+            data.calculate_federated_y_predict(
+                model = selected_model, 
+                metadata_layers = model_metadata.architectures,
+            )
+        else:
+            data.calculate_x_and_y_predict_and_x_and_y_train(
+                model = selected_model, 
+                target_name = model_metadata.target_names[0],
+                feature_names = model_metadata.feature_names, 
+                model_category = model_metadata.model_category
+            )
 
         return ModelContext(
             model = selected_model,

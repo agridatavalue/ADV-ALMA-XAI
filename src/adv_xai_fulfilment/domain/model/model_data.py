@@ -1,14 +1,19 @@
+import shap
+import torch
 import numpy as np
 import pandas as pd
+import torch.nn as nn
 from sklearn.model_selection import train_test_split
 
 
 from logger import get_logger
 from .model_category import ModelCategory
+from .model_metadata_layer import ModelMetaDataLayer
 
 logger = get_logger()
 
 class ModelData:
+    _x_test: pd.DataFrame 
     _y_test: pd.DataFrame 
     _x_predict: pd.DataFrame # comes from data csv file (test data)
     _y_predict: np.ndarray  # comes from model prediction
@@ -24,6 +29,7 @@ class ModelData:
     _image_path: str
 
     def __init__(self):
+        self._x_test = None
         self._y_test = None
         self._x_train = None
         self._y_train = None
@@ -59,7 +65,7 @@ class ModelData:
             else:
                 _, X_test, _, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
             self._y_test = y_test
-            self._y_predict = model.handler.predict(X_test)
+            self._y_predict = model.predict(X_test)
             
             self._y_train = self.data_train[target_name] if target_name in self.data_train.columns else self.data_train
             if cols_to_remove:
@@ -68,8 +74,42 @@ class ModelData:
                 self._x_train = self._x_train[feature_names]
                 
         return self
+    
+    def calculate_federated_y_predict(
+        self, 
+        model: "Model",
+        metadata_layers: list[ModelMetaDataLayer],
+    ) -> "ModelData":
+        layers = []
+        for layer in metadata_layers:
+            mapped_types = {
+                "Conv1d": nn.Conv1d,
+                "ReLU": nn.ReLU,
+                "MaxPool1d": nn.MaxPool1d,
+                "Flatten": nn.Flatten,
+                "Dropout": nn.Dropout,
+                "Linear": nn.Linear,
+            }
+            layers.append(mapped_types[layer.type](**layer.parameters))
+            
+        sequencial_model = nn.Sequential(*layers)
         
+        if self.x_predict.empty:
+            self.x_predict = self.data_predict
+        
+        X_test_tensor = torch.tensor(self.x_predict, dtype=torch.float32).transpose(1, 2)
+        y_test_tensor = torch.tensor(self.y_test, dtype=torch.float32)
+
+        with torch.no_grad():
+            self._y_predict = sequencial_model(X_test_tensor)
+            
+        return self
+            
     # --------------------------------------------------------------
+    @property
+    def x_test(self) -> pd.DataFrame:
+        return self._x_test if self._x_test is not None else pd.DataFrame()
+    
     @property
     def y_test(self) -> pd.DataFrame:
         return self._y_test if self._y_test is not None else pd.DataFrame()
@@ -123,7 +163,8 @@ class ModelData:
 
     @image_path.setter
     def image_path(self, image: str):
-        assert isinstance(image, str)
+        if not isinstance(image, str):
+            raise ValueError("Image path must be a string")
         self._image_path = image
 
     @property
@@ -133,25 +174,4 @@ class ModelData:
     def __repr__(self) -> str:
         return f"ModelData(predict_x={self._x_predict}, predict_y={self._y_predict}, image_path={self._image_path})"
     
-    # --------------------------------------------------------------
-    
-    @property
-    def x(self) -> pd.DataFrame:
-        """DEPRECATED, use x_predict instead"""
-        return self._x_predict
-
-    @x.setter
-    def x(self, x: pd.DataFrame):
-        """DEPRECATED, use x_predict instead"""
-        self._x_predict = x
-
-    @property
-    def y(self) -> pd.DataFrame:
-        """DEPRECATED, use y_predict instead"""
-        return self._y_predict
-
-    @y.setter
-    def y(self, y: pd.DataFrame):
-        """DEPRECATED, use y_predict instead"""
-        self._y_predict = y
     

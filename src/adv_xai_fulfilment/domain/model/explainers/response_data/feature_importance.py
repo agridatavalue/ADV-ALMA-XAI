@@ -26,8 +26,8 @@ class FeatureImportance(ExplainerResponseData):
 
     def to_dict(self) -> dict:
         return {
-            "feature": self.feature,
-            "importance": self.importance,
+            "feature": self.feature if not self.feature.empty else [],
+            "importance": self.importance if not self.importance.empty else [],
             "prediction_target": self.prediction_target,
         }
 

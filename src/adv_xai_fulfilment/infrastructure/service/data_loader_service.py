@@ -1,12 +1,15 @@
 import os
+import pandas as pd
 from typing import Optional
 
 from logger import get_logger
 from ..repository import BucketRepository
 from ...domain.model.data_type import DataType
 from ...domain.model.model_data import ModelData
+from ...domain.model.model_metadata import ModelMetaData
 from ..repository.file_reader_repository import FileReaderRepository
 from ...domain.model.explainer_identifier import ExplainerIdentifier
+from ...domain.model.deep_learning_model_data import DeepLearningModelData
 
 logger = get_logger()
 
@@ -35,11 +38,15 @@ class DataLoaderService:
 
         raise ValueError(f"Data type {data_type} not supported")
 
-    def load_data(self, expl_id: ExplainerIdentifier) -> ModelData:
+    def load_data(self, expl_id: ExplainerIdentifier, algorithm: str = '') -> ModelData:
         logger.debug(f"loading data for {str(expl_id)}")
         bucket_name = os.getenv("DATA_FOLDER_PATH", '')
         
-        data = ModelData()
+        data = (
+            ModelData() 
+            if not algorithm.lower() in ModelMetaData.deep_learning_algorithms() 
+            else DeepLearningModelData()
+        )
         self._load_predict_data(data, bucket_name, expl_id)
         self._load_train_data(data, bucket_name, expl_id)
         return data
@@ -91,7 +98,7 @@ class DataLoaderService:
             if file_extension == ".csv":
                 data.data_train = self._file_reader_repository.read(current_file)
             else:
-                attribute_name = file.replace(file_extension, "")+('_train' if not '_train' in file else '')
+                attribute_name = (file.replace(file_extension, "")+('_train' if not '_train' in file else '')).lower()
                 logger.debug(f"assigning to attribute {attribute_name} the data from file {file}")
                 setattr(
                     data, 
@@ -119,7 +126,8 @@ class DataLoaderService:
                     object_name=expl_id.data,
                     destination_file_path=local_filepath,
                 )
-            data.data_predict = self._file_reader_repository.read(local_filepath)
+            file_content = self._file_reader_repository.read(local_filepath)
+            data.data_predict = file_content
             return data
         
         # passed data is a folder path, load all files in the folder  
@@ -145,7 +153,7 @@ class DataLoaderService:
             if file.lower() in ["data.csv"]:
                 data.data_predict = self._file_reader_repository.read(current_file)
             else:
-                attribute_name = (file.replace(file_extension, "").replace('test', '').replace('_', '')+'_predict').lower()
+                attribute_name = ((file.replace(file_extension, "").replace('test', '').replace('_', '')+'_predict')).lower()
                 logger.debug(f"assigning to attribute {attribute_name} the data from file {file}")
                 setattr(
                     data, 
