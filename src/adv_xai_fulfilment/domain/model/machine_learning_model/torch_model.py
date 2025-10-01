@@ -5,8 +5,8 @@ from ..model import Model
 
 
 class TorchModel(Model):
-    def load(self, path: str) -> "TorchModel":
-        self.handler = torch.load(path)
+    def load(self, data: dict) -> "TorchModel":
+        self.handler = torch.load(data.get('path', ''))
         return self
 
     @staticmethod

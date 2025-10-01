@@ -6,8 +6,8 @@ from ..model import Model
 
 
 class ScikitLearnModel(Model):
-    def load(self, path: str) -> "ScikitLearnModel":
-        self.handler = joblib.load(path)
+    def load(self, data: dict) -> "ScikitLearnModel":
+        self.handler = joblib.load(data.get('path'))
         if isinstance(self.handler, Pipeline):
             self.handler = self.handler.steps[-1][1]
 

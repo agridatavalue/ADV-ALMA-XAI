@@ -55,10 +55,13 @@ class ModelMetaData:
     def is_federated(self) -> bool:
         return self._is_federated if self._is_federated is not None else False
     
+    @staticmethod
+    def deep_learning_algorithms() -> list[str]:
+        return ['cnn', 'rnn', 'lstm', 'transformer', 'yolov8']
+    
     @property
     def is_deep_learning(self) -> bool:
-        deep_learning_algorithms = ['cnn', 'rnn', 'lstm', 'transformer', 'yolov8']
-        return self.algorithm.lower() in deep_learning_algorithms
+        return self.algorithm.lower() in ModelMetaData.deep_learning_algorithms()
 
     @property
     def is_tabular(self) -> bool:

@@ -8,8 +8,8 @@ from ..explainers.response_data import PartialDependence, FeatureDescription
 
 
 class KerasModel(Model):
-    def load(self, path: str) -> "KerasModel":
-        self.handler = load_model(path)
+    def load(self, data: dict) -> "KerasModel":
+        self.handler = load_model(data.get('path'))
         return self
 
     @staticmethod

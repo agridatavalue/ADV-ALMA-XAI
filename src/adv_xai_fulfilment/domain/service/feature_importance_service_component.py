@@ -56,7 +56,7 @@ class FeatureImportanceServiceComponent:
                 )
 
             except Exception as e:
-                logger.warning(f"Error downloading explainer {expl}: {e}", exc_info=True)
+                logger.warning(f"Error downloading explainer {expl}: {e}")
                 continue
 
         if not explainer:

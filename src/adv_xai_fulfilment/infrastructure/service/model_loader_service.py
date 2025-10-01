@@ -24,9 +24,11 @@ class ModelLoaderService:
         )
         self._model_translator = ModelTranslator()
 
-    def load_from(self, expl_id:ExplainerIdentifier, meta_data: ModelMetaData) -> Model:
-        assert isinstance(expl_id, ExplainerIdentifier), "expl_id must be an instance of ExplainerIdentifier"
-        assert isinstance(meta_data, ModelMetaData), "meta_data must be an instance of ModelMetaData"
+    def load_from(self, expl_id: ExplainerIdentifier, meta_data: ModelMetaData) -> Model:
+        if not isinstance(expl_id, ExplainerIdentifier):
+            raise ValueError("expl_id must be an instance of ExplainerIdentifier")
+        if not isinstance(meta_data, ModelMetaData):
+            raise ValueError("meta_data must be an instance of ModelMetaData")
 
         model_local_file_path: str = expl_id.get_model_locale_filepath()
         logger.debug(f"loading model from {expl_id.model} to {model_local_file_path}")
@@ -42,7 +44,5 @@ class ModelLoaderService:
             f"select domain model for: framework {meta_data.framework} and algoritm {meta_data.algorithm}"
         )
         return (
-            self._model_translator.with_(meta_data.framework)
-            .and_(meta_data.algorithm)
-            .translate(model_local_file_path)
+            self._model_translator.with_(meta_data).translate(model_local_file_path)
         )
