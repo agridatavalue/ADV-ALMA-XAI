@@ -5,6 +5,7 @@ from sklearn.metrics import confusion_matrix
 from logger import get_logger
 
 from .model_data import ModelData
+from .model_metadata import ModelMetaDataLayer
 from .explainers.response_data import PartialDependence
 from .explainers.response_data import FeatureDescription
 from .machine_learning_model.executors import PartialDependenceExecutor
@@ -18,16 +19,16 @@ class Model:
     name: str
     handler: object
     filename: str
-
-    def __init__(self, filename: str, handler: object = None, name: str = ""):
+    
+    def __init__(self, filename: str, layers: list[ModelMetaDataLayer], name: str = ""):
         self.name = name
-        self.handler = handler
+        self.handler = None
 
         self.filename = filename
         if filename:
-            self.load(filename)
+            self.load({'path':filename, 'layers': layers})
 
-    def load(self, path: str) -> "Model": ...
+    def load(self, data: dict) -> "Model": ...
     
     def predict(self, X):
         raise NotImplementedError
@@ -36,8 +37,12 @@ class Model:
         return self.handler is not None
     
     @staticmethod
+    def can_handle_federated() -> bool:
+        return False
+    
+    @staticmethod
     def supported_frameworks() -> list[str]: ...
-
+    
     def get_feature_importance(self, feature_names: list[FeatureDescription], shap_values: np.ndarray) -> pd.DataFrame:
         logger.debug(f"feature_names: {feature_names}, shap_values shape: {shap_values.shape}")
         shap_values = np.squeeze(shap_values)

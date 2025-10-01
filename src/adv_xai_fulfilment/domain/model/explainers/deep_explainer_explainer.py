@@ -1,3 +1,4 @@
+import torch
 from shap import DeepExplainer
 
 from src.adv_xai_fulfilment.domain.model.model_data import ModelData
@@ -27,4 +28,7 @@ class DeepExplainerExplainer(Explainer):
         return self.build_result.shap_values(x_test)
     
     def build(self, model, data: ModelData):
-        return DeepExplainer(model.handler, data.x_train)
+        data_to_explain = data.x_predict
+        if model.can_handle_federated():
+            data_to_explain = torch.tensor(data.x_predict, dtype=torch.float32).transpose(1, 2)
+        return DeepExplainer(model.handler, data_to_explain)
