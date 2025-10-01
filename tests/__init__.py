@@ -26,6 +26,7 @@ from .src.domain.model.explainer_identifier_unittest import TestExplainerIdentif
 from .src.domain.service.explainer_retriever_unittest import TestExplainerRetriever
 from .src.domain.model.explainers.response_data.heatmap_unittest import TestHeatmap
 from .src.domain.model.machineLearningModel.keras_model_unittest import TestKerasModel
+from .src.domain.model.deep_learning_model_data_unittest import TestDeepLearningModelData
 from .src.domain.model.questions.model_feedback_container_unittest import TestModelFeedbackContainer
 
 # ----> SERVICE

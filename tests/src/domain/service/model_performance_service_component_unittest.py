@@ -59,7 +59,7 @@ class TestModelPerformanceServiceComponent(unittest.TestCase):
         actual = testObj.get_metrics(
             data=model_data,
             model_metadata=model_metadata,
-            model=SilentKerasModel(filename="test"),
+            model=SilentKerasModel(filename="test", layers=[]),
         )
 
         self.assertIsInstance(actual, ModelPerformanceMetrics)

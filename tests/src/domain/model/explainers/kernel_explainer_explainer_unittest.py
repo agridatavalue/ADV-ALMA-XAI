@@ -11,7 +11,8 @@ from src.adv_xai_fulfilment.domain.model.machine_learning_model.keras_model impo
 
 
 class SilentKerasModel(KerasModel):
-    def load(self, path: str) -> KerasModel:
+    def load(self, data: dict) -> KerasModel:
+        self.handler = type("MockHandler", (object,), {"predict": lambda self, x: x})
         return self
 
 
@@ -42,12 +43,7 @@ class TestKernelExplainerExplainer(unittest.TestCase):
         model_data.x_predict = pd.DataFrame(np.array([[0, 0], [1, 1]]))
         
         self.testObj.build(
-            SilentKerasModel(
-                filename="test",
-                handler=type(
-                    "MockHandler", (object,), {"predict": lambda self: np.array([0])}
-                ),
-            ),
+            SilentKerasModel(filename="test", layers=[]),
             model_data
         )
         self.assertIsInstance(self.testObj.build_result, KernelExplainer)

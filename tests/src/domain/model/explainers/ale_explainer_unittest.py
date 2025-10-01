@@ -8,7 +8,8 @@ from src.adv_xai_fulfilment.domain.model.machine_learning_model.keras_model impo
 
 
 class SilentKerasModel(KerasModel):
-    def load(self, path: str) -> KerasModel:
+    def load(self, data: dict) -> KerasModel:
+        self.handler = type("MockHandler", (object,), {"predict": lambda self, x: x})
         return self
 
 
@@ -34,11 +35,9 @@ class TestAleExplainer(unittest.TestCase):
                 feature_descriptions=[],
             )
         )
+        
         self.testObj.build(
-            SilentKerasModel(
-                filename="test",
-                handler=type("MockHandler", (object,), {"predict": lambda self, x: x}),
-            ),
+            SilentKerasModel(filename="test", layers=[]),
             None,
         )
         self.assertIsInstance(self.testObj.build_result, ALE)

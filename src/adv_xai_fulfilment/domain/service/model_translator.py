@@ -24,9 +24,9 @@ class ModelTranslator:
 
     def translate(self, filename: str) -> Optional[Model]:
         for model in self._models:
-            if model.can_handle(
-                self._metadata.framework, 
-                self._metadata.algorithm, 
-                self._metadata.is_federated
-            ): return model(filename=filename)
+            if (
+                self._metadata.framework.lower() in model.supported_frameworks() 
+                and (self._metadata.is_federated == model.can_handle_federated())
+            ):
+                return model(filename=filename, layers=self._metadata.architectures)
         return None

@@ -25,8 +25,8 @@ from src.adv_xai_fulfilment.domain.model.explainers.response_data import (
 
 
 class MyModel(Model):
-    def __init__(self, filename):
-        super().__init__(filename)
+    def __init__(self, filename, layers: list = []):
+        super().__init__(filename, layers=layers)
 
     def is_ok(self):
         return True

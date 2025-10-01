@@ -23,7 +23,7 @@ class ModelLoaderServiceTest(unittest.TestCase):
         testObj = ModelLoaderService(bucketRepository=MagicMock())
         testObj._bucketRepository.download_from = MagicMock(return_value="test.json")
         testObj._model_translator.translate = MagicMock(
-            return_value=SilentKerasModel(filename="test")
+            return_value=SilentKerasModel(filename="test", layers=[])
         )
 
         with open("test.json", "w") as f:

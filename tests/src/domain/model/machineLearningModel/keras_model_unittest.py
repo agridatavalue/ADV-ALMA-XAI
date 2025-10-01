@@ -8,7 +8,7 @@ from src.adv_xai_fulfilment.domain.model.machine_learning_model.keras_model impo
 
 
 class SilentKerasModel(KerasModel):
-    def load(self, path: str) -> "KerasModel":
+    def load(self, data: dict) -> "KerasModel":
         return self
 
 
@@ -21,7 +21,7 @@ class TestKerasModel(unittest.TestCase):
         self.assertTrue("tensorflow-keras" in result)
 
     def test_get_feature_importance(self):
-        model = SilentKerasModel("filename")
+        model = SilentKerasModel("filename", [])
         feature_names = [
             FeatureDescription(
                 type="text",
