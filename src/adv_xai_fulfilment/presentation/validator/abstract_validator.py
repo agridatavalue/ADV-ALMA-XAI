@@ -12,6 +12,8 @@ class AbstractValidator:
     def _validate_feature(self, feature: str) -> bool:
         if not isinstance(feature, str):
             raise TypeError(Errors.FEATURE_NOT_STRING)
+        if not feature:
+            raise ValueError(Errors.FEATURE_NOT_EMPTY)
         return True
 
     def _validate_model(self, model: str) -> bool:

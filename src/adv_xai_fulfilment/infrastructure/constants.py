@@ -2,6 +2,7 @@ class Errors:
     PARTNER_NOT_STRING = TypeError("partner must be a string")
     PARTNER_NOT_EMPTY  = TypeError("partner can't be empty")
     FEATURE_NOT_STRING = TypeError("feature must be a string")
+    FEATURE_NOT_EMPTY  = TypeError("feature can't be empty")
     MODEL_FILENAME_NOT_STRING = TypeError("model_filename must be a string")
     METADATA_FILENAME_NOT_STRING = TypeError("metadata_filename must be a string")
     DATA_FOR_TRAIN_FOLDER_NOT_STRING = TypeError("data folder must be a string")

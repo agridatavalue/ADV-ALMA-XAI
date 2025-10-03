@@ -1,3 +1,4 @@
+import pandas as pd
 from .explainer_response_data import ExplainerResponseData
 
 
@@ -25,11 +26,18 @@ class FeatureImportance(ExplainerResponseData):
         return self.feature[max_index]
 
     def to_dict(self) -> dict:
+        if isinstance(self.feature, pd.Series) and isinstance(self.importance, pd.Series):
+            return {
+                "feature": self.feature.tolist() if not self.feature.empty else [],
+                "importance": self.importance.tolist() if not self.importance.empty else [],
+                "prediction_target": self.prediction_target,
+            }
+        
         return {
-            "feature": self.feature if not self.feature.empty else [],
-            "importance": self.importance if not self.importance.empty else [],
-            "prediction_target": self.prediction_target,
-        }
+                "feature": self.feature if not self.feature.empty else [],
+                "importance": self.importance if not self.importance.empty else [],
+                "prediction_target": self.prediction_target,
+            }
 
     def __repr__(self) -> str:
         str_to_return = f"{self.__class__.__name__}("
