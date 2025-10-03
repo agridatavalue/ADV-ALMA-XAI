@@ -404,43 +404,6 @@ paths:
             tags:
                 - ModelCard
 
-    /{model}/{partner}/ask:
-        post:
-            summary: Ask something to the explainer
-            description: Returns an explaination string
-            parameters:
-                - name: model
-                  in: path
-                  required: true
-                  description: the identifier of the model file name
-                  example: "model.pkl"
-                  schema:
-                      type: string
-                - name: partner
-                  in: path
-                  required: true
-                  description: the identifier of the partner
-                  example: "partner1"
-                  schema:
-                      type: string
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/AskRequest"
-            responses:
-                "200":
-                    description: successful operation
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/AskResponse"
-                "404":
-                    description: Partner / Explainer not found
-            tags:
-                - AskCard
-
     /{partner}/feedback:
         get:
             summary: Return the feedback for a given partner
@@ -607,8 +570,6 @@ tags:
       description: Endpoints returning data for model card
     - name: Feedback
       description: Endpoints returning data for feedback handling
-    - name: AskCard
-      description: Endpoints returning text explainations
     - name: Helpers
       description: Helper endpoints
 
@@ -1244,18 +1205,3 @@ components:
                                 description: the filename of the created explainer
                                 type: string
                                 example: ale.pkl
-
-        AskRequest:
-            type: object
-            properties:
-                request:
-                    description: request to ask to the explainer
-                    example: ""
-                    type: string
-            required:
-                - request
-        AskResponse:
-            type: object
-            properties:
-                response:
-                    type: string

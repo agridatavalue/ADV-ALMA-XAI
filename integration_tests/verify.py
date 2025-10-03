@@ -43,57 +43,101 @@ response = requests.post(
 print('>>> build result:', response.json())
 
 # -------------------------------------------
-feature_importance_response = requests.post(
-    f"{SERVER_URL}feature-importance", 
+# -------------------------------------------
+print("\n\n>>> Starting tests...\n")
+print("==== DATA  CARD ====")
+
+data_distribution_response = requests.post(
+    f"{SERVER_URL}data-distribution", 
     json=DATA_TO_SEND,
 )
-print('>>> feature-importance response:', feature_importance_response.json())
-
+print('>>> data_distribution_response:', data_distribution_response.json())
 # -------------------------------------------
-partial_dependence_response = requests.post(
-    f"{SERVER_URL}partial-dependence", 
-    json={**DATA_TO_SEND, "feature": ""},
-)
-print('>>> partial_dependence response:', partial_dependence_response.json())
 
-# -------------------------------------------
-model_performance_response = requests.post(
-    f"{SERVER_URL}model-performance", 
+data_source_type_response = requests.post(
+    f"{SERVER_URL}data-source-type", 
     json=DATA_TO_SEND,
 )
-print('>>> model-performance response:', model_performance_response.json())
-
+print('>>> data_source_type_response:', data_source_type_response.json())
 # -------------------------------------------
-model_performance_metrics_response = requests.post(
-    f"{SERVER_URL}model-performance-metrics", 
+
+targets_response = requests.post(
+    f"{SERVER_URL}targets", 
     json=DATA_TO_SEND,
 )
-print('>>> model-performance-metrics response:', model_performance_metrics_response.json())
+print('>>> targets_response:', targets_response.json())
+# -------------------------------------------
 
 # -------------------------------------------
-ice_response = requests.post(
-    f"{SERVER_URL}individual-conditional-expectations", 
-    json=DATA_TO_SEND,
-)
-print('>>> ice response:', ice_response.json())
-
 # -------------------------------------------
-ice_response = requests.post(
-    f"{SERVER_URL}individual-conditional-expectations", 
-    json=DATA_TO_SEND,
-)
-print('>>> ice response:', ice_response.json())
-
 # -------------------------------------------
-feature_descriptions_response = requests.post(
-    f"{SERVER_URL}feature-descriptions", 
+print("==== MODEL CARD ====")
+
+classification_class_label_size_response = requests.post(
+    f"{SERVER_URL}classification-class-label-sizes", 
     json=DATA_TO_SEND,
 )
-print('>>> feature descriptions response:', feature_descriptions_response.json())
+print('>>> classification_class_label_size_response:', classification_class_label_size_response.json())
 
 # -------------------------------------------
 confusion_matrix_response = requests.post(
     f"{SERVER_URL}confusion-matrix", 
     json=DATA_TO_SEND,
 )
-print('>>> confusion matrix response:', confusion_matrix_response.json())
+print('>>> confusion_matrix_response:', confusion_matrix_response.json())
+
+# -------------------------------------------
+data_feature_and_average_score_response = requests.post(
+    f"{SERVER_URL}data-features-and-average-score", 
+    json=DATA_TO_SEND,
+)
+print('>>> data_feature_and_average_score_response:', data_feature_and_average_score_response.json())
+
+# -------------------------------------------
+feature_importance_response = requests.post(
+    f"{SERVER_URL}feature-importance", 
+    json=DATA_TO_SEND,
+)
+print('>>> feature_importance_response:', feature_importance_response.json())
+
+# -------------------------------------------
+feature_descriptions_response = requests.post(
+    f"{SERVER_URL}feature-descriptions", 
+    json=DATA_TO_SEND,
+)
+print('>>> feature_descriptions_response:', feature_descriptions_response.json())
+
+# -------------------------------------------
+ice_response = requests.post(
+    f"{SERVER_URL}individual-conditional-expectations", 
+    json=DATA_TO_SEND,
+)
+print('>>> ice_response:', ice_response.json())
+
+# -------------------------------------------
+lift_curve = requests.post(
+    f"{SERVER_URL}lift-curve", 
+    json=DATA_TO_SEND,
+)
+print('>>> lift_curve:', lift_curve.json())
+
+# -------------------------------------------
+model_performance_response = requests.post(
+    f"{SERVER_URL}model-performance", 
+    json=DATA_TO_SEND,
+)
+print('>>> model_performance_response:', model_performance_response.json())
+
+# -------------------------------------------
+model_performance_metrics_response = requests.post(
+    f"{SERVER_URL}model-performance-metrics", 
+    json=DATA_TO_SEND,
+)
+print('>>> model_performance_metrics_response:', model_performance_metrics_response.json())
+
+# -------------------------------------------
+partial_dependence_response = requests.post(
+    f"{SERVER_URL}partial-dependence", 
+    json={**DATA_TO_SEND, "feature": ""},
+)
+print('>>> partial_dependence_response:', partial_dependence_response.json())
