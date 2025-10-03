@@ -138,5 +138,7 @@ class ExplainerMetaData:
             "_feature_importance",
         ]:
             if getattr(self, attr):
-                string += f"{attr}={getattr(self, attr)}, "
+                try:
+                    string += f"{attr}={getattr(self, attr)}, "
+                except: pass
         return string + ")"

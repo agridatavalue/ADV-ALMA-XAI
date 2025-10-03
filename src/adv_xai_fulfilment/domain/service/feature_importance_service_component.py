@@ -79,14 +79,6 @@ class FeatureImportanceServiceComponent:
         data: dict["Feature" : pd.DataFrame, "Importance" : pd.DataFrame],
         target_names: list[str],
     ) -> FeatureImportance:
-        if not isinstance(data, dict) or "Feature" not in data or "Importance" not in data:
-            raise ValueError("Invalid data format for feature importance")
-        if (
-            not isinstance(data["Feature"], (pd.DataFrame, np.ndarray)) 
-            or not isinstance(data["Importance"], (pd.DataFrame, np.ndarray))
-        ): raise ValueError(
-            f"'Feature' and 'Importance' data keys has to be DataFrame or numpy arrays got: {type(data['Feature'])}, {type(data['Importance'])}"
-        )
             
         to_ret = FeatureImportance(
             prediction_target=prediction,
