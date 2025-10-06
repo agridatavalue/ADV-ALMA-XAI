@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# python integration_tests/verify.py inagro
 
 SERVER_URL = f"http://localhost:{os.getenv('SERVER_PORT')}/"
 
@@ -23,6 +24,16 @@ ALL_DATA = {
         "partner": "487",
         "prediction_target": "Air humidity",
         "data_for_train": "https://minio.store.platform.agridatavalue.eu/agridatavalue/ai_flows/Final_Regression_Test_model_f17306ab-89b3-4c7d-bfac-3a62f694da01/datasets/Train_2025-09-12_09-16-01/data.csv"
+    },
+    "gradient_boosting_regressor": {
+        "data_for_predict": "ai_flows/Greenhouse_Window_Control_8f0cb9b8-d72d-49e6-aef8-93d74829b5d2/datasets/Predict_2025-10-06_12-13-59/data.csv",
+        "meta_data": "ai_flows/gradient_boosting_regressor_2025-05-13_14-00-00/metadata_gradient_boosting_regressor.json",
+        "model": "ai_flows/gradient_boosting_regressor_2025-05-13_14-00-00/gradient_boosting_regressor.pkl",
+        "partner": "c457f78c-d8d6-459b-a0b5-d0dd43fcd6c3",
+        "prediction_targets": [
+            "Window position side 1 [%]"
+        ],
+        "data_for_train": "https://minio.store.platform.agridatavalue.eu/agridatavalue/ai_flows/gradient_boosting_regressor_2025-05-13_14-00-00/data/greenhouse_regression.csv"
     }
 }
 
@@ -54,9 +65,8 @@ data_distribution_response = requests.post(
 print('>>> data_distribution_response:', data_distribution_response.json())
 # -------------------------------------------
 
-data_source_type_response = requests.post(
-    f"{SERVER_URL}data-source-type", 
-    json=DATA_TO_SEND,
+data_source_type_response = requests.get(
+    f"{SERVER_URL}data-source-types?model={DATA_TO_SEND.get('model')}"
 )
 print('>>> data_source_type_response:', data_source_type_response.json())
 # -------------------------------------------
@@ -110,7 +120,10 @@ print('>>> feature_descriptions_response:', feature_descriptions_response.json()
 # -------------------------------------------
 ice_response = requests.post(
     f"{SERVER_URL}individual-conditional-expectations", 
-    json=DATA_TO_SEND,
+    json={
+        **DATA_TO_SEND, 
+        "feature": feature_importance_response.json().get("features", [None])[0]
+    }
 )
 print('>>> ice_response:', ice_response.json())
 
@@ -138,6 +151,9 @@ print('>>> model_performance_metrics_response:', model_performance_metrics_respo
 # -------------------------------------------
 partial_dependence_response = requests.post(
     f"{SERVER_URL}partial-dependence", 
-    json={**DATA_TO_SEND, "feature": ""},
+    json={
+        **DATA_TO_SEND, 
+        "feature": feature_importance_response.json().get("features", [None])[0]
+    },
 )
 print('>>> partial_dependence_response:', partial_dependence_response.json())

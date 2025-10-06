@@ -10,6 +10,9 @@ class LiftCurveService(AbstractModelService):
     def get_data(self, expl_id: ExplainerIdentifier) -> LiftCurve:
         context = self.get_context(expl_id)
         data = context.model_data
+        
+        if context.model_metadata.is_regression:
+            raise ValueError("Lift curve is not applicable for regression models.")
 
         y_pred_prob = context.model.predict_proba(data.x_predict)
         if y_pred_prob.ndim == 2:
