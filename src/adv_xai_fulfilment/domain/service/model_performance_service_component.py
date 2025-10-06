@@ -24,7 +24,7 @@ class ModelPerformanceServiceComponent:
         return ModelPerformance(
             y_pred = data.y_predict.tolist(), 
             target = prediction_target,
-            y_true = data.data_train[prediction_target].to_list(), 
+            y_true = data.y_test.to_list(), 
         )
 
     def get_metrics(

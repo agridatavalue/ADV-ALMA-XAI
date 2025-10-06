@@ -12,10 +12,10 @@ from .data_source_types_endpoint import dataSourceTypesBp
 from .confusion_matrix_endpoint import confusionMatrixBp
 from .data_distribution_endpoint import dataDistributionBp
 from .get_partner_feedback_endpoint import partnerFeedbackBp
+from .feature_importance_endpoint import featureImportanceBp
+from .model_performance_endpoint import plotModelPerformanceBp
 from .ask_to_explainer_endpoint import askToExplainerEndpointBp
-from .plot_feature_importance_endpoint import featureImportanceBp
 from .individual_conditional_expectations_endpoint import iceBp
-from .plot_model_performance_endpoint import plotModelPerformanceBp
 from .data_features_and_average_score import dataFeaturesAvarageScoreBp
 from .tabulate_feature_description_endpoint import featureDescriptionEndpointBp
 from .tabulate_model_performance_metric_endpoint import modelPerformanceMetricsBp
