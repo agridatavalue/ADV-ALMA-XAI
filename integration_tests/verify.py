@@ -34,6 +34,16 @@ ALL_DATA = {
             "Window position side 1 [%]"
         ],
         "data_for_train": "https://minio.store.platform.agridatavalue.eu/agridatavalue/ai_flows/gradient_boosting_regressor_2025-05-13_14-00-00/data/greenhouse_regression.csv"
+    },
+    "random_forest_classifier": {
+        "data_for_predict": "ai_flows/random_forest_clf_2025-05-13_14-00-00/data/prediction_data.csv",
+        "meta_data": "ai_flows/random_forest_clf_2025-05-13_14-00-00/metadata_random_forest_clf.json",
+        "model": "ai_flows/random_forest_clf_2025-05-13_14-00-00/random_forest_clf.pkl",
+        "partner": "c457f78c-d8d6-459b-a0b5-d0dd43fcd6c3",
+        "prediction_targets": [
+            "Window"
+        ],
+        "data_for_train": "https://minio.store.platform.agridatavalue.eu/agridatavalue/ai_flows/random_forest_clf_2025-05-13_14-00-00/data/greenhouse_classification.csv"
     }
 }
 

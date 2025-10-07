@@ -67,6 +67,11 @@ class ModelData:
             self._y_test = y_test
             self._y_predict = model.predict(X_test)
             
+            # from sklearn.preprocessing import MinMaxScaler
+            # scaler = MinMaxScaler()
+            # test_data_norm = pd.DataFrame(scaler.fit_transform(self.x_predict), columns=self.x_predict.columns)
+            # self._y_predict = model.predict(test_data_norm)
+            
             self._y_train = self.data_train[target_name] if target_name in self.data_train.columns else self.data_train
             if cols_to_remove:
                 logger.debug(f"train - Removing columns not in feature names: {cols_to_remove}")

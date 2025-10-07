@@ -1,3 +1,6 @@
+[ ] ctrl normalizzazione (prima di predizione)
+
+# ---------------------
 [ ] when it's possible save explainer as file to upload in store with some values
 (ex. ice, pdp, deepshap, treeshap, kernelshap)
 [ ] enable tree shap explainers only to tree models

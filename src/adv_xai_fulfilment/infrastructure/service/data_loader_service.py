@@ -95,7 +95,7 @@ class DataLoaderService:
                 )
                 
             file_extension = os.path.splitext(file)[1].lower()
-            if file_extension == ".csv":
+            if len(files) == 1 or file.lower() in ["data_train.csv", "data.csv", "train.csv"]:
                 data.data_train = self._file_reader_repository.read(current_file)
             else:
                 attribute_name = (file.replace(file_extension, "")+('_train' if not '_train' in file else '')).lower()
@@ -150,7 +150,7 @@ class DataLoaderService:
                 )
                 
             file_extension = os.path.splitext(file)[1].lower()
-            if file.lower() in ["data.csv"]:
+            if file.lower() in ["data.csv"] or len(files) == 1:
                 data.data_predict = self._file_reader_repository.read(current_file)
             else:
                 attribute_name = ((file.replace(file_extension, "").replace('test', '').replace('_', '')+'_predict')).lower()

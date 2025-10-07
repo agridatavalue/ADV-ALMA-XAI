@@ -14,7 +14,7 @@ class LiftCurveService(AbstractModelService):
         if context.model_metadata.is_regression:
             raise ValueError("Lift curve is not applicable for regression models.")
 
-        y_pred_prob = context.model.predict_proba(data.x_predict)
+        y_pred_prob = context.model.handler.predict_proba(data.x_predict)
         if y_pred_prob.ndim == 2:
             y_pred_prob = y_pred_prob[:, 1]
 
