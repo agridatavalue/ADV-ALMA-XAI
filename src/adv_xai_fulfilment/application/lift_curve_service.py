@@ -30,13 +30,6 @@ class LiftCurveService(AbstractModelService):
             else:
                 raise ValueError("Model does not provide predict_proba(), cannot compute lift curve properly.")
 
-        # Check shape alignment before proceeding
-        if y_test.shape[0] != y_pred.shape[0]:
-            raise ValueError(
-                f"Shape mismatch: y_test has {y_test.shape[0]} elements, "
-                f"but y_pred has {y_pred.shape[0]}."
-            )
-
         # Sort by predicted probability
         sorted_indices = np.argsort(y_pred)[::-1]
         sorted_y_test = y_test[sorted_indices]
