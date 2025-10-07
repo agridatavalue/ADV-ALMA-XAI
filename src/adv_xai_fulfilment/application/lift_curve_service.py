@@ -14,8 +14,8 @@ class LiftCurveService(AbstractModelService):
             raise ValueError("Lift curve is not applicable for regression models.")
 
         # Use test labels and predictions directly from ModelData
-        y_test = np.array(data._y_test)
-        y_pred = np.array(data._y_predict)
+        y_test = np.array(data.y_test)
+        y_pred = np.array(data.y_predict)
 
         # Ensure 1D
         y_test = y_test.flatten()
@@ -26,7 +26,7 @@ class LiftCurveService(AbstractModelService):
             # Looks like class labels, not probabilities
             if hasattr(context.model.handler, "predict_proba"):
                 # Compute probabilities for the test set, not the full data
-                y_pred = context.model.handler.predict_proba(data._x_predict)[:, 1]
+                y_pred = context.model.handler.predict_proba(data.x_predict)[:, 1]
             else:
                 raise ValueError("Model does not provide predict_proba(), cannot compute lift curve properly.")
 
