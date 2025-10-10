@@ -25,7 +25,11 @@ class ModelPerformanceServiceComponent:
         return ModelPerformance(
             y_pred = data.y_predict.tolist() if isinstance(data.y_predict, np.ndarray) else data.y_predict,
             target = prediction_target,
-            y_true = data.y_test.to_list() if isinstance(data.y_test, pd.Series) else data.y_test,
+            y_true = (
+                data.y_test.to_list() 
+                if isinstance(data.y_test, pd.Series) 
+                else data.y_test.values.tolist() if isinstance(data.y_test, pd.DataFrame) else data.y_test
+            ),
         )
 
     def get_metrics(
