@@ -22,9 +22,9 @@ class ModelPerformanceServiceComponent:
             raise ValueError(Errors.MODEL_DATA_NOT_MODEL_DATA_TYPE)
 
         return ModelPerformance(
-            y_pred = data.y_predict.tolist(), 
+            y_pred = data.y_predict.tolist() if isinstance(data.y_predict, np.ndarray) else data.y_predict,
             target = prediction_target,
-            y_true = data.y_test.to_list(), 
+            y_true = data.y_test.to_list() if isinstance(data.y_test, pd.Series) else data.y_test,
         )
 
     def get_metrics(
@@ -53,17 +53,20 @@ class ModelPerformanceServiceComponent:
         return self.__get_metrics_for_classification(data)
 
     def __get_metrics_for_regression(self, data: ModelData) -> ModelPerformanceMetrics:
+        if (data.y_test.empty and data.y_predict):
+            return ModelPerformanceMetrics()
+        
         mse = mean_squared_error(data.y_test, data.y_predict)
         mae = mean_absolute_error(data.y_test, data.y_predict)
-
-        return (
-            ModelPerformanceMetrics()
+        
+        return (ModelPerformanceMetrics()
             .add_metric("Mean Squared Error (MSE)", mse)
-            .add_metric("R-Squared (R²)", r2_score(data.y_test, data.y_predict))
             .add_metric("Mean Absolute Error (MAE)", mae)
             .add_metric("Root Mean Squared Error (RMSE)", np.sqrt(mse))
+            .add_metric("R-Squared (R²)", r2_score(data.y_test, data.y_predict))
             .add_metric("Mean Absolute Percentage Error (MAPE)", (mae / data.y_test).mean())
         )
+            
 
     def __get_metrics_for_classification(self, data: ModelData) -> ModelPerformanceMetrics:
         return (

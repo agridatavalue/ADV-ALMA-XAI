@@ -24,12 +24,12 @@ class Targets(ExplainerResponseData):
         return self
     
     def to_dict(self) -> dict:
-        y_real = self._y_real.values.tolist()
+        y_real = self._y_real.values.tolist() if not isinstance(self._y_real, list) else self._y_real
         if all(isinstance(y, list) or isinstance(y, tuple) for y in y_real):
             y_real = sum(self._y_real.values.tolist(), [])
 
         return {
             'y_real': y_real,
-            'x_real': self._x_real.tolist(),
-            'y_predicted': self._y_predicted.tolist(),
+            'x_real': self._x_real.tolist() if not isinstance(self._x_real, list) else self._x_real,
+            'y_predicted': self._y_predicted.tolist() if not isinstance(self._y_predicted, list) else self._y_predicted
         }
