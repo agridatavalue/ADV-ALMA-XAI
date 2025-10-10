@@ -1,6 +1,7 @@
 from typing import Union
 
 import numpy as np
+import pandas as pd
 from logger import get_logger
 from sklearn.metrics import roc_auc_score, recall_score, f1_score
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
