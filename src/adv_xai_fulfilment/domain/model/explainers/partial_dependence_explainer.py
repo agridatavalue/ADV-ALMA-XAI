@@ -22,4 +22,8 @@ class PartialDependenceExplainer(Explainer):
         )
 
     def build(self, model, data: ModelData):
-        self.build_result = PartialDependence(model.predict, data.y_predict)
+        self.build_result = PartialDependence(
+            predictor=model.predict, 
+            feature_names=self.meta_data.feature_names if self.meta_data else None,
+            target_names=self.meta_data.target_names if self.meta_data else None
+        )

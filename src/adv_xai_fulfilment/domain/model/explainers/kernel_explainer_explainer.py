@@ -28,6 +28,7 @@ class KernelExplainerExplainer(Explainer):
     def build(self, model, data: ModelData):
         self.build_result = KernelExplainer(
             model.handler.predict if hasattr(model.handler, 'predict') else model.predict, 
-            data.x_predict
+            data.x_predict,
+            feature_names=self.meta_data.feature_names if self.meta_data else None,
         )
         

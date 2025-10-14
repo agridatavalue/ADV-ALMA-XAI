@@ -22,4 +22,7 @@ class PermutationImportanceExplainer(Explainer):
         )
 
     def build(self, model, data: ModelData):
-        self.build_result = PermutationImportance(model.predict, data.y_predict)
+        self.build_result = PermutationImportance(
+            model.predict, 
+            feature_names=self.meta_data.feature_names if self.meta_data else None
+        )
