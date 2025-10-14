@@ -4,7 +4,7 @@ class DataType:
     TABULAR: str = "TABULAR"
 
     @staticmethod
-    def from_string(text: str):
+    def from_string(text: str) -> str:
         if text:
             if text.upper() == "TEXT":
                 return DataType.TEXT
@@ -13,4 +13,4 @@ class DataType:
             if text.upper() == "TABULAR":
                 return DataType.TABULAR
 
-        return None
+        return ''

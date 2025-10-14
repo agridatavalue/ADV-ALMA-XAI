@@ -1,4 +1,5 @@
 import os
+from typing import Optional
 
 from .partner import Partner 
 from .questions import Feedback
@@ -10,12 +11,12 @@ from .explainers.response_data import FeatureImportance, Heatmap
 
 
 class ExplainerMetaData:
-    _metrics: ModelPerformanceMetrics
+    _metrics: Optional[ModelPerformanceMetrics]
     _target_name: str
     _feedbacks: list[Feedback]
     _meta_data: ModelMetaData
-    _heatmap_images: Heatmap
-    _feature_importance: FeatureImportance
+    _heatmap_images: Optional[Heatmap]
+    _feature_importance: Optional[FeatureImportance]
     _possible_explainers: list[Explainer]
 
     def __init__(
@@ -23,11 +24,11 @@ class ExplainerMetaData:
         *,
         meta_data: ModelMetaData,
         target_name: str,
-        metrics: ModelPerformanceMetrics = None,
+        metrics: Optional[ModelPerformanceMetrics],
         possible_explainers: list[Explainer] = [],
-        feature_importance: FeatureImportance = None,
+        feature_importance: Optional[FeatureImportance],
         feedbacks: list[Feedback] = [],
-        heatmap_images: Heatmap = None,
+        heatmap_images: Optional[Heatmap],
     ):
         self._possible_explainers = possible_explainers
         self._feature_importance = feature_importance
@@ -59,11 +60,11 @@ class ExplainerMetaData:
         return self._meta_data
 
     @property
-    def heatmap(self) -> Heatmap:
+    def heatmap(self) -> Optional[Heatmap]:
         return self._heatmap_images
 
     @property
-    def feature_importance(self) -> FeatureImportance:
+    def feature_importance(self) -> Optional[FeatureImportance]:
         return self._feature_importance
 
     def add_feedback(self, feedback: Feedback) -> "ExplainerMetaData":
@@ -73,7 +74,7 @@ class ExplainerMetaData:
         self._feedbacks.append(feedback)
         return self
     
-    def get_all_feedback(self, filter_by:Partner = None) -> list[Feedback]:
+    def get_all_feedback(self, filter_by: Optional[Partner]) -> list[Feedback]:
         if isinstance(filter_by, Partner):
             return [f for f in self._feedbacks if f.partner.id == filter_by.id]
         

@@ -7,7 +7,7 @@ from .explainers.response_data import FeatureDescription
 
 
 class ModelMetaData:
-    data_type: DataType
+    data_type: str # all values for DataType
     framework: str
     algorithm: str
     n_classes: Optional[int]
@@ -17,7 +17,7 @@ class ModelMetaData:
     _is_federated: bool
     _target_names: list[str]
     feature_names: list[str]
-    model_category: ModelCategory
+    model_category: str # all values for ModelCategory
     _architectures: list[ModelMetaDataLayer]
     feature_descriptions: list[FeatureDescription]
 

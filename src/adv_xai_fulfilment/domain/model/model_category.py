@@ -6,7 +6,7 @@ class ModelCategory:
     @staticmethod
     def from_string(category: str) -> str:
         if not category:
-            return None
+            return ''
 
         sanitized_category: str = category.lower().strip().replace(" ", "_")
         if sanitized_category in ["classification"]:
