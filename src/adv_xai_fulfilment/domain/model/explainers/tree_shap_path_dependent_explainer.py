@@ -1,8 +1,8 @@
 from alibi.explainers import TreeShap
 
 from ..model import Model
-from ..data_type import DataType
 from .explainer import Explainer
+from ..data_type import DataType
 from ..model_metadata import ModelMetaData
 from .datatype_model_explainer import DataTypeModelExplainer
 
@@ -15,7 +15,7 @@ class TreeShapPathDependentExplainer(Explainer):
             categories=["Classification", "Regression"],
             explanations="both",
             is_distributed=False,
-            train_set_required=None,
+            train_set_required=False,
             has_categorical_features=True,
             data_type_explainers=[DataTypeModelExplainer(DataType.TABULAR, TreeShap)],
         )

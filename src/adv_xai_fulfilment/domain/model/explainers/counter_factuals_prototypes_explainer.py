@@ -15,7 +15,7 @@ class CounterFactualsPrototypesExplainer(Explainer):
             categories=["Classification"],
             explanations="local",
             is_distributed=False,
-            train_set_required=None,
+            train_set_required=False,
             has_categorical_features=True,
             data_type_explainers=[
                 DataTypeModelExplainer(DataType.IMAGE, CounterfactualRL),

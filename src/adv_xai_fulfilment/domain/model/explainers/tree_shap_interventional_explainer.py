@@ -2,8 +2,8 @@ import numpy as np
 from alibi.explainers import TreeShap
 
 from ..model import Model
-from ..data_type import DataType
 from .explainer import Explainer
+from ..data_type import DataType
 from ..model_data import ModelData
 from ....infrastructure.constants import Errors
 from .datatype_model_explainer import DataTypeModelExplainer
@@ -17,7 +17,7 @@ class TreeShapInterventionalExplainer(Explainer):
             categories=["Classification", "Regression"],
             explanations="both",
             is_distributed=False,
-            train_set_required=None,
+            train_set_required=False,
             has_categorical_features=True,
             data_type_explainers=[DataTypeModelExplainer(DataType.TABULAR, TreeShap)],
         )

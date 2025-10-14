@@ -3,8 +3,8 @@ from shap import DeepExplainer
 
 from src.adv_xai_fulfilment.domain.model.model_data import ModelData
 
-from ..data_type import DataType
 from .explainer import Explainer
+from ..data_type import DataType
 from .datatype_model_explainer import DataTypeModelExplainer
 
 

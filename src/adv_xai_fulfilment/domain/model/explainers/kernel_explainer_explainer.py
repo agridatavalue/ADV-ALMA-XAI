@@ -1,8 +1,8 @@
 import numpy as np
 from shap import KernelExplainer
 
-from ..data_type import DataType
 from .explainer import Explainer
+from ..data_type import DataType
 from ..model_data import ModelData
 from .datatype_model_explainer import DataTypeModelExplainer
 

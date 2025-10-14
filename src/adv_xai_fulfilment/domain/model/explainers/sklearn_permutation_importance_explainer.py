@@ -4,8 +4,8 @@ from src.adv_xai_fulfilment.domain.model.model import Model
 from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.machine_learning_model.scikitlearn_model import ScikitLearnModel
 
-from ..data_type import DataType
 from .explainer import Explainer
+from ..data_type import DataType
 from ..model_data import ModelData
 from .datatype_model_explainer import DataTypeModelExplainer
 
