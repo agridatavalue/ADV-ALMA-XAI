@@ -33,14 +33,14 @@ class PartialDependence(ExplainerResponseData):
         return {
             "std_effect": float(self.std_effect),
             "mean_effect": float(self.mean_effect),
-            "pdp_values": self.pdp_values.tolist(),
+            "pdp_values": self.pdp_values.tolist() if hasattr(self.pdp_values, 'tolist') else self.pdp_values,
             "lower_bound": (
                 self.lower_bound.tolist() if self.lower_bound is not None else None
             ),
             "upper_bound": (
                 self.upper_bound.tolist() if self.upper_bound is not None else None
             ),
-            "feature_values": self.feature_values.tolist(),
+            "feature_values": self.feature_values.tolist() if hasattr(self.feature_values, 'tolist') else self.feature_values,
         }
 
     def __repr__(self) -> str:

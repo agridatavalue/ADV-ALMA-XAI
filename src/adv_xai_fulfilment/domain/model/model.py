@@ -6,9 +6,7 @@ from logger import get_logger
 
 from .model_data import ModelData
 from .model_metadata import ModelMetaDataLayer
-from .explainers.response_data import PartialDependence
 from .explainers.response_data import FeatureDescription
-from .machine_learning_model.executors import PartialDependenceExecutor
 from .machine_learning_model.executors import IndividualConditionalExpectationsExecutor
 from .explainers.response_data import ConfusionMatrix, IndividualConditionalExpectations
 
@@ -71,9 +69,6 @@ class Model:
         obj.data = confusion_matrix(data.y_test, data.y_predict)
         return obj
 
-    def get_partial_dependence(self, X: pd.DataFrame, feature: str) -> PartialDependence:
-        return PartialDependenceExecutor().process(self, X, feature)
-    
     def get_individual_conditional_expectations(self, X: pd.DataFrame, feature: str) -> IndividualConditionalExpectations:
         return IndividualConditionalExpectationsExecutor().process(self, X, feature)
         

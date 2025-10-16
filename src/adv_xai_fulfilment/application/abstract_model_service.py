@@ -1,3 +1,5 @@
+import pickle
+from os import path
 from abc import ABC
 from typing import Optional
 
@@ -7,6 +9,7 @@ from ..infrastructure.constants import Errors
 from ..domain.model.model_data import ModelData
 from ..domain.model.model_context import ModelContext
 from ..domain.model.model_metadata import ModelMetaData
+from ..domain.model.explainers.explainer import Explainer
 from ..domain.model.explainer_identifier import ExplainerIdentifier
 from ..infrastructure.service.data_loader_service import DataLoaderService
 from ..infrastructure.service.model_loader_service import ModelLoaderService
@@ -73,3 +76,16 @@ class AbstractModelService(ABC):
             model_metadata = model_metadata,
             identifier = explainer_identifier
         )
+
+    def _get_explanator(self, request: ExplainerIdentifier, explainer: Explainer) -> object:
+        if not isinstance(explainer, Explainer):
+            raise ValueError("explainer must be an instance of Explainer")
+        
+        explainer_filepath = request.get_explainer_locale_filepath(explainer)
+        if not explainer_filepath:
+            raise ValueError("Explainer filepath is empty")
+        
+        if not path.exists(explainer_filepath):
+            raise ValueError(f"Explainer file does not exist: {explainer_filepath}")
+
+        return pickle.load(open(explainer_filepath, "rb"))

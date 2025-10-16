@@ -31,13 +31,6 @@ class MyModel(Model):
     def is_ok(self):
         return True
 
-    def get_partial_dependence(self, x, feature):
-        return PartialDependence(
-            feature_values=np.array([0.2, 0.2]),
-            pdp_values=np.array([0.2, 0.2]),
-            mean_effect=0.4,
-            std_effect=0.4,
-        )
 
 
 class TestPartialDependenceService(unittest.TestCase):

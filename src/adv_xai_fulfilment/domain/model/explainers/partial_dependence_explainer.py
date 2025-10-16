@@ -1,3 +1,4 @@
+import numpy as np
 from alibi.explainers import PartialDependence
 
 from .explainer import Explainer
@@ -22,8 +23,13 @@ class PartialDependenceExplainer(Explainer):
         )
 
     def build(self, model, data: ModelData):
+        def safe_predict(X):
+            X = np.asarray(X, dtype=np.float32 if "keras" in str(type(model.handler)).lower() else np.float64)
+            return model.predict(X)
+        
         self.build_result = PartialDependence(
-            predictor=model.predict, 
+            predictor=safe_predict,
             feature_names=self.meta_data.feature_names if self.meta_data else None,
             target_names=self.meta_data.target_names if self.meta_data else None
         )
+
