@@ -7,7 +7,6 @@ from logger import get_logger
 from .model_data import ModelData
 from .model_metadata import ModelMetaDataLayer
 from .explainers.response_data import FeatureDescription
-from .machine_learning_model.executors import IndividualConditionalExpectationsExecutor
 from .explainers.response_data import ConfusionMatrix, IndividualConditionalExpectations
 
 
@@ -68,7 +67,3 @@ class Model:
         obj = ConfusionMatrix()
         obj.data = confusion_matrix(data.y_test, data.y_predict)
         return obj
-
-    def get_individual_conditional_expectations(self, X: pd.DataFrame, feature: str) -> IndividualConditionalExpectations:
-        return IndividualConditionalExpectationsExecutor().process(self, X, feature)
-        

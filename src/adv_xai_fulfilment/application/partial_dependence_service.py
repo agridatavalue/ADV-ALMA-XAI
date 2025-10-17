@@ -13,11 +13,8 @@ class PartialDependenceService(AbstractModelService):
         feature_idx = feature
         if isinstance(feature, str):
             feature_idx = list(context.model_data.x_train.columns).index(feature)
-            
-        print(f"Using feature index: {feature_idx} for feature: {feature}")
 
         explainer = self._get_explanator(request, PartialDependenceExplainer())
-        print(f"Explainer loaded: {explainer}")
         
         explanation = explainer.explain(
             X=context.model_data.x_train.values,

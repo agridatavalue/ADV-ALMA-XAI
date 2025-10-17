@@ -30,6 +30,6 @@ class PartialDependenceExplainer(Explainer):
         self.build_result = PartialDependence(
             predictor=safe_predict,
             feature_names=self.meta_data.feature_names if self.meta_data else None,
-            target_names=self.meta_data.target_names if self.meta_data else None
+            target_names=self.meta_data.target_names if self.meta_data else None,
         )
 
