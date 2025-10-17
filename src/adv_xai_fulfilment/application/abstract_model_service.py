@@ -80,12 +80,20 @@ class AbstractModelService(ABC):
     def _get_explanator(self, request: ExplainerIdentifier, explainer: Explainer) -> object:
         if not isinstance(explainer, Explainer):
             raise ValueError("explainer must be an instance of Explainer")
-        
+
         explainer_filepath = request.get_explainer_locale_filepath(explainer)
         if not explainer_filepath:
             raise ValueError("Explainer filepath is empty")
-        
+
         if not path.exists(explainer_filepath):
             raise ValueError(f"Explainer file does not exist: {explainer_filepath}")
 
-        return pickle.load(open(explainer_filepath, "rb"))
+        if path.getsize(explainer_filepath) == 0:
+            raise ValueError(f"Explainer file is empty: {explainer_filepath}")
+
+        try:
+            with open(explainer_filepath, "rb") as f:
+                return pickle.load(f)
+        except (EOFError, pickle.UnpicklingError) as e:
+            raise ValueError(f"Failed to load explainer from {explainer_filepath}: {e}")
+

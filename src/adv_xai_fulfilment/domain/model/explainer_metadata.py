@@ -24,11 +24,11 @@ class ExplainerMetaData:
         *,
         meta_data: ModelMetaData,
         target_name: str,
-        metrics: Optional[ModelPerformanceMetrics],
+        metrics: Optional[ModelPerformanceMetrics] = None,
         possible_explainers: list[Explainer] = [],
-        feature_importance: Optional[FeatureImportance],
+        feature_importance: Optional[FeatureImportance] = None,
         feedbacks: list[Feedback] = [],
-        heatmap_images: Optional[Heatmap],
+        heatmap_images: Optional[Heatmap] = None,
     ):
         self._possible_explainers = possible_explainers
         self._feature_importance = feature_importance
