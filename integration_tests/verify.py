@@ -26,14 +26,14 @@ ALL_DATA = {
         "data_for_train": "https://minio.store.platform.agridatavalue.eu/agridatavalue/ai_flows/Final_Regression_Test_model_f17306ab-89b3-4c7d-bfac-3a62f694da01/datasets/Train_2025-09-12_09-16-01/data.csv"
     },
     "gradient_boosting_regressor": {
-        "data_for_predict": "ai_flows/Greenhouse_Window_Control_8f0cb9b8-d72d-49e6-aef8-93d74829b5d2/datasets/Predict_2025-10-06_12-13-59/data.csv",
-        "meta_data": "ai_flows/gradient_boosting_regressor_2025-05-13_14-00-00/metadata_gradient_boosting_regressor.json",
-        "model": "ai_flows/gradient_boosting_regressor_2025-05-13_14-00-00/gradient_boosting_regressor.pkl",
+        "data_for_predict": "ai_flows/Greenhouse_Window_Control_775e9b27-0660-4d3a-b7ff-7b051773039b/datasets/Predict_2025-10-09_19-53-42/data.csv",
+        "meta_data": "ai_flows/platform_models/gradient_boosting_regressor/metadata_gradient_boosting_regressor.json",
+        "model": "ai_flows/platform_models/gradient_boosting_regressor/gradient_boosting_regressor.pkl",
         "partner": "c457f78c-d8d6-459b-a0b5-d0dd43fcd6c3",
         "prediction_targets": [
             "Window position side 1 [%]"
         ],
-        "data_for_train": "https://minio.store.platform.agridatavalue.eu/agridatavalue/ai_flows/gradient_boosting_regressor_2025-05-13_14-00-00/data/greenhouse_regression.csv"
+        "data_for_train": "https://minio.store.platform.agridatavalue.eu/agridatavalue/ai_flows/platform_models/gradient_boosting_regressor/data/temp_greenhouse_regression_norm.csv"
     },
     "random_forest_classifier": {
         "data_for_predict": "ai_flows/random_forest_clf_2025-05-13_14-00-00/data/prediction_data.csv",
@@ -48,7 +48,7 @@ ALL_DATA = {
 }
 
 if len(sys.argv) < 2 or sys.argv[1] not in ALL_DATA.keys():
-    print(f"Usage: python inagro.py [{'|'.join(ALL_DATA.keys())}]")
+    print(f"Usage: python verify.py [{'|'.join(ALL_DATA.keys())}]")
     sys.exit(1)
 
 
