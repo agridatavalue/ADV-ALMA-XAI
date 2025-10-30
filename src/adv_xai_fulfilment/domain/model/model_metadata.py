@@ -80,6 +80,10 @@ class ModelMetaData:
         return self.model_category == ModelCategory.CLASSIFICATION
     
     @property
+    def is_ts_anomaly_detection(self) -> bool:
+        return self.model_category == ModelCategory.TIME_SERIES_ANOMALY_DETECTION
+    
+    @property
     def architectures(self) -> list[ModelMetaDataLayer]:
         return self._architectures or []
     

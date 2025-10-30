@@ -2,6 +2,7 @@ class ModelCategory:
     REGRESSION: str = "REGRESSION"
     CLASSIFICATION: str = "CLASSIFICATION"
     OBJECT_DETECTION: str = "OBJECT_DETECTION"
+    TIME_SERIES_ANOMALY_DETECTION: str = "TIME_SERIES_ANOMALY_DETECTION"
 
     @staticmethod
     def from_string(category: str) -> str:
@@ -13,6 +14,8 @@ class ModelCategory:
             return ModelCategory.CLASSIFICATION
         if sanitized_category in ["regression"]:
             return ModelCategory.REGRESSION
+        if sanitized_category in ["time_series_anomaly_detection", "ts_anomaly_detection"]:
+            return ModelCategory.TIME_SERIES_ANOMALY_DETECTION
         if sanitized_category in ["object_detection"]:
             return ModelCategory.OBJECT_DETECTION
 
@@ -25,3 +28,7 @@ class ModelCategory:
     @staticmethod
     def is_regression(category: str) -> bool:
         return category == ModelCategory.REGRESSION
+    
+    @staticmethod
+    def is_ts_anomaly_detection(category: str) -> bool:
+        return category == ModelCategory.TIME_SERIES_ANOMALY_DETECTION

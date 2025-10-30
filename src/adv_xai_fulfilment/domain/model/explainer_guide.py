@@ -39,5 +39,9 @@ class ExplainerGuide:
                 ]
             if self._meta_data.is_classification:
                 list_to_return += [ConfusionMatrix()]
+                
+            if self._meta_data.is_ts_anomaly_detection:
+                list_to_return += [
+                ]
 
         return list_to_return

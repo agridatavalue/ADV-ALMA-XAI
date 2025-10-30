@@ -1,6 +1,12 @@
+hight priority:
+[ ] APIs for anomaly detection
+[ ] explainer guide for ts anomaly detection
+[ ] fix tests
+
+lower priority:
 [ ] when it's possible save explainer as file to upload in store with some values (ex. ice, pdp, deepshap, treeshap, kernelshap)
 [ ] enable tree shap explainers only to tree models
-[ ] check if we accept image upload
+[ ] image upload API
 [ ] improve test coverage
 
 Teme:
