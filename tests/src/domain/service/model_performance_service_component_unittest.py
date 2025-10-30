@@ -46,11 +46,11 @@ class TestModelPerformanceServiceComponent(unittest.TestCase):
         testObj = ModelPerformanceServiceComponent()
 
         model_data = ModelData()
-        model_data.x_train = pd.DataFrame({"target": [1, 2, 3]})
-        model_data.y_train = pd.DataFrame({"target": [1, 2, 3]})
-        model_data.x_predict = pd.DataFrame({"target": [1, 2, 3]})
-        model_data.y_predict = np.ndarray([2, 4, 6])
-        model_data.data_train = pd.DataFrame({"target": [1, 2, 3]})
+        model_data.x_train = pd.DataFrame({"feature": [1, 2, 3, 4, 5]})
+        model_data.data_train = model_data.x_train.copy()
+        model_data._y_test = pd.Series([2.0, 4.1, 6.0, 7.9, 10.2])
+        model_data.y_predict = pd.Series([2.1, 3.9, 6.2, 8.0, 9.8])
+        model_data.x_predict = pd.DataFrame({"feature": [1, 2, 3, 4, 5]})
 
         model_metadata = MagicMock(spec=ModelMetaData)
         model_metadata.is_regression = True

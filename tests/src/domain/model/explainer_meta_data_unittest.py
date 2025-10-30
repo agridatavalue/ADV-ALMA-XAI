@@ -1,4 +1,5 @@
 import unittest
+import pandas as pd
 
 
 from src.adv_xai_fulfilment.domain.model.partner import Partner
@@ -45,7 +46,7 @@ class TestExplainerMetaData(unittest.TestCase):
             meta_data=ModelMetaData("TABULAR", "f", "a", "m", "s", "CLASSIFICATION"),
             target_name="target",
             possible_explainers=[],
-            feature_importance=FeatureImportance("feature"),
+            feature_importance=FeatureImportance("feature", pd.Series([]), pd.Series([])),
         )
         meta_data.add_feedback(
             Feedback(partner=Partner('name'))

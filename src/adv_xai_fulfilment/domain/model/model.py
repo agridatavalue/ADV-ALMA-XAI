@@ -6,8 +6,8 @@ from logger import get_logger
 
 from .model_data import ModelData
 from .model_metadata import ModelMetaDataLayer
+from .explainers.response_data import ConfusionMatrix
 from .explainers.response_data import FeatureDescription
-from .explainers.response_data import ConfusionMatrix, IndividualConditionalExpectations
 
 
 logger = get_logger()

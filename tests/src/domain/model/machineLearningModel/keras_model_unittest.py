@@ -38,7 +38,9 @@ class TestKerasModel(unittest.TestCase):
         ]
         shap_values = np.array([[0.1, 0.3], [0.2, 0.4], [-0.1, -0.2]])
         result = model.get_feature_importance(feature_names, shap_values)
-
+        
         self.assertIsInstance(result, pd.DataFrame)
-        self.assertTrue("[Feature1, Feature2]" in str(result["Feature"]))
-        self.assertTrue("[0.13333333333333333, 0.3]" in str(result["Importance"]))
+        self.assertTrue("Feature1" in list(result["Feature"]))
+        self.assertTrue("Feature2" in list(result["Feature"]))
+        self.assertTrue(0.3 in list(result["Importance"]))
+        self.assertTrue(0.13333333333333333 in list(result["Importance"]))

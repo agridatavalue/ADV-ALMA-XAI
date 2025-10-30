@@ -1,5 +1,5 @@
 import unittest
-import numpy as np
+import pandas as pd
 from unittest.mock import MagicMock
 
 from src.adv_xai_fulfilment.domain.model.model import Model
@@ -39,7 +39,12 @@ class TestPartialDependenceService(unittest.TestCase):
         mock_data_loader_service.load_data.return_value = ModelData()
 
         mock_model_loader_service = MagicMock(spec=ModelLoaderService)
-        mock_model_loader_service.load_from.return_value = MyModel(filename=None)
+        mock_model_data = ModelData()
+        mock_model_data.x_train = pd.DataFrame({
+            "feature": [1, 2, 3, 4, 5]
+        })
+        mock_model_data.y_train = pd.Series([10, 20, 30, 40, 50])
+        mock_data_loader_service.load_data.return_value = mock_model_data
 
         mock_metadata_loader_service = MagicMock(spec=MetaDataLoaderService)
         mock_metadata_loader_service.load_model_metadata.return_value = ModelMetaData(
