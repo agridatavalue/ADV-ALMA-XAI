@@ -14,8 +14,9 @@ class ModelCategory:
             return ModelCategory.CLASSIFICATION
         if sanitized_category in ["regression"]:
             return ModelCategory.REGRESSION
-        if sanitized_category in ["time_series_anomaly_detection", "ts_anomaly_detection"]:
-            return ModelCategory.TIME_SERIES_ANOMALY_DETECTION
+        if sanitized_category in [
+            "time_series_anomaly_detection", "ts_anomaly_detection", "anomalydetection", "anomaly_detection"
+        ]:  return ModelCategory.TIME_SERIES_ANOMALY_DETECTION
         if sanitized_category in ["object_detection"]:
             return ModelCategory.OBJECT_DETECTION
 

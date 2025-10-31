@@ -4,6 +4,7 @@ class Algorithm:
     LIGHTGBM = "LightGBM"
     CATBOOST = "CatBoost"
     RANDOM_FOREST = "RandomForest"
+    ISOLATION_FOREST = "IsolationForest"
     
     @staticmethod
     def from_string(algorithm_str: str) -> str:
@@ -18,5 +19,7 @@ class Algorithm:
             return Algorithm.CATBOOST
         elif algorithm_str in ["randomforest", "random forest"]:
             return Algorithm.RANDOM_FOREST
+        elif algorithm_str in ["isolationforest", "isolation forest"]:
+            return Algorithm.ISOLATION_FOREST
         
         return algorithm_str
