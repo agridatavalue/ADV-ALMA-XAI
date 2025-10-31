@@ -35,6 +35,7 @@ debugpy==1.8.10
 decorator==5.1.1
 dill==0.3.9
 dtreeviz==2.2.2
+et_xmlfile==2.0.0
 exceptiongroup==1.2.2
 executing==2.1.0
 explainerdashboard==0.4.7
@@ -106,6 +107,7 @@ nvidia-nvjitlink-cu12==12.4.127
 nvidia-nvtx-cu12==12.4.127
 oauthlib==3.2.2
 opencv-python==4.11.0.86
+openpyxl==3.1.5
 opt_einsum==3.4.0
 oyaml==1.0
 packaging==24.2
