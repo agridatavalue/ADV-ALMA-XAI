@@ -67,7 +67,7 @@ class Explainer(ABC):
 
         return (
             meta_data.model_type in self.type
-            and meta_data.model_category in [c.upper() for c in self.categories]
+            and meta_data.model_category in [ModelCategory.from_string(c) for c in self.categories]
             and (
                 meta_data.data_type
                 in [dt.data_type for dt in self.data_type_explainers]

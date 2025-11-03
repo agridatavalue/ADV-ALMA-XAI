@@ -52,6 +52,11 @@ class DataLoaderService:
         return data
     
     def _load_train_data(self, data: ModelData, bucket_name: str, expl_id: ExplainerIdentifier) -> ModelData:
+        if os.path.exists(expl_id.data_for_training):
+            file_content = self._file_reader_repository.read(expl_id.data_for_training)
+            data.data_train = file_content
+            return data
+        
         local_filepath = expl_id.get_data_for_training_locale_filepath(os.path.basename(expl_id.data_for_training))
         if os.path.exists(local_filepath):
             passed_folder_path: bool = os.path.isdir(local_filepath)
@@ -109,12 +114,17 @@ class DataLoaderService:
         return data
 
     def _load_predict_data(self, data: ModelData, bucket_name: str, expl_id: ExplainerIdentifier) -> ModelData:
+        if os.path.exists(expl_id.data):
+            file_content = self._file_reader_repository.read(expl_id.data)
+            data.data_predict = file_content
+            return data
+            
         local_filepath = expl_id.get_data_locale_filepath(os.path.basename(expl_id.data))
         if os.path.exists(local_filepath):
             passed_folder_path: bool = os.path.isdir(local_filepath)
         else:
             passed_folder_path: bool = self._bucketRepository.is_directory(bucket_name=bucket_name, path=expl_id.data)
-            
+             
         if not passed_folder_path:
             logger.debug(f"data is a single file {local_filepath}")
             if not os.path.exists(local_filepath):

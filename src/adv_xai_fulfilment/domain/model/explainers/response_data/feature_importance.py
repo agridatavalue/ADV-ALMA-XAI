@@ -32,12 +32,19 @@ class FeatureImportance(ExplainerResponseData):
                 "importance": self.importance.tolist() if not self.importance.empty else [],
                 "prediction_target": self.prediction_target,
             }
-        
-        return {
-                "feature": self.feature if not self.feature.empty else [],
-                "importance": self.importance if not self.importance.empty else [],
+            
+        if isinstance(self.feature, list):
+            return {
+                "feature": self.feature or [],
+                "importance": self.importance or [],
                 "prediction_target": self.prediction_target,
             }
+        
+        return {
+            "feature": self.feature if not self.feature.empty else [],
+            "importance": self.importance if not self.importance.empty else [],
+            "prediction_target": self.prediction_target,
+        }
 
     def __repr__(self) -> str:
         str_to_return = f"{self.__class__.__name__}("
