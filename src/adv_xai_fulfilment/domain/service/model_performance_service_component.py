@@ -54,6 +54,10 @@ class ModelPerformanceServiceComponent:
             logger.debug("Calculating regression metrics")
             return self.__get_metrics_for_regression(data)
 
+        if model_metadata.is_ts_anomaly_detection:
+            logger.debug("Calculating anomaly detection metrics")
+            return self.__get_metrics_for_anomaly_detection(data, model_metadata)
+        
         logger.debug("Calculating classification metrics")
         return self.__get_metrics_for_classification(data)
 
@@ -87,3 +91,13 @@ class ModelPerformanceServiceComponent:
                 "pr_auc", average_precision_score(data.y_test, data.y_predict, average="weighted")
             )
         )
+
+    def __get_metrics_for_anomaly_detection(
+        self, data: ModelData, model_metadata: ModelMetaData
+    ) -> ModelPerformanceMetrics:
+        if len(model_metadata.target_names) == 0:
+            logger.warning("No target names provided in model metadata")
+            return ModelPerformanceMetrics()
+        
+        return self.__get_metrics_for_classification(data)
+        

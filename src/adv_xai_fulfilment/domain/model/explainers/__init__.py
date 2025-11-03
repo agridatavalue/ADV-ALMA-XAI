@@ -9,6 +9,7 @@ from .integrated_gradients_explainer import IntegratedGradientsExplainer
 from .permutation_importance_explainer import PermutationImportanceExplainer
 from .counter_factuals_with_ri_explainer import CounterFactualsWithRlExplainer
 from .tree_shap_path_dependent_explainer import TreeShapPathDependentExplainer
+from .ts_isolation_forest_shap_explainer import TsIsolationForestShapExplainer
 from .similarity_explanations_explainer import SimilarityExplanationsExplainer
 from .tree_shap_interventional_explainer import TreeShapInterventionalExplainer
 from .partial_dependence_variance_explainer import PartialDependenceVarianceExplainer
@@ -29,6 +30,7 @@ all = [
     CounterFactualsWithRlExplainer,
     PermutationImportanceExplainer,
     TreeShapPathDependentExplainer,
+    TsIsolationForestShapExplainer,
     SimilarityExplanationsExplainer,
     TreeShapInterventionalExplainer,
     PartialDependenceVarianceExplainer,

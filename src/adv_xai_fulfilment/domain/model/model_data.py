@@ -49,13 +49,15 @@ class ModelData:
         target_name: str = "",
     ) -> "ModelData":
         if self.data_predict is not None and not self.data_predict.empty:            
+            self.data_predict = self.data_train.fillna(0)
             cols_to_remove = [col for col in self.data_predict.columns if col not in feature_names]
             if cols_to_remove:
                 logger.debug(f"predict - Removing columns not in feature names: {cols_to_remove}")
                 self._x_predict = self.data_predict.drop(columns=cols_to_remove)
                 self._x_predict = self._x_predict[feature_names]
-                
+        
         if self.data_train is not None and not self.data_train.empty:
+            self.data_train = self.data_train.fillna(0)
             cols_to_remove = [col for col in self.data_train.columns if col not in feature_names]
             X = self.data_train.drop(columns=cols_to_remove)
             y = self.data_train[target_name]
@@ -65,11 +67,6 @@ class ModelData:
                 _, X_test, _, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
             self._y_test = y_test
             self._y_predict = model.predict(X_test)
-            
-            # from sklearn.preprocessing import MinMaxScaler
-            # scaler = MinMaxScaler()
-            # test_data_norm = pd.DataFrame(scaler.fit_transform(self.x_predict), columns=self.x_predict.columns)
-            # self._y_predict = model.predict(test_data_norm)
             
             self._y_train = self.data_train[target_name] if target_name in self.data_train.columns else self.data_train
             if cols_to_remove:

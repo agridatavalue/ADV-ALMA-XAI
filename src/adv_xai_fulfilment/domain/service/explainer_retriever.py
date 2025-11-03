@@ -8,6 +8,7 @@ from src.adv_xai_fulfilment.infrastructure.constants import Errors
 
 POSSIBLE_FEATURE_IMPORTANCE_EXPLAINER_NAMES = [
     "TreeSHAPinterventional",
+    "TsIsolationForestShap",
     "KernelExplainer",
     "DeepExplainer",
     "KernelSHAP",
@@ -69,4 +70,11 @@ class ExplainerRetriever:
                 if e.name in POSSIBLE_KNN_FEATURE_IMPORTANCE_EXPLAINER_NAMES
             ]
         
+        # if Algorithm.from_string(algorithm) == Algorithm.RANDOM_FOREST:
+        #     return [
+        #         e 
+        #         for e in feature_importance_explainers 
+        #         if e.name in POSSIBLE_RANDOM_FOREST_FEATURE_IMPORTANCE_EXPLAINER_NAMES
+        #     ]
+            
         return feature_importance_explainers
