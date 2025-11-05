@@ -1,6 +1,6 @@
 import os
 import json
-
+import shutil
 
 from logger import get_logger
 from ..constants import Errors
@@ -70,23 +70,26 @@ class MetaDataLoaderService:
             local_filepath=file_path,
         )
 
-    def load_model_metadata(self, expl_id: ExplainerIdentifier, force_download:bool = False) -> ModelMetaData:
-        assert isinstance(
-            expl_id, ExplainerIdentifier
-        ), Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER
-        logger.info(f"loading model metadata for {str(expl_id)}")
-
+    def load_model_metadata(self, expl_id: ExplainerIdentifier, force_download: bool = False) -> ModelMetaData:
+        if not isinstance(expl_id, ExplainerIdentifier):
+            raise ValueError(Errors.EXPLAINER_IDENTIFIER_NOT_EXPLAINER_IDENTIFIER)
         filepath: str = expl_id.get_model_metadata_locale_filepath()
+        logger.debug(f"loading model metadata for {filepath} force_download={force_download}")
+
         if not os.path.exists(filepath) or force_download:
-            logger.debug(
-                f'forced download for {os.getenv("MODEL_FOLDER_PATH", "")}/{expl_id.metadata_identifier}' if force_download else 
-                f'file {filepath} not exists, downloading {os.getenv("MODEL_FOLDER_PATH")}/{expl_id.metadata_identifier}' 
-            )
-            filepath: str = self._bucketRepository.download_from(
-                object_name=expl_id.metadata_identifier,
-                bucket_name=os.getenv("MODEL_FOLDER_PATH", ""),
-                destination_file_path=filepath,
-            )
+            if os.path.exists(expl_id.metadata_identifier):
+                os.makedirs(os.path.dirname(filepath), exist_ok=True)
+                shutil.copyfile(expl_id.metadata_identifier, filepath)
+            else:
+                logger.debug(
+                    f'forced download for {os.getenv("MODEL_FOLDER_PATH", "")}/{expl_id.metadata_identifier}' if force_download else 
+                    f'file {filepath} not exists, downloading {os.getenv("MODEL_FOLDER_PATH")}/{expl_id.metadata_identifier}' 
+                )
+                filepath: str = self._bucketRepository.download_from(
+                    object_name=expl_id.metadata_identifier,
+                    bucket_name=os.getenv("MODEL_FOLDER_PATH", ""),
+                    destination_file_path=filepath,
+                )
 
         with open(filepath) as json_file:
             metadata: dict = json.load(json_file) or {}

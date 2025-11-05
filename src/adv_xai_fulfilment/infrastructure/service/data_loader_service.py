@@ -1,5 +1,5 @@
 import os
-import pandas as pd
+import shutil
 from typing import Optional
 
 from logger import get_logger
@@ -52,11 +52,6 @@ class DataLoaderService:
         return data
     
     def _load_train_data(self, data: ModelData, bucket_name: str, expl_id: ExplainerIdentifier) -> ModelData:
-        if os.path.exists(expl_id.data_for_training):
-            file_content = self._file_reader_repository.read(expl_id.data_for_training)
-            data.data_train = file_content
-            return data
-        
         local_filepath = expl_id.get_data_for_training_locale_filepath(os.path.basename(expl_id.data_for_training))
         if os.path.exists(local_filepath):
             passed_folder_path: bool = os.path.isdir(local_filepath)
@@ -69,14 +64,19 @@ class DataLoaderService:
         if not passed_folder_path:
             logger.debug(f"train data is a single file {expl_id.data_for_training}")
             if not os.path.exists(local_filepath):
-                logger.debug(
-                    f"file {local_filepath} does not exist, downloading from {bucket_name}"
-                )
-                self._bucketRepository.download_file_from(
-                    bucket_name=bucket_name,
-                    object_name=expl_id.data_for_training,
-                    destination_file_path=local_filepath,
-                )
+                if os.path.exists(expl_id.data_for_training):
+                    logger.debug(f"file {local_filepath} exists locally, copying it")
+                    os.makedirs(os.path.dirname(local_filepath), exist_ok=True)
+                    shutil.copyfile(expl_id.data_for_training, local_filepath)
+                else:
+                    logger.debug(
+                        f"file {local_filepath} does not exist, downloading from {bucket_name}"
+                    )
+                    self._bucketRepository.download_file_from(
+                        bucket_name=bucket_name,
+                        object_name=expl_id.data_for_training,
+                        destination_file_path=local_filepath,
+                    )
             data.data_train = self._file_reader_repository.read(local_filepath)
             return data
         
@@ -114,11 +114,6 @@ class DataLoaderService:
         return data
 
     def _load_predict_data(self, data: ModelData, bucket_name: str, expl_id: ExplainerIdentifier) -> ModelData:
-        if os.path.exists(expl_id.data):
-            file_content = self._file_reader_repository.read(expl_id.data)
-            data.data_predict = file_content
-            return data
-            
         local_filepath = expl_id.get_data_locale_filepath(os.path.basename(expl_id.data))
         if os.path.exists(local_filepath):
             passed_folder_path: bool = os.path.isdir(local_filepath)
@@ -128,14 +123,19 @@ class DataLoaderService:
         if not passed_folder_path:
             logger.debug(f"data is a single file {local_filepath}")
             if not os.path.exists(local_filepath):
-                logger.debug(
-                    f"file {local_filepath} does not exist, downloading from {bucket_name}"
-                )
-                self._bucketRepository.download_file_from(
-                    bucket_name=bucket_name,
-                    object_name=expl_id.data,
-                    destination_file_path=local_filepath,
-                )
+                if os.path.exists(expl_id.data):
+                    logger.debug(f"file {local_filepath} exists locally, copying it")
+                    os.makedirs(os.path.dirname(local_filepath), exist_ok=True)
+                    shutil.copyfile(expl_id.data, local_filepath)
+                else:
+                    logger.debug(
+                        f"file {local_filepath} does not exist, downloading from {bucket_name}"
+                    )
+                    self._bucketRepository.download_file_from(
+                        bucket_name=bucket_name,
+                        object_name=expl_id.data,
+                        destination_file_path=local_filepath,
+                    )
             file_content = self._file_reader_repository.read(local_filepath)
             data.data_predict = file_content
             return data

@@ -81,17 +81,11 @@ class ExplainerIdentifier:
         )
 
     def get_model_locale_filepath(self) -> str:
-        if self.__check_if_locale_file_exists(self.model):
-            return self.model
-        
         model_filename: str = os.path.basename(self.model)
         file_extension: str = os.path.splitext(model_filename)[1]
         return os.path.join(self._basepath, model_filename, 'model' + file_extension)
 
     def get_model_metadata_locale_filepath(self) -> str:
-        if self.__check_if_locale_file_exists(self.metadata_identifier):
-            return self.metadata_identifier
-        
         model_filename: str = os.path.basename(self.model)
         return os.path.join(self._basepath, model_filename, "metadata.json")
 
@@ -105,9 +99,6 @@ class ExplainerIdentifier:
         if not isinstance(filename, str):
             raise ValueError("filename must be a string")
         
-        if self.__check_if_locale_file_exists(filename):
-            return filename
-        
         model_filename: str = os.path.basename(self.model)
         
         return os.path.join(
@@ -118,11 +109,7 @@ class ExplainerIdentifier:
         if not isinstance(filename, str):
             raise ValueError("filename must be a string")
         
-        if self.__check_if_locale_file_exists(filename):
-            return filename
-        
         model_filename: str = os.path.basename(self.model)
-        
         return os.path.join(
             self._basepath, model_filename, self.partner.id, "data_for_train", filename if filename != "data_train" else ""
         )
@@ -148,6 +135,3 @@ class ExplainerIdentifier:
         sanitized_string = re.sub(r"[^a-zA-Z0-9]", "", string)
         return sanitized_string.replace(" ", "_").lower()
     
-    def __check_if_locale_file_exists(self, filepath: str) -> bool:
-        check_path = Path(filepath).expanduser().resolve()
-        return check_path.is_file()

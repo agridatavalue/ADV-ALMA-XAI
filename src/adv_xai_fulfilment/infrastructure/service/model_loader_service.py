@@ -1,4 +1,5 @@
 import os
+import shutil
 
 from logger import get_logger
 from ..repository import BucketRepository
@@ -34,11 +35,15 @@ class ModelLoaderService:
         logger.debug(f"loading model from {expl_id.model} to {model_local_file_path}")
 
         if not os.path.exists(model_local_file_path):
-            model_local_file_path: str = self._bucketRepository.download_from(
-                object_name=expl_id.model,
-                bucket_name=os.getenv("MODEL_FOLDER_PATH", ""),
-                destination_file_path=model_local_file_path,
-            )
+            if os.path.exists(expl_id.model):
+                os.makedirs(os.path.dirname(model_local_file_path), exist_ok=True)
+                shutil.copyfile(expl_id.model, model_local_file_path)
+            else:
+                model_local_file_path: str = self._bucketRepository.download_from(
+                    object_name=expl_id.model,
+                    bucket_name=os.getenv("MODEL_FOLDER_PATH", ""),
+                    destination_file_path=model_local_file_path,
+                )
 
         logger.debug(
             f"select domain model for: framework {meta_data.framework} and algoritm {meta_data.algorithm}"
