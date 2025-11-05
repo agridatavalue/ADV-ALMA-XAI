@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-from sklearn.metrics import confusion_matrix
 
 from logger import get_logger
 
@@ -62,8 +61,3 @@ class Model:
         return '{}(name="{}", filename="{}")'.format(
             self.__class__.__name__, self.name, self.filename
         )
-
-    def get_confusion_matrix(self, data: ModelData) -> ConfusionMatrix:
-        obj = ConfusionMatrix()
-        obj.data = confusion_matrix(data.y_test, data.y_predict)
-        return obj

@@ -67,7 +67,7 @@ class AbstractModelService(ABC):
                 model = selected_model, 
                 target_name = model_metadata.target_names[0],
                 feature_names = model_metadata.feature_names, 
-                model_category = model_metadata.model_category
+                model_category = model_metadata.model_category,
             )
 
         return ModelContext(

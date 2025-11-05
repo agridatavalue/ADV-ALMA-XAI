@@ -30,3 +30,6 @@ class ConfusionMatrix(ExplainerResponseData):
         if 1 in data_dict:
             data_dict["predicted"] = data_dict.pop(1)
         return data_dict
+
+    def __str__(self):
+        return f"ConfusionMatrix(data={self.data.to_dict()})"
