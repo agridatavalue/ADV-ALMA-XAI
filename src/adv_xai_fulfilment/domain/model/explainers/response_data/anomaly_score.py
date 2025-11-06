@@ -1,9 +1,11 @@
 import pandas as pd
+from .explainer_response_data import ExplainerResponseData
 
-class AnomalyScore:
+class AnomalyScore(ExplainerResponseData):
     _data: pd.DataFrame
     
-    def __init__(self, data: pd.DataFrame):
+    def __init__(self, data: pd.DataFrame = pd.DataFrame()):
+        super().__init__("anomaly-score")
         self._data = data
     
     @staticmethod

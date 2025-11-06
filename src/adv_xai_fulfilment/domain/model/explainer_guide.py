@@ -1,6 +1,7 @@
 import numpy as np
 
 from .model_metadata import ModelMetaData
+from .explainers.response_data import AnomalyScore
 from .explainers.response_data import DataFeaturesAndAverageScore
 from .explainers.response_data import FeatureImportance, FeatureDescription
 from .explainers.response_data import PartialDependence, ExplainerResponseData
@@ -43,7 +44,8 @@ class ExplainerGuide:
             if self._meta_data.is_ts_anomaly_detection:
                 if len(self._meta_data.target_names) > 0:
                     list_to_return += [
-                        ConfusionMatrix()
+                        AnomalyScore(),
+                        ConfusionMatrix(),
                     ]
 
         return list_to_return
