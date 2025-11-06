@@ -56,7 +56,7 @@ class ModelPerformanceServiceComponent:
 
         if model_metadata.is_ts_anomaly_detection:
             logger.debug("Calculating anomaly detection metrics")
-            return self.__get_metrics_for_anomaly_detection(data, model_metadata)
+            return self.__get_metrics_for_anomaly_detection(model, data, model_metadata)
         
         logger.debug("Calculating classification metrics")
         return self.__get_metrics_for_classification(data)
@@ -93,11 +93,13 @@ class ModelPerformanceServiceComponent:
         )
 
     def __get_metrics_for_anomaly_detection(
-        self, data: ModelData, model_metadata: ModelMetaData
+        self, model: Model, data: ModelData, model_metadata: ModelMetaData
     ) -> ModelPerformanceMetrics:
         if len(model_metadata.target_names) == 0:
             logger.warning("No target names provided in model metadata")
             return ModelPerformanceMetrics()
         
-        return self.__get_metrics_for_classification(data)
+        preds = model.predict(data.x_predict)
+        return ModelPerformanceMetrics().add_metric("accuracy", accuracy_score(preds, data.y_predict))
+
         

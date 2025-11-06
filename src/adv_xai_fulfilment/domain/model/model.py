@@ -3,9 +3,7 @@ import pandas as pd
 
 from logger import get_logger
 
-from .model_data import ModelData
 from .model_metadata import ModelMetaDataLayer
-from .explainers.response_data import ConfusionMatrix
 from .explainers.response_data import FeatureDescription
 
 
@@ -41,11 +39,7 @@ class Model:
     
     def get_feature_importance(self, feature_names: list[FeatureDescription], shap_values: np.ndarray) -> pd.DataFrame:
         logger.debug(f"feature_names: {feature_names}, shap_values shape: {shap_values.shape}")
-        shap_values = np.squeeze(shap_values)
-        if shap_values.ndim != 2:
-            logger.error(f'SHAP values are: {str(shap_values)}')
-            raise ValueError(f"Expected shap_values to be 2D, but got shape {shap_values.shape}")
-
+        shap_values = shap_values.reshape(-1, len(feature_names))
         mean_abs_shap_values = np.mean(np.abs(shap_values), axis=0) 
         
         if len(feature_names) != len(mean_abs_shap_values):

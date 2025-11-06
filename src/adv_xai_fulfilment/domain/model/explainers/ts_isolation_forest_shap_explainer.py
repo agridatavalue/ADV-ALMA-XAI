@@ -25,13 +25,15 @@ class TsIsolationForestShapExplainer(Explainer):
         )
 
     def build(self, model, data: ModelData):
+        masker = shap.maskers.Independent(data.x_train, max_samples=100) 
         self.build_result = shap.Explainer(
-            model.handler, 
+            model.handler.decision_function, 
+            masker=masker,
             feature_names=self.meta_data.feature_names if self.meta_data else None, 
         )
 
     def get_shap_values(self, x_test: np.ndarray) -> np.ndarray:
         if self.build_result is None:
             raise RuntimeError("Explainer non ancora buildato e fittato")
-        explainer = shap.Explainer(self.build_result.decision_function, x_test)
-        return explainer(x_test)
+        result = self.build_result(x_test)
+        return result.values if hasattr(result, "values") else np.array(result)
