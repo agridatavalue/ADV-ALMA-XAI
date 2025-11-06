@@ -61,7 +61,7 @@ class ModelData:
         if self.data_train is not None and not self.data_train.empty:
             self.data_train = self.data_train.fillna(0)
             cols_to_remove = [col for col in self.data_train.columns if col not in feature_names]
-            if self._y_predict.empty:
+            if self._y_predict is None or self._y_predict.empty:
                 X = self.data_train.drop(columns=cols_to_remove)
                 y = self.data_train[target_name]
                 if ModelCategory.is_classification(str(model_category)):

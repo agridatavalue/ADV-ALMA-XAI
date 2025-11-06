@@ -1,6 +1,34 @@
 import os, sys
+import logging
 import requests
+
 from dotenv import load_dotenv
+from colorlog import ColoredFormatter
+
+
+# Create a logger
+logger = logging.getLogger("my_logger")
+logger.setLevel(logging.DEBUG)
+
+# Create a console handler
+handler = logging.StreamHandler()
+
+# Define colorized format
+formatter = ColoredFormatter(
+    "%(log_color)s[%(levelname)s]%(reset)s %(message_log_color)s%(message)s",
+    log_colors={
+        "DEBUG": "cyan",
+        "INFO": "green",
+        "WARNING": "yellow",
+        "ERROR": "red",
+        "CRITICAL": "bold_red",
+    },
+    secondary_log_colors={'message': { 'ERROR': 'red', 'CRITICAL': 'bold_red' }},
+    style='%'
+)
+
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 load_dotenv()
 
@@ -48,122 +76,224 @@ ALL_DATA = {
 }
 
 if len(sys.argv) < 2 or sys.argv[1] not in ALL_DATA.keys():
-    print(f"Usage: python verify.py [{'|'.join(ALL_DATA.keys())}]")
+    logger.error(f"Usage: python verify.py [{'|'.join(ALL_DATA.keys())}]")
     sys.exit(1)
 
 
 DATA_TO_SEND = ALL_DATA.get(sys.argv[1], {})
 
-response = requests.post(
-    f"{SERVER_URL}build", 
-    json={
-        **DATA_TO_SEND, 
-        "prediction_targets": [DATA_TO_SEND.get("prediction_target")],
-    }
-)
-print('>>> build result:', response.json())
+try:
+    build_response = requests.post(
+        f"{SERVER_URL}build", 
+        json={
+            **DATA_TO_SEND, 
+            "prediction_targets": [DATA_TO_SEND.get("prediction_target")],
+        }
+    )
+    json_data = build_response.json()
+    
+    if "error" in json_data or "status" in json_data and "error" in str(json_data["status"]).lower():
+        logger.error(f"build error: {json_data}")
+    else:
+        logger.info(f"build result: {json_data}")
+except requests.RequestException as e:
+    logger.error(f"Request failed: {e}")
 
 # -------------------------------------------
 # -------------------------------------------
-print("\n\n>>> Starting tests...\n")
-print("==== DATA  CARD ====")
+logger.info(">>> Starting tests...")
+logger.info("==== DATA  CARD ====")
 
-data_distribution_response = requests.post(
-    f"{SERVER_URL}data-distribution", 
-    json=DATA_TO_SEND,
-)
-print('>>> data_distribution_response:', data_distribution_response.json())
-# -------------------------------------------
-
-data_source_type_response = requests.get(
-    f"{SERVER_URL}data-source-types?model={DATA_TO_SEND.get('model')}"
-)
-print('>>> data_source_type_response:', data_source_type_response.json())
-# -------------------------------------------
-
-targets_response = requests.post(
-    f"{SERVER_URL}targets", 
-    json=DATA_TO_SEND,
-)
-print('>>> targets_response:', targets_response.json())
+try:
+    data_distribution_response = requests.post(
+        f"{SERVER_URL}data-distribution", json=DATA_TO_SEND
+    )
+    json_data = data_distribution_response.json()
+    
+    if "error" in json_data or "status" in json_data and "error" in str(json_data["status"]).lower():
+        logger.error(f"data_distribution error: {json_data}")
+    else:
+        logger.info(f"data_distribution response: {json_data}")
+    
+except requests.RequestException as e:
+    logger.error(f"Request failed: {e}")
 # -------------------------------------------
 
+try:
+    data_source_type_response = requests.get(
+        f"{SERVER_URL}data-source-types?model={DATA_TO_SEND.get('model')}"
+    )
+    json_data = data_source_type_response.json()
+    
+    if "error" in json_data or "status" in json_data and "error" in str(json_data["status"]).lower():
+        logger.error(f"data_source_type error: {json_data}")
+    else:
+        logger.info(f'data_source_type response: {json_data}')
+except requests.RequestException as e:
+    logger.error(f"Request failed: {e}")
 # -------------------------------------------
-# -------------------------------------------
-# -------------------------------------------
-print("==== MODEL CARD ====")
 
-classification_class_label_size_response = requests.post(
-    f"{SERVER_URL}classification-class-label-sizes", 
-    json=DATA_TO_SEND,
-)
-print('>>> classification_class_label_size_response:', classification_class_label_size_response.json())
-
+try:
+    targets_response = requests.post(
+        f"{SERVER_URL}targets", json=DATA_TO_SEND
+    )
+    json_data = targets_response.json()
+    
+    if "error" in json_data or "status" in json_data and "error" in str(json_data["status"]).lower():
+        logger.error(f"targets error: {json_data}")
+    else:
+        logger.info(f'targets response: {json_data}')
+except requests.RequestException as e:
+    logger.error(f"Request failed: {e}")
 # -------------------------------------------
-confusion_matrix_response = requests.post(
-    f"{SERVER_URL}confusion-matrix", 
-    json=DATA_TO_SEND,
-)
-print('>>> confusion_matrix_response:', confusion_matrix_response.json())
-
-# -------------------------------------------
-data_feature_and_average_score_response = requests.post(
-    f"{SERVER_URL}data-features-and-average-score", 
-    json=DATA_TO_SEND,
-)
-print('>>> data_feature_and_average_score_response:', data_feature_and_average_score_response.json())
-
-# -------------------------------------------
-feature_importance_response = requests.post(
-    f"{SERVER_URL}feature-importance", 
-    json=DATA_TO_SEND,
-)
-print('>>> feature_importance_response:', feature_importance_response.json())
 
 # -------------------------------------------
-feature_descriptions_response = requests.post(
-    f"{SERVER_URL}feature-descriptions", 
-    json=DATA_TO_SEND,
-)
-print('>>> feature_descriptions_response:', feature_descriptions_response.json())
-
 # -------------------------------------------
-ice_response = requests.post(
-    f"{SERVER_URL}individual-conditional-expectations", 
-    json={
-        **DATA_TO_SEND, 
-        "feature": feature_importance_response.json().get("features", [None])[0]
-    }
-)
-print('>>> ice_response:', ice_response.json())
-
 # -------------------------------------------
-lift_curve = requests.post(
-    f"{SERVER_URL}lift-curve", 
-    json=DATA_TO_SEND,
-)
-print('>>> lift_curve:', lift_curve.json())
+logger.info("==== MODEL CARD ====")
 
+try:
+    classification_class_label_size_response = requests.post(
+        f"{SERVER_URL}classification-class-label-sizes", json=DATA_TO_SEND
+    )
+    json_data = classification_class_label_size_response.json()
+    
+    if "error" in json_data or "status" in json_data and "error" in str(json_data["status"]).lower():
+        logger.error(f"classification_class_label_size error: {json_data}")
+    else:
+        logger.info(f'classification_class_label_size response: {json_data}')
+except requests.RequestException as e:
+    logger.error(f"Request failed: {e}")
+    
 # -------------------------------------------
-model_performance_response = requests.post(
-    f"{SERVER_URL}model-performance", 
-    json=DATA_TO_SEND,
-)
-print('>>> model_performance_response:', model_performance_response.json())
-
+try:
+    confusion_matrix_response = requests.post(
+        f"{SERVER_URL}confusion-matrix", json=DATA_TO_SEND
+    )
+    json_data = confusion_matrix_response.json()
+    
+    if "error" in json_data or "status" in json_data and "error" in str(json_data["status"]).lower():
+        logger.error(f"confusion_matrix error: {json_data}")
+    else:
+        logger.info(f'confusion_matrix response: {json_data}')
+except requests.RequestException as e:
+    logger.error(f"Request failed: {e}")
+    
 # -------------------------------------------
-model_performance_metrics_response = requests.post(
-    f"{SERVER_URL}model-performance-metrics", 
-    json=DATA_TO_SEND,
-)
-print('>>> model_performance_metrics_response:', model_performance_metrics_response.json())
-
+try:
+    data_feature_and_average_score_response = requests.post(
+        f"{SERVER_URL}data-features-and-average-score", json=DATA_TO_SEND
+    )
+    json_data = data_feature_and_average_score_response.json()
+    
+    if "error" in json_data or "status" in json_data and "error" in str(json_data["status"]).lower():
+        logger.error(f"data_feature_and_average_score error: {json_data}")
+    else:
+        logger.info(f'data_feature_and_average_score response: {json_data}')
+except requests.RequestException as e:
+    logger.error(f"Request failed: {e}")
+    
 # -------------------------------------------
-partial_dependence_response = requests.post(
-    f"{SERVER_URL}partial-dependence", 
-    json={
-        **DATA_TO_SEND, 
-        "feature": feature_importance_response.json().get("features", [None])[0]
-    },
-)
-print('>>> partial_dependence_response:', partial_dependence_response.json())
+feature_importance_response = None
+try:
+    feature_importance_response = requests.post(
+        f"{SERVER_URL}feature-importance", json=DATA_TO_SEND
+    )
+    json_data = feature_importance_response.json()
+    
+    if "error" in json_data or "status" in json_data and "error" in str(json_data["status"]).lower():
+        logger.error(f"feature_importance error: {json_data}")
+    else:
+        logger.info(f'feature_importance response: {json_data}')
+except requests.RequestException as e:
+    logger.error(f"Request failed: {e}")
+    
+# -------------------------------------------
+try:
+    feature_descriptions_response = requests.post(
+        f"{SERVER_URL}feature-descriptions", json=DATA_TO_SEND
+    )
+    json_data = feature_descriptions_response.json()
+    
+    if "error" in json_data or "status" in json_data and "error" in str(json_data["status"]).lower():
+        logger.error(f"feature_descriptions error: {json_data}")
+    else:
+        logger.info(f'feature_descriptions response: {json_data}')
+except requests.RequestException as e:
+    logger.error(f"Request failed: {e}")
+    
+# -------------------------------------------
+try:
+    ice_response = requests.post(
+        f"{SERVER_URL}individual-conditional-expectations", 
+        json={
+            **DATA_TO_SEND, 
+            "feature": feature_importance_response.json().get("features", [None])[0]
+        }
+    )
+    json_data = ice_response.json()
+    
+    if "error" in json_data or "status" in json_data and "error" in str(json_data["status"]).lower():
+        logger.error(f"ice result error: {json_data}")
+    else:
+        logger.info(f'ice response: {json_data}')
+except requests.RequestException as e:
+    logger.error(f"Request failed: {e}")
+    
+# -------------------------------------------
+try:
+    lift_curve = requests.post(f"{SERVER_URL}lift-curve", json=DATA_TO_SEND)
+    json_data = lift_curve.json()
+    
+    if "error" in json_data or "status" in json_data and "error" in str(json_data["status"]).lower():
+        logger.error(f"lift_curve error: {json_data}")
+    else:
+        logger.info(f'lift_curve response: {json_data}')
+except requests.RequestException as e:
+    logger.error(f"Request failed: {e}")
+    
+# -------------------------------------------
+try:
+    model_performance_response = requests.post(
+        f"{SERVER_URL}model-performance", json=DATA_TO_SEND
+    )
+    json_data = model_performance_response.json()
+    
+    if "error" in json_data or "status" in json_data and "error" in str(json_data["status"]).lower():
+        logger.error(f"model_performance error: {json_data}")
+    else:
+        logger.info(f'model_performance response: {json_data}')
+except requests.RequestException as e:
+    logger.error(f"Request failed: {e}")
+    
+# -------------------------------------------
+try:
+    model_performance_metrics_response = requests.post(
+        f"{SERVER_URL}model-performance-metrics", json=DATA_TO_SEND
+    )
+    json_data = model_performance_metrics_response.json()
+    
+    if "error" in json_data or "status" in json_data and "error" in str(json_data["status"]).lower():
+        logger.error(f"model_performance_metrics error: {json_data}")
+    else:
+        logger.info(f'model_performance_metrics response: {json_data}')
+except requests.RequestException as e:
+    logger.error(f"Request failed: {e}")
+    
+# -------------------------------------------
+try:
+    partial_dependence_response = requests.post(
+        f"{SERVER_URL}partial-dependence", 
+        json={
+            **DATA_TO_SEND, 
+            "feature": feature_importance_response.json().get("features", [None])[0]
+        },
+    )
+    json_data = partial_dependence_response.json()
+    
+    if "error" in json_data or "status" in json_data and "error" in str(json_data["status"]).lower():
+        logger.error(f"partial_dependence error: {json_data}")
+    else:
+        logger.info(f'partial_dependence response: {json_data}')
+except requests.RequestException as e:
+    logger.error(f"Request failed: {e}")
