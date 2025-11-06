@@ -55,18 +55,20 @@ class ModelData:
                 logger.debug(f"predict - Removing columns not in feature names: {cols_to_remove}")
                 self._x_predict = self.data_predict.drop(columns=cols_to_remove)
                 self._x_predict = self._x_predict[feature_names]
+                if ModelCategory.is_ts_anomaly_detection(str(model_category)):
+                    self._y_predict = self.data_predict[target_name]
         
         if self.data_train is not None and not self.data_train.empty:
             self.data_train = self.data_train.fillna(0)
             cols_to_remove = [col for col in self.data_train.columns if col not in feature_names]
-            X = self.data_train.drop(columns=cols_to_remove)
-            y = self.data_train[target_name]
-            if ModelCategory.is_classification(str(model_category)):
-                _, X_test, _, y_test = train_test_split(X, y, test_size=0.25, stratify=y, random_state=42)
-            else:
-                _, X_test, _, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
-            self._y_test = y_test
-            self._y_predict = model.predict(X_test)
+            if self._y_predict.empty:
+                X = self.data_train.drop(columns=cols_to_remove)
+                y = self.data_train[target_name]
+                if ModelCategory.is_classification(str(model_category)):
+                    _, self._x_test, _, self._y_test = train_test_split(X, y, test_size=0.25, stratify=y, random_state=42)
+                else:
+                    _, self._x_test, _, self._y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+                self._y_predict = model.predict(self._x_test)
             
             self._y_train = self.data_train[target_name] if target_name in self.data_train.columns else self.data_train
             if cols_to_remove:

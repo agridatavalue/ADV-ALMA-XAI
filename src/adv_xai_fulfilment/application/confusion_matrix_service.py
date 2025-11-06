@@ -14,8 +14,15 @@ class ConfusionMatrixService(AbstractModelService):
         obj = ConfusionMatrix()
         if context.model_metadata.is_ts_anomaly_detection:
             if len(context.model_metadata.target_names) > 0:
-                preds = (context.model_data.y_predict == -1).astype(int)
-                obj.data = confusion_matrix(context.model_data.y_test, preds)
+                if context.model_data.x_predict is not None and not context.model_data.x_predict.empty:
+                    logger.debug("Using x_predict for confusion matrix calculation")
+                    preds = context.model.predict(context.model_data.x_predict)
+                    preds = (preds == -1).astype(int)
+                    obj.data = confusion_matrix(context.model_data.y_predict, preds)
+                else:
+                    logger.debug("Using y_predict for confusion matrix calculation")
+                    preds = (context.model_data.y_predict == -1).astype(int)
+                    obj.data = confusion_matrix(context.model_data.y_test, preds)
             return obj
         
         obj.data = confusion_matrix(context.model_data.y_test, context.model_data.y_predict)
