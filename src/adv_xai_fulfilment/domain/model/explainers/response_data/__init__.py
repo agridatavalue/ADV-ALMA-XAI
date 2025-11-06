@@ -1,6 +1,7 @@
 from .heatmap import Heatmap
 from .targets import Targets
 from .lift_curve import LiftCurve
+from .anomaly_score import AnomalyScore
 from .confusion_matrix import ConfusionMatrix
 from .class_label_sizes import ClassLabelSizes
 from .data_distribution import DataDistribution
@@ -17,6 +18,7 @@ __all__ = [
     "Heatmap",
     "Targets",
     "LiftCurve",
+    "AnomalyScore",
     "ClassLabelSizes",
     "ConfusionMatrix",
     "DataDistribution",

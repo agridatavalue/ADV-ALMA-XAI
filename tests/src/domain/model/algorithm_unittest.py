@@ -15,5 +15,5 @@ class AlgorithmTestCase(unittest.TestCase):
         self.assertEqual(Algorithm.from_string("CatBoost"), Algorithm.CATBOOST)
         self.assertEqual(Algorithm.from_string("catboost"), Algorithm.CATBOOST)
         self.assertEqual(Algorithm.from_string("IsolationForest"), Algorithm.ISOLATION_FOREST)
-        self.assertEqual(Algorithm.from_string("isolationforest"), Algorithm.ISOLATION_FOREST
+        self.assertEqual(Algorithm.from_string("isolationforest"), Algorithm.ISOLATION_FOREST)
         self.assertEqual(Algorithm.from_string("a new algorithm"), "a new algorithm")

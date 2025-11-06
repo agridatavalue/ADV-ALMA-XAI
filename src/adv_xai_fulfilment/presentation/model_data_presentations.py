@@ -3,7 +3,7 @@ from .validator import DataPresentationValidator
 from ..application.heatmap_service import HeatmapService
 from ..application.lift_curve_service import LiftCurveService
 from ..domain.model.explainer_identifier import ExplainerIdentifier
-from ..domain.model.explainers.response_data import FeatureImportance
+from ..application.anomaly_score_service import AnomalyScoreService
 from ..domain.model.explainers.response_data import FeatureDescription
 from ..application.confusion_matrix_service import ConfusionMatrixService
 from ..application.class_label_sizes_service import ClassLabelSizesService
@@ -13,6 +13,7 @@ from ..application.feature_importance_service import FeatureImportanceService
 from ..application.partial_dependence_service import PartialDependenceService
 from ..domain.model.explainers.response_data import ConfusionMatrix, LiftCurve
 from ..application.feature_description_service import FeatureDescriptionService
+from ..domain.model.explainers.response_data import FeatureImportance, AnomalyScore
 from ..domain.model.explainers.response_data import IndividualConditionalExpectations
 from ..application.model_performance_metric_service import ModelPerformanceMetricService
 from .translator import ExplainerIdentifierTranslator, DataPresentationsOutputTranslator
@@ -31,6 +32,7 @@ class ModelDataPresentations:
     _partial_dependence_service: PartialDependenceService
     _model_performance_service: ModelPerformanceMetricService
     _confusion_matrix_service: ConfusionMatrixService
+    _anomaly_scores_service: AnomalyScoreService
     _plot_scatter_service: PlotScatterObservedPredictedService
     _output_translator: DataPresentationsOutputTranslator
     _input_translator: ExplainerIdentifierTranslator
@@ -56,6 +58,7 @@ class ModelDataPresentations:
         self._partial_dependence_service = PartialDependenceService()
         self._feature_description_service = FeatureDescriptionService()
         self._ice_service = IndividualConditionalExpectationService()
+        self._anomaly_scores_service = AnomalyScoreService()
         self._lift_curve_service = LiftCurveService()
 
     def get_lift_curve(self, request: dict = {}) -> LiftCurve:
@@ -138,3 +141,9 @@ class ModelDataPresentations:
         data_sanitized = self._validator.validate_and_sanitize_confusion_matrix(data)
         expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
         return self._confusion_matrix_service.get_data(expl_id)
+
+    def get_anomaly_score(self, data: dict = {}) -> AnomalyScore:
+        logger.info(f"called get_anomaly_score with params: {data}")
+        data_sanitized = self._validator.validate_and_sanitize_anomaly_score(data)
+        expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
+        return self._anomaly_scores_service.get_data(expl_id)

@@ -1,5 +1,11 @@
 hight priority:
-[ ] APIs for anomaly detection
+[ ] Endpoints for the anomaly detection models: 
+    - 1. FeatureImportance 
+    - 2. Feature Impact 
+    - 3. Anomaly Score 
+    - 4. Normal vs Anomaly Distribution 
+    - 5. Performance metrics 
+    - 6. Confusion metrics
 [ ] fix tests
 
 lower priority:
