@@ -1,4 +1,5 @@
 import math
+from typing import Optional
 
 from .explainer_response_data import ExplainerResponseData
 
@@ -10,7 +11,7 @@ class ModelPerformanceMetrics(ExplainerResponseData):
         super().__init__("model-performance-metrics")
         self.metrics = {}
 
-    def add_metric(self, name: str, value: float) -> "ModelPerformanceMetrics":
+    def add_metric(self, name: str, value: Optional[float]) -> "ModelPerformanceMetrics":
         # assert isinstance(name, str), "Metric name must be a string."
         # assert isinstance(value, (int, float)), "Metric value must be a numeric type."
         

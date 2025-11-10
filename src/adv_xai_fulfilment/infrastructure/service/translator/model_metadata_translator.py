@@ -56,4 +56,5 @@ class ModelMetaDataTranslator:
             feature_descriptions=self._feature_translator.translate(
                 data.get("feature_descriptions", {})
             ),
+            contamination_score=data.get("contamination_score", data.get("contamination", None))
         )

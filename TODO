@@ -4,7 +4,7 @@ hight priority:
     - [x] Feature Impact
     - [x] Anomaly Score
     - [ ] Normal vs Anomaly Distribution
-    - [ ] Performance metrics
+    - [x] Performance metrics
     - [x] Confusion matrix
 [ ] fix tests
 

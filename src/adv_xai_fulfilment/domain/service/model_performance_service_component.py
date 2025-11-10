@@ -100,6 +100,9 @@ class ModelPerformanceServiceComponent:
             return ModelPerformanceMetrics()
         
         preds = model.predict(data.x_predict)
-        return ModelPerformanceMetrics().add_metric("accuracy", accuracy_score(preds, data.y_predict))
+        return (ModelPerformanceMetrics()
+            .add_metric("accuracy", accuracy_score(preds, data.y_predict))
+            .add_metric("contamination_score", model_metadata.contamination_score)
+        )
 
         

@@ -20,6 +20,8 @@ class ModelMetaData:
     model_category: str # all values for ModelCategory
     _architectures: list[ModelMetaDataLayer]
     feature_descriptions: list[FeatureDescription]
+    
+    contamination_score: Optional[float] = None  
 
     def __init__(
         self,
@@ -36,6 +38,7 @@ class ModelMetaData:
         feature_names: list[str] = [],
         architectures: list[ModelMetaDataLayer] = [],
         feature_descriptions: list[FeatureDescription] = [],
+        contamination_score: Optional[float] = None,
     ):
         self.n_classes = n_classes if isinstance(n_classes, int) else None
         self.data_type = DataType.from_string(data_type)
@@ -48,6 +51,7 @@ class ModelMetaData:
         self._target_names = target_names
         self.feature_names = feature_names
         self._architectures = architectures
+        self.contamination_score = contamination_score
         self.model_category = ModelCategory.from_string(model_category)
         self.feature_descriptions = feature_descriptions
     
