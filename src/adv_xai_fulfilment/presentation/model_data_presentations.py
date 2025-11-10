@@ -4,7 +4,7 @@ from ..application.heatmap_service import HeatmapService
 from ..application.lift_curve_service import LiftCurveService
 from ..domain.model.explainer_identifier import ExplainerIdentifier
 from ..application.anomaly_score_service import AnomalyScoreService
-from ..domain.model.explainers.response_data import FeatureDescription
+from ..application.feature_impact_service import FeatureImpactService
 from ..application.confusion_matrix_service import ConfusionMatrixService
 from ..application.class_label_sizes_service import ClassLabelSizesService
 from ..domain.model.explainers.response_data import ModelPerformanceMetrics
@@ -14,6 +14,7 @@ from ..application.partial_dependence_service import PartialDependenceService
 from ..domain.model.explainers.response_data import ConfusionMatrix, LiftCurve
 from ..application.feature_description_service import FeatureDescriptionService
 from ..domain.model.explainers.response_data import FeatureImportance, AnomalyScore
+from ..domain.model.explainers.response_data import FeatureDescription, FeatureImpact
 from ..domain.model.explainers.response_data import IndividualConditionalExpectations
 from ..application.model_performance_metric_service import ModelPerformanceMetricService
 from .translator import ExplainerIdentifierTranslator, DataPresentationsOutputTranslator
@@ -32,6 +33,7 @@ class ModelDataPresentations:
     _partial_dependence_service: PartialDependenceService
     _model_performance_service: ModelPerformanceMetricService
     _confusion_matrix_service: ConfusionMatrixService
+    _feature_impact_service: FeatureImpactService
     _anomaly_scores_service: AnomalyScoreService
     _plot_scatter_service: PlotScatterObservedPredictedService
     _output_translator: DataPresentationsOutputTranslator
@@ -57,6 +59,7 @@ class ModelDataPresentations:
         self._feature_importance_service = FeatureImportanceService()
         self._partial_dependence_service = PartialDependenceService()
         self._feature_description_service = FeatureDescriptionService()
+        self._feature_impact_service = FeatureImpactService()
         self._ice_service = IndividualConditionalExpectationService()
         self._anomaly_scores_service = AnomalyScoreService()
         self._lift_curve_service = LiftCurveService()
@@ -107,6 +110,12 @@ class ModelDataPresentations:
         expl_id: ExplainerIdentifier = self._input_translator.translate(request)
 
         return self._feature_importance_service.get_data(expl_id)
+    
+    def get_feature_impact(self, request: dict = {}) -> FeatureImpact:
+        logger.info(f"called get_feature_impact with params: {request}")
+        self._validator.validate_and_sanitize_feature_impact(request)
+        expl_id: ExplainerIdentifier = self._input_translator.translate(request)
+        return self._feature_impact_service.get_data(expl_id, requested_feature=request.get("feature", ""))
 
     def genarate_performance_scatter_plot(self, data: dict = {}) -> dict:
         data_sanitized: dict = self._validator.validate_and_sanitize_scatter(data)

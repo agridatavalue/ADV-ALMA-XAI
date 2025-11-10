@@ -5,6 +5,7 @@ from .image_viewer_endpoint import imageBp
 from .lift_curve_endpoint import liftcurveBp
 from .anomaly_score_endpoint import anomalyScoreBp
 from .get_all_questions_endpoint import questionsBp
+from .feature_impact_endpoint import featureImpactBp
 from .partial_dependence_endpoint import partialDepBp
 from .explainer_guide_endpoint import explainerGuideBp
 from .classification_plot_endpoint import labelSizesBp
@@ -33,6 +34,7 @@ routes = [
     labelSizesBp,
     partialDepBp,
     anomalyScoreBp,
+    featureImpactBp,
     explainerGuideBp,
     partnerFeedbackBp,
     dataSourceTypesBp,

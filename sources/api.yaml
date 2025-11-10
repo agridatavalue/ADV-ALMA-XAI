@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
     title: ADV
-    description: "TEST"
-    version: 0.0.7
+    description: "ADV XAI Fulfilment API"
+    version: 0.0.8
     contact:
         name: "Mirko Colageo"
         email: m.colageo@almaviva.it
@@ -31,6 +31,32 @@ paths:
                     description: Partner / Model not found
             tags:
                 - Explainer
+
+    /feature-impact:
+        post:
+            summary: Return the feature impact data
+            description: Return the feature impact data for a given partner
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/FeatureImpactRequest"
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/FeatureImpactResponse"
+                "400":
+                    description: Invalid IDs combination supplied
+                "404":
+                    description: Partner / Model not found
+                "500":
+                    description: Internal server error
+            tags:
+                - ModelCard
 
     /anomaly-score:
         post:
@@ -608,6 +634,40 @@ components:
             description: "Please enter token in following format: Bearer <JWT>"
             type: http
     schemas:
+        FeatureImpactRequest:
+            type: object
+            properties:
+                model:
+                    description: the identifier of the model file name
+                    example: "model.pkl"
+                    type: string
+                partner:
+                    description: the identifier of the partner
+                    example: "partner1"
+                    type: string
+                feature:
+                    description: the name of the feature to explain
+                    example: "NO3-N 0-30 cm start (kg/ha)"
+                    type: string
+            required:
+                - model
+                - partner
+        FeatureImpactResponse:
+            type: object
+            properties:
+                features:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            name:
+                                type: string
+                            data:
+                                type: array
+                                items:
+                                    type: number
+                                    format: float
+
         AnomalyScoreRequest:
             type: object
             properties:
