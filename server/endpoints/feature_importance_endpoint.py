@@ -26,7 +26,7 @@ def featureimportance():
             200,
         )
     except Exception as e:
-        logger.error(f"error while featureimportance: %s - %s", 
+        logger.error(f"error while feature-importance: %s - %s", 
             type(e).__name__, 
             str(e),
             exc_info=True

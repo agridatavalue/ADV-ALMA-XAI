@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from typing import Optional
 
 from logger import get_logger
 from ..model.model_context import ModelContext
@@ -27,7 +28,7 @@ class FeatureImportanceServiceComponent:
         self._explainer_repository_service = ExplainerRepositoryService()
         self._feature_description_service = FeatureDescriptionServiceComponent()
 
-    def get_data(self, explainer_identifier: ExplainerIdentifier) -> FeatureImportance:
+    def get_data(self, explainer_identifier: ExplainerIdentifier) -> Optional[FeatureImportance]:
         meta_data: ExplainerMetaData = (
             self._metadata_loader_service.load_explainer_metadata(explainer_identifier)
         )
