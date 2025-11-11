@@ -94,3 +94,8 @@ class DataPresentationValidator(AbstractValidator):
         self._validate_model(request.get("model", ""))
         self._validate_partner(request.get("partner", ""))
         return self._merge_with_default_values(request)
+    
+    def validate_and_sanitize_anomaly_vs_normal(self, request: dict = {}) -> dict:
+        self._validate_model(request.get("model", ""))
+        self._validate_partner(request.get("partner", ""))
+        return self._merge_with_default_values(request)

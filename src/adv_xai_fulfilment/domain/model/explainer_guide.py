@@ -1,10 +1,10 @@
 import numpy as np
 
 from .model_metadata import ModelMetaData
-from .explainers.response_data import AnomalyScore, FeatureImpact
 from .explainers.response_data import DataFeaturesAndAverageScore
 from .explainers.response_data import FeatureImportance, FeatureDescription
 from .explainers.response_data import PartialDependence, ExplainerResponseData
+from .explainers.response_data import AnomalyScore, FeatureImpact, AnomalyVsNormal
 from .explainers.response_data import ConfusionMatrix, IndividualConditionalExpectations
 from .explainers.response_data import ModelPerformance, ModelPerformanceMetrics, Heatmap
 
@@ -46,6 +46,7 @@ class ExplainerGuide:
                     list_to_return += [
                         AnomalyScore(),
                         FeatureImpact(),
+                        AnomalyVsNormal(),
                         ConfusionMatrix(),
                     ]
 

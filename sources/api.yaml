@@ -84,6 +84,32 @@ paths:
             tags:
                 - ModelCard
 
+    /anomaly-vs-normal:
+        post:
+            summary: Return the anomaly vs normal data
+            description: Return the anomaly vs normal data for a given partner
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/AnomalyVsNormalRequest"
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/AnomalyVsNormalResponse"
+                "400":
+                    description: Invalid IDs combination supplied
+                "404":
+                    description: Partner / Model not found
+                "500":
+                    description: Internal server error
+            tags:
+                - ModelCard
+
     /lift-curve:
         post:
             summary: Return the lift curve data
@@ -634,6 +660,33 @@ components:
             description: "Please enter token in following format: Bearer <JWT>"
             type: http
     schemas:
+        AnomalyVsNormalRequest:
+            type: object
+            properties:
+                model:
+                    description: the identifier of the model file name
+                    example: "model.pkl"
+                    type: string
+                partner:
+                    description: the identifier of the partner
+                    example: "partner1"
+                    type: string
+            required:
+                - model
+                - partner
+        AnomalyVsNormalResponse:
+            type: object
+            properties:
+                normal_count:
+                    type: number
+                    format: integer
+                anomaly_count:
+                    type: number
+                    format: integer
+            example:
+                normal_count: 950
+                anomaly_count: 50
+
         FeatureImpactRequest:
             type: object
             properties:

@@ -10,8 +10,9 @@ from .partial_dependence_endpoint import partialDepBp
 from .explainer_guide_endpoint import explainerGuideBp
 from .classification_plot_endpoint import labelSizesBp
 from .get_feedback_questions_endpoint import feedbackBp
-from .data_source_types_endpoint import dataSourceTypesBp
 from .confusion_matrix_endpoint import confusionMatrixBp
+from .data_source_types_endpoint import dataSourceTypesBp
+from .anomaly_vs_normal_endpoint import anomalyVsNormalBp
 from .data_distribution_endpoint import dataDistributionBp
 from .get_partner_feedback_endpoint import partnerFeedbackBp
 from .feature_importance_endpoint import featureImportanceBp
@@ -36,6 +37,7 @@ routes = [
     anomalyScoreBp,
     featureImpactBp,
     explainerGuideBp,
+    anomalyVsNormalBp,
     partnerFeedbackBp,
     dataSourceTypesBp,
     confusionMatrixBp,

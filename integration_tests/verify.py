@@ -37,6 +37,13 @@ load_dotenv()
 SERVER_URL = f"http://localhost:{os.getenv('SERVER_PORT')}/"
 
 ALL_DATA = {
+    "iso": {
+        "data_for_predict": "data_temp/ts_isolation_forest/Calving_activity_5051_20250709_094549.xlsx",
+        "meta_data": "data_temp/ts_isolation_forest/metadata_isolation_forest_timeseries.json",
+        "model": "data_temp/ts_isolation_forest/iso.pkl",
+        "partner": "487",
+        "data_for_train": "data_temp/ts_isolation_forest/Calving_activity_3063_20250709_094549_train.xlsx"
+    },
     "inagro": {
         "data_for_predict": "ai_flows/CNN_InAgro_2025-09-25_23-22-12/test_dataset/X_test.npy",
         "meta_data": "ai_flows/CNN_InAgro_2025-09-25_23-22-12/metadata.json",

@@ -4,6 +4,7 @@ from .lift_curve import LiftCurve
 from .anomaly_score import AnomalyScore
 from .feature_impact import FeatureImpact
 from .confusion_matrix import ConfusionMatrix
+from .anomaly_vs_normal import AnomalyVsNormal
 from .class_label_sizes import ClassLabelSizes
 from .data_distribution import DataDistribution
 from .model_performance import ModelPerformance
@@ -21,6 +22,7 @@ __all__ = [
     "LiftCurve",
     "AnomalyScore",
     "FeatureImpact",
+    "AnomalyVsNormal",
     "ClassLabelSizes",
     "ConfusionMatrix",
     "DataDistribution",

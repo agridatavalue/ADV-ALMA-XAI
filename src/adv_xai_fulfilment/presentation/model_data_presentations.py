@@ -7,7 +7,6 @@ from ..application.anomaly_score_service import AnomalyScoreService
 from ..application.feature_impact_service import FeatureImpactService
 from ..application.confusion_matrix_service import ConfusionMatrixService
 from ..application.class_label_sizes_service import ClassLabelSizesService
-from ..domain.model.explainers.response_data import ModelPerformanceMetrics
 from ..domain.model.explainers.response_data import Heatmap, ClassLabelSizes
 from ..application.feature_importance_service import FeatureImportanceService
 from ..application.partial_dependence_service import PartialDependenceService
@@ -18,6 +17,7 @@ from ..domain.model.explainers.response_data import FeatureDescription, FeatureI
 from ..domain.model.explainers.response_data import IndividualConditionalExpectations
 from ..application.model_performance_metric_service import ModelPerformanceMetricService
 from .translator import ExplainerIdentifierTranslator, DataPresentationsOutputTranslator
+from ..domain.model.explainers.response_data import ModelPerformanceMetrics, AnomalyVsNormal
 from ..application.data_features_average_score_service import DataFeaturesAverageScoreService
 from ..application.individual_conditional_expectations_service import IndividualConditionalExpectationService
 from ..domain.model.explainers.response_data import ModelPerformance, PartialDependence, DataFeaturesAndAverageScore
@@ -156,3 +156,9 @@ class ModelDataPresentations:
         data_sanitized = self._validator.validate_and_sanitize_anomaly_score(data)
         expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
         return self._anomaly_scores_service.get_data(expl_id)
+    
+    def get_anomaly_vs_normal(self, data: dict = {}) -> AnomalyVsNormal:
+        logger.info(f"called get_anomaly_vs_normal with params: {data}")
+        data_sanitized = self._validator.validate_and_sanitize_anomaly_vs_normal(data)
+        expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
+        return self._anomaly_scores_service.get_anomaly_vs_normal_data(expl_id)
