@@ -7,6 +7,8 @@ COPY requirements.txt .
 RUN pip install --upgrade pip setuptools wheel \
     && pip install --no-cache-dir -r requirements.txt \
     && pip install waitress  # Add this if needed
+    
+RUN pip install YOLOv8-Explainer==0.0.5
 
 # User management for security
 RUN addgroup --system app \
