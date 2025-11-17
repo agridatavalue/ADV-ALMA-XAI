@@ -48,6 +48,8 @@ class ExplainerGuide:
                         FeatureImpact(),
                         AnomalyVsNormal(),
                         ConfusionMatrix(),
+                        FeatureImportance(''),
+                        ModelPerformanceMetrics(),
                     ]
 
         return list_to_return

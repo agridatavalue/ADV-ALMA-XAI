@@ -1,11 +1,4 @@
 hight priority:
-[ ] Endpoints for the anomaly detection models:
-    - [x] FeatureImportance
-    - [x] Feature Impact
-    - [x] Anomaly Score
-    - [ ] Normal vs Anomaly Distribution
-    - [x] Performance metrics
-    - [x] Confusion matrix
 [ ] fix tests
 
 lower priority:
