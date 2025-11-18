@@ -4,11 +4,23 @@ WORKDIR /app
 
 # Install dependencies
 COPY requirements.txt .
-RUN pip install --upgrade pip setuptools wheel \
-    && pip install --no-cache-dir -r requirements.txt \
-    && pip install waitress  # Add this if needed
-    
-RUN pip install YOLOv8-Explainer==0.0.5
+RUN pip install --upgrade pip setuptools wheel
+RUN pip install --no-cache-dir nvidia-cublas-cu12==12.4.5.8 \
+    && pip install --no-cache-dir YOLOv8-Explainer==0.0.5 \
+    && pip install --no-cache-dir nvidia-cuda-cupti-cu12==12.4.127 \
+    && pip install --no-cache-dir nvidia-cuda-nvrtc-cu12==12.4.127 \
+    && pip install --no-cache-dir nvidia-cuda-runtime-cu12==12.4.127 \
+    && pip install --no-cache-dir nvidia-cudnn-cu12==9.1.0.70 \
+    && pip install --no-cache-dir nvidia-cufft-cu12==11.2.1.3 \
+    && pip install --no-cache-dir nvidia-curand-cu12==10.3.5.147 \
+    && pip install --no-cache-dir nvidia-cusolver-cu12==11.6.1.9 \
+    && pip install --no-cache-dir nvidia-cusparse-cu12==12.3.1.170 \
+    && pip install --no-cache-dir nvidia-cusparselt-cu12==0.6.2 \
+    && pip install --no-cache-dir nvidia-nccl-cu12==2.21.5 \
+    && pip install --no-cache-dir nvidia-nvjitlink-cu12==12.4.127 \
+    && pip install --no-cache-dir nvidia-nvtx-cu12==12.4.127
+
+RUN pip install --no-cache-dir -r requirements.txt
 
 # User management for security
 RUN addgroup --system app \
