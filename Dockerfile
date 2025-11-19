@@ -6,11 +6,15 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --upgrade pip setuptools wheel
 
-# Install NVIDIA packages first
-RUN pip install --no-cache-dir $(grep '^nvidia-' requirements.txt)
+# First install only the NVIDIA packages
+RUN grep '^nvidia-' requirements.txt > /tmp/req_nvidia.txt && \
+    pip install --no-cache-dir -r /tmp/req_nvidia.txt && \
+    rm /tmp/req_nvidia.txt
 
-# Install everything else
-RUN pip install --no-cache-dir -r <(grep -v '^nvidia-' requirements.txt)
+# Then install everything else
+RUN grep -v '^nvidia-' requirements.txt > /tmp/req_other.txt && \
+    pip install --no-cache-dir -r /tmp/req_other.txt && \
+    rm /tmp/req_other.txt
 
 # User management for security
 RUN addgroup --system app \
