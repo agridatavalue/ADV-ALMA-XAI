@@ -67,7 +67,7 @@ class BucketRepository:
 
         if destination_file_path and os.path.dirname(destination_file_path):
             os.makedirs(os.path.dirname(destination_file_path), exist_ok=True)
-        return shutil.move(res.object_name, destination_file_path)
+        return shutil.move(res.object_name, destination_file_path) # type: ignore
     
     def download_file_from(self, bucket_name: str, object_name: str, destination_file_path: str) -> str:
         if destination_file_path and os.path.dirname(destination_file_path):

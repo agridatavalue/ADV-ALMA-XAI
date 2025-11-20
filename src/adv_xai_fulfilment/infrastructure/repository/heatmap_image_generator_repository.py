@@ -70,7 +70,7 @@ class HeatmapImageGeneratorRepository:
         heatmap_image_path = image_path.replace(
             f".{file_extension}", f"_heatmap.{file_extension}"
         )
-        heatmap_image.save(heatmap_image_path)
+        heatmap_image.save(heatmap_image_path) # type: ignore
 
         logger.debug("Heatmap generated successfully!")
         return heatmap_image_path

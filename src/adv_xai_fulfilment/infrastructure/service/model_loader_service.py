@@ -1,5 +1,6 @@
 import os
 import shutil
+from typing import Optional
 
 from logger import get_logger
 from ..repository import BucketRepository
@@ -14,7 +15,7 @@ class ModelLoaderService:
     _model_translator: ModelTranslator
     _bucketRepository: BucketRepository
 
-    def __init__(self, bucketRepository: BucketRepository = None):
+    def __init__(self, bucketRepository: Optional[BucketRepository] = None):
         self._bucketRepository = bucketRepository or BucketRepository(
             {
                 "endpoint": os.getenv("STORE_ENDPOINT"),

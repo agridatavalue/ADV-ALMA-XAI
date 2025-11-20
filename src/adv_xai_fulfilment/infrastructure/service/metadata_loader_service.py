@@ -1,6 +1,7 @@
 import os
 import json
 import shutil
+from typing import Optional
 
 from logger import get_logger
 from ..constants import Errors
@@ -17,7 +18,7 @@ class MetaDataLoaderService:
     _model_metadata_translator: ModelMetaDataTranslator
     _explainer_metadata_translator: ExplainerMetaDataTranslator
 
-    def __init__(self, bucket_repository: BucketRepository = None):
+    def __init__(self, bucket_repository: Optional[BucketRepository] = None):
         self._bucketRepository = bucket_repository or BucketRepository(
             {
                 "endpoint": os.getenv("STORE_ENDPOINT"),
