@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
     title: ADV
     description: "ADV XAI Fulfilment API"
-    version: 0.0.8
+    version: 0.0.9
     contact:
         name: "Mirko Colageo"
         email: m.colageo@almaviva.it
@@ -639,6 +639,35 @@ paths:
             tags:
                 - Helpers
 
+    /kpi/feedback/{model}:
+        get:
+            summary: Return the feedback KPI for a given model
+            description: Return the feedback KPI for a given model
+            parameters:
+                - name: model
+                  in: path
+                  required: true
+                  description: the identifier of the model file name
+                  example: "model.pkl"
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: successful operation
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    total_feedbacks:
+                                        type: integer
+                                    average_score:
+                                        type: number
+                                        format: float
+                "404":
+                    description: Model not found
+            tags:
+                - KPI
 tags:
     - name: Explainer
       description: Operations related to the explainer
@@ -648,6 +677,8 @@ tags:
       description: Endpoints returning data for model card
     - name: Feedback
       description: Endpoints returning data for feedback handling
+    - name: KPI
+      description: Endpoints returning data for KPIs
     - name: Helpers
       description: Helper endpoints
 
