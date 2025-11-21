@@ -26,7 +26,7 @@ class ModelLoaderService:
         )
         self._model_translator = ModelTranslator()
 
-    def load_from(self, expl_id: ExplainerIdentifier, meta_data: ModelMetaData) -> Model:
+    def load_from(self, expl_id: ExplainerIdentifier, meta_data: ModelMetaData) -> Optional[Model]:
         if not isinstance(expl_id, ExplainerIdentifier):
             raise ValueError("expl_id must be an instance of ExplainerIdentifier")
         if not isinstance(meta_data, ModelMetaData):
