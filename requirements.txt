@@ -15,8 +15,8 @@ certifi==2024.8.30
 cffi==1.17.1
 charset-normalizer==3.4.0
 click==8.1.7
-cloudpathlib==0.16.0
-cloudpickle==2.2.1
+cloudpathlib==0.20.0
+cloudpickle==3.1.0
 colorlog==6.9.0
 colour==0.1.5
 comm==0.2.2
@@ -111,6 +111,8 @@ oyaml==1.0
 packaging==24.2
 pandas==2.2.3
 parso==0.8.4
+pathlib-abc==0.1.1
+pathy==0.11.0
 pexpect==4.9.0
 pillow==10.4.0
 platformdirs==4.3.6
@@ -127,7 +129,7 @@ pyasn1==0.6.1
 pyasn1-modules==0.4.1
 pycparser==2.22
 pycryptodome==3.21.0
-pydantic==2.10.3
+pydantic==1.10.24
 pydantic-core==2.27.1
 pygments==2.18.0
 pyparsing==3.2.0
@@ -145,7 +147,7 @@ rich==13.9.4
 rsa==4.9
 safetensors==0.4.5
 scikit-image==0.22.0
-scikit-learn==1.1.3
+scikit-learn==1.3.2
 scipy==1.13.1
 seaborn==0.13.2
 shap==0.46.0
@@ -153,7 +155,7 @@ shellingham==1.5.4
 six==1.17.0
 slicer==0.0.8
 smart-open==6.4.0
-spacy==3.7.4
+spacy==3.5.2
 spacy-legacy==3.0.12
 spacy-loggers==1.0.5
 spacy-lookups-data==1.0.5
@@ -168,7 +170,7 @@ tensorflow==2.15.0
 tensorflow-estimator==2.15.0
 tensorflow-io-gcs-filesystem==0.37.1
 termcolor==2.5.0
-thinc==8.2.5
+thinc==8.1.12
 threadpoolctl==3.5.0
 tifffile==2024.8.30
 tokenizers==0.21.0
@@ -181,7 +183,7 @@ traitlets==5.14.3
 transformers==4.47.0
 triton==3.2.0
 ttach==0.0.3
-typer==0.9.4
+typer==0.7.0
 typer-slim==0.20.0
 typing-extensions==4.12.2
 tzdata==2024.2
@@ -191,7 +193,7 @@ urllib3==2.2.3
 waitress==3.0.2
 wasabi==1.1.3
 wcwidth==0.2.13
-weasel==0.3.4
+weasel==0.4.1
 werkzeug==3.0.6
 wrapt==1.14.1
 wtforms==3.2.1
