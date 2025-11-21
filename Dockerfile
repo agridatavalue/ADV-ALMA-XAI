@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y \
     ffmpeg
 
 RUN pip install --upgrade pip setuptools wheel
-RUN pip install torch==2.6.0 torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cpu
+ùRUN pip install torch==2.6.0 torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cpu
 
 # First install only the NVIDIA packages
 RUN grep '^nvidia-' requirements.txt > /tmp/req_nvidia.txt && \
