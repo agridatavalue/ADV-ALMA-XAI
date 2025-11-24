@@ -15,10 +15,8 @@ def DataSourceTypesEndpoint():
     try:
         response: dict = DataCardPresentations().get_data_source_types(request.args)
 
-        return make_response(
-            jsonify(response),
-            200,
-        )
+        logger.info("data-source-types successful")
+        return make_response(jsonify(response), 200)
     except Exception as e:
         logger.error(f"error while data-source-types: %s - %s", 
             type(e).__name__, 

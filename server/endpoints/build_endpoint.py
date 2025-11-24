@@ -14,6 +14,8 @@ def build():
 
     try:
         response: list = ExplainerGeneratorPresentation().build(request.get_json())
+        
+        logger.info("build explainers successful")
         return make_response(
             jsonify(
                 {

@@ -16,10 +16,9 @@ def get_all_questions():
         response: list = QuestionAndFeedbackPresentation().get_questions_from_metadata(
             request.args
         )
-        return make_response(
-            jsonify(response),
-            200,
-        )
+        
+        logger.info("get-all-questions successful") 
+        return make_response(jsonify(response), 200)
     except Exception as e:
         logger.error(f"error while getting all questions: %s - %s", 
             type(e).__name__, 

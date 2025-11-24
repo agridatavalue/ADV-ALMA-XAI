@@ -15,6 +15,7 @@ def featureimportance():
     try:
         response = ModelDataPresentations().get_feature_importance(request.get_json())
 
+        logger.info("feature-importance successful")
         return make_response(
             jsonify(
                 {

@@ -14,6 +14,8 @@ def build():
 
     try:
         response = ModelDataPresentations().get_anomaly_score(request.get_json())
+        
+        logger.info("anomaly-score successful")
         return make_response(jsonify(response.to_dict()), 200)
     
     except Exception as e:
