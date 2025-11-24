@@ -49,7 +49,7 @@ class TabularGeneratorService(AbstractGeneratorService):
             f"selecting the matching Explainers for model {context.model.__class__.__name__}"
         )
         possible_explainers: list[Explainer] = self._explainer_retriever.get_by_data(
-            context.model, context.model_metadata
+            context
         )
         logger.info(
             f"found {len(possible_explainers)} explainers: {possible_explainers}"
@@ -71,6 +71,9 @@ class TabularGeneratorService(AbstractGeneratorService):
                     f"error building the explainer {explainer.name}: {str(e)}"
                 )
         
+        logger.debug(
+            f"generating feature importance for {str(context.identifier)}"
+        )
         feature_importance: FeatureImportance = self._fi_service_comp.generate_data(
             context
         )

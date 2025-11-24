@@ -21,6 +21,9 @@ class KernelExplainerExplainer(Explainer):
                 DataTypeModelExplainer(DataType.TABULAR, KernelExplainer),
             ],
         )
+        
+    def can_match_with(self, context: "ModelContext") -> bool:
+        return super().can_match_with(context) and len(context.model_data.data_train) < 100
 
     def get_shap_values(self, x_test: np.array) -> np.array:
         return self.build_result.shap_values(x_test)

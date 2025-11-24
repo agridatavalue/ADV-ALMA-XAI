@@ -4,7 +4,6 @@ from ..model import Model
 from .explainer import Explainer
 from ..data_type import DataType
 from ..model_data import ModelData
-from ..model_metadata import ModelMetaData
 from .datatype_model_explainer import DataTypeModelExplainer
 from src.adv_xai_fulfilment.infrastructure.constants import Errors
 
@@ -36,5 +35,5 @@ class ContrastiveExplanationMethodExplainer(Explainer):
             target_names=self.meta_data.target_names,
         )
 
-    def can_match_with(self, model: Model, meta_data: ModelMetaData) -> bool:
+    def can_match_with(self, context: "ModelContext") -> bool:
         return False

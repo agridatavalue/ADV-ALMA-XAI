@@ -1,6 +1,7 @@
 from logger import get_logger
 from ..model.model import Model
 from ..model.algorithm import Algorithm
+from ..model.model_context import ModelContext
 from ..model.model_metadata import ModelMetaData
 from ..model.explainers.explainer import Explainer
 from ..model.explainers import all as all_class_explainers
@@ -9,6 +10,7 @@ from src.adv_xai_fulfilment.infrastructure.constants import Errors
 POSSIBLE_FEATURE_IMPORTANCE_EXPLAINER_NAMES = [
     "TreeSHAPinterventional",
     "TsIsolationForestShap",
+    "LinearExplainer",
     "KernelExplainer",
     "DeepExplainer",
     "KernelSHAP",
@@ -28,9 +30,9 @@ class ExplainerRetriever:
         logger.debug("creating all Explainers")
         self._all_explainers_available = [c() for c in class_explainers]
 
-    def get_by_data(
-        self, selected_model: Model, meta_data: ModelMetaData
-    ) -> list[Explainer]:
+    def get_by_data(self, context: ModelContext) -> list[Explainer]:
+        selected_model = context.model
+        meta_data = context.model_metadata
         if not isinstance(meta_data, ModelMetaData):
             raise ValueError("meta_data is not ModelMetaData instance")
         
@@ -47,7 +49,7 @@ class ExplainerRetriever:
         return [
             expl.set_meta_data(meta_data)
             for expl in self._all_explainers_available
-            if expl.can_match_with(selected_model, meta_data)
+            if expl.can_match_with(context)
         ]
 
     def get_by_name(self, name: str) -> Explainer:

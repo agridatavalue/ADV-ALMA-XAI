@@ -1,9 +1,7 @@
 from alibi.explainers import CounterfactualRL
 
-from ..model import Model
 from ..data_type import DataType
 from .explainer import Explainer
-from ..model_metadata import ModelMetaData
 from .datatype_model_explainer import DataTypeModelExplainer
 
 
@@ -23,5 +21,5 @@ class CounterFactualsPrototypesExplainer(Explainer):
             ],
         )
 
-    def can_match_with(self, model: Model, meta_data: ModelMetaData) -> bool:
+    def can_match_with(self, context: "ModelContext") -> bool:
         return False

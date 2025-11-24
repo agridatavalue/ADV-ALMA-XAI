@@ -2,7 +2,6 @@ import pickle
 from abc import ABC
 from typing import Optional
 
-from ..model import Model
 from ..model_data import ModelData
 from ..model_metadata import ModelMetaData
 from ..model_category import ModelCategory
@@ -61,15 +60,15 @@ class Explainer(ABC):
         with open(path, "rb") as file:
             self.build_result = pickle.load(file)
 
-    def can_match_with(self, model: Model, meta_data: ModelMetaData) -> bool:
-        if not isinstance(meta_data, ModelMetaData):
+    def can_match_with(self, context: "ModelContext") -> bool:
+        if not isinstance(context.model_metadata, ModelMetaData):
             return False
 
         return (
-            meta_data.model_type in self.type
-            and meta_data.model_category in [ModelCategory.from_string(c) for c in self.categories]
+            context.model_metadata.model_type in self.type
+            and context.model_metadata.model_category in [ModelCategory.from_string(c) for c in self.categories]
             and (
-                meta_data.data_type
+                context.model_metadata.data_type
                 in [dt.data_type for dt in self.data_type_explainers]
             )
         )
