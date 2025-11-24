@@ -16,6 +16,8 @@ def get_explainer_data_endpoint():
         response: list = ExplainerGeneratorPresentation().get_explainer_guide(
             request.args
         )
+        
+        logger.info("get-explainer-guide successful")
         return make_response(
             jsonify(
                 {

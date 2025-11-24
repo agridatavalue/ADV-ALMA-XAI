@@ -14,6 +14,8 @@ def data_feature_and_average_score():
 
     try:
         response = ModelDataPresentations().get_data_features_and_average_score(request.get_json())
+        
+        logger.info("data-features-and-average-score successful")
         return make_response(jsonify(
             [
                 {

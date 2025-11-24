@@ -14,6 +14,8 @@ def lift_curve():
 
     try:
         response = ModelDataPresentations().get_lift_curve(request.get_json())
+        
+        logger.info("lift-curve successful")
         return make_response(jsonify(response.to_dict()), 200)
     
     except Exception as e:

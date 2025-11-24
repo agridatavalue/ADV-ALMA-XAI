@@ -14,7 +14,8 @@ def featureimpact():
 
     try:
         response = ModelDataPresentations().get_feature_impact(request.get_json())
-        print(response)
+        
+        logger.info("feature-impact successful")
         return make_response(jsonify(response.to_dict()), 200)
     
     except Exception as e:

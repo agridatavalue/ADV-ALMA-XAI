@@ -1,4 +1,3 @@
-import numpy as np
 from alibi.explainers import PartialDependence
 
 from .explainer import Explainer

@@ -1,9 +1,7 @@
 from alibi.explainers import TreeShap
 
-from ..model import Model
 from .explainer import Explainer
 from ..data_type import DataType
-from ..model_metadata import ModelMetaData
 from .datatype_model_explainer import DataTypeModelExplainer
 
 
@@ -20,5 +18,5 @@ class TreeShapPathDependentExplainer(Explainer):
             data_type_explainers=[DataTypeModelExplainer(DataType.TABULAR, TreeShap)],
         )
 
-    def can_match_with(self, model: Model, meta_data: ModelMetaData) -> bool:
+    def can_match_with(self, context: "ModelContext") -> bool:
         return False

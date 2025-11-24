@@ -14,6 +14,8 @@ def DataDistributionEndpoint():
 
     try:
         response = DataCardPresentations().get_data_distribution(request.get_json())
+        
+        logger.info("data-distribution successful")
         return make_response(jsonify(response.to_dict()), 200)
     except Exception as e:
         logger.error(f"error while data-distribution: %s - %s", 

@@ -16,6 +16,8 @@ def FeatureDescriptionsEndpoint():
         response: list[FeatureDescription] = (
             ModelDataPresentations().get_feature_description(request.get_json())
         )
+        
+        logger.info("featureDescriptions successful")
         return make_response(
             jsonify(
                 [

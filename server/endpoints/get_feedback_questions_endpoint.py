@@ -16,10 +16,9 @@ def get_feedback():
         response = QuestionAndFeedbackPresentation().get_partner_feedback_from(
             request.get_json()
         )
-        return make_response(
-            jsonify("OK" if response else "KO"),
-            200,
-        )
+        
+        logger.info("save-feedback successful")
+        return make_response(jsonify("OK" if response else "KO"), 200)
     except Exception as e:
         logger.error(f"error while saving the feedback: %s - %s", 
             type(e).__name__, 

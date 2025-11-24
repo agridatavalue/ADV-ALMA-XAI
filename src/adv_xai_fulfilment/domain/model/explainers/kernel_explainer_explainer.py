@@ -5,6 +5,7 @@ from .explainer import Explainer
 from ..data_type import DataType
 from ..model_data import ModelData
 from .datatype_model_explainer import DataTypeModelExplainer
+from src.adv_xai_fulfilment.infrastructure.helper import Helper
 
 
 class KernelExplainerExplainer(Explainer):
@@ -20,6 +21,12 @@ class KernelExplainerExplainer(Explainer):
             data_type_explainers=[
                 DataTypeModelExplainer(DataType.TABULAR, KernelExplainer),
             ],
+        )
+        
+    def can_match_with(self, context: "ModelContext") -> bool:
+        return (
+            super().can_match_with(context) 
+            and len(context.model_data.data_train) < Helper.get_limit_for_data_samples()
         )
 
     def get_shap_values(self, x_test: np.array) -> np.array:

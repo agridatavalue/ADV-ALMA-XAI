@@ -4,6 +4,7 @@ from .regression_explainer import RegressionExplainer
 from .kernel_shap_explainer import KernelSHAPExplainer
 from .deep_explainer_explainer import DeepExplainerExplainer
 from .kernel_explainer_explainer import KernelExplainerExplainer
+from .linear_explainer_explainer import LinearExplainerExplainer
 from .partial_dependence_explainer import PartialDependenceExplainer
 from .integrated_gradients_explainer import IntegratedGradientsExplainer
 from .permutation_importance_explainer import PermutationImportanceExplainer
@@ -24,6 +25,7 @@ all = [
     RegressionExplainer,
     KernelSHAPExplainer,
     DeepExplainerExplainer,
+    LinearExplainerExplainer,
     KernelExplainerExplainer,
     PartialDependenceExplainer,
     IntegratedGradientsExplainer,

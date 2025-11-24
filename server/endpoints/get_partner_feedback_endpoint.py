@@ -16,6 +16,8 @@ def get_partner_feedback(partner:str):
         response = QuestionAndFeedbackPresentation().get_provided_partner_feedback(
             {'partner':partner, **request.args}
         )
+        
+        logger.info("get-partner-feedback successful")
         return make_response(jsonify(response.to_dict() if response else {}), 200)
     except Exception as e:
         logger.error(f"error while getting partner feedback: %s - %s", 

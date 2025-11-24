@@ -1,7 +1,5 @@
 from sklearn.inspection import permutation_importance
 
-from src.adv_xai_fulfilment.domain.model.model import Model
-from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.machine_learning_model.scikitlearn_model import ScikitLearnModel
 
 from .explainer import Explainer
@@ -33,8 +31,8 @@ class SklearnPermutationImportanceExplainer(Explainer):
             random_state = 42
         )
         
-    def can_match_with(self, model: Model, meta_data: ModelMetaData) -> bool:
+    def can_match_with(self, context: "ModelContext") -> bool:
         return (
-            super().can_match_with(model, meta_data) 
-            and meta_data.framework in ScikitLearnModel.supported_frameworks()
+            super().can_match_with(context) 
+            and context.model_metadata.framework in ScikitLearnModel.supported_frameworks()
         )

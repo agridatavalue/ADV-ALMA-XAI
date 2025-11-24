@@ -4,7 +4,21 @@ WORKDIR /app
 
 # Install dependencies
 COPY requirements.txt .
+
+# install cv2 dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    gcc \
+    g++ \
+    make \
+    libgl1 \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    ffmpeg
+
 RUN pip install --upgrade pip setuptools wheel
+RUN pip install torch==2.6.0 torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cpu
 
 # First install only the NVIDIA packages
 RUN grep '^nvidia-' requirements.txt > /tmp/req_nvidia.txt && \
@@ -20,8 +34,7 @@ RUN grep -v '^nvidia-' requirements.txt > /tmp/req_other.txt && \
 RUN addgroup --system app \
     && adduser --system --no-create-home --group app
 
-# install cv2 dependencies
-RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+
 
 # Copy application files
 COPY . .

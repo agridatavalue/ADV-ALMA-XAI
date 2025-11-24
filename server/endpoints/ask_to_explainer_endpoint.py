@@ -17,10 +17,8 @@ def AskToExplainerEndpoint(model: str, partner: str):
             {'partner': partner, 'model': model, **request.get_json()}
         )
 
-        return make_response(
-            jsonify({"response": response}),
-            200,
-        )
+        logger.info("ask to explainer successful")
+        return make_response(jsonify({"response": response}), 200)
     except Exception as e:
         logger.error(f"error while asking to the explainers: %s - %s", 
             type(e).__name__, 

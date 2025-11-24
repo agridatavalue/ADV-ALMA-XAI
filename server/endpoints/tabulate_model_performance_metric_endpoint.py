@@ -14,6 +14,8 @@ def TabulateModelPerformanceMetricsEndpoint():
 
     try:
         response = ModelDataPresentations().get_model_performance_metrics(request.get_json())
+        
+        logger.info("model-performance-metrics successful")
         return make_response(
             jsonify(
                 [{"key": k, "value": response.metrics[k]} for k in response.metrics]

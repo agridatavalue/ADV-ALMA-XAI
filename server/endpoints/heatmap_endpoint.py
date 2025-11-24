@@ -20,6 +20,8 @@ def build():
 
     try:
         response = ModelDataPresentations().get_heatmap(request.get_json())
+        
+        logger.info("heatmap successful")
         return make_response(
             jsonify({"sources": [prepare_path(r) for r in response.heatmaps]}),
             200,

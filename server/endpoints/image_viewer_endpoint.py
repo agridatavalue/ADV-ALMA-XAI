@@ -17,6 +17,8 @@ def get_image(model: str, partner: str):
         response = HelpersPresentation().get_image(
             {'partner': partner, 'model': model, **request.args}
         )
+        
+        logger.info("get-image successful")
         return send_file(response, mimetype="image/jpeg")
 
     except Exception as e:
