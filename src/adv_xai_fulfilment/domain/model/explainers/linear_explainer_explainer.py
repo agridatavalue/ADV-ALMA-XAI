@@ -1,6 +1,7 @@
 import torch
 from shap import LinearExplainer
 
+from src.adv_xai_fulfilment.infrastructure.helper import Helper
 from src.adv_xai_fulfilment.domain.model.model_data import ModelData
 
 from .explainer import Explainer
@@ -24,7 +25,10 @@ class LinearExplainerExplainer(Explainer):
         )
         
     def can_match_with(self, context: "ModelContext") -> bool:
-        return super().can_match_with(context) and len(context.model_data.data_train) > 100
+        return (
+            super().can_match_with(context) 
+            and len(context.model_data.data_train) > Helper.get_limit_for_data_samples()
+        )
 
     def get_shap_values(self, x_test):
         return self.build_result.shap_values(x_test)

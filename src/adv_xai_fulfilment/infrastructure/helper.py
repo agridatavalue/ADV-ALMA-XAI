@@ -13,3 +13,7 @@ class Helper:
         if url_parsed.scheme in ("file", ""):  # Possibly a local file
             return exists(url_parsed.path)
         return False
+
+    @staticmethod
+    def get_limit_for_data_samples() -> int:
+        return 100
