@@ -14,13 +14,9 @@ class LiftCurveService(AbstractModelService):
             raise ValueError("Lift curve is not applicable for regression models.")
 
         # Use test labels and predictions directly from ModelData
-        y_test = np.array(data.y_test)
-        y_pred = np.array(data.y_predict)
+        y_test = np.array(data.y_test).flatten()
+        y_pred = np.array(data.y_predict).flatten()
 
-        # Ensure 1D
-        y_test = y_test.flatten()
-        y_pred = y_pred.flatten()
-        
         # If predictions are class labels, try to get probabilities instead
         if len(np.unique(y_pred)) == 2 and set(np.unique(y_pred)) == {0, 1}:
             # Looks like class labels, not probabilities
@@ -29,6 +25,17 @@ class LiftCurveService(AbstractModelService):
                 y_pred = context.model.handler.predict_proba(data.x_predict)[:, 1]
             else:
                 raise ValueError("Model does not provide predict_proba(), cannot compute lift curve properly.")
+
+        y_pred = np.array(y_pred).flatten()
+
+        # Allinei le lunghezze per evitare out-of-bounds
+        min_len = min(len(y_test), len(y_pred))
+        if min_len == 0:
+            raise ValueError("Cannot compute lift curve: zero-length arrays.")
+
+        if len(y_test) != len(y_pred):
+            y_test = y_test[:min_len]
+            y_pred = y_pred[:min_len]
 
         # Sort by predicted probability
         sorted_indices = np.argsort(y_pred)[::-1]

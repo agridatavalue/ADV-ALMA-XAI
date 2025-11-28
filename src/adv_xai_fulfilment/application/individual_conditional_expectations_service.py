@@ -28,7 +28,9 @@ class IndividualConditionalExpectationService(AbstractModelService):
         )
         
         pdp_values = np.asarray(explanation.data['pd_values'][0]).flatten()
-        ice_curves = np.asarray(explanation.data['ice_values'][0])  # shape: (n_samples, grid_resolution)
+        # FIX: transpose ICE to match expected shape
+        raw_ice = np.asarray(explanation.data['ice_values'][0])  # (grid, samples)
+        ice_curves = raw_ice.T  # (samples, grid)
         grid_values = np.asarray(explanation.data['feature_values'][0])
 
         # Restituisce l'oggetto con tutti i valori ICE + PDP
