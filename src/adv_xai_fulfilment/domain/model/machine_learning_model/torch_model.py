@@ -20,3 +20,5 @@ class TorchModel(Model):
             outputs = self.handler(X)
             # opzionale: outputs.numpy() se serve compatibilità sklearn
             return outputs.detach().cpu().numpy()
+        
+    

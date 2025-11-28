@@ -26,6 +26,9 @@ class Model:
     
     def predict(self, X):
         raise NotImplementedError
+    
+    def predict_proba(self, X):
+        return self.handler.predict_proba(X)
 
     def is_ok(self) -> bool:
         return self.handler is not None

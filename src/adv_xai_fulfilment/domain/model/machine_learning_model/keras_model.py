@@ -1,10 +1,9 @@
 import numpy as np
 import pandas as pd
-from tqdm import tqdm
 from keras.models import load_model
 
 from ..model import Model
-from ..explainers.response_data import PartialDependence, FeatureDescription
+from ..explainers.response_data import FeatureDescription
 
 
 class KerasModel(Model):
