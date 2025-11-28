@@ -1,8 +1,8 @@
 import numpy as np
 
 from .model_metadata import ModelMetaData
-from .explainers.response_data import DataFeaturesAndAverageScore
 from .explainers.response_data import FeatureImportance, FeatureDescription
+from .explainers.response_data import DataFeaturesAndAverageScore, LiftCurve
 from .explainers.response_data import PartialDependence, ExplainerResponseData
 from .explainers.response_data import AnomalyScore, FeatureImpact, AnomalyVsNormal
 from .explainers.response_data import ConfusionMatrix, IndividualConditionalExpectations
@@ -39,7 +39,7 @@ class ExplainerGuide:
                     IndividualConditionalExpectations(),
                 ]
             if self._meta_data.is_classification:
-                list_to_return += [ConfusionMatrix()]
+                list_to_return += [ConfusionMatrix(), LiftCurve()]
                 
             if self._meta_data.is_ts_anomaly_detection:
                 if len(self._meta_data.target_names) > 0:

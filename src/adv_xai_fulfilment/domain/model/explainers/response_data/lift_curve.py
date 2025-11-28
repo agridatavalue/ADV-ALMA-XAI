@@ -8,7 +8,7 @@ class LiftCurve(ExplainerResponseData):
     _cumulative_positives_random: pd.Series
 
     def __init__(self):
-        super().__init__(endpoint='lift_curve')
+        super().__init__(endpoint='lift-curve')
 
     def set_lift_curve_data(self, lift_curve_data: pd.Series) -> "LiftCurve":
         self._lift_curve_data = lift_curve_data
