@@ -48,20 +48,25 @@ class ModelData:
         model_category: ModelCategory,
         target_name: str = "",
     ) -> "ModelData":
-        if self.data_predict is not None and not self.data_predict.empty:            
-            self.data_predict = self.data_train.fillna(0)
+        if self.data_predict is not None and not self.data_predict.empty:
+            self.data_predict = self.data_predict.fillna(0)
             cols_to_remove = [col for col in self.data_predict.columns if col not in feature_names]
             if cols_to_remove:
                 logger.debug(f"predict - Removing columns not in feature names: {cols_to_remove}")
                 self._x_predict = self.data_predict.drop(columns=cols_to_remove)
-                self._x_predict = self._x_predict[feature_names]
-                if ModelCategory.is_ts_anomaly_detection(str(model_category)):
-                    self._y_predict = self.data_predict[target_name]
+                
+            self._x_predict = self._x_predict[feature_names]
+            if ModelCategory.is_ts_anomaly_detection(str(model_category)):
+                self._y_predict = self.data_predict[target_name]
+            
+            if target_name in self.data_predict:
+                self._y_predict = model.predict(self.data_predict)
+                self._y_test = self.data_predict[target_name]
         
         if self.data_train is not None and not self.data_train.empty:
             self.data_train = self.data_train.fillna(0)
             cols_to_remove = [col for col in self.data_train.columns if col not in feature_names]
-            if self._y_predict is None or self._y_predict.empty:
+            if self.y_predict_is_empty:
                 X = self.data_train.drop(columns=cols_to_remove)
                 y = self.data_train[target_name]
                 if ModelCategory.is_classification(str(model_category)):
@@ -170,10 +175,22 @@ class ModelData:
             raise ValueError("Image path must be a string")
         self._image_path = image
 
+    # --------------------------------------------------------------
     @property
     def is_empty(self) -> bool:
         return self.data_predict is None or self.data_train is None or (self.data_predict.empty and self.data_train.empty)
+    
+    @property
+    def y_predict_is_empty(self) -> bool:
+        if self._y_predict is None:
+            return True
+        if isinstance(self._y_predict, np.ndarray):
+            return self._y_predict.size == 0
+        if isinstance(self._y_predict, pd.DataFrame):
+            return self._y_predict.empty
+        return False
 
+    # --------------------------------------------------------------
     def __repr__(self) -> str:
         return f"ModelData(predict_x={self._x_predict}, predict_y={self._y_predict}, image_path={self._image_path})"
     
