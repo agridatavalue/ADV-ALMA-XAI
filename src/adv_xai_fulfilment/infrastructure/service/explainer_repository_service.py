@@ -29,7 +29,9 @@ class ExplainerRepositoryService:
         explainer: Explainer,
         explainer_identifier: ExplainerIdentifier,
     ) -> str:
-        logger.debug(f"loading explainer {explainer.name} place in {explainer_identifier.get_explainer_file_path(explainer.file_name)}")
+        logger.debug(
+            f"loading explainer {explainer.name} place in {explainer_identifier.get_explainer_file_path(explainer.file_name)}"
+        )
         destination_file_path: str = explainer_identifier.get_explainer_locale_filepath(
             explainer
         )

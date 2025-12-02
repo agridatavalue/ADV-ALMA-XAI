@@ -26,3 +26,7 @@ class Answer:
     @staticmethod
     def create_radio_answer(text: str, value: str):
         return Answer("radio", text, value)
+    
+    @staticmethod
+    def create_value_answer(text: str, value: str):
+        return Answer("value", text, value)

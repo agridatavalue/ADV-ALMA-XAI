@@ -46,7 +46,7 @@ class Question:
             "question": self._text,
             "feedback": self._user_answer.value if self._user_answer else "",
             "answers": {
-                "type": "radio",
+                "type": "value",
                 "values": [ 
                     { "label": a.text, "value": a.value } for a in self._possible_answers]
             },
@@ -83,7 +83,7 @@ class Question:
                 path.dirname(__file__),
                 "../../../../../",
                 "sources",
-                "radio_questions.json",
+                "values_questions.json",
             )
         )
         with open(file_path) as file:
@@ -92,9 +92,16 @@ class Question:
                 Question(
                     **d,
                     possible_answers=[
-                        Answer.create_radio_answer("Agree", "agree"),
-                        Answer.create_radio_answer("Neutral", "neutral"),
-                        Answer.create_radio_answer("Disagree", "disagree"),
+                        Answer.create_value_answer("Disagree", "0"),
+                        Answer.create_value_answer("Minimally Agree", "1"),
+                        Answer.create_value_answer("Slightly Agree", "2"),
+                        Answer.create_value_answer("Somewhat Agree", "3"),
+                        Answer.create_value_answer("Moderately Agree", "4"),
+                        Answer.create_value_answer("Mediumly Agree", "5"),
+                        Answer.create_value_answer("Considerably Agree", "6"),
+                        Answer.create_value_answer("Very Strongly Agree", "7"),
+                        Answer.create_value_answer("Almost Fully Agree", "8"),
+                        Answer.create_value_answer("Strongly Agree", "9"),
                     ],
                 )
                 for d in data.get("data", [])

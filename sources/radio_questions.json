@@ -2,40 +2,36 @@
     "data": [
         {
             "id": "1",
-            "text": "From my experience with AI models used in AgriDataValue project: the results provided by AI models are clear and understandable.",
-            "template_text": "From my experience with AI models used in AgriDataValue project: the results provided by AI models are clear and understandable."
+            "text": "From the explanation, I know how the software tool/algorithm works.",
+            "template_text": "From the explanation, I know how the software algorithm {action} {subjectname} {targetname}."
         },
         {
             "id": "2",
-            "text": "From my experience with AI models used in AgriDataValue project: the results provided by AI models are clear and understandable.",
-            "template_text": "From my experience with AI models used in AgriDataValue project: the results provided by AI models are clear and understandable."
+            "text": "This explanation of how the software tool/algorithm works is satisfying.",
+            "template_text": "This explanation of how the software {action} {subjectname} {targetname} is satisfying."
         },
         {
             "id": "3",
-            "text": "From my experience with AI models used in AgriDataValue project: the results provided by AI models are useful and applicable for my work.",
-            "template_text": "From my experience with AI models used in AgriDataValue project: the results provided by AI models are useful and applicable for my work."
+            "text": "This explanation of how the software tool/algorithm works has sufficient detail.",
+            "template_text": "This explanation of how the algorithm {action} {subjectname} {targetname} has sufficient detail."
         },
         {
             "id": "4",
-            "text": "From my experience with EXPLANATION of AI models results used in AgriDataValue project: the explanations provided for AI models are clear and understandable.",
-            "template_text": "From my experience with EXPLANATION of AI models results used in AgriDataValue project: the explanations provided for AI models are clear and understandable."
+            "text": "This explanation of how the software tool/algorithm works seems complete.",
+            "template_text": "This explanation of how the algorithm {action} {subjectname} {targetname} seems complete."
         },
         {
             "id": "5",
-            "text": "From my experience with EXPLANATION of AI models results used in AgriDataValue project: the explanations provided for AI models are useful and applicable for my work.",
-            "template_text": "From my experience with EXPLANATION of AI models results used in AgriDataValue project: the explanations provided for AI models are useful and applicable for my work."
+            "text": "This explanation of how the software tool/algorithm works tells me how to use it.",
+            "template_text": "This explanation of how the algorithm {action} {subjectname} {targetname} helps me to trust the process."
+        },
+        {
+            "id": "6",
+            "text": "This explanation of how the software tool/algorithm works is useful to my goals."
+        },
+        {
+            "id": "7",
+            "text": "This explanation of the software tool/algorithm shows me how accurate and trustable the tool is."
         }
     ]
 }
-
-
-
-
-
-
-
-
-0 [Not at all
-]	 [A Little
-]	2	3	4	5	6	7	8	9 [A Lot
-]
