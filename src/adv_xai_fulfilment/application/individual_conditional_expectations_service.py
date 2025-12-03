@@ -3,7 +3,8 @@ import numpy as np
 from .abstract_model_service import AbstractModelService
 from ..domain.model.explainer_identifier import ExplainerIdentifier
 from ..domain.model.explainers.response_data import IndividualConditionalExpectations
-from ..domain.model.explainers.partial_dependence_explainer import PartialDependenceExplainer
+from ..domain.model.explainers.alibi_partial_dependence_explainer import AlibiPartialDependenceExplainer
+from ..domain.model.explainers.sklearn_partial_dependence_explainer import SkLearnPartialDependenceExplainer
 
 
 class IndividualConditionalExpectationService(AbstractModelService):
@@ -16,26 +17,35 @@ class IndividualConditionalExpectationService(AbstractModelService):
             feature_idx = list(context.model_data.x_train.columns).index(feature)
 
         print(f"Using feature index: {feature_idx} for feature: {feature}")
-
-        explainer = self._get_explanator(request, PartialDependenceExplainer())
-
-        # Generate the explanation
-        explanation = explainer.explain(
-            X=context.model_data.x_train.values,
-            features=[feature_idx],
-            grid_resolution=50,  # Match sklearn's resolution
-            kind="both"
-        )
         
-        pdp_values = np.asarray(explanation.data['pd_values'][0]).flatten()
-        # FIX: transpose ICE to match expected shape
-        raw_ice = np.asarray(explanation.data['ice_values'][0])  # (grid, samples)
-        ice_curves = raw_ice.T  # (samples, grid)
-        grid_values = np.asarray(explanation.data['feature_values'][0])
+        for expl_to_download in [SkLearnPartialDependenceExplainer(), AlibiPartialDependenceExplainer()]:
+            try:
+                explainer = self._get_explanator(request, expl_to_download)
+                if isinstance(expl_to_download, SkLearnPartialDependenceExplainer):
+                    raw = explainer[feature]["individual"][0]
+                    ice = np.array(raw)
+                    ice = ice[:, :, None]
+                    return IndividualConditionalExpectations(
+                        pdp_mean=explainer[feature]["average"][0],
+                        ice_curves=ice,
+                        grid_values=explainer[feature]["values"][0],
+                    )
+                elif isinstance(expl_to_download, AlibiPartialDependenceExplainer):
+                    explanation = explainer.explain(
+                        X=context.model_data.x_train.values,
+                        features=[feature_idx],
+                        grid_resolution=50,  # Match sklearn's resolution
+                        kind="both"
+                    )
+                    raw_ice = np.asarray(explanation.data['ice_values'][0]).T  # (samples, grid)
+                    ice = raw_ice[:, :, None]
+                    return IndividualConditionalExpectations(
+                        pdp_mean=np.asarray(explanation.data['pd_values'][0]).flatten(),
+                        ice_curves=raw_ice.T,
+                        grid_values=np.asarray(explanation.data['feature_values'][0]),
+                    )
+            except ValueError as e:
+                print("Warning", e)
+                continue
 
-        # Restituisce l'oggetto con tutti i valori ICE + PDP
-        return IndividualConditionalExpectations(
-            pdp_mean=pdp_values,
-            ice_curves=ice_curves,
-            grid_values=grid_values,
-        )
+            raise ValueError("Cannot calculate ice")
