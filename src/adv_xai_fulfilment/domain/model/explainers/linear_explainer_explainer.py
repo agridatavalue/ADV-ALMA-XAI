@@ -37,4 +37,5 @@ class LinearExplainerExplainer(Explainer):
         data_to_explain = data.x_predict
         if model.can_handle_federated():
             data_to_explain = torch.tensor(data.x_predict, dtype=torch.float32).transpose(1, 2)
-        return LinearExplainer(model.handler, data_to_explain)
+        
+        self.build_result = LinearExplainer(model.handler, data_to_explain)

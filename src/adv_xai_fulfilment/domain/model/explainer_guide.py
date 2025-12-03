@@ -25,7 +25,6 @@ class ExplainerGuide:
         if self._meta_data.is_tabular:
             if self._meta_data.is_classification or self._meta_data.is_regression:
                 list_to_return += [
-                    ModelPerformance(),
                     PartialDependence(
                         feature_values=np.ndarray([], dtype=float),
                         pdp_values=np.ndarray([], dtype=float),
@@ -33,13 +32,15 @@ class ExplainerGuide:
                         std_effect=0.0,
                     ),
                     FeatureImportance(""),
-                    FeatureDescription(),
                     ModelPerformanceMetrics(),
                     DataFeaturesAndAverageScore(),
                     IndividualConditionalExpectations(),
+                    FeatureDescription(),
                 ]
             if self._meta_data.is_classification:
                 list_to_return += [ConfusionMatrix(), LiftCurve()]
+            if self._meta_data.is_regression:
+                list_to_return += [ModelPerformance()]
                 
             if self._meta_data.is_ts_anomaly_detection:
                 if len(self._meta_data.target_names) > 0:

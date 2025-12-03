@@ -74,7 +74,7 @@ class ModelData:
                 else:
                     _, self._x_test, _, self._y_test = train_test_split(X, y, test_size=0.25, random_state=42)
                 self._y_predict = model.predict(self._x_test)
-            
+                
             self._y_train = self.data_train[target_name] if target_name in self.data_train.columns else self.data_train
             if cols_to_remove:
                 logger.debug(f"train - Removing columns not in feature names: {cols_to_remove}")

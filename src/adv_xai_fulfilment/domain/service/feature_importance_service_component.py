@@ -55,6 +55,7 @@ class FeatureImportanceServiceComponent:
                         x_test=np.array(context.model_data.x_train[context.model_metadata.feature_names])
                     ),
                 )
+                break
 
             except Exception as e:
                 logger.warning(f"Error downloading explainer {expl}: {e}")

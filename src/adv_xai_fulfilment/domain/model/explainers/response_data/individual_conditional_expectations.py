@@ -20,7 +20,7 @@ class IndividualConditionalExpectations(ExplainerResponseData):
 
     def to_dict(self) -> dict:
         return {
-            "pdp_mean": self.pdp_mean.tolist(),
-            "ice_curves": self.ice_curves.tolist(),
-            "grid_values": self.grid_values.tolist(),
+            "pdp_mean": self.pdp_mean.tolist() if isinstance(self.pdp_mean, np.ndarray) else self.pdp_mean,
+            "ice_curves": self.ice_curves.tolist() if isinstance(self.ice_curves, np.ndarray) else self.ice_curves,
+            "grid_values": self.grid_values.tolist() if isinstance(self.grid_values, np.ndarray) else self.grid_values,
         }
