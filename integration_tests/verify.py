@@ -79,6 +79,16 @@ ALL_DATA = {
             "Window"
         ],
         "data_for_train": "https://minio.store.platform.agridatavalue.eu/agridatavalue/ai_flows/random_forest_clf_2025-05-13_14-00-00/data/greenhouse_classification.csv"
+    },
+    "olive_fruit_fly": {
+        "data_for_predict": "ai_flows/user_flows/Fruit_Fly_Infestation_Risk_Classifier/27bc8b49-6e3b-4b5a-9867-18fe6b20f0b8/datasets/Predict_2025-11-04_10-25-17/normalized_data.csv",
+        "data_for_train": "ai_flows/platform_models/fruit_fly_infestation_risk_classifier/data/29_09_2025_risk_train_norm.csv",
+        "meta_data": "ai_flows/platform_models/fruit_fly_infestation_risk_classifier/oliveFruitflyRiskOfinfestation.json",
+        "model": "ai_flows/platform_models/fruit_fly_infestation_risk_classifier/logisticRegressionOliveFruitflyRiskOfInfestation.pkl",
+        "partner": "7ac636e5-0b6a-4d0f-8a8f-962c4fe68ebf",
+        "prediction_targets": [
+            "target_binary_high_risk"
+        ]
     }
 }
 

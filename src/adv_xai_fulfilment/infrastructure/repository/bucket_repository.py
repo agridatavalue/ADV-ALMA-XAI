@@ -89,3 +89,14 @@ class BucketRepository:
             object_name=target_filepath.replace(os.sep, "/"),
         )
         return result.object_name
+    
+    @staticmethod
+    def create_default() -> "BucketRepository":
+        return BucketRepository(
+            {
+                "endpoint": os.getenv("STORE_ENDPOINT"),
+                "access_key": os.getenv("STORE_ACCESS_KEY"),
+                "secret_key": os.getenv("STORE_SECRET_KEY"),
+                "secure": os.getenv("MINIO_SECURE", "true").lower() == "true",
+            }
+        )

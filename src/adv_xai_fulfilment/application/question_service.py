@@ -1,6 +1,8 @@
+import os
 from typing import Optional
 from logger import get_logger
 
+from ..infrastructure.repository.bucket_repository import BucketRepository
 from src.adv_xai_fulfilment.domain.model.questions import Question, Feedback
 from ..infrastructure.service.metadata_loader_service import MetaDataLoaderService
 from ..domain.model.questions.model_feedback_container import ModelFeedbackContainer
@@ -14,13 +16,15 @@ from src.adv_xai_fulfilment.infrastructure.service.explainer_repository_service 
 logger = get_logger()
 
 class QuestionService:
+    _bucket_repository: BucketRepository
     _feedback_repository: FeedbackRepository
     _metadata_loader_service: MetaDataLoaderService
     _explainer_repository_service: ExplainerRepositoryService
-
+    
     def __init__(self):
         self._feedback_repository = FeedbackRepository()
         self._metadata_loader_service = MetaDataLoaderService()
+        self._bucket_repository = BucketRepository.create_default()
         self._explainer_repository_service = ExplainerRepositoryService()
 
     def generate_from_dict(self, expl_id: ExplainerIdentifier) -> list[Question]:
@@ -55,4 +59,9 @@ class QuestionService:
         )
         feedback_container.add_feedback(feedback)
         self._feedback_repository.store(feedback_container)
+        self._bucket_repository.upload_to(
+            bucket_name=os.getenv("EXPLAINER_FOLDER_PATH", ""),
+            target_filepath=feedback.explainer_identifier.get_explainer_feedback_path(),
+            local_filepath=feedback_container.get_filepath()
+        )
         return feedback

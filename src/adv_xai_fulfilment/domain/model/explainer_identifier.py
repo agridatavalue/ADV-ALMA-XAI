@@ -63,6 +63,9 @@ class ExplainerIdentifier:
         category = self.category.lower()
         partner_id = self.partner.id.replace('/', '')
         return f"{BASE_PATH}{model_name}/{prediction}_{category}/{partner_id}"
+    
+    def get_explainer_feedback_path(self) -> str:
+        return f"{self._get_base_path()}/feedback.json"
 
     def get_explainer_metadata_path(self) -> str:
         return f"{self._get_base_path()}/metadata.json"

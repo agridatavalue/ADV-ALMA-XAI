@@ -7,21 +7,16 @@
         },
         {
             "id": "2",
-            "text": "From my experience with AI models used in AgriDataValue project: the results provided by AI models are clear and understandable.",
-            "template_text": "From my experience with AI models used in AgriDataValue project: the results provided by AI models are clear and understandable."
-        },
-        {
-            "id": "3",
             "text": "From my experience with AI models used in AgriDataValue project: the results provided by AI models are useful and applicable for my work.",
             "template_text": "From my experience with AI models used in AgriDataValue project: the results provided by AI models are useful and applicable for my work."
         },
         {
-            "id": "4",
+            "id": "3",
             "text": "From my experience with EXPLANATION of AI models results used in AgriDataValue project: the explanations provided for AI models are clear and understandable.",
             "template_text": "From my experience with EXPLANATION of AI models results used in AgriDataValue project: the explanations provided for AI models are clear and understandable."
         },
         {
-            "id": "5",
+            "id": "4",
             "text": "From my experience with EXPLANATION of AI models results used in AgriDataValue project: the explanations provided for AI models are useful and applicable for my work.",
             "template_text": "From my experience with EXPLANATION of AI models results used in AgriDataValue project: the explanations provided for AI models are useful and applicable for my work."
         }

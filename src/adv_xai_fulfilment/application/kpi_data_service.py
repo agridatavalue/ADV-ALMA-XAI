@@ -1,17 +1,11 @@
 import os
+import json
 
 from src.adv_xai_fulfilment.infrastructure.repository.bucket_repository import BucketRepository
 
 class KpiDataService:
     def __init__(self) -> None:
-        self._bucket_repository = BucketRepository(
-            {
-                "endpoint": os.getenv("STORE_ENDPOINT"),
-                "access_key": os.getenv("STORE_ACCESS_KEY"),
-                "secret_key": os.getenv("STORE_SECRET_KEY"),
-                "secure": os.getenv("MINIO_SECURE", "true").lower() == "true",
-            }
-        )
+        self._bucket_repository = BucketRepository.create_default()
 
     def get_model_feedback(self, request: dict = {}):
         downloaded_files: list[str] = []
@@ -21,30 +15,46 @@ class KpiDataService:
         destination_folder = os.path.join(os.getenv("TEMP", "/tmp"), "kpi_feedback", model_name)
         os.makedirs(destination_folder, exist_ok=True)
         
-        all_content = list(self._bucket_repository._client.list_objects(
-            bucket_name = bucket_name.rstrip('/'), 
-            # prefix=model_name+'/',
-            recursive = True
-        ))
-        print(f">>>", [c.object_name for c in all_content])
-        
-        for dir in self._bucket_repository.listdir(bucket_name=bucket_name, path=model_name):
-            print(f"Checking directory: {dir}")
-            if not self._bucket_repository.is_directory(bucket_name=bucket_name, path=dir):
+        for file in self._bucket_repository.listdir(bucket_name=bucket_name, path='ai_flows/'+model_name+'/'):
+            print(f"Checking file: {file}")
+            if not file.endswith('feedback.json'):
                 continue
             
-            for partner_dir in self._bucket_repository.listdir(bucket_name=bucket_name, path=dir):
-                if not self._bucket_repository.is_directory(bucket_name=bucket_name, path=partner_dir):
-                    continue
-                
-                metadata_to_download: str = f"{model_name}/{partner_dir}/metadata.json"
-                local_metadata_path: str = os.path.join(destination_folder, f"{partner_dir}-metadata.json")
-                print(f"Downloading {metadata_to_download} to {local_metadata_path}")
-                self._bucket_repository.download_from(
-                    bucket_name=bucket_name,
-                    object_name=metadata_to_download,
-                    destination_file_path=local_metadata_path,
-                )
-                downloaded_files.append(local_metadata_path)
+            metadata_to_download: str = file
+            local_metadata_path: str = os.path.join(destination_folder, f"{os.path.basename(os.path.dirname(file))}-feedback.json")
+            print(f"Downloading {metadata_to_download} to {local_metadata_path}")
+            self._bucket_repository.download_from(
+                bucket_name=bucket_name,
+                object_name=metadata_to_download,
+                destination_file_path=local_metadata_path,
+            )
+            downloaded_files.append(local_metadata_path)
         
-        return downloaded_files
+        num_of_feedback = 0
+        num_of_positive_feedback = 0
+        for feedback_file in downloaded_files:
+            with open(feedback_file, 'r') as f:
+                feedback_data: dict = json.load(f) or {}
+                for partner_feedback in feedback_data.get('feedback', []):
+                    for feedback in partner_feedback.get('feedback', []):
+                        print(f"Feedback: {feedback}")
+                        if not feedback.get('feedback'):
+                            continue
+                        
+                        try:
+                            feedback_value = int(feedback['feedback'])
+                        except ValueError:
+                            continue
+                        
+                        if feedback_value > 1: 
+                            num_of_positive_feedback += 1
+                        num_of_feedback += 1
+                        
+        return {
+            "model_name": model_name,
+            "num_of_feedback": num_of_feedback,
+            "num_of_positive_feedback": num_of_positive_feedback,
+            "percentage_positive_feedback": (
+                num_of_positive_feedback / num_of_feedback * 100 if num_of_feedback > 0 else 0
+            ),
+        }
