@@ -28,7 +28,7 @@ build-master:
     - docker build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from $CI_REGISTRY_IMAGE:latest -t $CI_REGISTRY_IMAGE:latest .
     - docker image push $CI_REGISTRY_IMAGE:latest
   only:
-    - master
+    - main
 
 build-tags:
   stage: BUILD
