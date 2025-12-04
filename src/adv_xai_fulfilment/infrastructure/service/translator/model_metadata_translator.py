@@ -51,7 +51,7 @@ class ModelMetaDataTranslator:
             target_names=data.get("targetnames", ""),
             subject_name=data.get("Subjectname", ""),
             model_category=data.get("modelcategory", ""),
-            feature_names=data.get("featurenames", ""),
+            feature_names=data.get("featurenames", []),
             architectures=self._translate_architectures(architectures.get("layers", [])),
             feature_descriptions=self._feature_translator.translate(
                 data.get("feature_descriptions", {})

@@ -2,9 +2,9 @@ from logger import get_logger
 
 from .validator import DataPresentationValidator
 from ..application.targets_service import TargetsService
-from ..domain.model.explainers.response_data import Targets
 from ..domain.model.explainer_identifier import ExplainerIdentifier
 from ..application.data_distribution_service import DataDistrubutionService
+from ..domain.model.explainers.response_data import Targets, DataSourceTypes
 from ..application.feature_description_service import FeatureDescriptionService
 from ..domain.model.explainers.response_data import FeatureDescription, DataDistribution
 from .translator import ExplainerIdentifierTranslator, DataPresentationsOutputTranslator
@@ -39,7 +39,7 @@ class DataCardPresentations:
         expl_id: ExplainerIdentifier = self._input_translator.translate(data_sanitized)
         return self._data_distr_service.get_data(expl_id, data_sanitized.get("bin_size", ""))
 
-    def get_data_source_types(self, request: dict = {}) -> dict:
+    def get_data_source_types(self, request: dict = {}) -> DataSourceTypes:
         logger.info(f"called get_data_source_types with params: {request}")
         self._validator.validate_and_sanitize_data_source_types(request)
         expl_id: ExplainerIdentifier = self._input_translator.translate(request)

@@ -19,6 +19,8 @@ class AbstractValidator:
     def _validate_model(self, model: str) -> bool:
         if not isinstance(model, str):
             raise TypeError(Errors.MODEL_FILENAME_NOT_STRING)
+        if not model:
+            raise ValueError(Errors.MODEL_FILENAME_NOT_EMPTY)
         return True
 
     def _validate_metadata(self, metadata: str) -> bool:

@@ -1,6 +1,7 @@
 import numpy as np
 
 from .model_metadata import ModelMetaData
+from .explainers.response_data import DataSourceTypes
 from .explainers.response_data import FeatureImportance, FeatureDescription
 from .explainers.response_data import DataFeaturesAndAverageScore, LiftCurve
 from .explainers.response_data import PartialDependence, ExplainerResponseData
@@ -23,6 +24,7 @@ class ExplainerGuide:
                 list_to_return.append(FeatureDescription())
 
         if self._meta_data.is_tabular:
+            list_to_return += [DataSourceTypes()]
             if self._meta_data.is_classification or self._meta_data.is_regression:
                 list_to_return += [
                     PartialDependence(
