@@ -17,3 +17,7 @@ class Helper:
     @staticmethod
     def get_limit_for_data_samples() -> int:
         return 100
+    
+    @staticmethod
+    def get_folder_for_bucket_data() -> str:
+        return 'ai_flows/'

@@ -1,15 +1,15 @@
 import re
 import os
-from pathlib import Path
 from typing import Optional
 
 from .partner import Partner
 from .explainers.explainer import Explainer
 from ...infrastructure.constants import Errors
+from src.adv_xai_fulfilment.infrastructure.helper import Helper
 from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
 
 
-BASE_PATH = "ai_flows/"
+BASE_PATH = Helper.get_folder_for_bucket_data()
 
 class ExplainerIdentifier:
     data: str # data for prediction
