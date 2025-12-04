@@ -1140,6 +1140,8 @@ components:
                                 type: string
                             url:
                                 type: string
+                model_category:
+                    type: string
         DataSourceTypesResponse:
             type: object
             properties:

@@ -3,9 +3,9 @@ from ..domain.model.partner import Partner
 from .validator import ExplainerGeneratorValidator
 from .translator import ExplainerIdentifierTranslator
 from ..domain.model.model_metadata import ModelMetaData
+from ..domain.model.explainer_guide import ExplainerGuide
 from ..domain.model.explainers.explainer import Explainer
 from ..domain.model.explainer_identifier import ExplainerIdentifier
-from ..domain.model.explainers.response_data import ExplainerResponseData
 from ..application.explainer_generator_service import ExplainerGeneratorService
 from ..infrastructure.service.metadata_loader_service import MetaDataLoaderService
 
@@ -47,7 +47,7 @@ class ExplainerGeneratorPresentation:
         ]
         return sum(explainers, [])
 
-    def get_explainer_guide(self, data: dict = {}) -> list[ExplainerResponseData]:
+    def get_explainer_guide(self, data: dict = {}) -> ExplainerGuide:
         logger.info(f"called get_explainer_data with params: {data}")
         data_sanitized = self._validator.validate_and_sanitize_get_data(data)
         expl_id: ExplainerIdentifier = self._translator.translate(data_sanitized)

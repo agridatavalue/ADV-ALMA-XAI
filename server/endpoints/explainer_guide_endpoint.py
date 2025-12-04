@@ -13,22 +13,12 @@ def get_explainer_data_endpoint():
         return "Not a valid request"
 
     try:
-        response: list = ExplainerGeneratorPresentation().get_explainer_guide(
+        response = ExplainerGeneratorPresentation().get_explainer_guide(
             request.args
         )
         
         logger.info("get-explainer-guide successful")
-        return make_response(
-            jsonify(
-                {
-                    "endpoints": [
-                        {"url": r.corresponding_endpoint, "name": r.__class__.__name__}
-                        for r in response
-                    ]
-                }
-            ),
-            200,
-        )
+        return make_response(jsonify(response.to_dict()), 200)
     except Exception as e:
         logger.error(f"error while get-explainer-guide the explainers: %s - %s", 
             type(e).__name__, 

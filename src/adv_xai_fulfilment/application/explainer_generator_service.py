@@ -38,12 +38,12 @@ class ExplainerGeneratorService(AbstractModelService):
 
     def describe_explainer(
         self, request: ExplainerIdentifier
-    ) -> list[ExplainerResponseData]:
+    ) -> ExplainerGuide:
         logger.debug(f"downloading meta_data {request.metadata_identifier}")
         meta_data: ModelMetaData = self._metadata_loader_service.load_model_metadata(
             expl_id=request
         )
-        return ExplainerGuide(meta_data).get_explainers()
+        return ExplainerGuide(meta_data)
 
     def generate_explainer(self, request: ExplainerIdentifier) -> list[Explainer]:
         context = self.get_context(request)
