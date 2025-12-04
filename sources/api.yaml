@@ -659,11 +659,22 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                    total_feedbacks:
-                                        type: integer
-                                    average_score:
+                                    model_name:
+                                        type: string
+                                    num_of_feedback:
+                                        type: number
+                                        format: integer
+                                    num_of_positive_feedback:
+                                        type: number
+                                        format: integer
+                                    percentage_positive_feedback:
                                         type: number
                                         format: float
+                                example:
+                                    model_name: "logisticRegressionOliveFruitflyRiskOfInfestation.pkl"
+                                    num_of_feedback: 10
+                                    num_of_positive_feedback: 8
+                                    percentage_positive_feedback: 80
                 "404":
                     description: Model not found
             tags:
