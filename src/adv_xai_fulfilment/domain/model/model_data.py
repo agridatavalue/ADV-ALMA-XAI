@@ -55,7 +55,7 @@ class ModelData:
                 logger.debug(f"predict - Removing columns not in feature names: {cols_to_remove}")
                 self._x_predict = self.data_predict.drop(columns=cols_to_remove)
                 
-            self._x_predict = self._x_predict[feature_names]
+            self._x_predict = self.data_predict[feature_names]
             if ModelCategory.is_ts_anomaly_detection(str(model_category)):
                 self._y_predict = self.data_predict[target_name]
             
