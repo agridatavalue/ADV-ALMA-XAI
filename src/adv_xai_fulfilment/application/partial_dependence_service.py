@@ -1,4 +1,5 @@
 import numpy as np
+from logger import get_logger
 
 from .abstract_model_service import AbstractModelService
 from ..domain.model.explainer_identifier import ExplainerIdentifier
@@ -6,6 +7,8 @@ from ..domain.model.explainers.response_data import PartialDependence
 from ..domain.model.machine_learning_model.scikitlearn_model import ScikitLearnModel
 from ..domain.model.explainers.alibi_partial_dependence_explainer import AlibiPartialDependenceExplainer
 from ..domain.model.explainers.sklearn_partial_dependence_explainer import SkLearnPartialDependenceExplainer
+
+logger = get_logger()
 
 class PartialDependenceService(AbstractModelService):
 
@@ -16,7 +19,7 @@ class PartialDependenceService(AbstractModelService):
         if isinstance(feature, str):
             feature_idx = list(context.model_data.x_train.columns).index(feature)
 
-        print(f"Using feature index: {feature_idx} for feature: {feature}")
+        logger.debug(f"Using feature index: {feature_idx} for feature: {feature}")
         
         for expl_to_download in [SkLearnPartialDependenceExplainer(), AlibiPartialDependenceExplainer()]:
             try:
