@@ -8,7 +8,7 @@ class ModelSummary(ExplainerResponseData):
         self._data = {}
         
     def add_explanation(self, summary: str) -> 'ModelSummary':
-        self._data['summary'] = summary
+        self._data['summary_text'] = summary
         return self
         
     def to_dict(self) -> dict:
