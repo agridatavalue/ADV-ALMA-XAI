@@ -40,6 +40,7 @@ class TestExplainerRepositoryService(unittest.TestCase):
                         algorithm="",
                         model_type="",
                         subject_name="",
+                        project_theme="",
                         model_category="",
                     ),
                     target_name="",

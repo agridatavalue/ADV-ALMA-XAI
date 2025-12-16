@@ -22,6 +22,7 @@ class TestExplainerRetriever(unittest.TestCase):
                 model_type="classification",
                 target_names=[],
                 subject_name="subject_name",
+                project_theme="project_theme",
                 model_category="CLASSIFICATION",
                 feature_descriptions=[],
             ),

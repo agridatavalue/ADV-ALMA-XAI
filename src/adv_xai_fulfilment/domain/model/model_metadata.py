@@ -14,6 +14,7 @@ class ModelMetaData:
     model_type: str
     input_shape: list[int]
     subject_name: str
+    project_theme: str
     _is_federated: bool
     _target_names: list[str]
     feature_names: list[str]
@@ -30,6 +31,7 @@ class ModelMetaData:
         algorithm: str,
         model_type: str,
         subject_name: str,
+        project_theme: str,
         model_category: str,
         n_classes: Optional[int] = None,
         input_shape: list[int] = [],
@@ -47,6 +49,7 @@ class ModelMetaData:
         self.model_type = model_type
         self.input_shape = input_shape if isinstance(input_shape, list) else []
         self.subject_name = subject_name
+        self.project_theme = project_theme
         self._is_federated = is_federated or False
         self._target_names = target_names
         self.feature_names = feature_names

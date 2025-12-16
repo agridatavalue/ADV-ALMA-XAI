@@ -54,7 +54,27 @@ class ExplainerMetaData:
         ]
 
         return self
-
+    
+    @property
+    def accuracy_metric(self) -> float:
+        if not self._metrics or not self._metrics.has_metrics():
+            return 0.0
+        
+        try:
+            return float(self._metrics.metrics.get("accuracy"))
+        except (TypeError, ValueError):
+            return 0.0
+    
+    @property
+    def precision_metric(self) -> float:
+        if not self._metrics or not self._metrics.has_metrics():
+            return 0.0
+    
+        try:
+            return float(self._metrics.metrics.get("precision"))
+        except (TypeError, ValueError):
+            return 0.0
+    
     @property
     def model_metadata(self) -> ModelMetaData:
         return self._meta_data
@@ -84,11 +104,15 @@ class ExplainerMetaData:
         return os.path.join(
             os.getenv("TEMP", '/tmp'), expl_id.model, expl_id.partner.id, "metadata.json"
         )
+        
+    @property
+    def subject_name(self) -> str:
+        return self._meta_data.subject_name if self._meta_data else ""
 
     def to_dict(self) -> dict:
         return {
             "model_metadata": {
-                "subjectname": self._meta_data.subject_name if self._meta_data else "",
+                "subjectname": self.subject_name,
                 "targetname": self._target_name,
                 "modelcategory": (
                     self._meta_data.model_category if self._meta_data else ""

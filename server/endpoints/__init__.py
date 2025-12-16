@@ -4,6 +4,7 @@ from .heatmap_endpoint import heatmapBp
 from .image_viewer_endpoint import imageBp
 from .lift_curve_endpoint import liftcurveBp
 from .kpi_feedback_endpoint import kpiFeedbackBp
+from .get_model_summary_endpoint import summaryBp
 from .anomaly_score_endpoint import anomalyScoreBp
 from .get_all_questions_endpoint import questionsBp
 from .feature_impact_endpoint import featureImpactBp
@@ -29,6 +30,7 @@ routes = [
     imageBp,
     buildBp,
     targetsBp,
+    summaryBp,
     heatmapBp,
     feedbackBp,
     liftcurveBp,

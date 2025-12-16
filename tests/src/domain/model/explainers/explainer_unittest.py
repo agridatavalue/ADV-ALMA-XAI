@@ -32,6 +32,7 @@ class TestExplainer(unittest.TestCase):
             model_type="BlackBox",
             subject_name="subject_name",
             target_names=[],
+            project_theme="project_theme",
             model_category="Regression",
             feature_descriptions=[],
         )
@@ -49,6 +50,7 @@ class TestExplainer(unittest.TestCase):
                     model_type="BlackBox",
                     subject_name="subject_name",
                     target_names=[],
+                    project_theme="project_theme",
                     model_category="Regression",
                     feature_descriptions=[],
                 ),

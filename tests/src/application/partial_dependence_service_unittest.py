@@ -53,6 +53,7 @@ class TestPartialDependenceService(unittest.TestCase):
             algorithm="algorithm",
             model_type="model_type",
             subject_name="subject_name",
+            project_theme="project_theme",
             model_category="regression",
             feature_names=["feature"],
             target_names=["target"]

@@ -31,6 +31,7 @@ class TestAleExplainer(unittest.TestCase):
                 target_names=[],
                 feature_names=[],
                 subject_name="subject_name",
+                project_theme="project_theme",
                 model_category="Regression",
                 feature_descriptions=[],
             )

@@ -5,9 +5,11 @@ from .translator import ExplainerIdentifierTranslator
 from ..domain.model.model_metadata import ModelMetaData
 from ..domain.model.explainer_guide import ExplainerGuide
 from ..domain.model.explainers.explainer import Explainer
+from ..domain.model.explainers.response_data import ModelSummary
 from ..domain.model.explainer_identifier import ExplainerIdentifier
 from ..application.explainer_generator_service import ExplainerGeneratorService
 from ..infrastructure.service.metadata_loader_service import MetaDataLoaderService
+from ..application.model_summary_explanation_service import ModelSummaryExplanationService
 
 logger = get_logger()
 
@@ -15,6 +17,7 @@ class ExplainerGeneratorPresentation:
     _validator: ExplainerGeneratorValidator
     _translator: ExplainerIdentifierTranslator
     _build_service: ExplainerGeneratorService
+    _summary_service: ModelSummaryExplanationService
     _metadata_loader_service: MetaDataLoaderService
 
     def __init__(self):
@@ -22,6 +25,7 @@ class ExplainerGeneratorPresentation:
         self._translator = ExplainerIdentifierTranslator()
         self._build_service = ExplainerGeneratorService()
         self._metadata_loader_service = MetaDataLoaderService()
+        self._summary_service = ModelSummaryExplanationService()
 
     def build(self, data: dict = {}) -> list[Explainer]:
         logger.info(f"called build with params: {data}")
@@ -52,6 +56,17 @@ class ExplainerGeneratorPresentation:
         data_sanitized = self._validator.validate_and_sanitize_get_data(data)
         expl_id: ExplainerIdentifier = self._translator.translate(data_sanitized)
         return self._build_service.describe_explainer(request=expl_id)
+    
+    def get_model_summary(self, data: dict = {}) -> ModelSummary:
+        logger.info(f"called get_model_summary with params: {data}")
+        data_sanitized = self._validator.validate_and_sanitize_get_summary(data)
+        expl_id: ExplainerIdentifier = self._translator.translate(data_sanitized)
+
+        logger.info(f"Get Model Summary for: {str(expl_id)}")
+        return self._summary_service.get_model_summary(
+            explainer_identifier=expl_id,
+            language=data_sanitized.get("language", 'en')
+        )
 
     def ask_to_explainer(self, data: dict = {}):
         logger.info(f"called ask_to_explainer with params: {data}")

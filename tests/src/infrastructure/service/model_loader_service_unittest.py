@@ -34,7 +34,7 @@ class ModelLoaderServiceTest(unittest.TestCase):
                 model='test.json', partner='test', metadata_identifier='test', prediction_target='test'
             ), 
             ModelMetaData(
-                data_type="test", framework="test", algorithm="test", 
+                data_type="test", framework="test", algorithm="test", project_theme="test",
                 model_type="test", subject_name="test", model_category="REGRESSION"
             )
         )

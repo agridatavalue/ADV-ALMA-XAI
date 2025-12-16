@@ -35,21 +35,21 @@ class TestModelTranslator(unittest.TestCase):
         self.assertIsInstance(
             testObj.with_(
                 metadata=ModelMetaData(
-                    data_type='tabular', framework="keras", algorithm="cnn", model_type="BlackBox", subject_name="subject_name", target_names=[], feature_names=[], feature_descriptions=[], model_category="Classification")
+                    data_type='tabular', framework="keras", project_theme="project_theme", algorithm="cnn", model_type="BlackBox", subject_name="subject_name", target_names=[], feature_names=[], feature_descriptions=[], model_category="Classification")
             ).translate("model.h5"),
             SilentKerasModel,
         )
         self.assertIsInstance(
             testObj.with_(
                 metadata=ModelMetaData(
-                    data_type='tabular', framework="torch", algorithm="cnn", model_type="BlackBox", subject_name="subject_name", target_names=[], feature_names=[], feature_descriptions=[], model_category="Classification")
+                    data_type='tabular', framework="torch", project_theme="project_theme", algorithm="cnn", model_type="BlackBox", subject_name="subject_name", target_names=[], feature_names=[], feature_descriptions=[], model_category="Classification")
             ).translate("model.h5"),
             SilentTorchModel,
         )
         self.assertIsInstance(
             testObj.with_(
                 metadata=ModelMetaData(
-                    data_type='tabular', framework="scikit-learn", algorithm="cnn", model_type="BlackBox", subject_name="subject_name", target_names=[], feature_names=[], feature_descriptions=[], model_category="Classification")
+                    data_type='tabular', framework="scikit-learn", project_theme="project_theme", algorithm="cnn", model_type="BlackBox", subject_name="subject_name", target_names=[], feature_names=[], feature_descriptions=[], model_category="Classification")
             ).translate("model.h5"),
             SilentScikitLearnModel,
         )

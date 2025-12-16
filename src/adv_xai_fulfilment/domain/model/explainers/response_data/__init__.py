@@ -2,6 +2,7 @@ from .heatmap import Heatmap
 from .targets import Targets
 from .lift_curve import LiftCurve
 from .anomaly_score import AnomalyScore
+from .model_summary import ModelSummary
 from .feature_impact import FeatureImpact
 from .confusion_matrix import ConfusionMatrix
 from .data_source_types import DataSourceTypes
@@ -21,6 +22,7 @@ __all__ = [
     "Heatmap",
     "Targets",
     "LiftCurve",
+    "ModelSummary",
     "AnomalyScore",
     "FeatureImpact",
     "DataSourceTypes",

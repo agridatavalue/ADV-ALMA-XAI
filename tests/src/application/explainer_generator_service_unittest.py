@@ -83,7 +83,7 @@ class TestExplainerGeneratorService(unittest.TestCase):
 
         mock_metadata_loader_service = MagicMock(spec=MetaDataLoaderService)
         mock_metadata_loader_service.load_model_metadata.return_value = ModelMetaData(
-            "tabular", "", "", "", "", "regression"
+            "tabular", "", "", "", "", "", "regression"
         )
 
         mock_mpm_service = MagicMock(spec=ModelPerformanceServiceComponent)

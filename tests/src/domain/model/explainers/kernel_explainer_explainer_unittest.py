@@ -33,6 +33,7 @@ class TestKernelExplainerExplainer(unittest.TestCase):
                 model_type="BlackBox",
                 target_names=[],
                 subject_name="subject_name",
+                project_theme="project_theme",
                 model_category="Regression",
                 feature_names=[],
                 feature_descriptions=[],

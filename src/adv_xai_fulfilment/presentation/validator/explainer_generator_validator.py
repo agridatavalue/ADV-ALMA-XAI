@@ -33,6 +33,11 @@ class ExplainerGeneratorValidator(AbstractValidator):
         self._validate_partner(data.get("partner", ""))
         return self._merge_with_default_values(data)
     
+    def validate_and_sanitize_get_summary(self, data: dict) -> dict:
+        self._validate_model(data.get("model", ""))
+        self._validate_partner(data.get("partner", ""))
+        return {**self._merge_with_default_values(data), "language": data.get("language", "en")}
+    
     def __handle_path_and_url(self, path: str) -> str:
         if not path: 
             return ''

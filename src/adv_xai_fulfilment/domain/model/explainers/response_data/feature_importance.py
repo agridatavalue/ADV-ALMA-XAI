@@ -24,6 +24,13 @@ class FeatureImportance(ExplainerResponseData):
 
         max_index = self.importance.index(max(self.importance))
         return self.feature[max_index]
+    
+    def get_all_by_importance(self) -> list[tuple[str, float]]:
+        return sorted(
+            zip(self.feature, self.importance),
+            key=lambda x: x[1],
+            reverse=True
+        )
 
     def to_dict(self) -> dict:
         if isinstance(self.feature, pd.Series) and isinstance(self.importance, pd.Series):

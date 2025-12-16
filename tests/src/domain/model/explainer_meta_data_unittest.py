@@ -19,7 +19,7 @@ class TestExplainerMetaData(unittest.TestCase):
     def test_get_all_feedback(self):
         meta_data = ExplainerMetaData(
             metrics=ModelPerformanceMetrics().add_metric("metric", 0.0),
-            meta_data=ModelMetaData("TABULAR", "f", "a", "m", "s", "CLASSIFICATION"),
+            meta_data=ModelMetaData("TABULAR", "f", "a", "p", "m", "s", "CLASSIFICATION"),
             target_name="target",
             possible_explainers=[],
             feature_importance=FeatureImportance("feature"),
@@ -43,7 +43,7 @@ class TestExplainerMetaData(unittest.TestCase):
     def test_to_dict(self):
         meta_data = ExplainerMetaData(
             metrics=ModelPerformanceMetrics().add_metric("metric", 0.0),
-            meta_data=ModelMetaData("TABULAR", "f", "a", "m", "s", "CLASSIFICATION"),
+            meta_data=ModelMetaData("TABULAR", "f", "a", "p", "m", "s", "CLASSIFICATION"),
             target_name="target",
             possible_explainers=[],
             feature_importance=FeatureImportance("feature", pd.Series([]), pd.Series([])),
