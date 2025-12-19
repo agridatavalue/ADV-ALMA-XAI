@@ -58,11 +58,19 @@ class TestPartialDependenceService(unittest.TestCase):
             feature_names=["feature"],
             target_names=["target"]
         )
+        
+        fake_explainer = {
+            "feature": {
+                "average": [[1, 2, 3]],
+                "values": [[0.1, 0.2, 0.3]],
+            }
+        }
 
         testObj = PartialDependenceService()
         testObj._data_loader_service = mock_data_loader_service
         testObj._model_loader_service = mock_model_loader_service
         testObj._metadata_loader_service = mock_metadata_loader_service
+        testObj._get_explanator = MagicMock(return_value=fake_explainer)
 
         result = testObj.get_data(
             request=ExplainerIdentifier(

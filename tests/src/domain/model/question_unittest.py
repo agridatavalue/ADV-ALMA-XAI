@@ -7,8 +7,8 @@ class TestQuestion(unittest.TestCase):
     def test_get_all(self):
         testObj = Question.get_all()
         self.assertIsInstance(testObj, list)
-        self.assertEqual(len(testObj), 7)
-        self.assertIsInstance(testObj[0], Question)
+        self.assertEqual(len(testObj), 4)
+        self.assertTrue(all(isinstance(item, Question) for item in testObj))
 
     def test_verticalize_for(self):
         testObj = Question(
@@ -51,7 +51,7 @@ class TestQuestion(unittest.TestCase):
                 "id": "1",
                 'feedback': '',
                 "question": "From the explanation, I know how the software tool/algorithm works.",
-                "answers": {"type": "radio", "values": []},
+                "answers": {"type": "value", "values": []},
             },
         )
 

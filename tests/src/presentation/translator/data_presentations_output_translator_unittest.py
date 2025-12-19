@@ -1,7 +1,7 @@
 import unittest
 
 from src.adv_xai_fulfilment.domain.model.explainers.response_data import (
-    FeatureDescription,
+    FeatureDescription, DataSourceTypes
 )
 from src.adv_xai_fulfilment.presentation.translator import (
     DataPresentationsOutputTranslator,
@@ -30,17 +30,14 @@ class TestDataPresentationsOutputTranslator(unittest.TestCase):
         ]
         translator = DataPresentationsOutputTranslator()
 
-        # When
         result = translator.translate_data_source_types(descriptions)
 
-        # Then
+        self.assertIsInstance(result, DataSourceTypes)
         self.assertEqual(
-            result,
-            {
-                "sources": [
-                    {"type": "type1", "value": 2},
-                    {"type": "type2", "value": 2},
-                    {"type": "type3", "value": 1},
-                ]
-            },
+            result.to_dict(),
+            [
+                {"type": "type1", "value": 2},
+                {"type": "type2", "value": 2},
+                {"type": "type3", "value": 1},
+            ]
         )

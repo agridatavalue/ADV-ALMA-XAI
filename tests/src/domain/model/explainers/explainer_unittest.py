@@ -1,6 +1,9 @@
 import unittest
+from unittest.mock import Mock
+
 
 from src.adv_xai_fulfilment.domain.model.data_type import DataType
+from src.adv_xai_fulfilment.domain.model.model_context import ModelContext
 from src.adv_xai_fulfilment.domain.model.model_metadata import ModelMetaData
 from src.adv_xai_fulfilment.domain.model.explainers.explainer import Explainer
 from src.adv_xai_fulfilment.domain.model.explainers.datatype_model_explainer import (
@@ -42,28 +45,43 @@ class TestExplainer(unittest.TestCase):
     def test_can_match_with(self):
         self.assertTrue(
             self.testObj.can_match_with(
-                None,
-                ModelMetaData(
-                    data_type="Text",
-                    algorithm="algorithm",
-                    framework="framework",
-                    model_type="BlackBox",
-                    subject_name="subject_name",
-                    target_names=[],
-                    project_theme="project_theme",
-                    model_category="Regression",
-                    feature_descriptions=[],
-                ),
+                context=ModelContext(
+                    model=None,
+                    model_metadata=ModelMetaData(
+                        data_type="Text",
+                        algorithm="algorithm",
+                        framework="framework",
+                        model_type="BlackBox",
+                        subject_name="subject_name",
+                        target_names=[],
+                        project_theme="project_theme",
+                        model_category="Regression",
+                        feature_descriptions=[],
+                    ),
+                    model_data=None,
+                    identifier=None,
+                )
             )
         )
 
+        some_model = Mock()
+        some_model_data = Mock()
+        some_identifier = Mock()
+
+        # Mock ModelMetaData with required attributes
+        mock_model_metadata = Mock()
+        mock_model_metadata.model_type = "type"
+        mock_model_metadata.model_category = "category"
+        mock_model_metadata.data_type = "tabular"
+
+        # Your test
         self.assertFalse(
             self.testObj.can_match_with(
-                None,
-                {
-                    "modeltype": "type",
-                    "modelcategory": "category",
-                    "datatype": "tabular",
-                },
+                ModelContext(
+                    model=some_model,
+                    model_data=some_model_data,
+                    model_metadata=mock_model_metadata,
+                    identifier=some_identifier
+                )
             )
         )

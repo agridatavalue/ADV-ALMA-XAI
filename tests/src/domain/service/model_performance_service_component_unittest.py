@@ -31,8 +31,8 @@ class TestModelPerformanceServiceComponent(unittest.TestCase):
 
         model_data = ModelData()
         model_data.x_predict = pd.DataFrame({"target": [1, 2, 3]})
-        model_data.y_predict = np.ndarray([2, 4, 6])
-        model_data.data_train = pd.DataFrame({"target": [1, 2, 3]})
+        model_data.y_predict = np.array([2, 4, 6])
+        model_data._y_test = pd.Series([1, 2, 3])
 
         actual = testObj.get_data(
             data=model_data,

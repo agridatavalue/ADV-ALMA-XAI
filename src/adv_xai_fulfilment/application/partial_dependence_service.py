@@ -1,10 +1,10 @@
 import numpy as np
+from typing import Optional
 from logger import get_logger
 
 from .abstract_model_service import AbstractModelService
 from ..domain.model.explainer_identifier import ExplainerIdentifier
 from ..domain.model.explainers.response_data import PartialDependence
-from ..domain.model.machine_learning_model.scikitlearn_model import ScikitLearnModel
 from ..domain.model.explainers.alibi_partial_dependence_explainer import AlibiPartialDependenceExplainer
 from ..domain.model.explainers.sklearn_partial_dependence_explainer import SkLearnPartialDependenceExplainer
 
@@ -12,7 +12,7 @@ logger = get_logger()
 
 class PartialDependenceService(AbstractModelService):
 
-    def get_data(self, request: ExplainerIdentifier, feature: str) -> PartialDependence:
+    def get_data(self, request: ExplainerIdentifier, feature: str) -> Optional[PartialDependence]:
         context = self.get_context(request)
 
         feature_idx = feature

@@ -11,8 +11,11 @@ from src.adv_xai_fulfilment.domain.model.machine_learning_model.keras_model impo
 
 
 class SilentKerasModel(KerasModel):
-    def load(self, data: dict) -> KerasModel:
-        self.handler = type("MockHandler", (object,), {"predict": lambda self, x: x})
+    def load(self, data: dict) -> "KerasModel":
+        class MockHandler:
+            def predict(self, x):
+                return x
+        self.handler = MockHandler()
         return self
 
 

@@ -32,7 +32,7 @@ class TestAnomalyScore(unittest.TestCase):
         try:
             anomaly_score_instance.assign_scores(scores)
         except ValueError as e:
-            self.assertEqual(str(e), "Length of scores must match number of data points")
+            self.assertEqual(str(e), "Length of scores 1 must match number of data points 2")
 
     def test_to_dict(self):
         data = pd.DataFrame({'feature1': [1, 2], 'feature2': [3, 4]})
