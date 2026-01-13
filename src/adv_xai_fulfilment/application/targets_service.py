@@ -1,20 +1,31 @@
 import pandas as pd
+from logger import get_logger
 
 from .abstract_model_service import AbstractModelService
 from ..domain.model.explainers.response_data import Targets
 from ..domain.model.explainer_metadata import ExplainerMetaData
 from ..domain.model.explainer_identifier import ExplainerIdentifier
 
+logger = get_logger()
+
 class TargetsService(AbstractModelService):
     def get_data(self, expl_id: ExplainerIdentifier) -> Targets:
+        targets = Targets()
         context = self.get_context(expl_id)
         meta_data: ExplainerMetaData = self._metadata_loader_service.load_explainer_metadata(expl_id)
-        feature: str = meta_data.feature_importance.get_most_important()
+        feature: str = meta_data.feature_importance.get_most_important() if meta_data.feature_importance else ""
+        if not feature:
+            logger.warning("No feature importance data found; returning empty targets.")
+            return targets
+    
+        if feature not in context.model_data.x_train.columns:
+            logger.warning(f"Feature '{feature}' not found in training data; returning empty targets.")
+            return targets
+    
         x_feature_data = context.model_data.x_train[feature]
         y_real = context.model_data.y_train
         y_pred = context.model.predict(context.model_data.x_train)
 
-        targets = Targets()
         if context.model_metadata.is_regression:
             return targets.set_x(x_feature_data).set_y(real=y_real, predicted=y_pred)
 
