@@ -268,6 +268,7 @@ create the tag
 
 ```bash
 export KUBECONFIG=~/.kube/agridatavalue.kubeconfig
+export KUBECONFIG=/home/mirko/.kubeconfig
 kubectl -n agridatavalue logs -f deployments/xai-fulfillment
 kubectl exec -it deployments/xai-fulfillment -- /bin/bash
 

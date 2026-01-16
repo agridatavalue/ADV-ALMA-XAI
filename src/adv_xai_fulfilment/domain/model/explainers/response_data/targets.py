@@ -23,13 +23,22 @@ class Targets(ExplainerResponseData):
         self._y_predicted = predicted
         return self
     
+    def _safe_to_list(self, obj):
+        if obj is None:
+            return None
+        if isinstance(obj, list):
+            return obj
+        if hasattr(obj, "values"):
+            return obj.values.tolist()
+        return obj.tolist()
+
     def to_dict(self) -> dict:
-        y_real = self._y_real.values.tolist() if not isinstance(self._y_real, list) else self._y_real
-        if all(isinstance(y, list) or isinstance(y, tuple) for y in y_real):
-            y_real = sum(self._y_real.values.tolist(), [])
+        y_real = self._safe_to_list(self._y_real)
+        if y_real is not None and all(isinstance(y, (list, tuple)) for y in y_real):
+            y_real = sum(y_real, [])
 
         return {
             'y_real': y_real,
-            'x_real': self._x_real.tolist() if not isinstance(self._x_real, list) else self._x_real,
-            'y_predicted': self._y_predicted.tolist() if not isinstance(self._y_predicted, list) else self._y_predicted
+            'x_real': self._safe_to_list(self._x_real),
+            'y_predicted': self._safe_to_list(self._y_predicted)
         }
