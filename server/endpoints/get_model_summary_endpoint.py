@@ -7,14 +7,14 @@ summaryBp = Blueprint("summary", __name__)
 
 logger = get_logger()
 
-@summaryBp.route("<model>/<partner>/get-summary/<language>/", methods=["GET"])
-def get_summary(model: str, partner: str, language: str):
-    if request.method != "GET":
+@summaryBp.route("/get-summary/<language>/", methods=["POST"])
+def get_summary(language: str):
+    if request.method != "POST":
         return "Not a valid request"
 
     try:
         response = ExplainerGeneratorPresentation().get_model_summary(
-            {**request.args.to_dict(), 'model': model, 'partner': partner, 'language': language}
+            {**request.get_json(), 'language': language}
         )
         return make_response(jsonify(response.to_dict()), 200)
     

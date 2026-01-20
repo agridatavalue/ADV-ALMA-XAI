@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
     title: ADV
     description: "ADV XAI Fulfilment API"
-    version: 0.1.1
+    version: 0.1.2
     contact:
         name: "Mirko Colageo"
         email: m.colageo@almaviva.it
@@ -32,25 +32,11 @@ paths:
             tags:
                 - Explainer
 
-    /{model}/{partner}/get-summary/{language}:
-        get:
+    /get-summary/{language}:
+        post:
             summary: Return the summary explanation text
             description: Return the summary explanation text for a given partner's model
             parameters:
-                - name: model
-                  in: path
-                  required: true
-                  description: the identifier of the model file name
-                  example: "model.pkl"
-                  schema:
-                      type: string
-                - name: partner
-                  in: path
-                  required: true
-                  description: the identifier of the partner
-                  example: "partner1"
-                  schema:
-                      type: string
                 - name: language
                   in: path
                   required: true
@@ -58,6 +44,24 @@ paths:
                   example: "en"
                   schema:
                       type: string
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                model:
+                                    description: the identifier of the model file name
+                                    example: "model.pkl"
+                                    type: string
+                                partner:
+                                    description: the identifier of the partner
+                                    example: "partner1"
+                                    type: string
+                            required:
+                                - model
+                                - partner
             responses:
                 "200":
                     description: successful operation

@@ -13,6 +13,7 @@ class ImageGeneratorService(AbstractGeneratorService):
         super().__init__()
         self._heatmap_component_service = HeatmapComponentService()
 
+    @staticmethod
     def handled_type() -> DataType:
         return DataType.IMAGE
 
