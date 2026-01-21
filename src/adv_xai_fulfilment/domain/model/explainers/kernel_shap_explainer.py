@@ -25,7 +25,7 @@ class KernelSHAPExplainer(Explainer):
         )
 
     def build(self, model, data: ModelData):
-        self.build_result = KernelShap(model.predict, data.x_train)
+        self.build_result = KernelShap(predictor=model.predict) # , data.x_train
         self.build_result.fit(data.x_train)
 
         logger.info(f"Explainer fitted? {getattr(self.build_result, 'fitted', None)}")
