@@ -13,7 +13,7 @@ class TreeShapInterventionalExplainer(Explainer):
     def __init__(self):
         super().__init__(
             name="TreeSHAPinterventional",
-            type=["WhiteBox"],
+            type=["BlackBox", "WhiteBox"],
             categories=["Classification", "Regression"],
             explanations="both",
             is_distributed=False,
