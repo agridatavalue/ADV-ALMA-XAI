@@ -41,9 +41,16 @@ paths:
                   in: path
                   required: true
                   description: the language code for the summary text
-                  example: "en"
+                  example: "gb"
                   schema:
                       type: string
+                      enum:
+                          - "gb"
+                          - "gr"
+                          - "de"
+                          - "es"
+                          - "fr"
+                          - "it"
             requestBody:
                 required: true
                 content:
