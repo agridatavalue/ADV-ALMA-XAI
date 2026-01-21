@@ -7,7 +7,7 @@ summaryBp = Blueprint("summary", __name__)
 
 logger = get_logger()
 
-@summaryBp.route("/get-summary/<language>/", methods=["POST"])
+@summaryBp.route("/get-summary/<language>", methods=["POST"])
 def get_summary(language: str):
     if request.method != "POST":
         return "Not a valid request"
