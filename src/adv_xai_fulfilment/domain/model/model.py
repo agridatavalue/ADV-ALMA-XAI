@@ -41,6 +41,9 @@ class Model:
     def supported_frameworks() -> list[str]: ...
     
     def get_feature_importance(self, feature_names: list[FeatureDescription], shap_values: np.ndarray) -> pd.DataFrame:
+        if isinstance(shap_values, list):
+            shap_values = np.array(shap_values)
+        
         logger.debug(f"feature_names: {feature_names}, shap_values shape: {shap_values.shape}")
         shap_values = shap_values.reshape(-1, len(feature_names))
         mean_abs_shap_values = np.mean(np.abs(shap_values), axis=0) 

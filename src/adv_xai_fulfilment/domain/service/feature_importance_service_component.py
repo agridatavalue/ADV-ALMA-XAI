@@ -52,7 +52,7 @@ class FeatureImportanceServiceComponent:
                         context.identifier
                     ),
                     shap_values=explainer.get_shap_values(
-                        x_test=np.array(context.model_data.x_train[context.model_metadata.feature_names])
+                        x_test=np.array(context.model_data.x_predict[context.model_metadata.feature_names])
                     ),
                 )
                 break
