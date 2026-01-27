@@ -20,6 +20,7 @@ class ExplainerGeneratorService(AbstractModelService):
     _generators: dict[str, type[AbstractGeneratorService]]
 
     def __init__(self):
+        super().__init__()
         self._metadata_loader_service = MetaDataLoaderService()
         self._generators = {g.handled_type(): g() for g in generators}
 
