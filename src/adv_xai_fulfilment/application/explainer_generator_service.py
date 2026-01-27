@@ -7,11 +7,7 @@ from .generators import AbstractGeneratorService, generators
 from ..domain.model.explainer_metadata import ExplainerMetaData
 from ..domain.model.explainer_identifier import ExplainerIdentifier
 from ..domain.model.explainers.response_data import ExplainerResponseData
-from ..infrastructure.service.data_loader_service import DataLoaderService
 from ..infrastructure.service.metadata_loader_service import MetaDataLoaderService
-from ..domain.service.feature_importance_service_component import (
-    FeatureImportanceServiceComponent,
-)
 from ..domain.model.explainers.response_data.explainer_response_data import (
     ExplainerResponseData,
 )
@@ -20,18 +16,12 @@ logger = get_logger()
 
 
 class ExplainerGeneratorService(AbstractModelService):
-    _data_loader_service: DataLoaderService
     _metadata_loader_service: MetaDataLoaderService
-    _fi_service_comp: FeatureImportanceServiceComponent
-
-    _generators: dict[str, type[AbstractGeneratorService]] = {
-        g.handled_type(): g() for g in generators
-    }
+    _generators: dict[str, type[AbstractGeneratorService]]
 
     def __init__(self):
-        self._data_loader_service = DataLoaderService()
         self._metadata_loader_service = MetaDataLoaderService()
-        self._fi_service_comp = FeatureImportanceServiceComponent()
+        self._generators = {g.handled_type(): g() for g in generators}
 
     def describe_explainer(
         self, request: ExplainerIdentifier
