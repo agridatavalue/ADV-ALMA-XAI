@@ -202,5 +202,6 @@ weasel==0.4.1
 werkzeug==3.0.6
 wrapt==1.14.1
 wtforms==3.2.1
+xgboost==2.1.4
 YOLOv8-Explainer==0.0.5
 zipp==3.21.0
