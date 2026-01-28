@@ -67,15 +67,3 @@ class ExplainerGeneratorPresentation:
             explainer_identifier=expl_id,
             language=data_sanitized.get("language", 'en')
         )
-
-    def ask_to_explainer(self, data: dict = {}):
-        logger.info(f"called ask_to_explainer with params: {data}")
-        data_sanitized = self._validator.validate_and_sanitize_ask(data)
-        expl_id: ExplainerIdentifier = self._translator.translate(data_sanitized)
-
-        logger.info(f"Ask to Explainer: {str(expl_id)}")
-        return self._build_service.ask_to_explainer(
-            request=data.get("request", ""),
-            explainer_name=data.get("explainer", ""),
-            explainer_identifier=expl_id,
-        )

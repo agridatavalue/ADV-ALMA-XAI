@@ -33,6 +33,8 @@ class HeatmapComponentService:
             # heatmap_filepath: str = self._explainer_repository_service.upload_file(
             #     expl_id, heatmap_locale_filepath
             # )
+            
+            # TODO: add heatmap to explainer metadata
             response.add(heatmap_locale_filepath)
 
         logger.debug(f"Generated {len(response.heatmaps)} heatmaps")
