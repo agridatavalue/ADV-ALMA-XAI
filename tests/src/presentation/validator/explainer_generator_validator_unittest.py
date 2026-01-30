@@ -1,10 +1,16 @@
 import unittest
-
+from unittest.mock import patch
 
 from src.adv_xai_fulfilment.presentation.validator.explainer_generator_validator import ExplainerGeneratorValidator
 
 class TestExplainerGeneratorValidator(unittest.TestCase):
-    def test_validate_and_sanitize_build_valid(self):
+    @patch("os.getenv")
+    def test_validate_and_sanitize_build_valid(self, mock_getenv):
+        mock_getenv.side_effect = lambda key: {
+            "STORE_ENDPOINT": "https://minio.store.platform.agridatavalue.eu",
+            "EXPLAINER_FOLDER_PATH": "agridatavalue"
+        }.get(key, "")
+        
         validator = ExplainerGeneratorValidator()
         data = {
             "model": "test_model",
@@ -16,7 +22,13 @@ class TestExplainerGeneratorValidator(unittest.TestCase):
         self.assertEqual(sanitized_data["data_for_train"], "/path/to/train/data.csv")
         self.assertEqual(sanitized_data["data_for_predict"], "ai_flows/yyy_test_retrain_model_274cb650-713e-4c07-994d-67b74b340cf9/datasets/Retrain_2025-08-28_13-21-34/data.csv")
         
-    def test_validate_and_sanitize_build_for_last_slash_in_paths(self):
+    @patch("os.getenv")
+    def test_validate_and_sanitize_build_for_last_slash_in_paths(self, mock_getenv):
+        mock_getenv.side_effect = lambda key: {
+            "STORE_ENDPOINT": "https://minio.store.platform.agridatavalue.eu",
+            "EXPLAINER_FOLDER_PATH": "agridatavalue"
+        }.get(key, "")
+
         validator = ExplainerGeneratorValidator()
         data = {
             "model": "test_model",

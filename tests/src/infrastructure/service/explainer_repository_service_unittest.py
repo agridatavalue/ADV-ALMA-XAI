@@ -19,7 +19,7 @@ class TestExplainerRepositoryService(unittest.TestCase):
         test_obj = ExplainerRepositoryService()
         test_obj._bucketRepository.upload_to = lambda *args, **kwargs: "path"
         
-        PATH_TO_METADATA_FILE = "data_temp/model/partner_id/metadata.json"
+        PATH_TO_METADATA_FILE = "/tmp/model/partner_id/metadata.json"
         os.makedirs(os.path.dirname(PATH_TO_METADATA_FILE), exist_ok=True)
         with open(PATH_TO_METADATA_FILE, "w") as f:
             f.write("{}")

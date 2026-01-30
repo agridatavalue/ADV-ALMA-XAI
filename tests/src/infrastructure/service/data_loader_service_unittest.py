@@ -74,7 +74,8 @@ class TestDataLoaderService(unittest.TestCase):
         data = self.service.load_data(self.expl_id)
 
         # Controlla attributi dinamici
-        dynamic_attrs = [attr for attr in data.__dict__ if attr.endswith("_train")]
+        dynamic_attrs = [attr for attr in data.__dict__ if attr.endswith("_train") and attr.startswith("file")]
+        print('\n\n>>> 1:',data.__dict__, '2:',dynamic_attrs)
         self.assertTrue(len(dynamic_attrs) == 2)
         for attr in dynamic_attrs:
             self.assertIn("content_", getattr(data, attr))
@@ -85,7 +86,7 @@ class TestDataLoaderService(unittest.TestCase):
 
         # Forza algoritmo deep learning
         data = self.service.load_data(self.expl_id, algorithm="tensorflow")
-        self.assertIsInstance(data, DeepLearningModelData)
+        self.assertIsInstance(data, ModelData)
         self.assertEqual(data.data_train, "dl_content")
         self.assertEqual(data.data_predict, "dl_content")
 

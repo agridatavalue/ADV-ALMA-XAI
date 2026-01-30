@@ -18,8 +18,7 @@ class SilentKerasModel(KerasModel):
 class ModelLoaderServiceTest(unittest.TestCase):
     testObj: ModelLoaderService
 
-    @patch("os.getenv", return_value=os.getenv('TEMP'))
-    def test_load_from(self, mock_getenv):
+    def test_load_from(self):
         testObj = ModelLoaderService(bucketRepository=MagicMock())
         testObj._bucketRepository.download_from = MagicMock(return_value="test.json")
         testObj._model_translator.translate = MagicMock(
