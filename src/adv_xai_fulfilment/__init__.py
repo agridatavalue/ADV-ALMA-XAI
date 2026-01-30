@@ -14,3 +14,5 @@ from .domain.model.explainers.response_data import FeatureImportance
 from .domain.model.explainers.response_data import PartialDependence
 from .domain.model.explainers.response_data import FeatureDescription
 from .domain.model.explainers.response_data import ModelPerformanceMetrics
+
+from .infrastructure.helper import Helper

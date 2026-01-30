@@ -1,8 +1,7 @@
-import os
 from flask import Blueprint, request, jsonify, make_response
 
 from logger import get_logger
-from src.adv_xai_fulfilment import ModelDataPresentations
+from src.adv_xai_fulfilment import ModelDataPresentations, Helper
 
 heatmapBp = Blueprint("heatmap", __name__)
 
@@ -15,7 +14,7 @@ def build():
 
     def prepare_path(path: str) -> str:
         """Change the path from a full path to an endpoint path"""
-        partial_path = path.replace(os.getenv("TEMP", ""), "")
+        partial_path = path.replace(Helper.get_folder_for_bucket_data(), "")
         return partial_path.replace("data/", 'image?filename=')
 
     try:
