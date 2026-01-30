@@ -39,7 +39,7 @@ class ModelMetaDataTranslator:
         return []
 
     def translate(self, data: dict) -> ModelMetaData:
-        architectures = data.get('architectures', {})
+        architectures = data.get('architectures', data.get('model_architecture', data.get('model_architectures', {})))
         return ModelMetaData(
             n_classes=self._translate_n_classes(architectures.get("n_classes")),
             data_type=data.get("datatype", ""),

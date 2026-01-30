@@ -1,6 +1,1 @@
-lower priority:
-[ ] enable tree shap explainers only to tree models
-[ ] improve test coverage
-
-Teme:
-[ ] ICE plot - ask if we have to pass prediction data or test data;
+path immagine/ path folder in data_for_predict

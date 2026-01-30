@@ -180,20 +180,37 @@ class DataLoaderService:
         logger.info(f"loading images for {str(expl_id)}")
 
         result = []
-        for file in self._bucketRepository.listdir(
+        if self._bucketRepository.is_directory(
             bucket_name=os.getenv("DATA_FOLDER_PATH", ''), path=expl_id.data
         ):
-            current_file: str = expl_id.get_data_locale_filepath(file)
-            if not os.path.exists(current_file):
-                os.makedirs(os.path.dirname(current_file), exist_ok=True)
-                current_file = self._bucketRepository.download_from(
+            for file in self._bucketRepository.listdir(
+                bucket_name=os.getenv("DATA_FOLDER_PATH", ''), path=expl_id.data
+            ):
+                current_file: str = expl_id.get_data_locale_filepath(file)
+                if not os.path.exists(current_file):
+                    os.makedirs(os.path.dirname(current_file), exist_ok=True)
+                    current_file = self._bucketRepository.download_from(
+                        bucket_name=os.getenv("DATA_FOLDER_PATH", ''),
+                        object_name=f"{expl_id.data}/{file}",
+                        destination_file_path=current_file,
+                    )
+
+                data = ModelData()
+                data._image_path = current_file
+                result.append(data)
+        else:
+            logger.debug(f"data refer to a single file {expl_id.data}")
+            local_filepath = expl_id.get_data_locale_filepath(os.path.basename(expl_id.data))
+            if not os.path.exists(local_filepath):
+                os.makedirs(os.path.dirname(local_filepath), exist_ok=True)
+                local_filepath = self._bucketRepository.download_from(
                     bucket_name=os.getenv("DATA_FOLDER_PATH", ''),
-                    object_name=f"{expl_id.data}/{file}",
-                    destination_file_path=current_file,
+                    object_name=expl_id.data,
+                    destination_file_path=local_filepath,
                 )
 
             data = ModelData()
-            data._image_path = current_file
+            data._image_path = local_filepath
             result.append(data)
 
         return result

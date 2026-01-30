@@ -13,7 +13,9 @@ class Heatmap(ExplainerResponseData):
         return len(self._heatmap_filepaths) == 0
 
     def add(self, heatmap: str):
-        assert isinstance(heatmap, str), "Heatmap must be a string"
+        if not isinstance(heatmap, str):
+            raise Exception("Heatmap must be a string")
+        
         self._heatmap_filepaths.append(heatmap)
         return self
 
@@ -21,5 +23,3 @@ class Heatmap(ExplainerResponseData):
     def heatmaps(self) -> list[str]:
         return self._heatmap_filepaths
 
-    def to_dict(self) -> dict:
-        return self._heatmap_filepaths

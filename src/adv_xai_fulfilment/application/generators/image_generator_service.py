@@ -3,6 +3,7 @@ from ...domain.model.data_type import DataType
 from ...domain.model.model_context import ModelContext
 from .abstract_generator_service import AbstractGeneratorService
 from ...domain.service.heatmap_component_service import HeatmapComponentService
+from ...domain.model.explainers.response_data.explainer_response_data import ExplainerResponseData
 
 logger = get_logger()
 
@@ -17,6 +18,6 @@ class ImageGeneratorService(AbstractGeneratorService):
     def handled_type() -> DataType:
         return DataType.IMAGE
 
-    def generate(self, context: ModelContext) -> list:
+    def generate(self, context: ModelContext) -> list[ExplainerResponseData]:
         logger.debug(f"generating image explainers for {str(context.identifier)}")
         return [self._heatmap_component_service.generate_data(context.identifier)]
