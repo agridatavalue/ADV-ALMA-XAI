@@ -29,3 +29,5 @@ class ModelMetaDataLayer:
         layer.parameters = parameters
         return layer
     
+    def __str__(self) -> str:
+        return f"ModelMetaDataLayer(type={self.type}, parameters={self.parameters})"
