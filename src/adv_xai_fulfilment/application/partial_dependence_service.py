@@ -47,7 +47,7 @@ class PartialDependenceService(AbstractModelService):
                         mean_effect=float(np.mean(pdp_values)),
                     )
             except ValueError as e:
-                print("Warning", e)
+                logger.warning(f"Warning: {e}")
                 continue
 
             raise ValueError("Cannot calculate ice")

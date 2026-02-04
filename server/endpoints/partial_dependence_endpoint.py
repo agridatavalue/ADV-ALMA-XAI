@@ -16,8 +16,8 @@ def partial_dependence():
     try:
         response = ModelDataPresentations().get_partial_dependence(request.get_json())
 
-        logger.info("partial dependence successful")
-        return make_response(jsonify(response.to_dict()), 200)
+        logger.info("partial dependence successful" if response else "empty partial dependence")
+        return make_response(jsonify(response.to_dict() if response else {}), 200)
     except Exception as e:
         logger.error(f"error while partial dependence: %s - %s", 
             type(e).__name__, 
