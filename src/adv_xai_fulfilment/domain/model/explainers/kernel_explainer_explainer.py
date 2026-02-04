@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from shap import KernelExplainer
 
 from .explainer import Explainer
@@ -22,14 +23,12 @@ class KernelExplainerExplainer(Explainer):
                 DataTypeModelExplainer(DataType.TABULAR, KernelExplainer),
             ],
         )
-        
-    def can_match_with(self, context: "ModelContext") -> bool:
-        return (
-            super().can_match_with(context) 
-            and len(context.model_data.data_train) < Helper.get_limit_for_data_samples()
-        )
 
     def get_shap_values(self, x_test: np.array) -> np.array:
+        if len(x_test) > Helper.get_limit_for_data_samples():
+            if isinstance(x_test, pd.DataFrame):
+                x_test = x_test.sample(Helper.get_limit_for_data_samples(), random_state=42)
+            
         return self.build_result.shap_values(x_test)
 
     def build(self, model, data: ModelData):
