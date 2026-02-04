@@ -48,7 +48,7 @@ class IndividualConditionalExpectationService(AbstractModelService):
                         grid_values=np.asarray(explanation.data['feature_values'][0]),
                     )
             except ValueError as e:
-                logger.warning("Warning", e)
+                logger.warning("Warning " + str(e))
                 continue
 
             raise ValueError("Cannot calculate ice")

@@ -1,5 +1,4 @@
 import numpy as np
-from typing import Optional
 
 from logger import get_logger
 from .abstract_model_service import AbstractModelService
