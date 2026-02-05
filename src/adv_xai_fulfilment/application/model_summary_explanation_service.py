@@ -48,10 +48,10 @@ class ModelSummaryExplanationService:
         features_by_importance: list = []
         if explainer_metadata.feature_importance:
             features_by_importance: list = explainer_metadata.feature_importance.get_all_by_importance()
-            
+        
         # build text template with data
         summary = template.substitute(
-            model_name=explainer_metadata.subject_name or "AI Model",
+            model_name=model_metadata.subject_name or "AI Model",
             theme=model_metadata.project_theme,
             n_features=len(model_metadata.feature_names),
             feature_source_types=", ".join(

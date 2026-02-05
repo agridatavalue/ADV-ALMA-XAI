@@ -20,7 +20,7 @@ class ExplainerGuide:
         return self._meta_data.model_category
 
     def get_explainers(self) -> list[ExplainerResponseData]:
-        list_to_return:list[ExplainerResponseData] = []
+        list_to_return: list[ExplainerResponseData] = []
         if self._meta_data.is_image:
             list_to_return.append(Heatmap())
             if self._meta_data.feature_descriptions:

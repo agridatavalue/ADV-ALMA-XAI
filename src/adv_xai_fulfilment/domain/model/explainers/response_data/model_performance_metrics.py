@@ -27,7 +27,7 @@ class ModelPerformanceMetrics(ExplainerResponseData):
 
     def __repr__(self) -> str:
         str_to_return = f"{self.__class__.__name__}("
-        for prop in []:
+        for prop in self.__dict__:
             if getattr(self, prop):
                 str_to_return += f"{prop}={getattr(self, prop)}, "
         return str_to_return + ")"
