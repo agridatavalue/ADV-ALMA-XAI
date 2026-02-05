@@ -74,6 +74,26 @@ class ExplainerMetaData:
             return float(self._metrics.metrics.get("precision"))
         except (TypeError, ValueError):
             return 0.0
+        
+    @property
+    def rmse_metric(self) -> float:
+        if not self._metrics or not self._metrics.has_metrics():
+            return 0.0
+        
+        try:
+            return float(self._metrics.metrics.get("Root Mean Squared Error (RMSE)"))
+        except (TypeError, ValueError):
+            return 0.0
+    
+    @property
+    def r2_metric(self) -> float:
+        if not self._metrics or not self._metrics.has_metrics():
+            return 0.0
+        
+        try:
+            return float(self._metrics.metrics.get("R-Squared (R\u00b2)"))
+        except (TypeError, ValueError):
+            return 0.0
     
     @property
     def model_metadata(self) -> ModelMetaData:

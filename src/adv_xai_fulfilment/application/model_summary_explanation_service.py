@@ -10,6 +10,7 @@ from ..domain.model.explainers.response_data.feature_description import FeatureD
 from ..domain.service.feature_description_service_component import FeatureDescriptionServiceComponent
 
 NUMBER_OF_TOP_FEATURES = 5
+NUMBER_OF_MAX_OTHER_FEATURES = 5
 
 class ModelSummaryExplanationService:
     _metadata_loader_service: MetaDataLoaderService
@@ -49,8 +50,20 @@ class ModelSummaryExplanationService:
         if explainer_metadata.feature_importance:
             features_by_importance: list = explainer_metadata.feature_importance.get_all_by_importance()
         
+        if model_metadata.is_classification:
+            accuracy=f"{explainer_metadata.accuracy_metric*100:.0f}%" if explainer_metadata.accuracy_metric else ""
+            precision=f"{explainer_metadata.precision_metric*100:.0f}%" if explainer_metadata.precision_metric else ""
+            metrics_block = f"""\nachieving an **accuracy of {accuracy}** and a **precision of {precision}**"""
+        elif model_metadata.is_regression:
+            rmse=f"{explainer_metadata.rmse_metric:.2f}" if explainer_metadata.rmse_metric else ""
+            r2=f"{explainer_metadata.r2_metric:.2f}" if explainer_metadata.r2_metric else ""
+            metrics_block = f"""\nachieving a **RMSE of {rmse}** and an **R² of {r2}**"""
+        else:
+            metrics_block = "."
+            
         # build text template with data
         summary = template.substitute(
+            metrics_block = metrics_block,
             model_name=model_metadata.subject_name or "AI Model",
             theme=model_metadata.project_theme,
             n_features=len(model_metadata.feature_names),
@@ -64,9 +77,7 @@ class ModelSummaryExplanationService:
             ),
             other_features=", ".join(
                 f"**{feature}**"
-                for feature in model_metadata.feature_names[NUMBER_OF_TOP_FEATURES:]
+                for feature in model_metadata.feature_names[NUMBER_OF_TOP_FEATURES:NUMBER_OF_TOP_FEATURES+NUMBER_OF_MAX_OTHER_FEATURES]
             ),
-            accuracy=f"{explainer_metadata.accuracy_metric*100:.0f}%" if explainer_metadata.accuracy_metric else "",
-            precision=f"{explainer_metadata.precision_metric*100:.0f}%" if explainer_metadata.precision_metric else "",
         )
         return ModelSummary().add_explanation(summary)
