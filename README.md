@@ -1,62 +1,85 @@
 # ADV XAI FULFILMENT
 
-<small>version 0.0.2 of 17/12/2024</small>
+**Version 0.0.2** - *Updated: February 5, 2026*
 
-## Summary
+## Table of Contents
 
--   [Glossary](#glossary)
--   [Project Description](#10-description)
--   [Software Architecture](#20-software-architecture)
-    -   [Domain-Driven-Design (DDD)](#21-domain-driven-design-ddd)
-    -   [Bucket Repository (SECURESTORE)](#22-bucket-repository)
-    -   [Services Description](#23-services-description)
--   [Environment](#30-environment)
-    -   [Test](#31-test)
-    -   [Setup](#32-setup)
-    -   [Start-up](#33-startup)
+- [ADV XAI FULFILMENT](#adv-xai-fulfilment)
+  - [Table of Contents](#table-of-contents)
+  - [Glossary](#glossary)
+  - [Project Description](#project-description)
+  - [Software Architecture](#software-architecture)
+    - [Domain-Driven-Design (DDD)](#domain-driven-design-ddd)
+    - [Bucket Repository (SECURESTORE)](#bucket-repository-securestore)
+    - [Services Description](#services-description)
+      - [ExplainerGeneratorService](#explainergeneratorservice)
+      - [QuestionService](#questionservice)
+  - [Environment](#environment)
+    - [Testing](#testing)
+    - [Setup](#setup)
+    - [Start-up](#start-up)
+      - [Development Mode](#development-mode)
+  - [API Documentation](#api-documentation)
+  - [Deployment](#deployment)
+    - [Kubernetes](#kubernetes)
+    - [Helm Charts](#helm-charts)
+    - [Docker](#docker)
+    - [Useful Commands](#useful-commands)
+  - [Contact](#contact)
 
 ## Glossary
 
-| term    | description                                                              |
+| Term    | Description                                                              |
 | ------- | ------------------------------------------------------------------------ |
-| service | by service we mean the "xai-fulfilment" project accessible via REST API; |
+| Service | The "xai-fulfilment" project accessible via REST API                    |
+| XAI     | Explainable Artificial Intelligence                                     |
+| DDD     | Domain-Driven Design                                                     |
 
-## [1.0] Description
+## Project Description
 
-This project focuses on the development of a fulfilment system based on Explainable AI (_XAI_) techniques. The goal is to provide an interface for data management and analysis, with particular attention to the transparency and interpretability of the artificial intelligence models used.
+This project focuses on the development of a fulfilment system based on Explainable AI (XAI) techniques. The goal is to provide an interface for data management and analysis, with particular attention to the transparency and interpretability of artificial intelligence models used.
 
-## [2.0] Software Architecture
+The system supports various machine learning models including:
+- Neural Networks (PyTorch models)
+- Gradient Boosting Regressors
+- Random Forest Classifiers
+- Logistic Regression models
+- K-Nearest Neighbors
+- Computer Vision models (YOLO)
+- Isolation Forest for anomaly detection
+
+## Software Architecture
 
 This project is a microservice that exposes a REST server for fulfilment management. The microservice code is written following the principles of Domain-Driven Design (DDD), ensuring a modular and easily maintainable structure.
 
-### [2.1] Domain-Driven-Design (DDD)
+### Domain-Driven-Design (DDD)
 
-For the development of this project, _Domain-Driven Design (DDD)_ was adopted, an approach to software development that emphasizes collaboration between domain experts and developers to create a software model that accurately reflects the business domain reality. The main goal of _DDD_ is to manage the complexity of software systems by dividing the domain into bounded contexts and using a ubiquitous language that is understandable to both developers and domain experts.
+For the development of this project, Domain-Driven Design (DDD) was adopted, an approach to software development that emphasizes collaboration between domain experts and developers to create a software model that accurately reflects the business domain reality. The main goal of DDD is to manage the complexity of software systems by dividing the domain into bounded contexts and using a ubiquitous language that is understandable to both developers and domain experts.
 
-Key concepts of _DDD_ include:
+Key concepts of DDD include:
 
--   **Entities**: Objects that have a distinct identity and lifecycle.
--   **Value Objects**: Objects that are defined by their attributes rather than an identity.
--   **Aggregates**: Groups of entities and value objects that are treated as a single unit.
--   **Repository**: Mechanisms for accessing aggregates.
--   **Domain Services**: Operations that do not belong to any specific entity or value object.
--   **Domain Events**: Events that represent something significant that has happened in the domain.
+- **Entities**: Objects that have a distinct identity and lifecycle
+- **Value Objects**: Objects that are defined by their attributes rather than an identity
+- **Aggregates**: Groups of entities and value objects that are treated as a single unit
+- **Repository**: Mechanisms for accessing aggregates
+- **Domain Services**: Operations that do not belong to any specific entity or value object
+- **Domain Events**: Events that represent something significant that has happened in the domain
 
 ![Domain-Driven-Design](docs/ddd.jpg)
 
-### [2.2] Bucket Repository
+### Bucket Repository (SECURESTORE)
 
-The _SECURESTORE_ server is a secure and scalable repository designed to store and manage data objects. It ensures data integrity and confidentiality through encryption and access control mechanisms. The server supports various storage backends and provides a RESTful API for seamless integration with other services.
+The SECURESTORE server is a secure and scalable repository designed to store and manage data objects. It ensures data integrity and confidentiality through encryption and access control mechanisms. The server supports various storage backends and provides a RESTful API for seamless integration with other services.
 
 We have a proper bucket and here there is the folder organization:
 
 ![Folder Structure](docs/folder_structure.png)
 
-### [2.3] Services Description
+### Services Description
 
-#### [2.3.1] ExplainerGeneratorService
+#### ExplainerGeneratorService
 
--   **generate_explainer** method:
+- **generate_explainer** method:
 
 ```mermaid
 sequenceDiagram
@@ -86,7 +109,7 @@ sequenceDiagram
 
 ```
 
--   **dynamic explanation** method:
+- **dynamic explanation** method:
 
 ```mermaid
 sequenceDiagram
@@ -105,9 +128,9 @@ sequenceDiagram
     deactivate ExplainerGeneratorService
 ```
 
-#### [2.3.2] QuestionService
+#### QuestionService
 
--   **generate_from_dict** method:
+- **generate_from_dict** method:
 
 ```mermaid
 sequenceDiagram
@@ -126,7 +149,7 @@ sequenceDiagram
     deactivate QuestionService
 ```
 
--   **save_partner_feedback** method:
+- **save_partner_feedback** method:
 
 ```mermaid
 sequenceDiagram
@@ -149,23 +172,23 @@ sequenceDiagram
     deactivate QuestionService
 ```
 
-## [3.0] Environment
+## Environment
 
-### [3.1] Test
+### Testing
 
-To run tests digit:
+To run tests:
 
 ```bash
 python -m unittest -v
 ```
 
-To have a _coverage_ report digit:
+To generate a coverage report:
 
 ```bash
 python -m coverage run -m unittest | python -m coverage report
 ```
 
-returns:
+Current coverage report:
 
 ```bash
 Name                                                                                       Stmts   Miss  Cover
@@ -228,15 +251,15 @@ tests/__init__.py                                                               
 TOTAL                                                                                       1449    215    85%
 ```
 
-### [3.2] Setup
+### Setup
 
-Programming language required:
+**Required Python version:**
 
 ```bash
 python 3.9.0
 ```
 
-Installation script:
+**Installation:**
 
 ```bash
 pyenv local 3.9.0
@@ -245,35 +268,67 @@ pyenv exec python -m venv venv
 pip install -r requirements.txt
 ```
 
-### [3.3] Start-up
+### Start-up
 
-#### DEBUG mode
+#### Development Mode
 
+**Option 1:**
 ```bash
 .\venv\Scripts\activate
 python .\startServer.py -LEVEL DEBUG
 ```
 
+**Option 2:**
 ```bash
 pyenv activate xai
 python .\startServer.py -LEVEL DEBUG
 ```
 
-the debug server will be accessible with swagger at the endpoint `http://localhost:8505/api/doc`
+The debug server will be accessible with Swagger documentation at: `http://localhost:8505/api/doc`
 
-push on agridatavalue gitlab
-create the tag
+## API Documentation
 
-### Helpers
+The service exposes various REST endpoints for XAI functionality:
+
+- **Model Performance**: Confusion matrix, lift curves, classification plots
+- **Feature Analysis**: Feature importance, partial dependence, individual conditional expectations
+- **Explainability**: SHAP values, LIME explanations, heatmaps for image models
+- **Data Analysis**: Data distribution, anomaly detection, targets analysis
+- **Feedback System**: KPI feedback collection and partner feedback management
+
+## Deployment
+
+### Kubernetes
+
+The project includes Kubernetes deployment configurations:
+
+- **Deployment**: `kubernetes/deployment.yml`
+- **Service**: `kubernetes/service.yml`
+- **Ingress**: `kubernetes/ingress.yml`
+- **Secret**: `kubernetes/secret.yml`
+
+### Helm Charts
+
+Helm charts are available in `deployments/helm/xai-fulfillment/` for streamlined deployment.
+
+### Docker
+
+Build and run using Docker:
+
+```bash
+docker build -t xai-fulfillment .
+docker run -p 8505:8505 xai-fulfillment
+```
+
+### Useful Commands
 
 ```bash
 export KUBECONFIG=~/.kube/agridatavalue.kubeconfig
 export KUBECONFIG=/home/mirko/.kubeconfig
 kubectl -n agridatavalue logs -f deployments/xai-fulfillment
 kubectl exec -it deployments/xai-fulfillment -- /bin/bash
-
 ```
 
----
+## Contact
 
-Contact: <m.colageo@almaviva.it>
+**Maintainer**: m.colageo@almaviva.it
