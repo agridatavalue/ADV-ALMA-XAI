@@ -32,12 +32,18 @@ class AbstractModelService(ABC):
         self._model_loader_service = model_loader_service or ModelLoaderService()
         self._metadata_loader_service = metadata_loader_service or MetaDataLoaderService()
         
-    def get_context(self, explainer_identifier: ExplainerIdentifier) -> ModelContext:
+    def get_context(
+        self, 
+        explainer_identifier: ExplainerIdentifier, 
+        force_download: bool = False
+    ) -> ModelContext:
         if not explainer_identifier:
             raise ValueError("explainer_identifier is required")
         
         model_metadata: ModelMetaData = (
-            self._metadata_loader_service.load_model_metadata(explainer_identifier)
+            self._metadata_loader_service.load_model_metadata(
+                explainer_identifier, force_download=force_download
+            )
         )
         if not explainer_identifier.prediction_target:
             logger.debug(
@@ -46,7 +52,7 @@ class AbstractModelService(ABC):
             explainer_identifier.prediction_target = model_metadata.first_target_name
 
         selected_model: Model = self._model_loader_service.load_from(
-            explainer_identifier, meta_data=model_metadata
+            explainer_identifier, meta_data=model_metadata, force_download=force_download
         )
         
         if not selected_model.is_ok():
@@ -55,7 +61,8 @@ class AbstractModelService(ABC):
 
         data: ModelData = self._data_loader_service.load_data(
             explainer_identifier, 
-            algorithm=model_metadata.algorithm
+            algorithm=model_metadata.algorithm,
+            force_download=force_download,
         )
         if model_metadata.is_federated and model_metadata.is_deep_learning:
             data.calculate_federated_y_predict(

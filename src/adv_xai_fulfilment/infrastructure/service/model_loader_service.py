@@ -26,7 +26,12 @@ class ModelLoaderService:
         )
         self._model_translator = ModelTranslator()
 
-    def load_from(self, expl_id: ExplainerIdentifier, meta_data: ModelMetaData) -> Optional[Model]:
+    def load_from(
+        self, 
+        expl_id: ExplainerIdentifier, 
+        meta_data: ModelMetaData,
+        force_download: bool = False
+    ) -> Optional[Model]:
         if not isinstance(expl_id, ExplainerIdentifier):
             raise ValueError("expl_id must be an instance of ExplainerIdentifier")
         if not isinstance(meta_data, ModelMetaData):
@@ -35,7 +40,7 @@ class ModelLoaderService:
         model_local_file_path: str = expl_id.get_model_locale_filepath()
         logger.debug(f"loading model from {expl_id.model} to {model_local_file_path}")
 
-        if not os.path.exists(model_local_file_path):
+        if not os.path.exists(model_local_file_path) or force_download:
             if os.path.exists(expl_id.model):
                 os.makedirs(os.path.dirname(model_local_file_path), exist_ok=True)
                 shutil.copyfile(expl_id.model, model_local_file_path)

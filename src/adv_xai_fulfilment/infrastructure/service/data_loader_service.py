@@ -29,16 +29,16 @@ class DataLoaderService:
         )
 
     def load(
-        self, expl_id: ExplainerIdentifier, data_type: DataType = DataType.TABULAR
+        self, expl_id: ExplainerIdentifier, data_type: DataType = DataType.TABULAR, force_download: bool = False
     ) -> Optional[ModelData]:
         if data_type == DataType.TABULAR:
-            return self.load_data(expl_id)
+            return self.load_data(expl_id, force_download=force_download)
         elif data_type == DataType.IMAGE:
             return self.load_images(expl_id)
 
         raise ValueError(f"Data type {data_type} not supported")
 
-    def load_data(self, expl_id: ExplainerIdentifier, algorithm: str = '') -> ModelData:
+    def load_data(self, expl_id: ExplainerIdentifier, algorithm: str = '', force_download: bool = False) -> ModelData:
         logger.debug(f"loading data for {str(expl_id)}")
         bucket_name = os.getenv("DATA_FOLDER_PATH", '')
         
@@ -47,11 +47,17 @@ class DataLoaderService:
             if not algorithm.lower() in ModelMetaData.deep_learning_algorithms() 
             else DeepLearningModelData()
         )
-        self._load_predict_data(data, bucket_name, expl_id)
-        self._load_train_data(data, bucket_name, expl_id)
+        self._load_predict_data(data, bucket_name, expl_id, force_download)
+        self._load_train_data(data, bucket_name, expl_id, force_download)
         return data
     
-    def _load_train_data(self, data: ModelData, bucket_name: str, expl_id: ExplainerIdentifier) -> ModelData:
+    def _load_train_data(
+        self, 
+        data: ModelData, 
+        bucket_name: str, 
+        expl_id: ExplainerIdentifier, 
+        force_download: bool = False
+    ) -> ModelData:
         local_filepath = expl_id.get_data_for_training_locale_filepath(os.path.basename(expl_id.data_for_training))
         if os.path.exists(local_filepath):
             passed_folder_path: bool = os.path.isdir(local_filepath)
@@ -63,7 +69,7 @@ class DataLoaderService:
 
         if not passed_folder_path:
             logger.debug(f"train data is a single file {expl_id.data_for_training}")
-            if not os.path.exists(local_filepath):
+            if not os.path.exists(local_filepath) or force_download:
                 if os.path.exists(expl_id.data_for_training):
                     logger.debug(f"file {local_filepath} exists locally, copying it")
                     os.makedirs(os.path.dirname(local_filepath), exist_ok=True)
@@ -113,7 +119,13 @@ class DataLoaderService:
 
         return data
 
-    def _load_predict_data(self, data: ModelData, bucket_name: str, expl_id: ExplainerIdentifier) -> ModelData:
+    def _load_predict_data(
+        self, 
+        data: ModelData, 
+        bucket_name: str, 
+        expl_id: ExplainerIdentifier, 
+        force_download: bool = False
+    ) -> ModelData:
         local_filepath = expl_id.get_data_locale_filepath(os.path.basename(expl_id.data))
         if os.path.exists(local_filepath):
             passed_folder_path: bool = os.path.isdir(local_filepath)
@@ -122,7 +134,7 @@ class DataLoaderService:
              
         if not passed_folder_path:
             logger.debug(f"data is a single file {local_filepath}")
-            if not os.path.exists(local_filepath):
+            if not os.path.exists(local_filepath) or force_download:
                 if os.path.exists(expl_id.data):
                     logger.debug(f"file {local_filepath} exists locally, copying it")
                     os.makedirs(os.path.dirname(local_filepath), exist_ok=True)
