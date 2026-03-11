@@ -92,16 +92,16 @@ class Question:
                 Question(
                     **d,
                     possible_answers=[
-                        Answer.create_value_answer("Disagree", "0"),
-                        Answer.create_value_answer("Minimally Agree", "1"),
-                        Answer.create_value_answer("Slightly Agree", "2"),
-                        Answer.create_value_answer("Somewhat Agree", "3"),
-                        Answer.create_value_answer("Moderately Agree", "4"),
-                        Answer.create_value_answer("Mediumly Agree", "5"),
-                        Answer.create_value_answer("Considerably Agree", "6"),
-                        Answer.create_value_answer("Very Strongly Agree", "7"),
-                        Answer.create_value_answer("Almost Fully Agree", "8"),
-                        Answer.create_value_answer("Strongly Agree", "9"),
+                        Answer.create_value_answer("00% Disagree", "0"),
+                        Answer.create_value_answer("10% Slightly Agree", "1"),
+                        Answer.create_value_answer("20% Somewhat Agree", "2"),
+                        Answer.create_value_answer("30% Moderately Agree", "3"),
+                        Answer.create_value_answer("40% Fairly Agree", "4"),
+                        Answer.create_value_answer("50% Mostly Agree", "5"),
+                        Answer.create_value_answer("60% Strongly Agree", "6"),
+                        Answer.create_value_answer("70% Very Strongly Agree", "7"),
+                        Answer.create_value_answer("80% Highly Agree", "8"),
+                        Answer.create_value_answer("90+% Totally Agree", "9"),
                     ],
                 )
                 for d in data.get("data", [])
