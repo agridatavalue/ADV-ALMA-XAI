@@ -22,7 +22,7 @@ def FeatureDescriptionsEndpoint():
             jsonify(
                 [
                     {"feature": feature.name, "description": feature.description}
-                    for feature in response
+                    for feature in response or []
                 ]
             ),
             200,

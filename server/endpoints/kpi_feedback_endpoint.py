@@ -13,7 +13,9 @@ def kpi_feedback(model: str):
         return "Not a valid request"
 
     try:
-        response = KpiDataPresentation().get_model_feedback({**request.args.to_dict(), 'model': model})
+        response: dict = KpiDataPresentation().get_model_feedback(
+            {**request.args.to_dict(), 'model': model}
+        )
         return make_response(jsonify(response), 200)
     
     except Exception as e:

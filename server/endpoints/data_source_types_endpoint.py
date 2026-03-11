@@ -18,7 +18,7 @@ def DataSourceTypesEndpoint():
         )
 
         logger.info("data-source-types successful")
-        return make_response(jsonify({"sources": response.to_dict()}), 200)
+        return make_response(jsonify({"sources": response.to_dict() if response else {}}), 200)
     except Exception as e:
         logger.error(f"error while data-source-types: %s - %s", 
             type(e).__name__, 

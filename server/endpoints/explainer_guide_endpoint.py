@@ -18,7 +18,7 @@ def get_explainer_data_endpoint():
         )
         
         logger.info("get-explainer-guide successful")
-        return make_response(jsonify(response.to_dict()), 200)
+        return make_response(jsonify(response.to_dict() if response else {}), 200)
     except Exception as e:
         logger.error(f"error while get-explainer-guide the explainers: %s - %s", 
             type(e).__name__, 

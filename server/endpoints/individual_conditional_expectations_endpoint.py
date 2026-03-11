@@ -16,7 +16,7 @@ def ice():
         response = ModelDataPresentations().get_individual_conditional_expectations(request.get_json())
         
         logger.info("individual-conditional-expectations successful")
-        return make_response(jsonify(response.to_dict()), 200)
+        return make_response(jsonify(response.to_dict() if response else {}), 200)
     except Exception as e:
         logger.error(f"error while individual-conditional-expectations: %s - %s", 
             type(e).__name__, 

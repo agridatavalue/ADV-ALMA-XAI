@@ -16,7 +16,7 @@ def confusion_matrix():
         response = ModelDataPresentations().get_confusion_matrix(request.get_json())
         
         logger.info("confusion-matrix successful")
-        return make_response(jsonify(response.to_dict()), 200)
+        return make_response(jsonify(response.to_dict() if response else {}), 200)
         
     except Exception as e:
         logger.error(f"error while building the explainers: %s - %s", 

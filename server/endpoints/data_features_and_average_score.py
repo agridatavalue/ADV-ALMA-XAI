@@ -21,7 +21,7 @@ def data_feature_and_average_score():
                 {
                     'feature': feature_name, 
                     'average_score': response.get_average_score_for(feature_name),
-                } for feature_name in response.get_features()
+                } for feature_name in (response.get_features() if response else [])
             ]), 
             200
         )

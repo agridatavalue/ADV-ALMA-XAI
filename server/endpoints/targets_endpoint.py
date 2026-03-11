@@ -16,7 +16,7 @@ def TargetsEndpoint():
         response = DataCardPresentations().get_targets(request.get_json())
         
         logger.info("targets successful")
-        return make_response(jsonify(response.to_dict()), 200)
+        return make_response(jsonify(response.to_dict() if response else {}), 200)
     
     except Exception as e:
         logger.error(f"error while targets: %s - %s", 

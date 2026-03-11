@@ -16,7 +16,7 @@ def build():
         response = ModelDataPresentations().get_class_label_sizes(request.get_json())
         
         logger.info("classification-class-label-sizes successful")
-        return make_response(jsonify(response.to_dict()), 200)
+        return make_response(jsonify(response.to_dict() if response else {}), 200)
     
     except Exception as e:
         logger.error(f"error while classification-class-label-sizes: %s - %s", 

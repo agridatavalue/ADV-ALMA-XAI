@@ -16,7 +16,7 @@ def get_summary(language: str):
         response = ExplainerGeneratorPresentation().get_model_summary(
             {**request.get_json(), 'language': language}
         )
-        return make_response(jsonify(response.to_dict()), 200)
+        return make_response(jsonify(response.to_dict() if response else {}), 200)
     
     except Exception as e:
         logger.error(f"error while summary: %s - %s", 

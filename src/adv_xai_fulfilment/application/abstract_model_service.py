@@ -51,11 +51,11 @@ class AbstractModelService(ABC):
             )
             explainer_identifier.prediction_target = model_metadata.first_target_name
 
-        selected_model: Model = self._model_loader_service.load_from(
+        selected_model: Optional[Model] = self._model_loader_service.load_from(
             explainer_identifier, meta_data=model_metadata, force_download=force_download
         )
         
-        if not selected_model.is_ok():
+        if not (selected_model and selected_model.is_ok()):
             logger.error(f"empty model {explainer_identifier.model}")
             raise Errors.MODEL_NOT_MODEL
 
