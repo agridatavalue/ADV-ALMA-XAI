@@ -2,12 +2,14 @@ import pickle
 from abc import ABC
 from typing import Optional
 
+from logger import get_logger
 from ..model_data import ModelData
 from ..model_metadata import ModelMetaData
 from ..model_category import ModelCategory
 from ....infrastructure.constants import Errors
 from .datatype_model_explainer import DataTypeModelExplainer
 
+logger = get_logger()
 
 class Explainer(ABC):
     name: str
@@ -62,6 +64,7 @@ class Explainer(ABC):
 
     def can_match_with(self, context: "ModelContext") -> bool:
         if not isinstance(context.model_metadata, ModelMetaData):
+            logger.warning("context.model_metadata is not ModelMetaData instance")
             return False
 
         return (

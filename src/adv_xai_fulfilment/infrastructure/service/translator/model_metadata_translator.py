@@ -37,7 +37,14 @@ class ModelMetaDataTranslator:
             return [int(i) for i in data]
         
         return []
-
+    
+    def _sanitize_modeltype(self, modeltype: str) -> str:
+        if modeltype.lower() == 'blackbox':
+            return 'BlackBox'
+        if modeltype.lower() == 'whitebox':
+            return 'WhiteBox'
+        return modeltype
+        
     def translate(self, data: dict) -> ModelMetaData:
         architectures = data.get('architectures', data.get('model_architecture', data.get('model_architectures', {})))
         return ModelMetaData(
@@ -45,7 +52,7 @@ class ModelMetaDataTranslator:
             data_type=data.get("datatype", ""),
             algorithm=data.get("algorithm", "cnn"),
             framework=data.get("framework", "torch"),
-            model_type=data.get("modeltype", ""),
+            model_type=self._sanitize_modeltype(data.get("modeltype", "")),
             project_theme=data.get("project_theme", data.get("projecttheme", "")),
             input_shape=self._translate_input_shape(architectures.get("input_shape", [])),
             is_federated=data.get("is_federated", False),
