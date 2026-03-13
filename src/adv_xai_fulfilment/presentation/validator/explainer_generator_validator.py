@@ -9,7 +9,8 @@ class ExplainerGeneratorValidator(AbstractValidator):
         self._validate_model(data.get("model", ""))
         self._validate_partner(data.get("partner", ""))
         
-        if not isinstance(data.get("data_for_train"), str):
+        # data_for_train is not mandatory, but if provided xai server can give performance metrics data;
+        if not isinstance(data.get("data_for_train", ""), str):
             raise TypeError(Errors.DATA_FOR_TRAIN_FOLDER_NOT_STRING)
         if not isinstance(data.get("data_for_predict"), str):
             raise TypeError(Errors.DATA_FOR_PREDICT_FOLDER_NOT_STRING)
