@@ -1,45 +1,51 @@
 # ADV XAI FULFILMENT
 
-**Version 0.0.2** - *Updated: February 5, 2026*
+**Version 0.0.2** - _Updated: February 5, 2026_
 
 ## Table of Contents
 
 - [ADV XAI FULFILMENT](#adv-xai-fulfilment)
-  - [Table of Contents](#table-of-contents)
-  - [Glossary](#glossary)
-  - [Project Description](#project-description)
-  - [Software Architecture](#software-architecture)
-    - [Domain-Driven-Design (DDD)](#domain-driven-design-ddd)
-    - [Bucket Repository (SECURESTORE)](#bucket-repository-securestore)
-    - [Services Description](#services-description)
-      - [ExplainerGeneratorService](#explainergeneratorservice)
-      - [QuestionService](#questionservice)
-  - [Environment](#environment)
-    - [Testing](#testing)
-    - [Setup](#setup)
-    - [Start-up](#start-up)
-      - [Development Mode](#development-mode)
-  - [API Documentation](#api-documentation)
-  - [Deployment](#deployment)
-    - [Kubernetes](#kubernetes)
-    - [Helm Charts](#helm-charts)
-    - [Docker](#docker)
-    - [Useful Commands](#useful-commands)
-  - [Contact](#contact)
+    - [Table of Contents](#table-of-contents)
+    - [Glossary](#glossary)
+    - [Project Description](#project-description)
+    - [Software Architecture](#software-architecture)
+        - [Domain-Driven-Design (DDD)](#domain-driven-design-ddd)
+        - [Bucket Repository (SECURESTORE)](#bucket-repository-securestore)
+        - [Services Description](#services-description)
+            - [ExplainerGeneratorService](#explainergeneratorservice)
+            - [QuestionService](#questionservice)
+    - [Environment](#environment)
+        - [Testing](#testing)
+        - [Setup](#setup)
+        - [Start-up](#start-up)
+            - [Development Mode](#development-mode)
+    - [API Documentation](#api-documentation)
+    - [Deployment](#deployment)
+        - [Kubernetes](#kubernetes)
+        - [Helm Charts](#helm-charts)
+        - [Docker](#docker)
+        - [Useful Commands](#useful-commands)
+    - [Contact](#contact)
 
 ## Glossary
 
-| Term    | Description                                                              |
-| ------- | ------------------------------------------------------------------------ |
-| Service | The "xai-fulfilment" project accessible via REST API                    |
-| XAI     | Explainable Artificial Intelligence                                     |
-| DDD     | Domain-Driven Design                                                     |
+| Term     | Description                                                          |
+| -------- | -------------------------------------------------------------------- |
+| Service  | The "xai-fulfilment" project accessible via REST API                 |
+| XAI      | Explainable Artificial Intelligence                                  |
+| DDD      | Domain-Driven Design                                                 |
+| Metadata | Structured information describing models, features, and data sources |
+| Feature  | Input variable used by machine learning models                       |
+| Target   | Output variable or prediction made by the model                      |
+| Partner  | Organization or entity contributing models to the platform           |
+| Pilot    | Specific project or use case within the agricultural domain          |
 
 ## Project Description
 
 This project focuses on the development of a fulfilment system based on Explainable AI (XAI) techniques. The goal is to provide an interface for data management and analysis, with particular attention to the transparency and interpretability of artificial intelligence models used.
 
 The system supports various machine learning models including:
+
 - Neural Networks (PyTorch models)
 - Gradient Boosting Regressors
 - Random Forest Classifiers
@@ -273,12 +279,14 @@ pip install -r requirements.txt
 #### Development Mode
 
 **Option 1:**
+
 ```bash
 .\venv\Scripts\activate
 python .\startServer.py -LEVEL DEBUG
 ```
 
 **Option 2:**
+
 ```bash
 pyenv activate xai
 python .\startServer.py -LEVEL DEBUG
