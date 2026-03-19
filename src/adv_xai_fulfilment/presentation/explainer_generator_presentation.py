@@ -38,7 +38,7 @@ class ExplainerGeneratorPresentation:
                     data = data.get("data_for_predict", ""),
                     model = data.get("model", ""),
                     partner = Partner(data.get("partner", "")),
-                    metadata_identifier = data.get("meta_data", ""),
+                    metadata_identifier = data.get("metadata", data.get("meta_data", "")),
                 )
             )
             logger.debug(f"setting {model_metadata.target_names} as prediction_targets")

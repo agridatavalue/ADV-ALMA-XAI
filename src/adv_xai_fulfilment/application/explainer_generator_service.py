@@ -36,6 +36,7 @@ class ExplainerGeneratorService(AbstractModelService):
     def generate_explainer(self, request: ExplainerIdentifier) -> list[Explainer]:
         context = self.get_context(request, force_download=True)
         
+        logger.debug(f"Calling generator for data type: {context.model_metadata.data_type}")
         results: list[ExplainerResponseData] = self._generators[
             context.model_metadata.data_type
         ].generate(context=context)

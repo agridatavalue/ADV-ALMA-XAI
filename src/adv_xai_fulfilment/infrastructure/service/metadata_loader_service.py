@@ -84,7 +84,7 @@ class MetaDataLoaderService:
             else:
                 logger.debug(
                     f'forced download for {os.getenv("MODEL_FOLDER_PATH", "")}/{expl_id.metadata_identifier}' if force_download else 
-                    f'file {filepath} not exists, downloading {os.getenv("MODEL_FOLDER_PATH")}/{expl_id.metadata_identifier}' 
+                    f'file {filepath} not exists, downloading "{os.getenv("MODEL_FOLDER_PATH")}/{expl_id.metadata_identifier}"' 
                 )
                 filepath: str = self._bucketRepository.download_from(
                     object_name=expl_id.metadata_identifier,
