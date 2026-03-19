@@ -4,7 +4,7 @@ metadata:
     name: xai-fulfillment
     namespace: agridatavalue
 data:
-    SERVER_THREADS: "2"
+    SERVER_THREADS: "4"
     DATA_FOLDER_PATH: "agridatavalue"
     MODEL_FOLDER_PATH: "agridatavalue"
     EXPLAINER_FOLDER_PATH: "agridatavalue"

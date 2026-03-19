@@ -54,7 +54,7 @@ spec:
                       - name: DATA_FOLDER_PATH
                         value: "agridatavalue"
                       - name: SERVER_THREADS
-                        value: "2"
+                        value: "4"
                       - name: MODEL_FOLDER_PATH
                         value: "agridatavalue"
                       - name: EXPLAINER_FOLDER_PATH
