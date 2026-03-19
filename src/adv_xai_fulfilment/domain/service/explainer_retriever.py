@@ -8,6 +8,7 @@ from ..model.explainers import all as all_class_explainers
 from src.adv_xai_fulfilment.infrastructure.constants import Errors
 
 POSSIBLE_FEATURE_IMPORTANCE_EXPLAINER_NAMES = [
+    # "TabPFNShap",
     "TreeSHAPinterventional",
     "TsIsolationForestShap",
     "LinearExplainer",
@@ -60,16 +61,16 @@ class ExplainerRetriever:
 
     def get_for_feature_importance(self, algorithm: str) -> list[Explainer]:
         feature_importance_explainers = [
-            e
-            for e in self._all_explainers_available
-            if e.name in POSSIBLE_FEATURE_IMPORTANCE_EXPLAINER_NAMES
+            next(e for e in self._all_explainers_available if e.name == name)
+            for name in POSSIBLE_FEATURE_IMPORTANCE_EXPLAINER_NAMES
+            if any(e.name == name for e in self._all_explainers_available)
         ]
         
         if Algorithm.from_string(algorithm) == Algorithm.KNN:
             return [
-                e 
-                for e in feature_importance_explainers 
-                if e.name in POSSIBLE_KNN_FEATURE_IMPORTANCE_EXPLAINER_NAMES
+                next(e for e in self._all_explainers_available if e.name == name)
+                for name in POSSIBLE_KNN_FEATURE_IMPORTANCE_EXPLAINER_NAMES
+                if any(e.name == name for e in self._all_explainers_available)
             ]
         
         # if Algorithm.from_string(algorithm) == Algorithm.RANDOM_FOREST:
