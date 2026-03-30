@@ -71,7 +71,7 @@ class ExplainerIdentifier:
         return f"{self._get_base_path()}/metadata.json"
 
     def get_explainer_data_path(self, filepath: str) -> str:
-        return f"{self._get_base_path()}/{self.data}/{os.path.basename(filepath)}"
+        return f"{self._get_base_path()}/{self.data}/heatmap/{os.path.basename(filepath)}"
 
     def get_explainer_file_path(self, filename: str) -> str:
         base_path = self._get_base_path().replace(BASE_PATH, "explainers/")
