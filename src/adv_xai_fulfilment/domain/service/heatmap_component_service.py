@@ -1,5 +1,8 @@
+from urllib.parse import urljoin
+
 from logger import get_logger
 from ..model.model_data import ModelData
+from ...infrastructure.helper import Helper
 from ..model.explainers.response_data import Heatmap
 from ..model.explainer_identifier import ExplainerIdentifier
 from ...infrastructure.repository import HeatmapImageGeneratorRepository
@@ -34,7 +37,7 @@ class HeatmapComponentService:
                 expl_id, heatmap_locale_filepath
             )
             
-            response.add(heatmap_filepath)
+            response.add(urljoin(Helper.get_folder_for_bucket_data(), heatmap_filepath))
 
         logger.debug(f"Generated {len(response.heatmaps)} heatmaps")
         return response
