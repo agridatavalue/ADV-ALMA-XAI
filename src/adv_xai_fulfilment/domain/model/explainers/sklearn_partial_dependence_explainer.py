@@ -1,10 +1,16 @@
+import numpy as np
+import pandas as pd
 from sklearn.inspection import partial_dependence
 
+
+from logger import get_logger
 from .explainer import Explainer
 from ..data_type import DataType
 from ..model_data import ModelData
 from .datatype_model_explainer import DataTypeModelExplainer
 from ..machine_learning_model.scikitlearn_model import ScikitLearnModel
+
+logger = get_logger()
 
 
 class SkLearnPartialDependenceExplainer(Explainer):
@@ -27,12 +33,28 @@ class SkLearnPartialDependenceExplainer(Explainer):
 
     def build(self, model, data: ModelData):
         build: dict = {}
-        for feature_index in range(len(self.meta_data.feature_names if self.meta_data else [])):
-            build[self.meta_data.feature_names[feature_index]] = partial_dependence(
-                X=data.x_train,
-                features=[feature_index],
-                estimator=model.handler,
-                feature_names=self.meta_data.feature_names if self.meta_data else None,
-                kind="both"
-            )
+        
+        for i, feature_name in enumerate(self.meta_data.feature_names if self.meta_data else []):
+            if isinstance(data.x_train, pd.DataFrame):
+                values = data.x_train[feature_name]
+                feature_ref = feature_name
+            else:
+                values = data.x_train[:, i]
+                feature_ref = i
+
+            if pd.Series(values).nunique(dropna=True) < 2:
+                logger.warning(f"Skipping {feature_name}: not enough unique values")
+                continue
+
+            try:
+                build[feature_name] = partial_dependence(
+                    X=data.x_train,
+                    features=[feature_ref],
+                    estimator=model.handler,
+                    feature_names=self.meta_data.feature_names,
+                    kind="both"
+                )
+            except Exception as e:
+                logger.warning(f"Skipping {feature_name}: {e}")
+        
         self.build_result = build
