@@ -25,6 +25,10 @@ class PartialDependenceService(AbstractModelService):
             try:
                 explainer = self._get_explanator(request, expl_to_download)
                 if isinstance(expl_to_download, SkLearnPartialDependenceExplainer):
+                    if feature not in explainer:
+                        logger.warning(f"Feature {feature} not found in build results of SkLearnPartialDependenceExplainer")
+                        continue
+                    
                     pdp_values = np.asarray(explainer[feature]["average"][0]).flatten().tolist()
                     return PartialDependence(
                         pdp_values=pdp_values,
