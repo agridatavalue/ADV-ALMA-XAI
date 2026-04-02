@@ -27,9 +27,15 @@ class Targets(ExplainerResponseData):
         if obj is None:
             return None
         if isinstance(obj, list):
+            if all(isinstance(item, (list, tuple)) for item in obj):
+                return [self._safe_to_list(item) for item in obj]
             return obj
+        
         if hasattr(obj, "values"):
+            if all(isinstance(item, (list, tuple)) for item in obj.values.tolist()):
+                return [self._safe_to_list(item) for item in obj.values]
             return obj.values.tolist()
+        
         return obj.tolist()
 
     def to_dict(self) -> dict:
