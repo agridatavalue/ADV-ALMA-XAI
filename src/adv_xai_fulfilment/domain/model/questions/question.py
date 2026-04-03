@@ -101,7 +101,7 @@ class Question:
                         Answer.create_value_answer("60% Strongly Agree", "6"),
                         Answer.create_value_answer("70% Very Strongly Agree", "7"),
                         Answer.create_value_answer("80% Highly Agree", "8"),
-                        Answer.create_value_answer("90+% Totally Agree", "9"),
+                        Answer.create_value_answer("90-100% Totally Agree", "9"),
                     ],
                 )
                 for d in data.get("data", [])
