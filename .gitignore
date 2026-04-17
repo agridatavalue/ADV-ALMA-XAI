@@ -4,6 +4,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,linux,windows,flask
 
 data_temp/*
+logs/*
 
 ### Flask ###
 instance/*
